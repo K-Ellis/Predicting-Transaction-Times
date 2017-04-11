@@ -1,0 +1,364 @@
+Days,Queue,RevenuType,Program,Reason,CountryProcessed
+0.00380787,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+0.01254630,<VL AOC SMS&P Processing>,Non-revenue,Open License,Order Transaction Request,United States
+0.02347222,<VL APOC Ops Out>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+0.03614583,<VL APOC Enterprise>,OTRRR with OLS,Enterprise,Order Transaction Request,Singapore
+0.03651620,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+0.04854167,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Norway
+0.05228009,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+0.05236111,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+0.05593750,<VL APOC Ops Out>,Future Billing,Enterprise,Order Transaction Request,Singapore
+0.06795139,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,Germany
+0.06831019,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+0.08256944,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,United Kingdom
+0.08324074,<VL APOC Enterprise>,Future Billing,Enterprise,Order Transaction Request,Singapore
+0.09209491,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,United Kingdom
+0.09500000,<VL NAOC Electronic Orders>,Non-revenue,Not Program Specific,Order Transaction Request,Canada
+0.09518519,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Austria
+0.09619213,<VL EOC Enterprise Data Entry>,Current Revenue,Enterprise,Order Transaction Request,Norway
+0.10480324,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+0.10517361,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+0.10700231,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Jordan
+0.11291667,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,Russia
+0.11527778,<VL EOC Enterprise Data Entry>,Revenue Unknown,Enterprise,Order Transaction Request,Italy
+0.11527778,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,Russia
+0.11563657,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+0.11976852,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Germany
+0.15418981,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Turkey
+0.16862269,<VL APOC Enterprise>,Non-revenue,Enterprise,Order Transaction Request,Singapore
+0.16945602,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+0.17981481,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Slovenia
+0.18724537,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,South Africa
+0.18782407,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Greece
+0.19234954,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Germany
+0.19601852,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Qatar
+0.19793981,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Finland
+0.20918981,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Pakistan
+0.21856481,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Italy
+0.22245370,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+0.22288194,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,United Kingdom
+0.22518519,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Turkey
+0.22690972,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,France
+0.23021991,<VL NAOC Enterprise Agreements>,Current Revenue,Enterprise,Order Transaction Request,United States
+0.27142361,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+0.27221065,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Sweden
+0.28085648,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Sweden
+0.28202546,<VL APOC MILO>,Current Revenue,Enterprise,MILO,Singapore
+0.29246528,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,France
+0.29665509,<VL EOC Enterprise Data Entry>,Non-revenue,Enterprise,Order Transaction Request,Kuwait
+0.29681713,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Russia
+0.30054398,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+0.30121528,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Austria
+0.30481481,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Ireland
+0.31489583,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+0.31811343,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Netherlands
+0.31939815,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,Austria
+0.37925926,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+0.38474537,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Austria
+0.38685185,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,France
+0.40750000,<VL NAOC Orders>,Future Billing,Not Program Specific,Order Transaction Request,United States
+0.44896991,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Russia
+0.46009259,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+0.46035880,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Luxembourg
+0.46284722,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+0.51037037,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+0.51521991,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,France
+0.66049769,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Finland
+0.71126157,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Process Licensing Agreement,Canada
+0.80788194,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+0.82013889,<VL NAOC Order Rework>,Non-revenue,Enterprise,Order Transaction Request,Canada
+0.85304398,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+0.85935185,<VL AOC E&E Core Processing>,Future Billing,Enterprise,Order Transaction Request,United States
+0.86410880,<VL EOC Enterprise Orders and Adjustments>,Credit / Rebill,Enterprise,Order Transaction Request,Norway
+0.86561343,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Switzerland
+0.87129630,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Russia
+0.87505787,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,United Kingdom
+0.90310185,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+0.90804398,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Israel
+0.91535880,<VL AOC SMS&P Processing>,Current Revenue,Open License,Order Transaction Request,United States
+0.92047454,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Angola
+0.92906250,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+0.93380787,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Serbia
+0.93439815,<VL AOC SMS&P Reworks>,Credit / Rebill,OV/OVS,Order Transaction Request,United States
+0.93777778,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+0.96262731,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Greece
+0.97800926,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,France
+0.97841435,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+0.98635417,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+0.99789352,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.00125000,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,France
+1.02171296,<VL AOC E&E Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.02803241,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Israel
+1.03552083,<VL AOC Broken Pending Notification>,Future Billing,Enterprise,Order Transaction Request,United States
+1.05012731,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+1.05120370,<VL EOC Enterprise Orders and Adjustments>,Disputed Revenue,Enterprise,Order Transaction Request,South Africa
+1.05694444,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.07753472,<VL AOC E&E EA Core Processing>,Future Billing,Enterprise,Order Transaction Request,United States
+1.10423611,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,Côte d’Ivoire
+1.12409722,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Germany
+1.12460648,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Italy
+1.13569444,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Belgium
+1.14439815,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+1.14604167,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+1.15675926,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.16520833,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Japan
+1.16648148,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Germany
+1.17783565,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.18050926,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.18195602,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.18460648,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+1.19418981,<VL AOC SMS&P Processing>,Current Revenue,OV/OVS,Order Transaction Request,Brazil
+1.19687500,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+1.22012731,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,France
+1.22324074,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.23111111,<VL AOC SMS&P Processing>,Non-revenue,Not Program Specific,Order Transaction Request,Brazil
+1.23252315,<VL AOC SMS&P Processing>,Non-revenue,Not Program Specific,Order Transaction Request,Brazil
+1.23701389,<VL AOC SMS&P Processing>,Non-revenue,Not Program Specific,Order Transaction Request,Brazil
+1.24031250,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.24717593,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+1.24792824,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.25136574,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.25474537,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.27269676,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+1.28541667,<VL APOC Enterprise>,Non-revenue,Enterprise,Order Transaction Request,Singapore
+1.30623843,<VL AOC E&E EA Core Processing>,Future Billing,Enterprise,Order Transaction Request,United States
+1.30991898,<VL Default E&E Transactions>,Future Billing,Enterprise,Order Transaction Request,Singapore
+1.31329861,<VL AOC SMS&P Processing>,Non-revenue,SPLA,Order Transaction Request,United States
+1.32105324,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+1.38258102,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+1.59276620,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+1.59747685,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+1.61085648,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+1.73222222,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+1.73969907,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+1.74129630,<VL EOC CASA>,Revenue Unknown,Enterprise,Order Transaction Request,United Kingdom
+1.74218750,<VL NAOC Enterprise Agreements>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.74381944,<VL EOC CASA>,Current Revenue,Campus,Order Transaction Request,United Kingdom
+1.74412037,<VL APOC CASA>,Current Revenue,Campus,Process Licensing Agreement,Japan
+1.75538194,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.87025463,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Mauritius
+1.91422454,<VL LOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+1.94906250,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Sweden
+1.98031250,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+1.99944444,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+2.01559028,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Israel
+2.02834491,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Saudi Arabia
+2.03515046,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,United Kingdom
+2.04282407,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+2.06020833,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+2.10863426,<VL AOC Broken Pending Notification>,Current Revenue,Enterprise,Order Transaction Request,Canada
+2.14184028,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Netherlands
+2.16084491,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+2.16194444,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+2.16965278,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+2.21010417,<VL EOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,Czech Republic
+2.21115741,<VL EOC E&E Non EA Core Processing>,Current Revenue,Campus,Order Transaction Request,Spain
+2.29037037,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Bulgaria
+2.29538194,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+2.29548611,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,United Kingdom
+2.37784722,<VL APOC Enterprise>,Non-revenue,Enterprise,Order Transaction Request,Singapore
+2.43554398,<VL NAOC Orders>,Future Billing,Enterprise,Order Transaction Request,United States
+2.52555556,<VL NAOC Adjustments>,Non-revenue,Enterprise,Order Transaction Request,United States
+2.62113426,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+2.63962963,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+2.76759259,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+2.95337963,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Slovenia
+2.96593750,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Switzerland
+2.98229167,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Turkey
+2.99246528,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+2.99555556,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,OLS Forms,Norway
+3.03188657,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+3.04201389,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+3.05209491,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+3.06997685,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.11521991,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Turkey
+3.12885417,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Netherlands
+3.16857639,<VL EOC Ops Out>,Non-revenue,Enterprise,Order Transaction Request,Iceland
+3.21011574,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+3.21018519,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,Brazil
+3.21935185,<VL APOC Enterprise>,Revenue Unknown,Enterprise,Order Transaction Request,Singapore
+3.22692130,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,Brazil
+3.23093750,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+3.24365741,<VL EOC E&E Non EA Core Processing>,Future Billing,Select Plus,Order Transaction Request,United Kingdom
+3.27922454,<VL APOC Ops Out>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+3.31265046,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.34023148,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+3.40692130,<VL EOC Enterprise Orders and Adjustments>,Credit / Rebill,Enterprise,Order Transaction Request,Russia
+3.44285880,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Germany
+3.45387731,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,United Kingdom
+3.51469907,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Czech Republic
+3.63875000,<VL APOC Enterprise>,Revenue Unknown,Enterprise,Order Transaction Request,India
+3.64820602,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,United Kingdom
+3.67003472,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.69796296,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.69987269,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.73045139,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.78153935,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,Jordan
+3.80888889,<VL NAOC Orders>,Future Billing,Enterprise,Order Transaction Request,United States
+3.81640046,<VL AOC E&E EA Core Processing>,Future Billing,Enterprise,Order Transaction Request,United States
+3.83641204,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.85222222,<VL APOC Ops Out>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+3.86703704,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.87892361,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.90027778,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.91179398,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.95736111,<VL EOC Enterprise Orders and Adjustments>,Disputed Revenue,Enterprise,Order Transaction Request,United Kingdom
+3.95774306,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.98792824,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.98906250,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+3.98990741,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Denmark
+4.03327546,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Ireland
+4.04055556,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Greece
+4.05959491,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+4.06545139,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+4.07548611,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+4.08506944,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Israel
+4.09412037,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+4.10238426,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+4.11138889,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,Canada
+4.16903935,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+4.19001157,<VL EOC Ops Out>,Current Revenue,Enterprise,Order Transaction Request,Sweden
+4.20364583,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Russia
+4.21136574,<VL LOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+4.24565972,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+4.26177083,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Zimbabwe
+4.35222222,<VL EOC Enterprise Orders and Adjustments>,Disputed Revenue,Enterprise,Order Transaction Request,Austria
+4.36035880,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Netherlands
+4.36811343,<VL EOC Enterprise Orders and Adjustments>,Revenue Impacting Case / Pending Revenue,Enterprise,Order Transaction Request,Russia
+4.38011574,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Israel
+4.48952546,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+4.57010417,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+4.60190972,<VL EOC Enterprise Orders and Adjustments>,Credit / Rebill,Enterprise,OLS Forms,United Arab Emirates
+4.77469907,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Turkey
+4.77729167,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+4.91788194,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+4.91841435,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+4.92284722,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+4.93692130,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,France
+4.95798611,<VL EOC Ops In>,Revenue Unknown,Enterprise,Order Transaction Request,France
+4.96037037,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+4.97432870,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Ireland
+4.97793981,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+5.02208333,<VL NAOC Orders>,Revenue Unknown,Enterprise,Order Transaction Request,Switzerland
+5.03251157,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+5.04715278,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,Sweden
+5.06564815,<VL AOC SMS&P Processing>,Non-revenue,Not Program Specific,Order Transaction Request,Brazil
+5.07271991,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+5.13111111,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Austria
+5.13871528,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Ireland
+5.16143519,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Pakistan
+5.30578704,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,Canada
+5.31156250,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,Canada
+5.34093750,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+5.42440972,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,Turkey
+5.47157407,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+5.59689815,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+5.62064815,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+5.63915509,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+5.71517361,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Belgium
+5.72155093,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+5.75643519,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+5.76064815,<VL NAOC Orders>,Current Revenue,Enterprise,Order Transaction Request,United States
+5.80190972,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,United Kingdom
+5.88326389,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+5.93174769,<VL AOC E&E Core Processing>,Current Revenue,Enterprise,Order Transaction Request,Brazil
+5.96104167,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,France
+5.96646991,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+5.99303241,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Bulgaria
+6.03403935,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Denmark
+6.06650463,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Saudi Arabia
+6.09655093,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,United Kingdom
+6.15405093,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,South Africa
+6.22629630,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Germany
+6.31791667,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+6.32038194,<VL NAOC Enterprise Agreements>,Current Revenue,Enterprise,Order Transaction Request,United States
+6.32626157,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+6.37135417,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,United Kingdom
+6.41464120,<VL LOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+6.43369213,<VL LOC Rework>,Non-revenue,Enterprise,Order Transaction Request,Brazil
+6.56703704,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+6.86185185,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+6.92807870,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+6.92998843,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+6.93971065,<VL AOC Broken Pending Notification>,Current Revenue,Enterprise,Order Transaction Request,United States
+6.99671296,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Kuwait
+7.00288194,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,Germany
+7.01452546,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+7.01942130,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+7.16993056,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,Canada
+7.33141204,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Switzerland
+7.60987269,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+7.64671296,<VL APOC CASA>,Current Revenue,Campus,Order Transaction Request,Singapore
+7.70631944,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+7.78851852,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Belgium
+7.86376157,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Israel
+7.86700231,<VL AOC E&E Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+7.91063657,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+8.00523148,<VL AOC E&E EA Core Processing>,Future Billing,Enterprise,Order Transaction Request,United States
+8.05265046,<VL EOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,Denmark
+8.05886574,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,India
+8.06350694,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Denmark
+8.08576389,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,Afghanistan
+8.11040509,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+8.11118056,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Switzerland
+8.11238426,<VL AOC E&E EA Core Processing>,Future Billing,Enterprise,Order Transaction Request,United States
+8.11307870,<VL AOC E&E EA Core Processing>,Future Billing,Enterprise,Order Transaction Request,United States
+8.11476852,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,Brazil
+8.18670139,<VL AOC Broken Pending Notification>,Non-revenue,Enterprise,Order Transaction Request,United States
+8.81165509,<VL LOC Orders>,Non-revenue,Enterprise,Order Transaction Request,Argentina
+8.90549769,<VL EOC Ops Out>,Current Revenue,Enterprise,Order Transaction Request,Netherlands
+8.95750000,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Switzerland
+8.96172454,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Germany
+9.00627315,<VL EOC Enterprise Orders and Adjustments>,Revenue Unknown,Enterprise,Order Transaction Request,United Kingdom
+9.13122685,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+9.14526620,<VL AOC E&E EA Core Processing>,Future Billing,Enterprise,Order Transaction Request,United States
+9.31733796,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Switzerland
+9.51607639,<VL AOC Broken Pending Notification>,Non-revenue,Enterprise,Order Transaction Request,United States
+9.54827546,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+9.75037037,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,Costa Rica
+9.90537037,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+9.92387731,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Finland
+9.94081019,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+9.94502315,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Sri Lanka
+9.96673611,<VL AOC Ops Out>,Current Revenue,Enterprise,Order Transaction Request,United States
+10.13840278,<VL AOC Broken Pending Notification>,Revenue Unknown,Enterprise,Order Transaction Request,Canada
+10.32105324,<VL AOC SMS&P Processing>,Non-revenue,Not Program Specific,Order Transaction Request,United States
+10.67790509,<VL AOC SMS&P Processing>,Non-revenue,Not Program Specific,Order Transaction Request,United States
+10.67989583,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+11.02627315,<VL AOC Broken Pending Notification>,Non-revenue,Enterprise,Order Transaction Request,Mexico
+11.09089120,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,United Kingdom
+11.16563657,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Process Licensing Agreement,United States
+11.40118056,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+11.46730324,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,Canada
+11.70652778,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+11.90373843,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+11.90501157,<VL AOC Broken Pending Notification>,Current Revenue,Enterprise,Order Transaction Request,Ecuador
+11.98520833,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Process Licensing Agreement,United States
+12.01471065,<VL AOC E&E EA Core Processing>,Non-revenue,Enterprise,Order Transaction Request,United States
+12.34353009,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Germany
+12.63775463,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,OLS Forms,Ireland
+12.93847222,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Jordan
+13.01763889,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Switzerland
+13.03077546,<VL APOC Enterprise>,Revenue Unknown,Enterprise,Order Transaction Request,Singapore
+13.15077546,<VL AOC SMS&P Processing>,Non-revenue,Not Program Specific,Order Transaction Request,United States
+13.44964120,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,South Africa
+13.68420139,<VL AOC Ops Out>,Non-revenue,Enterprise,Order Transaction Request,United States
+13.90572917,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+13.99474537,<VL AOC E&E Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+14.05046296,<VL AOC E&E EA Core Processing>,Non-revenue,Enterprise,Order Transaction Request,United States
+14.08387731,<VL AOC E&E EA Core Processing>,Current Revenue,Enterprise,Order Transaction Request,United States
+14.17119213,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+14.18233796,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Belgium
+14.18880787,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+14.21765046,<VL AOC SMS&P Processing>,Non-revenue,OV/OVS,Order Transaction Request,United States
+14.28031250,<VL APOC Enterprise>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+14.29783565,<VL NAOC Orders>,Non-revenue,Enterprise,Order Transaction Request,United States
+14.47381944,<VL AOC E&E Core Processing>,Non-revenue,Enterprise,Order Transaction Request,United States
+14.79370370,<VL EOC Enterprise Orders and Adjustments>,Credit / Rebill,Enterprise,Order Transaction Request,France
+14.79621528,<VL APOC Ops Out>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+15.06681713,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Austria
+15.09899306,<VL AOC E&E EA Core Processing>,Current Revenue,SPLA,Order Transaction Request,United States
+15.90893519,<VL EOC Enterprise Orders and Adjustments>,Non-revenue,Enterprise,Order Transaction Request,Turkey
+17.06130787,<VL APOC Ops Out>,Current Revenue,Enterprise,Order Transaction Request,Singapore
+17.16271991,<VL EOC Enterprise Orders and Adjustments>,Current Revenue,Enterprise,Order Transaction Request,Sweden
+17.56968750,<VL APOC Enterprise>,Revenue Unknown,Enterprise,Order Transaction Request,New Zealand
