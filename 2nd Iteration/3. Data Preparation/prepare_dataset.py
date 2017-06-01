@@ -1,8 +1,9 @@
 import pandas as pd
 
-df = pd.read_csv("../../../Data/vw_Incident.csv", encoding='latin-1')
+df = pd.read_csv("../../../Data/vw_Incident.csv", encoding='latin-1', low_memory=False)
 
 # one entry
+# todo write code to delete columns where there are less than 3 entries instead of naming headings - more scalable
 del df["SubSubReason"]
 # <3 entries
 del df["Referencesystem"]
@@ -11,6 +12,7 @@ del df["Referencesystem"]
 df = df[df.Program == "Enterprise"]
 
 # only one variable type
+# todo write code to delete columns where there are only one variable type
 del df["BusinessFunction"]
 del df["LineOfBusiness"]
 del df["CaseType"]
@@ -39,6 +41,7 @@ del df["LanguageName"]
 del df["Totaltime"]
 
 # not enough data
+# todo convert this into code - might be different for new datasets (maybe use <50 entries)
 del df["RevenueImpactAmount"] # < 50 entries
 del df["IsAudited"] # 4 true audited entries
 del df["Auditresult"] # 1 true audit result
@@ -50,7 +53,8 @@ del df["DefectiveCase"] # 33 true results
 del df["Isrevenueimpacting"] # 13 true results
 
 # only keep the rows which are English (12912 English entries)
-df = df[df.LanguageName == "English"]
+# todo couldn't get this line to work
+# df = df[df.LanguageName == "English"]
 
 # don't understand what it does
 del df["caseOriginCode"]
@@ -100,3 +104,7 @@ df["Priority"].map({"Low":0, "Normal":1, "High":2, "Immediate":3})
 
 # export file
 df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)
+
+
+# Was getting error "sys:1: DtypeWarning: Columns (16,65) have mixed types. Specify dtype option on import or set low_memory=False."
+# added low_memory=False to read in function
