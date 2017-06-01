@@ -73,25 +73,24 @@ del df["IncidentId"]
 # replace Created_On, Receiveddate and ResolvedDate with one new column,
 # "TimeTaken"
 del df["Receiveddate"]
-
-# create new dataframe, df2 to store answer
 df["Created_On"] = pd.to_datetime(df["Created_On"])
 df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
-df2 = pd.DataFrame()
+df2 = pd.DataFrame()# create new dataframe, df2, to store answer
 df2["TimeTaken"] = (df["ResolvedDate"] - df["Created_On"]).astype(
     'timedelta64[m]')
 del df["Created_On"]
 del df["ResolvedDate"]
-
-# # get x
-# x = pd.DataFrame()
-# for col in list(df):
-#     dummies = pd.get_dummies(df[col]).iloc[:, 1:]
-#     x = pd.concat([x, dummies], axis = 1)
-
 df = pd.concat([df2, df], axis=1)
 
+# replace the Null values with the mean for the column
+df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
 
+# too many nulls
+del df["RelatedCases"]
+del df["CreditAmount"]
+del df["DebitAmount"]
+del df["OrderAmount"]
+del df["InvoiceAmount"]
+del df["Deleted"]
 
-print(df.head())
 df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)
