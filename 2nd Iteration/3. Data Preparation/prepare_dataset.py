@@ -34,8 +34,8 @@ del df["ParentCase"]
 # Revenutype
 
 # duplicate column
-del df["IsoCurrencyCode"]
-del df["Language"]
+del df["CurrencyName"]
+del df["LanguageName"]
 del df["Totaltime"]
 
 # not enough data
@@ -93,4 +93,10 @@ del df["OrderAmount"]
 del df["InvoiceAmount"]
 del df["Deleted"]
 
+# change the priorities to nominal variables
+df["Priority"].map({"Low":0, "Normal":1, "High":2, "Immediate":3})
+
+
+
+# export file
 df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)
