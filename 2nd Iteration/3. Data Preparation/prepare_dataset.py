@@ -1,29 +1,30 @@
 import pandas as pd
 
+
+def min_entries(df, min=3):  # Delete columns that have less than min entries regardless of number rows
+    for column in df:
+        if df[column].count() < min:
+            del df[column]  # delete column
+    return df
+
+
+def min_variable_types(df, min=2):  # Delete columns with less than min variable types in that column
+    for column in df:
+        if len(df[column].value_counts().index.tolist()) < min:
+            del df[column]  # delete column
+    return df
+
 def clean_Incident():
 
     print("clean_Incident started")
 
     df = pd.read_csv("../../../Data/vw_Incident.csv", encoding='latin-1', low_memory=False)
 
-    # one entry
-    # todo write code to delete columns where there are less than 3 entries instead of naming headings - more scalable
-    del df["SubSubReason"]
-    # <3 entries
-    del df["Referencesystem"]
+    df = min_entries(df, 3)  # Delete columns that have less than 3 entries
+    df = min_variable_types(df, 2) # Delete columns with less than 2 variable types in that column
 
     # Program column: only interested in Enterprise
     df = df[df.Program == "Enterprise"]
-
-    # only one variable type
-    # todo write code to delete columns where there are only one variable type
-    del df["BusinessFunction"]
-    del df["LineOfBusiness"]
-    del df["CaseType"]
-    del df["CaseSubTypes"]
-    del df["Reason"]
-    del df["ProcessName"]
-    del df["StateCode"]
 
     # combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
@@ -41,7 +42,7 @@ def clean_Incident():
 
     # duplicate column
     del df["CurrencyName"]
-    del df["LanguageName"]
+    # del df["LanguageName"]  deleting this column causes an error later when we try to filter by English
     del df["Totaltime"]
 
     # not enough data
@@ -57,8 +58,7 @@ def clean_Incident():
     del df["Isrevenueimpacting"] # 13 true results
 
     # only keep the rows which are English (12912 English entries)
-    # todo couldn't get this line to work
-    # df = df[df.LanguageName == "English"]
+    df = df[df.LanguageName == "English"]
 
     # don't understand what it does
     del df["caseOriginCode"]
@@ -75,8 +75,9 @@ def clean_Incident():
     del df["Totalbillabletime"]
 
     # all unique entries
-    del df["TicketNumber"]
-    del df["IncidentId"]
+    # todo these are needed to map across sheets
+    # del df["TicketNumber"]
+    # del df["IncidentId"]
 
     # replace Created_On, Receiveddate and ResolvedDate with one new column,
     # "TimeTaken"
@@ -84,8 +85,7 @@ def clean_Incident():
     df["Created_On"] = pd.to_datetime(df["Created_On"])
     df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
     df2 = pd.DataFrame()# create new dataframe, df2, to store answer
-    df2["TimeTaken"] = (df["ResolvedDate"] - df["Created_On"]).astype(
-        'timedelta64[m]')
+    df2["TimeTaken"] = (df["ResolvedDate"] - df["Created_On"]).astype('timedelta64[m]')
     del df["Created_On"]
     del df["ResolvedDate"]
     df = pd.concat([df2, df], axis=1)
@@ -99,16 +99,12 @@ def clean_Incident():
     del df["DebitAmount"]
     del df["OrderAmount"]
     del df["InvoiceAmount"]
-    del df["Deleted"]
 
     # change the priorities to nominal variables
     df["Priority"].map({"Low":0, "Normal":1, "High":2, "Immediate":3})
 
-
-
     # export file
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)
-
 
     # Was getting error "sys:1: DtypeWarning: Columns (16,65) have mixed types. Specify dtype option on import or set low_memory=False."
     # added low_memory=False to read in function
