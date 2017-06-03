@@ -121,6 +121,8 @@ def clean_Incident():
     del df["WorkbenchGroup"]
     # Not using received
     del df["Receiveddate"]
+    # IsSOXCase contains lots of NULLS - converting to 2 since we do not know if 0 or 1 means is a SOX case
+    df["IsSOXCase"].fillna(2, inplace=True)
 
     # Data mining simplifications - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
