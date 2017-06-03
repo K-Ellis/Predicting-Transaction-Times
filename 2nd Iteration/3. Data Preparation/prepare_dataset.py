@@ -188,16 +188,80 @@ def clean_AuditHistory():
 
 
 def clean_HoldActivity():
+
     print("clean_HoldActivity started")
+    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_clean_HoldActivity" + ".txt"  # Log file name
+    out_file = open(out_file_name, "w")  # Open log file
+    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
+    out_file.write("clean_HoldActivity started" + "\n\n")
+
+    df = pd.read_csv("../../../Data/vw_HoldActivity.csv", encoding='latin-1', low_memory=False)
+
+    # Create Time Variable
+    # df = time_taken(df, out_file, "Created_On", "Modified_On")
+    # todo - tnot sure how to do time for this
+
+    # Domain knowledge simplifications
+    # Not using TimeStamp
+    # del df["TimeStamp"]
+
+    # Data mining simplifications - where there is not enough meaningful information
+    df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
+    df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
+    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+    df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
+    df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
+
+    # todo combine the transactions into their respective cases?
+    # delete for now, not sure what to do with it..
+    # del df["ParentCase"]
+
+    # export file
+    df.to_csv("../../../Data/vw_HoldActivity_cleaned.csv", index = False)
+
+    out_file.write("clean_AuditHistory complete")
+    out_file.close()
     print("clean_HoldActivity complete")
 
 
 def clean_PackageTriageEntry():
+
     print("clean_PackageTriageEntry started")
+    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_clean_PackageTriageEntry" + ".txt"  # Log file name
+    out_file = open(out_file_name, "w")  # Open log file
+    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
+    out_file.write("clean_PackageTriageEntry started" + "\n\n")
+
+    df = pd.read_csv("../../../Data/vw_PackageTriageEntry.csv", encoding='latin-1', low_memory=False)
+
+    # Create Time Variable
+    # df = time_taken(df, out_file, "Created_On", "Modified_On")
+    # todo - to_datetime not working
+
+    # Domain knowledge simplifications
+    # Not using TimeStamp
+    # del df["TimeStamp"]
+
+    # Data mining simplifications - where there is not enough meaningful information
+    df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
+    df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
+    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+    df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
+    df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
+
+    # todo combine the transactions into their respective cases?
+    # delete for now, not sure what to do with it..
+    # del df["ParentCase"]
+
+    # export file
+    df.to_csv("../../../Data/vw_PackageTriageEntry_cleaned.csv", index = False)
+
+    out_file.write("clean_PackageTriageEntry complete")
+    out_file.close()
     print("clean_PackageTriageEntry complete")
 
 
-# clean_Incident()
+clean_Incident()
 clean_AuditHistory()
-# clean_HoldActivity()
-# clean_PackageTriageEntry()
+clean_HoldActivity()
+clean_PackageTriageEntry()
