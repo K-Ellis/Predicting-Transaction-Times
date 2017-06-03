@@ -109,11 +109,13 @@ def clean_Incident():
     # Create Time Variable
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")
 
-    # Domain knowledge simplifications
+    # Domain knowledge processing
     # Program column: only interested in Enterprise
     df = df[df.Program == "Enterprise"]
     # Only keep the rows which are English
     df = df[df.LanguageName == "English"]
+    # Remove ValidCase = 0
+    df = df[df.ValidCase == 1]
     # Duplicate column - we will keep IsoCurrencyCode
     del df["CurrencyName"]
     # don't understand what it does
@@ -123,8 +125,12 @@ def clean_Incident():
     del df["Receiveddate"]
     # IsSOXCase contains lots of NULLS - converting to 2 since we do not know if 0 or 1 means is a SOX case
     df["IsSOXCase"].fillna(2, inplace=True)
+    # change the priorities to nominal variables
+    df["Priority"] = df["Priority"].map({"Low":0, "Normal":1, "High":2, "Immediate":3})
+    # change the Complexities to nominal variables
+    df["Complexity"] = df["Complexity"].map({"Low":0, "Medium":1, "High":2})
 
-    # Data mining simplifications - where there is not enough meaningful information
+    # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
     df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
@@ -154,12 +160,6 @@ def clean_Incident():
     # replace the Null values with the mean for the column
     # todo, had to comment out this one  df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
 
-    # change the priorities to nominal variables
-    df["Priority"] = df["Priority"].map({"Low":0, "Normal":1, "High":2, "Immediate":3})
-
-    # change the Complexities to nominal variables
-    df["Complexity"] = df["Complexity"].map({"Low":0, "Medium":1, "High":2})
-
     # export file
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)
 
@@ -182,11 +182,11 @@ def clean_AuditHistory():
     # df = time_taken(df, out_file, "Created_On", "Modified_On")
     # todo - to_datetime not working for audit history
 
-    # Domain knowledge simplifications
+    # Domain knowledge processing
     # Not using TimeStamp
     del df["TimeStamp"]
 
-    # Data mining simplifications - where there is not enough meaningful information
+    # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
     df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
@@ -219,11 +219,11 @@ def clean_HoldActivity():
     # df = time_taken(df, out_file, "Created_On", "Modified_On")
     # todo - tnot sure how to do time for this
 
-    # Domain knowledge simplifications
+    # Domain knowledge processing
     # Not using TimeStamp
     # del df["TimeStamp"]
 
-    # Data mining simplifications - where there is not enough meaningful information
+    # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
     df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
@@ -256,11 +256,11 @@ def clean_PackageTriageEntry():
     # df = time_taken(df, out_file, "Created_On", "Modified_On")
     # todo - to_datetime not working
 
-    # Domain knowledge simplifications
+    # Domain knowledge processing
     # Not using TimeStamp
     # del df["TimeStamp"]
 
-    # Data mining simplifications - where there is not enough meaningful information
+    # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
     df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
