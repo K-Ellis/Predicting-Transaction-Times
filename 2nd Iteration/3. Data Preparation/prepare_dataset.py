@@ -2,17 +2,15 @@ import pandas as pd
 import time
 
 
-def timetaken(df, out_file): # replace Created_On, Receiveddate and ResolvedDate with one new column, "TimeTaken"
-    del df["Receiveddate"]
-    df["Created_On"] = pd.to_datetime(df["Created_On"])
-    df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
+def time_taken(df, out_file, start, finish): # replace Created_On, Receiveddate and ResolvedDate with one new column, "TimeTaken"
+    df[start] = pd.to_datetime(df[start])
+    df[finish] = pd.to_datetime(df[finish])
     df2 = pd.DataFrame()  # create new dataframe, df2, to store answer
-    df2["TimeTaken"] = (df["ResolvedDate"] - df["Created_On"]).astype(
-        'timedelta64[m]')
-    del df["Created_On"]
-    del df["ResolvedDate"]
+    df2["TimeTaken"] = (df[finish] - df[start]).astype('timedelta64[m]')
+    del df[start]
+    del df[finish]
     df = pd.concat([df2, df], axis=1)
-    out_file.write("timetaken column calculated" + "\n\n")
+    out_file.write("Time Taken column calculated" + "\n\n")
     return df
 
 
@@ -82,7 +80,7 @@ def drop_ones(df, out_file, x=0.90):  # Remove columns where there is a proporti
 def clean_Incident():
 
     print("clean_Incident started")
-    out_file_name = "../../../Logs/clean_Incident_" + time.strftime("%Y%m%d-%H%M%S") + ".txt"  # Log file name
+    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_clean_Incident" + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_Incident started" + "\n\n")
@@ -93,7 +91,7 @@ def clean_Incident():
     # Solution - Added low_memory=False to read in function. Not sure what this does . . . need to check
 
     # Create Time Variable
-    df = timetaken(df, out_file)
+    df = time_taken(df, out_file, "Created_On", "ResolvedDate")
 
     # Domain knowledge simplifications
     # Program column: only interested in Enterprise
@@ -102,10 +100,11 @@ def clean_Incident():
     df = df[df.LanguageName == "English"]
     # Duplicate column - we will keep IsoCurrencyCode
     del df["CurrencyName"]
-    # del df["LanguageName"]  todo deleting this column causes an error later when we try to filter by English
     # don't understand what it does
     del df["caseOriginCode"]
     del df["WorkbenchGroup"]
+    # Not using received
+    del df["Receiveddate"]
 
     # Data mining simplifications - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
@@ -129,15 +128,19 @@ def clean_Incident():
     # Workbench
     # Revenutype . . . . note, drop_NULL removes this (Rev NULL % is 31)
 
-    # all unique entries - these are needed to map across sheets, bring back soon
-    del df["TicketNumber"]
-    del df["IncidentId"]
+    # all unique entries - these are needed to map across sheets
+    # We need these to sum predictions etc
+    # del df["TicketNumber"]
+    # del df["IncidentId"]
 
     # replace the Null values with the mean for the column
     # todo, had to comment out this one  df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
 
     # change the priorities to nominal variables
-    df["Priority"].map({"Low":0, "Normal":1, "High":2, "Immediate":3})
+    df["Priority"] = df["Priority"].map({"Low":0, "Normal":1, "High":2, "Immediate":3})
+
+    # change the Complexities to nominal variables
+    df["Complexity"] = df["Complexity"].map({"Low":0, "Medium":1, "High":2})
 
     # export file
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)
@@ -148,7 +151,39 @@ def clean_Incident():
 
 
 def clean_AuditHistory():
+
     print("clean_AuditHistory started")
+    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_clean_AuditHistory" + ".txt"  # Log file name
+    out_file = open(out_file_name, "w")  # Open log file
+    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
+    out_file.write("clean_AuditHistory started" + "\n\n")
+
+    df = pd.read_csv("../../../Data/vw_AuditHistory.csv", encoding='latin-1', low_memory=False)
+
+    # Create Time Variable
+    # df = time_taken(df, out_file, "Created_On", "Modified_On")
+    # todo - to_datetime not working for audit history
+
+    # Domain knowledge simplifications
+    # Not using TimeStamp
+    del df["TimeStamp"]
+
+    # Data mining simplifications - where there is not enough meaningful information
+    df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
+    df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
+    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+    df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
+    df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
+
+    # todo combine the transactions into their respective cases?
+    # delete for now, not sure what to do with it..
+    # del df["ParentCase"]
+
+    # export file
+    df.to_csv("../../../Data/vw_AuditHistory_cleaned.csv", index = False)
+
+    out_file.write("clean_AuditHistory complete")
+    out_file.close()
     print("clean_AuditHistory complete")
 
 
@@ -162,7 +197,7 @@ def clean_PackageTriageEntry():
     print("clean_PackageTriageEntry complete")
 
 
-clean_Incident()
-# clean_AuditHistory()
+# clean_Incident()
+clean_AuditHistory()
 # clean_HoldActivity()
 # clean_PackageTriageEntry()
