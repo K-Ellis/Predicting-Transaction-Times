@@ -1,7 +1,22 @@
+"""
+************************************************************************************************************************
+UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
+************************************************************************************************************************
+Iteration 2
+Data pre-processing program
+************************************************************************************************************************
+Eoin Carroll
+Kieron Ellis
+************************************************************************************************************************
+"""
+
+
+# Import libraries
 import pandas as pd
 import time
 
 
+# Multipurpose Pre-Processing Functions
 def time_taken(df, out_file, start, finish): # replace Created_On, Receiveddate and ResolvedDate with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
@@ -77,6 +92,7 @@ def drop_ones(df, out_file, x=0.90):  # Remove columns where there is a proporti
     return df
 
 
+# Excel Sheet Specific functions
 def clean_Incident():
 
     print("clean_Incident started")
@@ -261,7 +277,9 @@ def clean_PackageTriageEntry():
     print("clean_PackageTriageEntry complete")
 
 
-clean_Incident()
-clean_AuditHistory()
-clean_HoldActivity()
-clean_PackageTriageEntry()
+# Run program
+if __name__ == "__main__":
+    clean_Incident()
+    clean_AuditHistory()
+    clean_HoldActivity()
+    clean_PackageTriageEntry()
