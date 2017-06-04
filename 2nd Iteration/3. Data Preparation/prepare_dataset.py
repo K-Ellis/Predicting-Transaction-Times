@@ -72,7 +72,7 @@ def min_variable_types(df, out_file, min=2):  # Delete columns with less than mi
     return df
 
 
-def drop_NULL(df, out_file, x=0.95):  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+def drop_null(df, out_file, x=0.95):  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     # todo - this is very similar to min entries, might be able to combine the two
     # df.dropna(axis=1, thresh=int(len(df) * x)) .... an alternative method I could not get to work
     out_file.write("drop_NULL - max ratio: " + str(x) + "\n")
@@ -139,7 +139,7 @@ def clean_Incident():
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
-    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+    df = drop_null(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
@@ -160,8 +160,8 @@ def clean_Incident():
     # Not using IsoCurrencyCode - we have all values in USD
     del df["IsoCurrencyCode"]
 
-    # Note pd.get_dummies(df) may be useful
-    # Map to nominal variables
+    # Note pd.get_dummies(df) may be useful for hot encoding
+    # Map to nominal variables - need to decide which ones we want
     df["Queue"] = map_variables(df["Queue"], out_file, "Queue")
     df["StatusReason"] = map_variables(df["StatusReason"], out_file, "StatusReason")
     df["Priority"] = map_variables(df["Priority"], out_file, "Priority")
@@ -221,13 +221,20 @@ def clean_AuditHistory():
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
-    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+    df = drop_null(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
+
+    # Note pd.get_dummies(df) may be useful for hot encoding
+    # Map to nominal variables - need to decide which ones we want
+    df["Action"] = map_variables(df["Action"], out_file, "Action")
 
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
     # del df["ParentCase"]
+
+    # Fill in NULL values with 0s
+    df = fill_nulls(df, out_file)
 
     # export file
     df.to_csv("../../../Data/vw_AuditHistory_cleaned.csv", index = False)
@@ -261,9 +268,18 @@ def clean_HoldActivity():
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
-    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+    df = drop_null(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
+
+    # Note pd.get_dummies(df) may be useful for hot encoding
+    # Map to nominal variables - need to decide which ones we want
+    df["HoldTypeName"] = map_variables(df["HoldTypeName"], out_file, "HoldTypeName")
+    df["Reason"] = map_variables(df["Reason"], out_file, "Reason")
+    df["AssignedToGroup"] = map_variables(df["AssignedToGroup"], out_file, "AssignedToGroup")
+
+    # Fill in NULL values with 0s
+    df = fill_nulls(df, out_file)
 
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
@@ -298,13 +314,22 @@ def clean_PackageTriageEntry():
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
-    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+    df = drop_null(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
     # del df["ParentCase"]
+
+    # Note pd.get_dummies(df) may be useful for hot encoding
+    # Map to nominal variables - need to decide which ones we want
+    df["EntryType"] = map_variables(df["EntryType"], out_file, "EntryType")
+    df["EntryLevel"] = map_variables(df["EntryLevel"], out_file, "EntryLevel")
+    df["EntryProcess"] = map_variables(df["EntryProcess"], out_file, "EntryProcess")
+
+    # Fill in NULL values with 0s
+    df = fill_nulls(df, out_file)
 
     # export file
     df.to_csv("../../../Data/vw_PackageTriageEntry_cleaned.csv", index = False)
@@ -317,14 +342,6 @@ def clean_PackageTriageEntry():
 # Run program
 if __name__ == "__main__":
     clean_Incident()
-    # clean_AuditHistory()
-    # clean_HoldActivity()
-    # clean_PackageTriageEntry()
-
-
-# todo:
-# convert NULLS
-# Country and sales buckets
-# Go through all again and see what else needs to be cleaned
-# Read meeting minutes
-#
+    clean_AuditHistory()
+    clean_HoldActivity()
+    clean_PackageTriageEntry()
