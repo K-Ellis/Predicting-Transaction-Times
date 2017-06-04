@@ -114,6 +114,8 @@ def clean_Incident():
     df = df[df.Program == "Enterprise"]
     # Only keep the rows which are English
     df = df[df.LanguageName == "English"]
+    # Remove StatusReason = rejected
+    df = df[df.StatusReason != "Rejected"]
     # Remove ValidCase = 0
     df = df[df.ValidCase == 1]
     # Duplicate column - we will keep IsoCurrencyCode
@@ -123,8 +125,8 @@ def clean_Incident():
     del df["WorkbenchGroup"]
     # Not using received
     del df["Receiveddate"]
-    # IsSOXCase contains lots of NULLS - converting to 2 since we do not know if 0 or 1 means is a SOX case
-    df["IsSOXCase"].fillna(2, inplace=True)
+    # IsSOXCase contains lots of NULLS - converting to 0 with the assumption that NULL and 0 means not SOX
+    df["IsSOXCase"].fillna(0, inplace=True)
     # change the priorities to nominal variables
     df["Priority"] = df["Priority"].map({"Low":0, "Normal":1, "High":2, "Immediate":3})
     # change the Complexities to nominal variables
@@ -215,13 +217,16 @@ def clean_HoldActivity():
 
     df = pd.read_csv("../../../Data/vw_HoldActivity.csv", encoding='latin-1', low_memory=False)
 
-    # Create Time Variable
-    # df = time_taken(df, out_file, "Created_On", "Modified_On")
-    # todo - tnot sure how to do time for this
-
     # Domain knowledge processing
-    # Not using TimeStamp
-    # del df["TimeStamp"]
+    # Use hold duration as time
+    del df["StartTime"]
+    del df["EndTime"]
+    del df["Modified_On"]
+    # HoldTypeName is only 3rd party and customer (not Internal . . . assumption that there are no other types)
+    df = df[df.HoldTypeName != "Internal"]
+    # Duplicate columns, keep Statuscode
+    del df["Statecode"]
+    df = df[df.Statuscode == "Completed"]
 
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
