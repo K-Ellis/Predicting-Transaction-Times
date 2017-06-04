@@ -13,12 +13,16 @@ Working on dataset from launch (6th Feb) to End March
 """
 
 
-# Import libraries
+"""*********************************************************************************************************************
+Import libraries
+*********************************************************************************************************************"""
 import pandas as pd
 import time
 
 
-# Multipurpose Pre-Processing Functions
+"""*********************************************************************************************************************
+Multipurpose Pre-Processing Functions
+*********************************************************************************************************************"""
 def fill_nulls(df, out_file):  # Fill in NULL values for all columns
     for column in df:
         df[column].fillna(0, inplace=True)
@@ -113,7 +117,9 @@ def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proporti
     return df
 
 
-# Excel Sheet Specific functions
+"""*********************************************************************************************************************
+Excel Sheet functions
+*********************************************************************************************************************"""
 def clean_Incident():
 
     print("clean_Incident started")
@@ -123,19 +129,12 @@ def clean_Incident():
     out_file.write("clean_Incident started" + "\n\n")
 
     df = pd.read_csv("../../../Data/vw_Incident.csv", encoding='latin-1', low_memory=False)
-    # todo - Was getting error:
-    # "sys:1: DtypeWarning: Columns (16,65) have mixed types. Specify dtype option on import or set low_memory=False."
-    # Solution - Added low_memory=False to read in function. Not sure what this does . . . need to check
 
     # Filtering for the data we want
-    # Program column: only interested in Enterprise
-    df = df[df.Program == "Enterprise"]
-    # Only keep the rows which are English
-    df = df[df.LanguageName == "English"]
-    # Remove StatusReason = rejected
-    df = df[df.StatusReason != "Rejected"]
-    # Remove ValidCase = 0
-    df = df[df.ValidCase == 1]
+    df = df[df.Program == "Enterprise"]  # Program column: only interested in Enterprise
+    df = df[df.LanguageName == "English"]  # Only keep the rows which are English
+    df = df[df.StatusReason != "Rejected"]  # Remove StatusReason = rejected
+    df = df[df.ValidCase == 1]  # Remove ValidCase = 0
 
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
@@ -145,21 +144,15 @@ def clean_Incident():
     # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    # Fill in NULL values with 0s
-    df = fill_nulls(df, out_file)
-    # Create Time Variable
-    df = time_taken(df, out_file, "Created_On", "ResolvedDate")
+    df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
+    df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
 
     # Domain knowledge processing
-    # Duplicate column - we will keep IsoCurrencyCode
-    del df["CurrencyName"]
-    # Don't understand what it does
-    del df["caseOriginCode"]
-    del df["WorkbenchGroup"]
-    # Not using received
-    del df["Receiveddate"]
-    # Not using IsoCurrencyCode - we have all values in USD
-    del df["IsoCurrencyCode"]
+    del df["CurrencyName"]  # Duplicate column - we will keep IsoCurrencyCode
+    del df["caseOriginCode"]  # Don't understand what it does
+    del df["WorkbenchGroup"]  # Don't understand what it does
+    del df["Receiveddate"]  # Not using received
+    del df["IsoCurrencyCode"]  # Not using IsoCurrencyCode - we have all values in USD
 
     # Note pd.get_dummies(df) may be useful for hot encoding
     # Map to nominal variables - need to decide which ones we want
@@ -174,7 +167,6 @@ def clean_Incident():
     df["StageName"] = map_variables(df["StageName"], out_file, "StageName")
     df["Revenutype"] = map_variables(df["Revenutype"], out_file, "Revenutype")
     df["Complexity"] = map_variables(df["Complexity"], out_file, "Complexity")
-
 
     # todo combine variables with less than 100 entries into one variable, call it
     # "other" or something
@@ -193,8 +185,7 @@ def clean_Incident():
     # todo replace the Null values with the mean for the column
     # df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
 
-    # export file
-    df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)
+    df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)   # export file
 
     out_file.write("clean_Incident complete")
     out_file.close()
@@ -216,8 +207,7 @@ def clean_AuditHistory():
     # todo - to_datetime not working for audit history
 
     # Domain knowledge processing
-    # Not using TimeStamp
-    del df["TimeStamp"]
+    del df["TimeStamp"]  # Not using TimeStamp
 
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
@@ -230,12 +220,7 @@ def clean_AuditHistory():
     # Map to nominal variables - need to decide which ones we want
     df["Action"] = map_variables(df["Action"], out_file, "Action")
 
-    # todo combine the transactions into their respective cases?
-    # delete for now, not sure what to do with it..
-    # del df["ParentCase"]
-
-    # Fill in NULL values with 0s
-    df = fill_nulls(df, out_file)
+    df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
 
     # export file
     df.to_csv("../../../Data/vw_AuditHistory_cleaned.csv", index = False)
@@ -260,11 +245,9 @@ def clean_HoldActivity():
     del df["StartTime"]
     del df["EndTime"]
     del df["Modified_On"]
-    # HoldTypeName is only 3rd party and customer (not Internal . . . assumption that there are no other types)
-    df = df[df.HoldTypeName != "Internal"]
-    # Duplicate columns, keep Statuscode
-    del df["Statecode"]
-    df = df[df.Statuscode == "Completed"]
+    df = df[df.HoldTypeName != "Internal"]  # HoldTypeName is only 3rd party and customer
+    del df["Statecode"]  # Duplicate columns, keep Statuscode
+    df = df[df.Statuscode == "Completed"]  # Only interested in completed
 
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
@@ -279,15 +262,13 @@ def clean_HoldActivity():
     df["Reason"] = map_variables(df["Reason"], out_file, "Reason")
     df["AssignedToGroup"] = map_variables(df["AssignedToGroup"], out_file, "AssignedToGroup")
 
-    # Fill in NULL values with 0s
-    df = fill_nulls(df, out_file)
+    df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
 
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
     # del df["ParentCase"]
 
-    # export file
-    df.to_csv("../../../Data/vw_HoldActivity_cleaned.csv", index = False)
+    df.to_csv("../../../Data/vw_HoldActivity_cleaned.csv", index = False)  # export file
 
     out_file.write("clean_AuditHistory complete")
     out_file.close()
@@ -319,29 +300,25 @@ def clean_PackageTriageEntry():
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    # todo combine the transactions into their respective cases?
-    # delete for now, not sure what to do with it..
-    # del df["ParentCase"]
-
     # Note pd.get_dummies(df) may be useful for hot encoding
     # Map to nominal variables - need to decide which ones we want
     df["EntryType"] = map_variables(df["EntryType"], out_file, "EntryType")
     df["EntryLevel"] = map_variables(df["EntryLevel"], out_file, "EntryLevel")
     df["EntryProcess"] = map_variables(df["EntryProcess"], out_file, "EntryProcess")
 
-    # Fill in NULL values with 0s
-    df = fill_nulls(df, out_file)
+    df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
 
-    # export file
-    df.to_csv("../../../Data/vw_PackageTriageEntry_cleaned.csv", index = False)
+    df.to_csv("../../../Data/vw_PackageTriageEntry_cleaned.csv", index = False)  # export file
 
     out_file.write("clean_PackageTriageEntry complete")
     out_file.close()
     print("clean_PackageTriageEntry complete")
 
 
-# Run program
-if __name__ == "__main__":
+"""*********************************************************************************************************************
+Run All Code
+*********************************************************************************************************************"""
+if __name__ == "__main__":  # Run program
     clean_Incident()
     clean_AuditHistory()
     clean_HoldActivity()
