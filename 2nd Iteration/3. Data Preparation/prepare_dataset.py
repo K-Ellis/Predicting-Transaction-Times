@@ -61,7 +61,7 @@ def min_variable_types(df, out_file, min=2):  # Delete columns with less than mi
     return df
 
 
-def drop_NULL(df, out_file, x=0.30):  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+def drop_NULL(df, out_file, x=0.80):  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     # todo - this is very similar to min entries, might be able to combine the two
     # df.dropna(axis=1, thresh=int(len(df) * x)) .... an alternative method I could not get to work
     out_file.write("drop_NULL - max ratio: " + str(x) + "\n")
@@ -75,7 +75,7 @@ def drop_NULL(df, out_file, x=0.30):  # Remove columns where there is a proporti
     return df
 
 
-def drop_zeros(df, out_file, x=0.90):  # Remove columns where there is a proportion of 0 values greater than tol
+def drop_zeros(df, out_file, x=0.95):  # Remove columns where there is a proportion of 0 values greater than tol
     out_file.write("drop_zeros - max ratio: " + str(x) + "\n")
     for column in df:
         if 0 in df[column].value_counts():  # Make sure 0 is in column
@@ -88,7 +88,7 @@ def drop_zeros(df, out_file, x=0.90):  # Remove columns where there is a proport
     return df
 
 
-def drop_ones(df, out_file, x=0.90):  # Remove columns where there is a proportion of 1 values greater than tol
+def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proportion of 1 values greater than tol
     out_file.write("drop_ones - max ratio: " + str(x) + "\n")
     for column in df:
         if 1 in df[column].value_counts():  # Make sure 0 is in column
@@ -115,10 +115,15 @@ def clean_Incident():
     # "sys:1: DtypeWarning: Columns (16,65) have mixed types. Specify dtype option on import or set low_memory=False."
     # Solution - Added low_memory=False to read in function. Not sure what this does . . . need to check
 
+    # Data mining processing - where there is not enough meaningful information
+    df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
+    df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
+
     # Fill in NULL values with 0s
     df = fill_nulls(df, out_file)
     # Create Time Variable
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")
+
     # Domain knowledge processing
     # Program column: only interested in Enterprise
     df = df[df.Program == "Enterprise"]
@@ -162,14 +167,6 @@ def clean_Incident():
     df["StageName"] = df["StageName"].map({0: 0, "Submission":1, "Ops Out":2, "Ops In":3, "Triage And Validation":4,
                                            "Data Entry":5})
 
-    # Data mining processing - where there is not enough meaningful information
-    df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
-    # df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
-    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
-    df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
-    # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
-    df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
-
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
     # del df["ParentCase"]
@@ -190,6 +187,12 @@ def clean_Incident():
 
     # replace the Null values with the mean for the column
     # todo, had to comment out this one  df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
+
+    # Data mining processing - where there is not enough meaningful information
+    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+    df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
+    # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
+    df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
     # export file
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)
