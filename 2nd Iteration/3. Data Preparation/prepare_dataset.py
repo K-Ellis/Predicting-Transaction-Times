@@ -161,31 +161,19 @@ def clean_Incident():
     del df["IsoCurrencyCode"]
 
     # Note pd.get_dummies(df) may be useful
-    # Change ROCName to nominal variables
-    df["ROCName"] = df["ROCName"].map({0: 0, "AOC":1, "APOC":2, "EOC":3})
-    # Change Priority to nominal variables
-    df["Priority"] = df["Priority"].map({0: 0,"Low":1, "Normal":2, "High":3, "Immediate":4})
-    # Change Complexity to nominal variables
-    df["Complexity"] = df["Complexity"].map({0: 0,"Low":1, "Medium":2, "High":3})
-    # Change sourcesystem to nominal variables todo investigate 3-0000008981609
-    df["sourcesystem"] = df["sourcesystem"].map({0:0, "CLT":1, "NMEC":2, "Aplquest":3, "Web":4, "eAgreement":5,
-                                                 "eAgreement (Phy)":5, "eAgreement(Phy)":5, "email":6,
-                                                 "3-0000008981609":7, "MIMOS":8})
-    # Change Source to nominal variables
-    df["Source"] = df["Source"].map({0: 0, "Web": 1, "Soft Copy": 2, "eAgreement (Phy)": 3, "Manual": 4,
-                                                 "Hard Copy": 5, "E-mail": 5, "eAgreement (Ele)": 5, "Fax": 6})
-    # Change Workbench to nominal variables
-    # df["Workbench"] = df["Workbench"].map({0: 0, " ": 1, " ": 2, " ": 3, " ": 4)
-    # todo . . . . finish this or do something different, 30 variable types here!
-    # Change Revenutype to nominal variables
-    df["Revenutype"] = df["Revenutype"].map({0: 0, "Current Revenue": 1, "Non-revenue": 2, "Future Billing": 3,
-                                             "Credit / Rebill": 4, "Revenue Unknown": 5, "OTRRR with OLS": 6,
-                                             "OTRRR without OLS": 7, "Disputed Revenue": 8, "Advanced Billing": 9,
-                                             "Revenue Impacting Case / Pending Revenue": 10})
-    # Change StageName to nominal variables
-    # df["StageName"] = df["StageName"].map({0: 0, "Submission":1, "Ops Out":2, "Ops In":3, "Triage And Validation":4,
-    #                                       "Data Entry":5})
+    # Map to nominal variables
+    df["Queue"] = map_variables(df["Queue"], out_file, "Queue")
+    df["StatusReason"] = map_variables(df["StatusReason"], out_file, "StatusReason")
+    df["Priority"] = map_variables(df["Priority"], out_file, "Priority")
+    df["SubReason"] = map_variables(df["SubReason"], out_file, "SubReason")
+    df["ROCName"] = map_variables(df["ROCName"], out_file, "ROCName")
+    df["sourcesystem"] = map_variables(df["sourcesystem"], out_file, "sourcesystem") # todo investigate 3-0000008981609
+    df["Source"] = map_variables(df["Source"], out_file, "Source")
+    df["Workbench"] = map_variables(df["Workbench"], out_file, "Workbench")
     df["StageName"] = map_variables(df["StageName"], out_file, "StageName")
+    df["Revenutype"] = map_variables(df["Revenutype"], out_file, "Revenutype")
+    df["Complexity"] = map_variables(df["Complexity"], out_file, "Complexity")
+
 
     # todo combine variables with less than 100 entries into one variable, call it
     # "other" or something
