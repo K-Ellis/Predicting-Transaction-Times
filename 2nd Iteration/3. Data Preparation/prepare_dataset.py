@@ -19,6 +19,13 @@ import time
 
 
 # Multipurpose Pre-Processing Functions
+def fill_nulls(df, out_file):  # Fill in NULL values for all columns
+    for column in df:
+        df[column].fillna(0, inplace=True)
+    out_file.write("All NULL Values replaced with 0's" + "\n\n")
+    return df
+
+
 def time_taken(df, out_file, start, finish): # replace Created_On, Receiveddate and ResolvedDate with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
@@ -108,9 +115,10 @@ def clean_Incident():
     # "sys:1: DtypeWarning: Columns (16,65) have mixed types. Specify dtype option on import or set low_memory=False."
     # Solution - Added low_memory=False to read in function. Not sure what this does . . . need to check
 
+    # Fill in NULL values with 0s
+    df = fill_nulls(df, out_file)
     # Create Time Variable
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")
-
     # Domain knowledge processing
     # Program column: only interested in Enterprise
     df = df[df.Program == "Enterprise"]
@@ -127,16 +135,36 @@ def clean_Incident():
     del df["WorkbenchGroup"]
     # Not using received
     del df["Receiveddate"]
-    # IsSOXCase contains lots of NULLS - converting to 0 with the assumption that NULL and 0 means not SOX
-    df["IsSOXCase"].fillna(0, inplace=True)
-    # change the priorities to nominal variables
-    df["Priority"] = df["Priority"].map({"Low":0, "Normal":1, "High":2, "Immediate":3})
-    # change the Complexities to nominal variables
-    df["Complexity"] = df["Complexity"].map({"Low":0, "Medium":1, "High":2})
+    # Not using IsoCurrencyCode - we have all values in USD
+    del df["IsoCurrencyCode"]
+    # Change ROCName to nominal variables
+    df["ROCName"] = df["ROCName"].map({0: 0, "AOC":1, "APOC":2, "EOC":3})
+    # Change Priority to nominal variables
+    df["Priority"] = df["Priority"].map({0: 0,"Low":1, "Normal":2, "High":3, "Immediate":4})
+    # Change Complexity to nominal variables
+    df["Complexity"] = df["Complexity"].map({0: 0,"Low":1, "Medium":2, "High":3})
+    # Change sourcesystem to nominal variables todo investigate 3-0000008981609
+    df["sourcesystem"] = df["sourcesystem"].map({0:0, "CLT":1, "NMEC":2, "Aplquest":3, "Web":4, "eAgreement":5,
+                                                 "eAgreement (Phy)":5, "eAgreement(Phy)":5, "email":6,
+                                                 "3-0000008981609":7, "MIMOS":8})
+    # Change Source to nominal variables
+    df["Source"] = df["Source"].map({0: 0, "Web": 1, "Soft Copy": 2, "eAgreement (Phy)": 3, "Manual": 4,
+                                                 "Hard Copy": 5, "E-mail": 5, "eAgreement (Ele)": 5, "Fax": 6})
+    # Change Workbench to nominal variables
+    # df["Workbench"] = df["Workbench"].map({0: 0, " ": 1, " ": 2, " ": 3, " ": 4)
+    # todo . . . . finish this or do something different, 30 variable types here!
+    # Change Revenutype to nominal variables
+    df["Revenutype"] = df["Revenutype"].map({0: 0, "Current Revenue": 1, "Non-revenue": 2, "Future Billing": 3,
+                                             "Credit / Rebill": 4, "Revenue Unknown": 5, "OTRRR with OLS": 6,
+                                             "OTRRR without OLS": 7, "Disputed Revenue": 8, "Advanced Billing": 9,
+                                             "Revenue Impacting Case / Pending Revenue": 10})
+    # Change StageName to nominal variables
+    df["StageName"] = df["StageName"].map({0: 0, "Submission":1, "Ops Out":2, "Ops In":3, "Triage And Validation":4,
+                                           "Data Entry":5})
 
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
-    df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
+    # df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
     df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
@@ -156,10 +184,9 @@ def clean_Incident():
     # Workbench
     # Revenutype . . . . note, drop_NULL removes this (Rev NULL % is 31)
 
-    # all unique entries - these are needed to map across sheets
-    # We need these to sum predictions etc
-    # del df["TicketNumber"]
-    # del df["IncidentId"]
+    # All unique entries, needed to map across sheets - remember to include later on when we are combining sheets
+    del df["TicketNumber"]
+    del df["IncidentId"]
 
     # replace the Null values with the mean for the column
     # todo, had to comment out this one  df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
@@ -297,3 +324,6 @@ if __name__ == "__main__":
 # todo:
 # convert NULLS
 # Country and sales buckets
+# Go through all again and see what else needs to be cleaned
+# Read meeting minutes
+#
