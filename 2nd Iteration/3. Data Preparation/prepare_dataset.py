@@ -8,6 +8,8 @@ Data pre-processing program
 Eoin Carroll
 Kieron Ellis
 ************************************************************************************************************************
+Working on dataset from launch (6th Feb) to End March
+************************************************************************************************************************
 """
 
 
@@ -290,3 +292,8 @@ if __name__ == "__main__":
     clean_AuditHistory()
     clean_HoldActivity()
     clean_PackageTriageEntry()
+
+
+# todo:
+# convert NULLS
+# Country and sales buckets
