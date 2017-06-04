@@ -46,6 +46,7 @@ def map_variables(dfc, out_file, column="Column"):  # Map categorical variables 
         new_var_map[var_map[entry]] = entry + 1
     dfc = dfc.map(new_var_map)
     out_file.write("Variable map for " + column + ": " + str(new_var_map) + "\n\n")
+    # todo - bug if one of the categories is 0 . . . it overwrites the NULL 0 default, need to workaround
     return dfc
 
 
