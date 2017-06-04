@@ -38,6 +38,17 @@ def time_taken(df, out_file, start, finish): # replace Created_On, Receiveddate 
     return df
 
 
+def map_variables(dfc, out_file, column="Column"):  # Map categorical variables to numeric
+    var_map = dict(enumerate(dfc.value_counts().index.tolist()))
+    new_var_map = {}
+    new_var_map[0] = 0
+    for entry in var_map:  # Shift all so we can include a 0 entry for NULL values
+        new_var_map[var_map[entry]] = entry + 1
+    dfc = dfc.map(new_var_map)
+    out_file.write("Variable map for " + column + ": " + str(new_var_map) + "\n\n")
+    return dfc
+
+
 def min_entries(df, out_file, min=3):  # Delete columns that have less than min entries regardless of number rows
     out_file.write("min_entries function - min: " + str(min) + "\n")
     for column in df:
@@ -61,7 +72,7 @@ def min_variable_types(df, out_file, min=2):  # Delete columns with less than mi
     return df
 
 
-def drop_NULL(df, out_file, x=0.80):  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+def drop_NULL(df, out_file, x=0.95):  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     # todo - this is very similar to min entries, might be able to combine the two
     # df.dropna(axis=1, thresh=int(len(df) * x)) .... an alternative method I could not get to work
     out_file.write("drop_NULL - max ratio: " + str(x) + "\n")
@@ -115,16 +126,7 @@ def clean_Incident():
     # "sys:1: DtypeWarning: Columns (16,65) have mixed types. Specify dtype option on import or set low_memory=False."
     # Solution - Added low_memory=False to read in function. Not sure what this does . . . need to check
 
-    # Data mining processing - where there is not enough meaningful information
-    df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
-    df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
-
-    # Fill in NULL values with 0s
-    df = fill_nulls(df, out_file)
-    # Create Time Variable
-    df = time_taken(df, out_file, "Created_On", "ResolvedDate")
-
-    # Domain knowledge processing
+    # Filtering for the data we want
     # Program column: only interested in Enterprise
     df = df[df.Program == "Enterprise"]
     # Only keep the rows which are English
@@ -133,15 +135,32 @@ def clean_Incident():
     df = df[df.StatusReason != "Rejected"]
     # Remove ValidCase = 0
     df = df[df.ValidCase == 1]
+
+    # Data mining processing - where there is not enough meaningful information
+    df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
+    df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
+    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+    df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
+    # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
+    df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
+
+    # Fill in NULL values with 0s
+    df = fill_nulls(df, out_file)
+    # Create Time Variable
+    df = time_taken(df, out_file, "Created_On", "ResolvedDate")
+
+    # Domain knowledge processing
     # Duplicate column - we will keep IsoCurrencyCode
     del df["CurrencyName"]
-    # don't understand what it does
+    # Don't understand what it does
     del df["caseOriginCode"]
     del df["WorkbenchGroup"]
     # Not using received
     del df["Receiveddate"]
     # Not using IsoCurrencyCode - we have all values in USD
     del df["IsoCurrencyCode"]
+
+    # Note pd.get_dummies(df) may be useful
     # Change ROCName to nominal variables
     df["ROCName"] = df["ROCName"].map({0: 0, "AOC":1, "APOC":2, "EOC":3})
     # Change Priority to nominal variables
@@ -164,12 +183,9 @@ def clean_Incident():
                                              "OTRRR without OLS": 7, "Disputed Revenue": 8, "Advanced Billing": 9,
                                              "Revenue Impacting Case / Pending Revenue": 10})
     # Change StageName to nominal variables
-    df["StageName"] = df["StageName"].map({0: 0, "Submission":1, "Ops Out":2, "Ops In":3, "Triage And Validation":4,
-                                           "Data Entry":5})
-
-    # todo combine the transactions into their respective cases?
-    # delete for now, not sure what to do with it..
-    # del df["ParentCase"]
+    # df["StageName"] = df["StageName"].map({0: 0, "Submission":1, "Ops Out":2, "Ops In":3, "Triage And Validation":4,
+    #                                       "Data Entry":5})
+    df["StageName"] = map_variables(df["StageName"], out_file, "StageName")
 
     # todo combine variables with less than 100 entries into one variable, call it
     # "other" or something
@@ -185,14 +201,8 @@ def clean_Incident():
     del df["TicketNumber"]
     del df["IncidentId"]
 
-    # replace the Null values with the mean for the column
-    # todo, had to comment out this one  df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
-
-    # Data mining processing - where there is not enough meaningful information
-    df = drop_NULL(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
-    df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
-    # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
-    df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
+    # todo replace the Null values with the mean for the column
+    # df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
 
     # export file
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)
@@ -319,9 +329,9 @@ def clean_PackageTriageEntry():
 # Run program
 if __name__ == "__main__":
     clean_Incident()
-    clean_AuditHistory()
-    clean_HoldActivity()
-    clean_PackageTriageEntry()
+    # clean_AuditHistory()
+    # clean_HoldActivity()
+    # clean_PackageTriageEntry()
 
 
 # todo:
