@@ -119,6 +119,16 @@ def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proporti
     return df
 
 
+def one_hot_encoding(dfc, df):
+    df = pd.concat([df, pd.get_dummies(dfc)])
+    del df[dfc]
+    return df
+
+
+
+
+
+
 """****************************************************************************
 Excel Sheet functions
 ****************************************************************************"""
@@ -160,7 +170,32 @@ def clean_Incident():
 
     # Note pd.get_dummies(df) may be useful for hot encoding
     # Map to nominal variables - need to decide which ones we want
-    df["Queue"] = map_variables(df["Queue"], out_file, "Queue")
+    # df["Queue"] = map_variables(df["Queue"], out_file, "Queue")
+
+    ############################################
+    # Queue
+    ############################################
+    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox"]
+    val_list = df.Queue.value_counts().index.tolist()
+    cat_list = [[] for item in substr_list]
+
+    for i, substr in enumerate(substr_list):
+        for j, val in enumerate(val_list):
+            if substr in val:
+                val_list[j] = "n"
+                cat_list[i].append(val)
+
+    for i, item in enumerate(cat_list):
+        dfseries = df.Queue.isin(item)
+        dfseries = dfseries.astype(int)
+        dfseries.name = substr_list[i]
+        df = pd.concat([dfseries, df], axis=1)
+
+    del df["Xbox"] # delete one categorical variable to have n-1 variables
+    del df["Queue"]
+    ############################################
+
+
     df["StatusReason"] = map_variables(df["StatusReason"], out_file, "StatusReason")
     df["Priority"] = map_variables(df["Priority"], out_file, "Priority")
     df["SubReason"] = map_variables(df["SubReason"], out_file, "SubReason")
