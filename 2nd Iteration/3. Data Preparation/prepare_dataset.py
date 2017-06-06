@@ -220,12 +220,12 @@ def clean_Incident():
         # containing the substring gets added to a True/False Series as True
         #  if the entry doesn't contain the substring it is False
         dfseries = dfseries.astype(int) # Convert True/False to Binary
-        dfseries.name = substr_list[i] # Rename the Series column name to
+        dfseries.name = "Queue." + substr_list[i]  # Rename the Series column name to
         # the substring name
         df = pd.concat([dfseries, df], axis=1) # Concat the Series onto the
         # main dataframe, df
 
-    del df["Xbox"] # Delete one categorical variable to have n-1 variables
+    del df["Queue.Xbox"]  # Delete one categorical variable to have n-1 variables
     del df["Queue"] # Delete the original Queue column
     ############################################
     ############################################
