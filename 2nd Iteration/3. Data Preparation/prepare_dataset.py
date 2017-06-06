@@ -246,7 +246,7 @@ def clean_Incident():
 
     df["SubReason"] = map_variables(df["SubReason"], out_file, "SubReason")
     df["ROCName"] = map_variables(df["ROCName"], out_file, "ROCName")
-    df["sourcesystem"] = map_variables(df["sourcesystem"], out_file, "sourcesystem") # todo investigate 3-0000008981609
+    df["sourcesystem"] = map_variables(df["sourcesystem"], out_file, "sourcesystem")  # todo investigate 3-0000008981609
     df["Source"] = map_variables(df["Source"], out_file, "Source")
     df["Workbench"] = map_variables(df["Workbench"], out_file, "Workbench")
     df["StageName"] = map_variables(df["StageName"], out_file, "StageName")
@@ -271,6 +271,14 @@ def clean_Incident():
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
 
     df.dropna(inplace = True)
+
+    one_hot_encoding(df, "CountrySource", out_file)
+    one_hot_encoding(df, "CountryProcessed", out_file)
+    one_hot_encoding(df, "SalesLocation", out_file)
+    del df["CountrySource"]
+    del df["CountryProcessed"]
+    del df["SalesLocation"]
+
 
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)   # export file
 
