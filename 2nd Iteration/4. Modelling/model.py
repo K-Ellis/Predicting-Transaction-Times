@@ -19,8 +19,7 @@ Import libraries
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
 
@@ -28,11 +27,22 @@ np.random.seed(12345)
 df = pd.read_csv("../../../Data/preprocessed_data.csv", encoding='latin-1', low_memory=False)
 trainData, testData = train_test_split(df, test_size=0.2)
 
-trainData_X = trainData["TimeTaken"]
-trainData_y = trainData.ix[:, trainData.columns != 'TimeTaken']
-testData_X = testData["TimeTaken"]
-testData_y = testData.ix[:, testData.columns != 'TimeTaken']
+trainData_X = pd.DataFrame()
+trainData_X["TimeTaken"] = trainData["TimeTaken"]
+trainData_y = trainData.loc[:, trainData.columns != 'TimeTaken']
+testData_X = pd.DataFrame()
+testData_X["TimeTaken"] = testData["TimeTaken"]
+testData_y = testData.loc[:, testData.columns != 'TimeTaken']
+
+# trainData_X.to_csv("../../../Data/trainData_X.csv", index = False)  # export file
+# trainData_y.to_csv("../../../Data/trainData_y.csv", index = False)  # export file
 
 classifier = LinearRegression()
 classifier = classifier.fit(trainData_X, trainData_y)
-print ("Accuracy:", accuracy_score(testData_y, y_pred))
+y_pred = classifier.predict(testData_X)
+
+plt.plot(testData_y, y_pred, 'ro')
+plt.xlabel('testData_y')
+plt.ylabel('y_pred')
+plt.title('LinearRegression')
+plt.show()
