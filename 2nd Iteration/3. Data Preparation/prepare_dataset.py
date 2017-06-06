@@ -25,10 +25,9 @@ Multipurpose Pre-Processing Functions
 ****************************************************************************"""
 
 
-def fill_nulls(df, out_file):  # Fill in NULL values for all columns
-    for column in df:
-        df[column].fillna(0, inplace=True)
-    out_file.write("All NULL Values replaced with 0's" + "\n\n")
+def fill_nulls(df, column, out_file):  # Fill in NULL values for all columns
+    df[column].fillna(0, inplace=True)
+    out_file.write("All NULL Values replaced with 0's: " + column + "\n\n")
     return df
 
 
@@ -264,7 +263,7 @@ def clean_AuditHistory():
     # Map to nominal variables - need to decide which ones we want
     df["Action"] = map_variables(df["Action"], out_file, "Action")
 
-    df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
+    df = fill_nulls(df, "Action", out_file)  # Fill in NULL values with 0s
 
     # export file
     df.to_csv("../../../Data/vw_AuditHistory_cleaned.csv", index = False)
