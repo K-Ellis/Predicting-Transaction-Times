@@ -27,7 +27,7 @@ Multipurpose Pre-Processing Functions
 
 def fill_nulls(df, column, out_file):  # Fill in NULL values for all columns
     df[column].fillna(0, inplace=True)
-    out_file.write("All NULL Values replaced with 0's: " + column + "\n\n")
+    out_file.write("NULL Values replaced with 0's in " + column + "\n\n")
     return df
 
 
@@ -144,7 +144,6 @@ def one_hot_encoding(df, column, out_file):  # One hot encoding
     return df
 
 
-
 """****************************************************************************
 Excel Sheet functions
 ****************************************************************************"""
@@ -174,14 +173,12 @@ def clean_Incident():
     # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    # df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
-
+    df = fill_nulls(df, "CurrencyName", out_file)  # Fill in NULL values with 0s
 
     # fill nulls for columns with 50>null entries>10000 with most frequent
     # value
     dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
     fill_nulls_dfcs(df, dfcs, out_file)
-
 
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
 
@@ -326,8 +323,7 @@ def clean_AuditHistory():
     # Map to nominal variables - need to decide which ones we want
     df["Action"] = map_variables(df["Action"], out_file, "Action")
 
-
-    # df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
+    # df = fill_nulls(df, "Action", out_file)  # Fill in NULL values with 0s
 
     # export file
     df.to_csv("../../../Data/vw_AuditHistory_cleaned.csv", index = False)
@@ -368,6 +364,8 @@ def clean_HoldActivity():
     df["HoldTypeName"] = map_variables(df["HoldTypeName"], out_file, "HoldTypeName")
     df["Reason"] = map_variables(df["Reason"], out_file, "Reason")
     df["AssignedToGroup"] = map_variables(df["AssignedToGroup"], out_file, "AssignedToGroup")
+
+    # df = fill_nulls(df, "AssignedToGroup", out_file)  # Fill in NULL values with 0s
 
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
@@ -410,6 +408,8 @@ def clean_PackageTriageEntry():
     df["EntryType"] = map_variables(df["EntryType"], out_file, "EntryType")
     df["EntryLevel"] = map_variables(df["EntryLevel"], out_file, "EntryLevel")
     df["EntryProcess"] = map_variables(df["EntryProcess"], out_file, "EntryProcess")
+
+    # df = fill_nulls(df, "EntryProcess", out_file)  # Fill in NULL values with 0s
 
     df.to_csv("../../../Data/vw_PackageTriageEntry_cleaned.csv", index = False)  # export file
 
