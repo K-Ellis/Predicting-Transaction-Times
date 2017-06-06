@@ -158,7 +158,7 @@ def clean_Incident():
     # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
+    # df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
 
     # Domain knowledge processing
@@ -170,10 +170,10 @@ def clean_Incident():
 
     # Note pd.get_dummies(df) may be useful for hot encoding
     # Map to nominal variables - need to decide which ones we want
-    # df["Queue"] = map_variables(df["Queue"], out_file, "Queue")
 
     ############################################
     # Queue
+    # df["Queue"] = map_variables(df["Queue"], out_file, "Queue")
     ############################################
     substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox"]
     val_list = df.Queue.value_counts().index.tolist()
@@ -197,7 +197,14 @@ def clean_Incident():
 
 
     df["StatusReason"] = map_variables(df["StatusReason"], out_file, "StatusReason")
-    df["Priority"] = map_variables(df["Priority"], out_file, "Priority")
+
+    ############################################
+    # Priority
+    # df["Priority"] = map_variables(df["Priority"], out_file, "Priority")
+    ############################################
+    df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
+    ############################################
+
     df["SubReason"] = map_variables(df["SubReason"], out_file, "SubReason")
     df["ROCName"] = map_variables(df["ROCName"], out_file, "ROCName")
     df["sourcesystem"] = map_variables(df["sourcesystem"], out_file, "sourcesystem") # todo investigate 3-0000008981609
@@ -221,8 +228,8 @@ def clean_Incident():
     del df["TicketNumber"]
     del df["IncidentId"]
 
-    # todo replace the Null values with the mean for the column
-    # df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
+    # replace the Null values with the mean for the column
+    df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
 
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)   # export file
 
