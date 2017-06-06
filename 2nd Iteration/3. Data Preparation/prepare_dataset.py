@@ -274,8 +274,6 @@ def clean_AuditHistory():
     # Map to nominal variables - need to decide which ones we want
     df["Action"] = map_variables(df["Action"], out_file, "Action")
 
-    df = fill_nulls(df, "Action", out_file)  # Fill in NULL values with 0s
-
     # export file
     df.to_csv("../../../Data/vw_AuditHistory_cleaned.csv", index = False)
 
@@ -315,8 +313,6 @@ def clean_HoldActivity():
     df["HoldTypeName"] = map_variables(df["HoldTypeName"], out_file, "HoldTypeName")
     df["Reason"] = map_variables(df["Reason"], out_file, "Reason")
     df["AssignedToGroup"] = map_variables(df["AssignedToGroup"], out_file, "AssignedToGroup")
-
-    df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
 
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
@@ -359,8 +355,6 @@ def clean_PackageTriageEntry():
     df["EntryType"] = map_variables(df["EntryType"], out_file, "EntryType")
     df["EntryLevel"] = map_variables(df["EntryLevel"], out_file, "EntryLevel")
     df["EntryProcess"] = map_variables(df["EntryProcess"], out_file, "EntryProcess")
-
-    df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
 
     df.to_csv("../../../Data/vw_PackageTriageEntry_cleaned.csv", index = False)  # export file
 
