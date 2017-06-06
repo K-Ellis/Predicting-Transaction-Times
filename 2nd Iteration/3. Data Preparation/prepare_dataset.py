@@ -169,7 +169,7 @@ def clean_Incident():
     # Map to nominal variables - need to decide which ones we want
 
     ############################################
-    # Queue
+    # Queue: One hot encoding in buckets
     ############################################
     substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox"] #
     # Create a list of 7 unique substrings located in the categorical
