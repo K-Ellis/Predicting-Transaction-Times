@@ -170,26 +170,37 @@ def clean_Incident():
 
     ############################################
     # Queue
-    # df["Queue"] = map_variables(df["Queue"], out_file, "Queue")
     ############################################
-    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox"]
-    val_list = df.Queue.value_counts().index.tolist()
-    cat_list = [[] for item in substr_list]
+    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox"] #
+    # Create a list of 7 unique substrings located in the categorical
+    # variables. These will become the new one-hot encoded column names.
+    val_list = df.Queue.value_counts().index.tolist() # List the categorical
+    #  vales in Queue
+    cat_list = [[] for item in substr_list] # Create a list of 7 lists (the
+    # same size as substr_list)
 
     for i, substr in enumerate(substr_list):
         for j, val in enumerate(val_list):
-            if substr in val:
+            if substr in val: # If one of the 7 substrings is located in a
+                # categorical variable, overwrite the variable with a
+                # nonsense value and append the variable name to cat_list
                 val_list[j] = "n"
                 cat_list[i].append(val)
 
+    # For each of the 7 lists in cat_list (one for each substring)
     for i, item in enumerate(cat_list):
-        dfseries = df.Queue.isin(item)
-        dfseries = dfseries.astype(int)
-        dfseries.name = substr_list[i]
-        df = pd.concat([dfseries, df], axis=1)
+        dfseries = df.Queue.isin(item) # Any of the entries in in Queue
+        # containing the substring gets added to a True/False Series as True
+        #  if the entry doesn't contain the substring it is False
+        dfseries = dfseries.astype(int) # Convert True/False to Binary
+        dfseries.name = substr_list[i] # Rename the Series column name to
+        # the substring name
+        df = pd.concat([dfseries, df], axis=1) # Concat the Series onto the
+        # main dataframe, df
 
-    del df["Xbox"] # delete one categorical variable to have n-1 variables
-    del df["Queue"]
+    del df["Xbox"] # Delete one categorical variable to have n-1 variables
+    del df["Queue"] # Delete the original Queue column
+    ############################################
     ############################################
 
     # df = one_hot_encoding(df, "StatusReason", out_file)  # One hot encoding
@@ -197,9 +208,9 @@ def clean_Incident():
 
     ############################################
     # Priority
-    # df["Priority"] = map_variables(df["Priority"], out_file, "Priority")
     ############################################
     df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
+    ############################################
     ############################################
 
     df["SubReason"] = map_variables(df["SubReason"], out_file, "SubReason")
