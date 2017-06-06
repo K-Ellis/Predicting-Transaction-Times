@@ -24,8 +24,8 @@ from sklearn.linear_model import LinearRegression
 
 
 np.random.seed(12345)
-df = pd.read_csv("../../../Data/preprocessed_data.csv", encoding='latin-1', low_memory=False)
-trainData, testData = train_test_split(df, test_size=0.2)
+df = pd.read_csv("../../../Data/preprocessed_data.csv", encoding='latin-1', low_memory=False)  # Read in csv file
+trainData, testData = train_test_split(df, test_size=0.2)  # Split data 80:20 randomly
 
 trainData_X = pd.DataFrame()
 trainData_X["TimeTaken"] = trainData["TimeTaken"]
