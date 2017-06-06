@@ -31,6 +31,25 @@ def fill_nulls(df, column, out_file):  # Fill in NULL values for all columns
     return df
 
 
+def fill_nulls_dfc(dfc, fill_value, out_file):  # Fill in NULL values for one column
+    dfc.fillna(fill_value, inplace=True)
+    out_file.write("All NULL Values for \"%s\" replaced with most frequent value, %s"%(dfc.name, fill_value) +
+                   "\n\n")
+
+
+def fill_nulls_dfcs(df, dfcs, out_file):
+    for dfc in dfcs:
+        fill_nulls_dfc(df[dfc], df[dfc].mode()[0], out_file)
+
+
+def find_dfcs_with_nulls_in_threshold(df, min, max):
+    dfcs = []
+    for col in df.columns:
+        if df[col].isnull().sum() > min and df[col].isnull().sum() < max:
+            dfcs.append(col)
+    return dfcs
+
+
 def time_taken(df, out_file, start, finish): # replace Created_On, Receiveddate and ResolvedDate with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
@@ -156,6 +175,14 @@ def clean_Incident():
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
     # df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
+
+
+    # fill nulls for columns with 50>null entries>10000 with most frequent
+    # value
+    dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
+    fill_nulls_dfcs(df, dfcs, out_file)
+
+
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
 
     # Domain knowledge processing
@@ -209,6 +236,10 @@ def clean_Incident():
     ############################################
     # Priority
     ############################################
+    # df.Priority = df.Priority.fillna("Normal") # Fill Priority's nulls with
+    # the most frequent value in the Series, Normal
+    # ..already done by fill_nulls_dfc() above
+
     df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
     ############################################
     ############################################
@@ -238,6 +269,8 @@ def clean_Incident():
 
     # replace the Null values with the mean for the column
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
+
+    df.dropna(inplace = True)
 
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)   # export file
 
@@ -273,6 +306,9 @@ def clean_AuditHistory():
     # Note pd.get_dummies(df) may be useful for hot encoding
     # Map to nominal variables - need to decide which ones we want
     df["Action"] = map_variables(df["Action"], out_file, "Action")
+
+
+    # df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
 
     # export file
     df.to_csv("../../../Data/vw_AuditHistory_cleaned.csv", index = False)
