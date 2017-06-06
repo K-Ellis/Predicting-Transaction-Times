@@ -229,6 +229,8 @@ def clean_Incident():
     del df["Queue_Xbox"]  # Delete one categorical variable to have n-1
     # variables
     del df["Queue"] # Delete the original Queue column
+    out_file.write("Queue: One hot encoding in buckets: NAOC, EOC, AOC, "
+                   "APOC, LOC, E&E, Xbox \n\n")
     ############################################
     ############################################
 
@@ -243,9 +245,12 @@ def clean_Incident():
     # ..already done by fill_nulls_dfc() above
 
     df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
+    out_file.write("map Priority column to nominal variables: Low: 0, "
+                   "Normal: 1, High: 2, Immediate: 3 \n\n")
     ############################################
     ############################################
 
+    # todo one-hot encode these categorical variables
     df["SubReason"] = map_variables(df["SubReason"], out_file, "SubReason")
     df["ROCName"] = map_variables(df["ROCName"], out_file, "ROCName")
     df["sourcesystem"] = map_variables(df["sourcesystem"], out_file, "sourcesystem")  # todo investigate 3-0000008981609
@@ -271,6 +276,7 @@ def clean_Incident():
 
     # replace the Null values with the mean for the column
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
+    out_file.write("fill nulls with CaseRevenue mean \n\n")
 
     df.dropna(inplace = True)
 
