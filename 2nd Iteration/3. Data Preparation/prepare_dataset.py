@@ -198,7 +198,7 @@ def clean_Incident():
     df["Priority"] = map_variables(df["Priority"], out_file, "Priority")
     df["SubReason"] = map_variables(df["SubReason"], out_file, "SubReason")
     df["ROCName"] = map_variables(df["ROCName"], out_file, "ROCName")
-    df["sourcesystem"] = map_variables(df["sourcesystem"], out_file, "sourcesystem") # todo investigate 3-0000008981609
+    df["sourcesystem"] = map_variables(df["sourcesystem"], out_file, "sourcesystem")  # todo investigate 3-0000008981609
     df["Source"] = map_variables(df["Source"], out_file, "Source")
     df["Workbench"] = map_variables(df["Workbench"], out_file, "Workbench")
     df["StageName"] = map_variables(df["StageName"], out_file, "StageName")
