@@ -307,6 +307,7 @@ def clean_AuditHistory():
     # Map to nominal variables - need to decide which ones we want
     df["Action"] = map_variables(df["Action"], out_file, "Action")
 
+
     # df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
 
     # export file
