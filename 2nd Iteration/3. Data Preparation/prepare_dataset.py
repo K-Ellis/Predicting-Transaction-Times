@@ -222,12 +222,15 @@ def clean_Incident():
     # todo replace the Null values with the mean for the column
     # df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
 
+    """
+    # Used for testing model program - can delete whenever
     one_hot_encoding(df, "CountrySource", out_file)
     one_hot_encoding(df, "CountryProcessed", out_file)
     one_hot_encoding(df, "SalesLocation", out_file)
     del df["CountrySource"]
     del df["CountryProcessed"]
     del df["SalesLocation"]
+    """
 
 
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)   # export file
