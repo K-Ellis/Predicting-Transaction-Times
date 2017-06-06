@@ -31,6 +31,25 @@ def fill_nulls(df, column, out_file):  # Fill in NULL values for all columns
     return df
 
 
+def fill_nulls_dfc(dfc, fill_value, out_file):  # Fill in NULL values for one column
+    dfc.fillna(fill_value, inplace=True)
+    out_file.write("All NULL Values for \"%s\" replaced with most frequent value, %s"%(dfc.name, fill_value) +
+                   "\n\n")
+
+
+def fill_nulls_dfcs(df, dfcs, out_file):
+    for dfc in dfcs:
+        fill_nulls_dfc(df[dfc], df[dfc].mode()[0], out_file)
+
+
+def find_dfcs_with_nulls_in_threshold(df, min, max):
+    dfcs = []
+    for col in df.columns:
+        if df[col].isnull().sum() > min and df[col].isnull().sum() < max:
+            dfcs.append(col)
+    return dfcs
+
+
 def time_taken(df, out_file, start, finish): # replace Created_On, Receiveddate and ResolvedDate with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
@@ -119,7 +138,7 @@ def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proporti
 
 
 def one_hot_encoding(df, column, out_file):  # One hot encoding
-    df = pd.concat([df, pd.get_dummies(df[column])], axis=1)
+    df = pd.concat([df, pd.get_dummies(df[column], prefix = column)], axis=1)
     del df[column]
     out_file.write("One hot encoding completed for " + str(column) + "\n\n")
     return df
@@ -155,6 +174,12 @@ def clean_Incident():
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
     df = fill_nulls(df, "CurrencyName", out_file)  # Fill in NULL values with 0s
+
+    # fill nulls for columns with 50>null entries>10000 with most frequent
+    # value
+    dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
+    fill_nulls_dfcs(df, dfcs, out_file)
+
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
 
     # Domain knowledge processing
@@ -166,34 +191,63 @@ def clean_Incident():
 
     # Note pd.get_dummies(df) may be useful for hot encoding
     # Map to nominal variables - need to decide which ones we want
-    # df["Queue"] = map_variables(df["Queue"], out_file, "Queue")
 
     ############################################
     # Queue: One hot encoding in buckets
     ############################################
-    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox"]
-    val_list = df.Queue.value_counts().index.tolist()
-    cat_list = [[] for item in substr_list]
+    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox"] #
+    # Create a list of 7 unique substrings located in the categorical
+    # variables. These will become the new one-hot encoded column names.
+    val_list = df.Queue.value_counts().index.tolist() # List the categorical
+    #  vales in Queue
+    cat_list = [[] for item in substr_list] # Create a list of 7 lists (the
+    # same size as substr_list)
 
     for i, substr in enumerate(substr_list):
         for j, val in enumerate(val_list):
-            if substr in val:
+            if substr in val: # If one of the 7 substrings is located in a
+                # categorical variable, overwrite the variable with a
+                # nonsense value and append the variable name to cat_list
                 val_list[j] = "n"
                 cat_list[i].append(val)
 
+    # For each of the 7 lists in cat_list (one for each substring)
     for i, item in enumerate(cat_list):
-        dfseries = df.Queue.isin(item)
-        dfseries = dfseries.astype(int)
-        dfseries.name = substr_list[i]
-        df = pd.concat([dfseries, df], axis=1)
+        dfseries = df.Queue.isin(item) # Any of the entries in in Queue
+        # containing the substring gets added to a True/False Series as True
+        #  if the entry doesn't contain the substring it is False
+        dfseries = dfseries.astype(int) # Convert True/False to Binary
+        dfseries.name = "Queue_" + substr_list[i]  # Rename the Series
+        # column name to
+        # the substring name
+        df = pd.concat([dfseries, df], axis=1) # Concat the Series onto the
+        # main dataframe, df
 
-    del df["Xbox"] # delete one categorical variable to have n-1 variables
-    del df["Queue"]
+    del df["Queue_Xbox"]  # Delete one categorical variable to have n-1
+    # variables
+    del df["Queue"] # Delete the original Queue column
+    out_file.write("Queue: One hot encoding in buckets: NAOC, EOC, AOC, "
+                   "APOC, LOC, E&E, Xbox \n\n")
+    ############################################
     ############################################
 
     # df = one_hot_encoding(df, "StatusReason", out_file)  # One hot encoding
     df["StatusReason"] = map_variables(df["StatusReason"], out_file, "StatusReason")
-    df["Priority"] = map_variables(df["Priority"], out_file, "Priority")
+
+    ############################################
+    # Priority
+    ############################################
+    # df.Priority = df.Priority.fillna("Normal") # Fill Priority's nulls with
+    # the most frequent value in the Series, Normal
+    # ..already done by fill_nulls_dfc() above
+
+    df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
+    out_file.write("map Priority column to nominal variables: Low: 0, "
+                   "Normal: 1, High: 2, Immediate: 3 \n\n")
+    ############################################
+    ############################################
+
+    # todo one-hot encode these categorical variables
     df["SubReason"] = map_variables(df["SubReason"], out_file, "SubReason")
     df["ROCName"] = map_variables(df["ROCName"], out_file, "ROCName")
     df["sourcesystem"] = map_variables(df["sourcesystem"], out_file, "sourcesystem")  # todo investigate 3-0000008981609
@@ -217,8 +271,11 @@ def clean_Incident():
     del df["TicketNumber"]
     del df["IncidentId"]
 
-    # todo replace the Null values with the mean for the column
-    # df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
+    # replace the Null values with the mean for the column
+    df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
+    out_file.write("fill nulls with CaseRevenue mean \n\n")
+
+    df.dropna(inplace = True)
 
     """
     # Used for testing model program - can delete whenever
@@ -308,7 +365,7 @@ def clean_HoldActivity():
     df["Reason"] = map_variables(df["Reason"], out_file, "Reason")
     df["AssignedToGroup"] = map_variables(df["AssignedToGroup"], out_file, "AssignedToGroup")
 
-    df = fill_nulls(df, "AssignedToGroup", out_file)  # Fill in NULL values with 0s
+    # df = fill_nulls(df, "AssignedToGroup", out_file)  # Fill in NULL values with 0s
 
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
