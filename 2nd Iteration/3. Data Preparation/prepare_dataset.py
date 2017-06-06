@@ -171,7 +171,7 @@ def clean_Incident():
     # df["Queue"] = map_variables(df["Queue"], out_file, "Queue")
 
     ############################################
-    # Queue
+    # Queue: One hot encoding in buckets
     ############################################
     substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox"]
     val_list = df.Queue.value_counts().index.tolist()
