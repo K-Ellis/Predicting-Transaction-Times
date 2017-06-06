@@ -25,10 +25,9 @@ Multipurpose Pre-Processing Functions
 ****************************************************************************"""
 
 
-def fill_nulls(df, out_file):  # Fill in NULL values for all columns
-    for column in df:
-        df[column].fillna(0, inplace=True)
-    out_file.write("All NULL Values replaced with 0's" + "\n\n")
+def fill_nulls(df, column, out_file):  # Fill in NULL values for all columns
+    df[column].fillna(0, inplace=True)
+    out_file.write("All NULL Values replaced with 0's: " + column + "\n\n")
     return df
 
 
@@ -197,7 +196,7 @@ def clean_Incident():
     # Map to nominal variables - need to decide which ones we want
 
     ############################################
-    # Queue
+    # Queue: One hot encoding in buckets
     ############################################
     substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox"] #
     # Create a list of 7 unique substrings located in the categorical
@@ -308,6 +307,7 @@ def clean_AuditHistory():
     # Map to nominal variables - need to decide which ones we want
     df["Action"] = map_variables(df["Action"], out_file, "Action")
 
+
     # df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
 
     # export file
@@ -350,8 +350,6 @@ def clean_HoldActivity():
     df["Reason"] = map_variables(df["Reason"], out_file, "Reason")
     df["AssignedToGroup"] = map_variables(df["AssignedToGroup"], out_file, "AssignedToGroup")
 
-    df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
-
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
     # del df["ParentCase"]
@@ -393,8 +391,6 @@ def clean_PackageTriageEntry():
     df["EntryType"] = map_variables(df["EntryType"], out_file, "EntryType")
     df["EntryLevel"] = map_variables(df["EntryLevel"], out_file, "EntryLevel")
     df["EntryProcess"] = map_variables(df["EntryProcess"], out_file, "EntryProcess")
-
-    df = fill_nulls(df, out_file)  # Fill in NULL values with 0s
 
     df.to_csv("../../../Data/vw_PackageTriageEntry_cleaned.csv", index = False)  # export file
 
