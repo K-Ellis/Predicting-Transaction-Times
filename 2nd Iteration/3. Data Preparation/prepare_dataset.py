@@ -138,7 +138,7 @@ def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proporti
 
 
 def one_hot_encoding(df, column, out_file):  # One hot encoding
-    df = pd.concat([df, pd.get_dummies(df[column])], axis=1)
+    df = pd.concat([df, pd.get_dummies(df[column], prefix = column)], axis=1)
     del df[column]
     out_file.write("One hot encoding completed for " + str(column) + "\n\n")
     return df
@@ -220,12 +220,14 @@ def clean_Incident():
         # containing the substring gets added to a True/False Series as True
         #  if the entry doesn't contain the substring it is False
         dfseries = dfseries.astype(int) # Convert True/False to Binary
-        dfseries.name = substr_list[i] # Rename the Series column name to
+        dfseries.name = "Queue_" + substr_list[i]  # Rename the Series
+        # column name to
         # the substring name
         df = pd.concat([dfseries, df], axis=1) # Concat the Series onto the
         # main dataframe, df
 
-    del df["Xbox"] # Delete one categorical variable to have n-1 variables
+    del df["Queue_Xbox"]  # Delete one categorical variable to have n-1
+    # variables
     del df["Queue"] # Delete the original Queue column
     ############################################
     ############################################
