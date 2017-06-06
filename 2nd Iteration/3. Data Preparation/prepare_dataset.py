@@ -119,13 +119,11 @@ def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proporti
     return df
 
 
-def one_hot_encoding(dfc, df):
-    df = pd.concat([df, pd.get_dummies(dfc)])
-    del df[dfc]
+def one_hot_encoding(df, column, out_file):  # One hot encoding
+    df = pd.concat([df, pd.get_dummies(df[column])], axis=1)
+    del df[column]
+    out_file.write("One hot encoding completed for " + str(column) + "\n\n")
     return df
-
-
-
 
 
 
@@ -195,7 +193,7 @@ def clean_Incident():
     del df["Queue"]
     ############################################
 
-
+    # df = one_hot_encoding(df, "StatusReason", out_file)  # One hot encoding
     df["StatusReason"] = map_variables(df["StatusReason"], out_file, "StatusReason")
 
     ############################################
