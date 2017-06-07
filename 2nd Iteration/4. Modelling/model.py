@@ -68,6 +68,8 @@ if __name__ == "__main__":  # Run program
 
     # if data is not well spaced out
     # compare mean
+    # compare standard deviation
+    # if test is not within 10% of train, redo
 
     # compare standard deviation
     # print(mean(trainData_y))
