@@ -22,19 +22,30 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
-from sklearn.metrics import explained_variance_score
 from math import sqrt
-from pylab import polyfit
 
 
-def split_data(df):
-    trainData, testData = train_test_split(df, test_size=0.2)  # Split data 80:20 randomly
-    trainData_y = pd.DataFrame()
-    trainData_y["TimeTaken"] = trainData["TimeTaken"]
-    trainData_x = trainData.loc[:, trainData.columns != 'TimeTaken']
-    testData_y = pd.DataFrame()
-    testData_y["TimeTaken"] = testData["TimeTaken"]
-    testData_x = testData.loc[:, testData.columns != 'TimeTaken']
+def split_data(df):  # Split data into training and test data x, y.
+    distribution = 0
+    i = 0
+    while distribution == 0:
+        trainData, testData = train_test_split(df, test_size=0.2)  # Split data 80:20 randomly
+        trainData_y = pd.DataFrame()
+        trainData_y["TimeTaken"] = trainData["TimeTaken"]
+        trainData_x = trainData.loc[:, trainData.columns != 'TimeTaken']
+        testData_y = pd.DataFrame()
+        testData_y["TimeTaken"] = testData["TimeTaken"]
+        testData_x = testData.loc[:, testData.columns != 'TimeTaken']
+        mean_train = sum(trainData_y["TimeTaken"].tolist())/len(trainData_y)
+        mean_test = sum(testData_y["TimeTaken"].tolist()) / len(testData_y)
+        std_train = np.std(trainData_y["TimeTaken"].tolist())
+        std_test = np.std(testData_y["TimeTaken"].tolist())
+        print(i, mean_train, mean_test, std_train, std_test)
+        # Only accept a split with test data mean and std that is within 5% of train data mean and stc (stratification?)
+        if (mean_train - mean_test) ** 2 < (mean_train * 0.05) ** 2:
+            if (std_train - std_test) ** 2 < (std_train * 0.05) ** 2:
+                distribution = 1
+        i = i+1
 
     # trainData_X.to_csv("../../../Data/trainData_X.csv", index = False)  # export file
     # trainData_y.to_csv("../../../Data/trainData_y.csv", index = False)  # export file
@@ -56,7 +67,7 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
     plt.show()
 
     print("rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
-    # More tools in sklearn metrics
+    # More tools in sklearn metrics or https://stackoverflow.com/questions/19068862/how-to-overplot-a-line-on-a-scatter-plot-in-python
 
 
 if __name__ == "__main__":  # Run program
@@ -64,16 +75,5 @@ if __name__ == "__main__":  # Run program
     df = pd.read_csv("../../../Data/preprocessed_data.csv", encoding='latin-1', low_memory=False)  # Read in csv file
 
     trainData_x, trainData_y, testData_x, testData_y = split_data(df)  # Split data
-
-
-    # if data is not well spaced out
-    # compare mean
-
-    # compare standard deviation
-    # print(mean(trainData_y))
-    # print(mean(testData_y))
-        # print("Data not well stratified, retrying . . .")
-        # trainData, testData = train_test_split(df, test_size=0.2)  # Split data 80:20 randomly
-
 
     linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
