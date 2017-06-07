@@ -47,24 +47,23 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
     plt.xlabel('testData_y')
     plt.ylabel('y_pred')
     plt.title('LinearRegression')
+    plt.axis('equal')
+    plt.ylim(0, 2000000)
+    plt.xlim(0, 2000000)
     plt.show()
 
-    # print(rmse(testData_y, y_pred))
+    print(rmse(testData_y, y_pred))
 
 
 def rmse(testData_y, y_pred):
+    testData_y = testData_y["TimeTaken"].tolist()
     error = []
     sq_error = []
-    # for i in range(len(df)):
-    #    error[i] = (testData_y[i] - y_pred[i])
-    #    sq_error[i] = (df["Error"][i]) ^ 2
-    print(type(testData_y))
-    print(testData_y)
-    print(np.shape(testData_y))
-    print(type(y_pred))
-    print(y_pred[2])
-    print(np.shape(y_pred))
-    # return sqrt(sum(sq_error)/len(sq_error))
+    for i in range(len(y_pred)):
+        error.append(y_pred[i] - testData_y[i])
+        sq_error.append(error[i] ** 2)
+    root_mse = sqrt(sum(sq_error)/len(sq_error))
+    return root_mse
 
 
 if __name__ == "__main__":  # Run program
