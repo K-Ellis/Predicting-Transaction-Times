@@ -22,6 +22,7 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from pylab import polyfit
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
 from math import sqrt
 
 
@@ -52,18 +53,7 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
     plt.xlim(0, 2000000)
     plt.show()
 
-    print(rmse(testData_y, y_pred))
-
-
-def rmse(testData_y, y_pred):
-    testData_y = testData_y["TimeTaken"].tolist()
-    error = []
-    sq_error = []
-    for i in range(len(y_pred)):
-        error.append(y_pred[i] - testData_y[i])
-        sq_error.append(error[i] ** 2)
-    root_mse = sqrt(sum(sq_error)/len(sq_error))
-    return root_mse
+    print("rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
 
 
 if __name__ == "__main__":  # Run program
