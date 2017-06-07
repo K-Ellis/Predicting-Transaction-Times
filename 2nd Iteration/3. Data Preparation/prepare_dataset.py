@@ -159,11 +159,39 @@ def clean_Incident():
 
     df = pd.read_csv("../../../Data/vw_Incident.csv", encoding='latin-1', low_memory=False)
 
+    ############################################
+    # Queue: One hot encoding in buckets
+    ############################################
+    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox", "OpsPM"]
+    # Create a list of 8 unique substrings located in the categorical
+    # variables. These will become the new one-hot encoded column names.
+    val_list = df.Queue.value_counts().index.tolist()# List the categorical
+    #  vales in Queue
+    cat_list = [[] for item in substr_list]# Create a list of 8 lists (the
+    # same size as substr_list)
+    for i, substr in enumerate(substr_list):
+        for j, val in enumerate(val_list):
+            if substr in val: # If one of the 8 substrings is located in a
+                # categorical variable, overwrite the variable with a
+                # nonsense value and append the variable name to cat_list
+                val_list[j] = "n"
+                cat_list[i].append(val)
+    for i in range(len(substr_list)):
+        df.Queue = df.Queue.replace(cat_list[i], substr_list[i]) # Replace
+        # the categorical variables in Queue with the substrings
+
+    df = one_hot_encoding(df, "Queue", out_file)
+    ############################################
+    ############################################
+
     # Filtering for the data we want
     df = df[df.Program == "Enterprise"]  # Program column: only interested in Enterprise
     df = df[df.LanguageName == "English"]  # Only keep the rows which are English
     df = df[df.StatusReason != "Rejected"]  # Remove StatusReason = rejected
     df = df[df.ValidCase == 1]  # Remove ValidCase = 0
+
+
+
 
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
@@ -188,74 +216,43 @@ def clean_Incident():
     del df["WorkbenchGroup"]  # Don't understand what it does
     del df["Receiveddate"]  # Not using received
     del df["IsoCurrencyCode"]  # Not using IsoCurrencyCode - we have all values in USD
+    del df["RelatedCases"] # useless until we link cases together
+
+    # TODO - convert TotalIdleTime and TotalWaitTime to seconds
 
     # Note pd.get_dummies(df) may be useful for hot encoding
     # Map to nominal variables - need to decide which ones we want
 
     ############################################
-    # Queue: One hot encoding in buckets
-    ############################################
-    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox"] #
-    # Create a list of 7 unique substrings located in the categorical
-    # variables. These will become the new one-hot encoded column names.
-    val_list = df.Queue.value_counts().index.tolist() # List the categorical
-    #  vales in Queue
-    cat_list = [[] for item in substr_list] # Create a list of 7 lists (the
-    # same size as substr_list)
-
-    for i, substr in enumerate(substr_list):
-        for j, val in enumerate(val_list):
-            if substr in val: # If one of the 7 substrings is located in a
-                # categorical variable, overwrite the variable with a
-                # nonsense value and append the variable name to cat_list
-                val_list[j] = "n"
-                cat_list[i].append(val)
-
-    # For each of the 7 lists in cat_list (one for each substring)
-    for i, item in enumerate(cat_list):
-        dfseries = df.Queue.isin(item) # Any of the entries in in Queue
-        # containing the substring gets added to a True/False Series as True
-        #  if the entry doesn't contain the substring it is False
-        dfseries = dfseries.astype(int) # Convert True/False to Binary
-        dfseries.name = "Queue_" + substr_list[i]  # Rename the Series
-        # column name to
-        # the substring name
-        df = pd.concat([dfseries, df], axis=1) # Concat the Series onto the
-        # main dataframe, df
-
-    del df["Queue_Xbox"]  # Delete one categorical variable to have n-1
-    # variables
-    del df["Queue"] # Delete the original Queue column
-    out_file.write("Queue: One hot encoding in buckets: NAOC, EOC, AOC, "
-                   "APOC, LOC, E&E, Xbox \n\n")
-    ############################################
-    ############################################
-
-    # df = one_hot_encoding(df, "StatusReason", out_file)  # One hot encoding
-    df["StatusReason"] = map_variables(df["StatusReason"], out_file, "StatusReason")
-
-    ############################################
-    # Priority
+    # Priority and Complexity - nominal variables
     ############################################
     # df.Priority = df.Priority.fillna("Normal") # Fill Priority's nulls with
     # the most frequent value in the Series, Normal
     # ..already done by fill_nulls_dfc() above
-
-    df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
+    df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2,
+                                         "Immediate": 3})
     out_file.write("map Priority column to nominal variables: Low: 0, "
                    "Normal: 1, High: 2, Immediate: 3 \n\n")
+
+    df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
+    out_file.write("map Complexity column to nominal variables: Low: 0, "
+                   "Normal: 1, High: 2 \n\n")
     ############################################
     ############################################
 
-    # todo one-hot encode these categorical variables
-    df["SubReason"] = map_variables(df["SubReason"], out_file, "SubReason")
-    df["ROCName"] = map_variables(df["ROCName"], out_file, "ROCName")
-    df["sourcesystem"] = map_variables(df["sourcesystem"], out_file, "sourcesystem")  # todo investigate 3-0000008981609
-    df["Source"] = map_variables(df["Source"], out_file, "Source")
-    df["Workbench"] = map_variables(df["Workbench"], out_file, "Workbench")
-    df["StageName"] = map_variables(df["StageName"], out_file, "StageName")
-    df["Revenutype"] = map_variables(df["Revenutype"], out_file, "Revenutype")
-    df["Complexity"] = map_variables(df["Complexity"], out_file, "Complexity")
+
+    # TODO - have a closer look at SubReason, sourcesystem, Source,
+    # Workbench, Revenutype
+    # can we reduce the number of one-hot columns?
+    # Group levels together?
+    # Combine infrequent levels as "Other"?
+
+    # TODO - are StageName and StatusReason nominal variables?
+    cat_vars_to_one_hot = ["SubReason", "ROCName", "sourcesystem", "Source",
+                           "Workbench", "StageName", "Revenutype",
+                           "Complexity", "StatusReason"]
+    for var in cat_vars_to_one_hot:
+        df = one_hot_encoding(df, var, out_file)
 
     # todo combine variables with less than 100 entries into one variable, call it
     # "other" or something
