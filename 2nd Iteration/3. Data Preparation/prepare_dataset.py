@@ -138,7 +138,8 @@ def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proporti
 
 
 def one_hot_encoding(df, column, out_file):  # One hot encoding
-    df = pd.concat([df, pd.get_dummies(df[column], prefix = column)], axis=1)
+    df = pd.concat([df, pd.get_dummies(df[column], prefix = column)],
+                   axis=1, drop_first = True)
     del df[column]
     out_file.write("One hot encoding completed for " + str(column) + "\n\n")
     return df
