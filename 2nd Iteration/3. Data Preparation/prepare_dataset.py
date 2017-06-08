@@ -43,11 +43,16 @@ def fill_nulls_dfcs(df, dfcs, out_file):
         fill_nulls_dfc(df[dfc], df[dfc].mode()[0], out_file)
 
 
-def find_dfcs_with_nulls_in_threshold(df, min, max):
+def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres):
     dfcs = []
-    for col in df.columns:
-        if df[col].isnull().sum() > min and df[col].isnull().sum() < max:
-            dfcs.append(col)
+    if min_thres == None and max_thres == None:
+        for col in df.columns:
+            if df[col].isnull().sum() > 0:
+                dfcs.append(col)
+    else:
+        for col in df.columns:
+            if df[col].isnull().sum() > min_thres and df[col].isnull().sum() < max_thres:
+                dfcs.append(col)
     return dfcs
 
 
@@ -262,11 +267,12 @@ def clean_Incident():
     # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    df = fill_nulls(df, "CurrencyName", out_file)  # Fill in NULL values with 0s
+    # df = fill_nulls(df, "CurrencyName", out_file)  # Fill in NULL values with 0s
 
     # fill nulls for columns with 50>null entries>10000 with most frequent
     # value
-    dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
+    # dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
+    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None)
     fill_nulls_dfcs(df, dfcs, out_file)
 
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
@@ -315,7 +321,6 @@ def clean_Incident():
     # Group levels together?
     # Combine infrequent levels as "Other"?
 
-    # TODO - are StageName and StatusReason ordinal variables?
     cat_vars_to_one_hot = ["SubReason", "ROCName", "sourcesystem", "Source",
                            "Workbench", "StageName", "Revenutype",
                            "StatusReason"]
@@ -493,6 +498,6 @@ Run All Code
 
 if __name__ == "__main__":  # Run program
     clean_Incident()
-    clean_AuditHistory()
-    clean_HoldActivity()
-    clean_PackageTriageEntry()
+    # clean_AuditHistory()
+    # clean_HoldActivity()
+    # clean_PackageTriageEntry()
