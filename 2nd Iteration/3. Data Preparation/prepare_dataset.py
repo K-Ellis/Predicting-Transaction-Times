@@ -200,8 +200,7 @@ def transform_country(dfc, out_file, column="Column"):  # Convert country into c
     return dfc
 
 
-def scale_quant_cols(df, quant_cols, out_file):
-    # Scale quantitative variables
+def scale_quant_cols(df, quant_cols, out_file): # Scale quantitative variables
     df_num = df[quant_cols]
     for col in quant_cols:
         del df[col]
@@ -234,25 +233,6 @@ def clean_Incident():
 
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable and filter outliers
 
-    # Filtering for the data we want
-    df = df[df.Program == "Enterprise"]  # Program column: only interested in Enterprise
-    df = df[df.LanguageName == "English"]  # Only keep the rows which are English
-    df = df[df.StatusReason != "Rejected"]  # Remove StatusReason = rejected
-    df = df[df.ValidCase == 1]  # Remove ValidCase = 0
-
-    # Domain knowledge processing
-    del df["TicketNumber"]  # Delete for first iteration
-    del df["IncidentId"]  # Delete for first iteration
-    del df["Receiveddate"]  # Not using received
-    del df["CurrencyName"]  # Not using column - we have all values in USD
-    del df["IsoCurrencyCode"]  # Not using IsoCurrencyCode - we have all values in USD
-    del df["RevenueImpactAmount"]  # Mostly NULL values
-    del df["caseOriginCode"]  # Don't understand what it does
-    del df["pendingemails"]  # Don't understand what it does
-    del df["WorkbenchGroup"]  # Don't understand what it does
-    del df["RelatedCases"] # useless until we link cases together
-
-    """
     ############################################
     # Queue: One hot encoding in buckets
     ############################################
@@ -274,9 +254,30 @@ def clean_Incident():
         df.Queue = df.Queue.replace(cat_list[i], substr_list[i]) # Replace
         # the categorical variables in Queue with the substrings
 
-    # df = one_hot_encoding(df, "Queue", out_file)
+    df = one_hot_encoding(df, "Queue", out_file)
     ############################################
-    ############################################"""
+    ############################################
+
+    # Filtering for the data we want
+    df = df[df.Program == "Enterprise"]  # Program column: only interested in Enterprise
+    df = df[df.LanguageName == "English"]  # Only keep the rows which are English
+    df = df[df.StatusReason != "Rejected"]  # Remove StatusReason = rejected
+    df = df[df.ValidCase == 1]  # Remove ValidCase = 0
+
+    # Domain knowledge processing
+    del df["TicketNumber"]  # Delete for first iteration
+    del df["IncidentId"]  # Delete for first iteration
+    del df["Receiveddate"]  # Not using received
+    del df["CurrencyName"]  # Not using column - we have all values in USD
+    del df["IsoCurrencyCode"]  # Not using IsoCurrencyCode - we have all values in USD
+    del df["RevenueImpactAmount"]  # Mostly NULL values
+    del df["caseOriginCode"]  # Don't understand what it does
+    del df["pendingemails"]  # Don't understand what it does
+    del df["WorkbenchGroup"]  # Don't understand what it does
+    del df["RelatedCases"] # useless until we link cases together
+
+
+
 
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
@@ -353,14 +354,10 @@ def clean_Incident():
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
     out_file.write("fill nulls with CaseRevenue mean \n\n")
 
-<<<<<<< HEAD
+
     quant_cols = ["CaseRevenue", "AmountinUSD"]
     df = scale_quant_cols(df, quant_cols, out_file)
-=======
-    # df.dropna(inplace = True)
-    # num_cols = ["CaseRevenue", "AmountinUSD"]
-    # df = scale_quant_cols(df, num_cols, out_file)
->>>>>>> master
+
 
     # df.dropna(inplace = True)
 
