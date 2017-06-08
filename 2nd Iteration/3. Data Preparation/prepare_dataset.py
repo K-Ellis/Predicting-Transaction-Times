@@ -300,7 +300,7 @@ def clean_Incident():
     # TODO - are StageName and StatusReason nominal variables?
     cat_vars_to_one_hot = ["SubReason", "ROCName", "sourcesystem", "Source",
                            "Workbench", "StageName", "Revenutype",
-                           "Complexity", "StatusReason"]
+                           "StatusReason"]
     # for var in cat_vars_to_one_hot:
     #    df = one_hot_encoding(df, var, out_file)
 
