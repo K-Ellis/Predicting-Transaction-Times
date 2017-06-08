@@ -91,6 +91,15 @@ def results(testData_y, y_pred, alg):
     plt.savefig("../../../Logs/" + alg + ".png")
 
     print(alg, "rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
+    SST = []
+    SSReg = []
+    testData_y["TimeTaken"].tolist()
+    for i in range(len(y_pred)):
+        SST.append((testData_y["TimeTaken"].tolist()[i] -
+                   sum(testData_y["TimeTaken"].tolist())/len(testData_y["TimeTaken"].tolist())) ** 2)
+        SSReg.append((y_pred[i] - sum(testData_y["TimeTaken"].tolist()) / len(testData_y["TimeTaken"].tolist())) ** 2)
+    rsquared = sum(SSReg) / sum(SST)
+    print(alg, "rsquared:", rsquared, "\n")  # Print Root Mean Squared Error
     # More tools in sklearn metrics
     # or https://stackoverflow.com/questions/19068862/how-to-overplot-a-line-on-a-scatter-plot-in-python
 
