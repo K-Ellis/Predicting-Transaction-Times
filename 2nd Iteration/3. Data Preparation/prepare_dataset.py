@@ -353,8 +353,8 @@ def clean_Incident():
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
     out_file.write("fill nulls with CaseRevenue mean \n\n")
 
-    num_cols = ["CaseRevenue", "AmountinUSD"]
-    df = scale_quant_cols(df, num_cols, out_file)
+    quant_cols = ["CaseRevenue", "AmountinUSD"]
+    df = scale_quant_cols(df, quant_cols, out_file)
 
     df.dropna(inplace = True)
 
