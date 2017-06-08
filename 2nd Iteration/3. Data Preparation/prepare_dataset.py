@@ -18,6 +18,7 @@ Import libraries
 
 import pandas as pd
 import time
+from sklearn import preprocessing
 
 
 """****************************************************************************
@@ -190,6 +191,24 @@ def transform_country(dfc, out_file, column="Column"):  # Convert country into c
     return dfc
 
 
+def scale_quant_cols(df, quant_cols):#, outfile):
+    # Scale quantitative variables
+    df_num = df[quant_cols]
+    for col in quant_cols:
+        del df[col]
+
+    min_max_scaler = preprocessing.MinMaxScaler()
+    # df_num = min_max_scaler.fit_transform(df_num)
+    x_scaled = min_max_scaler.fit_transform(df_num)
+    df_x_scaled = pd.DataFrame(x_scaled)
+    df_x_scaled.columns = df_num.keys().tolist()
+
+    df = pd.concat([df_x_scaled, df], axis=1)
+    # out_file.write("columns scaled = " + str(df_num.keys().tolist()) + "\n\n")
+    print("columns scaled = " + str(df_num.keys().tolist()) + "\n\n")
+    return df
+
+
 """****************************************************************************
 Excel Sheet functions
 ****************************************************************************"""
@@ -297,7 +316,7 @@ def clean_Incident():
     # Group levels together?
     # Combine infrequent levels as "Other"?
 
-    # TODO - are StageName and StatusReason nominal variables?
+    # TODO - are StageName and StatusReason ordinal variables?
     cat_vars_to_one_hot = ["SubReason", "ROCName", "sourcesystem", "Source",
                            "Workbench", "StageName", "Revenutype",
                            "StatusReason"]
@@ -321,6 +340,9 @@ def clean_Incident():
     # replace the Null values with the mean for the column
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
     out_file.write("fill nulls with CaseRevenue mean \n\n")
+
+    num_cols = ["CaseRevenue", "AmountinUSD"]
+    df = scale_quant_cols(df, num_cols)
 
     df.dropna(inplace = True)
 
