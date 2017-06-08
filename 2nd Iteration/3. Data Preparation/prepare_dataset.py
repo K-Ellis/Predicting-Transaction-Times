@@ -138,11 +138,56 @@ def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proporti
 
 
 def one_hot_encoding(df, column, out_file):  # One hot encoding
-    df = pd.concat([df, pd.get_dummies(df[column], prefix = column)],
-                   axis=1, drop_first = True)
+    df = pd.concat([df, pd.get_dummies(df[column], prefix = column)], axis=1, drop_first=True)
     del df[column]
     out_file.write("One hot encoding completed for " + str(column) + "\n\n")
+    # todo include original column name in one hot encoding
     return df
+
+
+def transform_country(dfc, out_file, column="Column"):  # Convert country into continents
+    # See excel sheet called countrylist in iteration 2 - preprocessing folder for decision process
+    africa = ["Algeria","Angola","Botswana","Burundi","Cameroon","Congo (DRC)","Côte d’Ivoire","Egypt","Gabon","Ghana",
+              "Ivory Coast","Kenya","Macau SAR","Mauritius","Mozambique","Namibia","Nigeria",
+              "Rest of East & Southern Africa","Rwanda","Senegal","Sierra Leone","South Africa","Swaziland","Tanzania",
+              "Togo","Uganda","West and Central Africa","Zambia","Zimbabwe"]
+    asia = ["Afghanistan","Azerbaijan","Bahrain","Bangladesh","Brunei","China","Hong Kong","Hong Kong SAR","India",
+            "Indian Ocean Islands","Indonesia","Iraq","Israel","Japan","Jordan","Kazakhstan","Korea","Kuwait",
+            "Kyrgyzstan","Lebanon","Levant","Libya","Malaysia","MEA HQ","Morocco","Myanmar","Nepal","North Gulf",
+            "Oman","Pakistan","Palestinian Authority","Philippines","Qatar","Russia","Saudi Arabia","Serbia",
+            "Singapore","South Gulf","Sri Lanka","Taiwan","Thailand","Tunisia","United Arab Emirates","Uzbekistan",
+            "Vietnam"]
+    australia = ["Australia","Cook Islands","New Zealand","Norfolk Island","Samoa"]
+    europe = ["Austria","Belarus","Belgium","Bosnia and Herzegovina","Bulgaria","Croatia","Cyprus","Czech Republic",
+              "Denmark","Estonia","Finland","France","Georgia","Germany","Greece","Hungary","Iceland","Ireland",
+              "Ireland Sales Mktg","Italy","Latvia","Lithuania","Luxembourg","Macedonia, Former Yugoslav Rep",
+              "Macedonia, FYR","Malta","Moldova","Montenegro","NEPA Indirect Markets","Netherlands","Norway",
+              "Poland","Portugal","Romania","Slovakia","Slovenia","Spain","Sweden","Switzerland","Turkey",
+              "Ukraine","United Kingdom"]
+    northamerica = ["Canada","United States"]
+    southamerica = ["Argentina","Bahamas, The","Barbados","Bermuda","Bolivia","Brazil","caribbean","Central America",
+                    "Chile","Colombia","Costa Rica","Dominican Rep.","Ecuador","El Salvador","French Guiana",
+                    "French Polynesia","Guadeloupe","Guatemala","Honduras","Jamaica","Jamaica & BCBB","Mexico",
+                    "Nicaragua","Panama","Paraguay","Peru","Puerto Rico","St. Lucia","Trinidad and Tobago","Uruguay",
+                    "Venezuela"]
+    pd.options.mode.chained_assignment = None  # default='warn' . . . . this disables an overwriting warning
+    for i in range(len(dfc)):
+        if dfc.iloc[i] in africa:
+            dfc.iloc[i] = "africa"
+        elif dfc.iloc[i] in asia:
+            dfc.iloc[i] = "asia"
+        elif dfc.iloc[i] in australia:
+            dfc.iloc[i] = "australia"
+        elif dfc.iloc[i] in europe:
+            dfc.iloc[i] = "europe"
+        elif dfc.iloc[i] in northamerica:
+            dfc.iloc[i] = "northamerica"
+        elif dfc.iloc[i] in southamerica:
+            dfc.iloc[i] = "southamerica"
+        else:
+            dfc.iloc[i] = "other"
+    out_file.write("Continents assigned for " + column + "\n\n")
+    return dfc
 
 
 """****************************************************************************
@@ -181,7 +226,7 @@ def clean_Incident():
         df.Queue = df.Queue.replace(cat_list[i], substr_list[i]) # Replace
         # the categorical variables in Queue with the substrings
 
-    df = one_hot_encoding(df, "Queue", out_file)
+    # df = one_hot_encoding(df, "Queue", out_file)
     ############################################
     ############################################
 
@@ -241,6 +286,13 @@ def clean_Incident():
     ############################################
     ############################################
 
+    # Transform countries into continents and then one hot encode
+    df["CountrySource"] = transform_country(df["CountrySource"], out_file, column="CountrySource")
+    # df = one_hot_encoding(df, "CountrySource", out_file)
+    df["CountryProcessed"] = transform_country(df["CountryProcessed"], out_file, column="CountryProcessed")
+    # df = one_hot_encoding(df, "CountrySource", out_file)
+    df["SalesLocation"] = transform_country(df["SalesLocation"], out_file, column="SalesLocation")
+    # df = one_hot_encoding(df, "CountrySource", out_file)
 
     # TODO - have a closer look at SubReason, sourcesystem, Source,
     # Workbench, Revenutype
@@ -252,8 +304,8 @@ def clean_Incident():
     cat_vars_to_one_hot = ["SubReason", "ROCName", "sourcesystem", "Source",
                            "Workbench", "StageName", "Revenutype",
                            "Complexity", "StatusReason"]
-    for var in cat_vars_to_one_hot:
-        df = one_hot_encoding(df, var, out_file)
+    # for var in cat_vars_to_one_hot:
+    #    df = one_hot_encoding(df, var, out_file)
 
     # todo combine variables with less than 100 entries into one variable, call it
     # "other" or something
