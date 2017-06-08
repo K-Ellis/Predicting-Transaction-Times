@@ -21,6 +21,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import ElasticNet
+from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error
 from math import sqrt
 
@@ -67,7 +69,18 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
     plt.show()
 
     print("LinearRegression rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
-    # More tools in sklearn metrics or https://stackoverflow.com/questions/19068862/how-to-overplot-a-line-on-a-scatter-plot-in-python
+    # More tools in sklearn metrics
+    # or https://stackoverflow.com/questions/19068862/how-to-overplot-a-line-on-a-scatter-plot-in-python
+
+
+def elastic_net(trainData_x, trainData_y, testData_x, testData_y):  # Elastic Net
+    print("Todo")
+    # print("Elastic Net rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
+
+
+def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ridge regression
+    print("Todo")
+    # print("Kernel ridge regression rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
 
 
 if __name__ == "__main__":  # Run program
@@ -77,3 +90,5 @@ if __name__ == "__main__":  # Run program
     trainData_x, trainData_y, testData_x, testData_y = split_data(df)  # Split data
 
     linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
+    elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
+    kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ridge regression
