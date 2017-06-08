@@ -62,12 +62,8 @@ def time_taken(df, out_file, start, finish): # replace Created_On, Receiveddate 
     out_file.write("Time Taken column calculated" + "\n")
     mean_time = sum(df["TimeTaken"].tolist()) / len(df)  # Calculate mean of time taken
     std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
-    print(mean_time, std_time, mean_time + 3*std_time, len(df))
     df = df[df.TimeTaken < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
-    mean_time = sum(df["TimeTaken"].tolist()) / len(df)  # Calculate mean of time taken
-    std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
-    print(mean_time, std_time, mean_time + 3 * std_time, len(df))
-    out_file.write("Outliers removed (> 10 sd from mean of TimeTaken" + "\n\n")
+    out_file.write("Outliers removed > 3 sd from mean of TimeTaken" + "\n\n")
     return df
 
 
