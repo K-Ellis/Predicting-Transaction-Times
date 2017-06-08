@@ -211,6 +211,25 @@ def clean_Incident():
 
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable and filter outliers
 
+    # Filtering for the data we want
+    df = df[df.Program == "Enterprise"]  # Program column: only interested in Enterprise
+    df = df[df.LanguageName == "English"]  # Only keep the rows which are English
+    df = df[df.StatusReason != "Rejected"]  # Remove StatusReason = rejected
+    df = df[df.ValidCase == 1]  # Remove ValidCase = 0
+
+    # Domain knowledge processing
+    del df["TicketNumber"]  # Delete for first iteration
+    del df["IncidentId"]  # Delete for first iteration
+    del df["Receiveddate"]  # Not using received
+    del df["CurrencyName"]  # Not using column - we have all values in USD
+    del df["IsoCurrencyCode"]  # Not using IsoCurrencyCode - we have all values in USD
+    del df["RevenueImpactAmount"]  # Mostly NULL values
+    del df["caseOriginCode"]  # Don't understand what it does
+    del df["pendingemails"]  # Don't understand what it does
+    del df["WorkbenchGroup"]  # Don't understand what it does
+    del df["RelatedCases"] # useless until we link cases together
+
+    """
     ############################################
     # Queue: One hot encoding in buckets
     ############################################
@@ -234,13 +253,7 @@ def clean_Incident():
 
     # df = one_hot_encoding(df, "Queue", out_file)
     ############################################
-    ############################################
-
-    # Filtering for the data we want
-    df = df[df.Program == "Enterprise"]  # Program column: only interested in Enterprise
-    df = df[df.LanguageName == "English"]  # Only keep the rows which are English
-    df = df[df.StatusReason != "Rejected"]  # Remove StatusReason = rejected
-    df = df[df.ValidCase == 1]  # Remove ValidCase = 0
+    ############################################"""
 
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
@@ -254,14 +267,6 @@ def clean_Incident():
     # value
     # dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
     # fill_nulls_dfcs(df, dfcs, out_file)
-
-    # Domain knowledge processing
-    del df["CurrencyName"]  # Duplicate column - we will keep IsoCurrencyCode
-    del df["caseOriginCode"]  # Don't understand what it does
-    del df["WorkbenchGroup"]  # Don't understand what it does
-    del df["Receiveddate"]  # Not using received
-    del df["IsoCurrencyCode"]  # Not using IsoCurrencyCode - we have all values in USD
-    del df["RelatedCases"] # useless until we link cases together
 
     # TODO - convert TotalIdleTime and TotalWaitTime to seconds
 
@@ -316,10 +321,6 @@ def clean_Incident():
     # Workbench
     # Revenutype . . . . note, drop_NULL removes this (Rev NULL % is 31)
 
-    # All unique entries, needed to map across sheets - remember to include later on when we are combining sheets
-    del df["TicketNumber"]
-    del df["IncidentId"]
-
     # replace the Null values with the mean for the column
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
     out_file.write("fill nulls with CaseRevenue mean \n\n")
@@ -360,6 +361,7 @@ def clean_AuditHistory():
 
     # Domain knowledge processing
     del df["TimeStamp"]  # Not using TimeStamp
+    df = one_hot_encoding(df, "Action", out_file)
 
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
@@ -368,14 +370,7 @@ def clean_AuditHistory():
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    # Note pd.get_dummies(df) may be useful for hot encoding
-    # Map to nominal variables - need to decide which ones we want
-    df["Action"] = map_variables(df["Action"], out_file, "Action")
-
-    # df = fill_nulls(df, "Action", out_file)  # Fill in NULL values with 0s
-
-    # export file
-    df.to_csv("../../../Data/vw_AuditHistory_cleaned.csv", index = False)
+    df.to_csv("../../../Data/vw_AuditHistory_cleaned.csv", index=False)  # export file
 
     out_file.write("clean_AuditHistory complete")
     out_file.close()
@@ -443,7 +438,10 @@ def clean_PackageTriageEntry():
 
     # Domain knowledge processing
     # Not using TimeStamp
-    # del df["TimeStamp"]
+    del df["PCNStatus"]
+    del df["SAPStatus"]
+    del df["StateCode"]
+    del df["StatusCode"]
 
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
@@ -452,11 +450,9 @@ def clean_PackageTriageEntry():
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    # Note pd.get_dummies(df) may be useful for hot encoding
-    # Map to nominal variables - need to decide which ones we want
-    df["EntryType"] = map_variables(df["EntryType"], out_file, "EntryType")
-    df["EntryLevel"] = map_variables(df["EntryLevel"], out_file, "EntryLevel")
-    df["EntryProcess"] = map_variables(df["EntryProcess"], out_file, "EntryProcess")
+    df = one_hot_encoding(df, "EntryType", out_file)
+    df = one_hot_encoding(df, "EntryLevel", out_file)
+    df = one_hot_encoding(df, "EntryProcess", out_file)
 
     # df = fill_nulls(df, "EntryProcess", out_file)  # Fill in NULL values with 0s
 
