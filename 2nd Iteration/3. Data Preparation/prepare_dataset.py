@@ -282,7 +282,7 @@ def clean_Incident():
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None)
     fill_nulls_dfcs(df, dfcs, out_file)
 
-    df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
+    # df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
 
 
     # Domain knowledge processing
@@ -506,6 +506,6 @@ Run All Code
 
 if __name__ == "__main__":  # Run program
     clean_Incident()
-    # clean_AuditHistory()
-    # clean_HoldActivity()
-    # clean_PackageTriageEntry()
+    clean_AuditHistory()
+    clean_HoldActivity()
+    clean_PackageTriageEntry()
