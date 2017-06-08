@@ -19,6 +19,7 @@ Import libraries
 import pandas as pd
 import numpy as np
 import time
+from sklearn import preprocessing
 
 
 """****************************************************************************
@@ -43,11 +44,16 @@ def fill_nulls_dfcs(df, dfcs, out_file):
         fill_nulls_dfc(df[dfc], df[dfc].mode()[0], out_file)
 
 
-def find_dfcs_with_nulls_in_threshold(df, min, max):
+def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres):
     dfcs = []
-    for col in df.columns:
-        if df[col].isnull().sum() > min and df[col].isnull().sum() < max:
-            dfcs.append(col)
+    if min_thres == None and max_thres == None:
+        for col in df.columns:
+            if df[col].isnull().sum() > 0:
+                dfcs.append(col)
+    else:
+        for col in df.columns:
+            if df[col].isnull().sum() > min_thres and df[col].isnull().sum() < max_thres:
+                dfcs.append(col)
     return dfcs
 
 
@@ -194,6 +200,23 @@ def transform_country(dfc, out_file, column="Column"):  # Convert country into c
     return dfc
 
 
+def scale_quant_cols(df, quant_cols, out_file):
+    # Scale quantitative variables
+    df_num = df[quant_cols]
+    for col in quant_cols:
+        del df[col]
+
+    min_max_scaler = preprocessing.MinMaxScaler()
+    # df_num = min_max_scaler.fit_transform(df_num)
+    x_scaled = min_max_scaler.fit_transform(df_num)
+    df_x_scaled = pd.DataFrame(x_scaled)
+    df_x_scaled.columns = df_num.keys().tolist()
+
+    df = pd.concat([df_x_scaled, df], axis=1)
+    out_file.write("columns scaled = " + str(df_num.keys().tolist()) + "\n\n")
+    return df
+
+
 """****************************************************************************
 Excel Sheet functions
 ****************************************************************************"""
@@ -263,10 +286,16 @@ def clean_Incident():
     # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
+    # df = fill_nulls(df, "CurrencyName", out_file)  # Fill in NULL values with 0s
     # fill nulls for columns with 50>null entries>10000 with most frequent
     # value
     # dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
-    # fill_nulls_dfcs(df, dfcs, out_file)
+
+    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None)
+    fill_nulls_dfcs(df, dfcs, out_file)
+
+    # df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
+
 
     # TODO - convert TotalIdleTime and TotalWaitTime to seconds
 
@@ -304,10 +333,9 @@ def clean_Incident():
     # Group levels together?
     # Combine infrequent levels as "Other"?
 
-    # TODO - are StageName and StatusReason nominal variables?
     cat_vars_to_one_hot = ["SubReason", "ROCName", "sourcesystem", "Source",
                            "Workbench", "StageName", "Revenutype",
-                           "Complexity", "StatusReason"]
+                           "StatusReason"]
     # for var in cat_vars_to_one_hot:
     #    df = one_hot_encoding(df, var, out_file)
 
@@ -324,6 +352,10 @@ def clean_Incident():
     # replace the Null values with the mean for the column
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
     out_file.write("fill nulls with CaseRevenue mean \n\n")
+
+    # df.dropna(inplace = True)
+    # num_cols = ["CaseRevenue", "AmountinUSD"]
+    # df = scale_quant_cols(df, num_cols, out_file)
 
     # df.dropna(inplace = True)
 
