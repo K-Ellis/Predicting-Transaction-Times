@@ -270,13 +270,39 @@ def clean_Incident():
     del df["Receiveddate"]  # Not using received
     del df["CurrencyName"]  # Not using column - we have all values in USD
     del df["IsoCurrencyCode"]  # Not using IsoCurrencyCode - we have all values in USD
-    del df["RevenueImpactAmount"]  # Mostly NULL values
     del df["caseOriginCode"]  # Don't understand what it does
     del df["pendingemails"]  # Don't understand what it does
     del df["WorkbenchGroup"]  # Don't understand what it does
+    del df["Workbench"] # Don't understand what it does # TODO one-hot with
+    # more B. Understanding
     del df["RelatedCases"] # useless until we link cases together
+    del df["TotalIdleTime"] # can be used for real world predictions?
+    del df["TotalWaitTime"] # can be used for real world predictions?
 
-
+    # not enough unique entries
+    del df["RevenueImpactAmount"]  # Mostly NULL values
+    del df["Auditresult"]  # Mostly NULL values
+    del df["PendingRevenue"]
+    del df["Requestspercase"]
+    del df["Totalbillabletime"]
+    del df["Totaltime"]
+    del df["CreditAmount"]
+    del df["DebitAmount"]
+    del df["OrderAmount"]
+    del df["InvoiceAmount"]
+    del df["Deleted"]
+    del df["RejectionReason"]
+    del df["RejectionSubReason"]
+    del df["PackageNumber"]
+    del df["RequiredThreshold"]
+    del df["Slipped"]
+    del df["DefectiveCase"]
+    del df["ProcessName"]
+    del df["NumberofChildIncidents"]
+    del df["ParentCase"]
+    del df["Referencesystem"]
+    del df["StateCode"]
+    del df["Isrevenueimpacting"]
 
 
     # Data mining processing - where there is not enough meaningful information
@@ -295,8 +321,6 @@ def clean_Incident():
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None)
     fill_nulls_dfcs(df, dfcs, out_file)
 
-    # df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
-
 
     # TODO - convert TotalIdleTime and TotalWaitTime to seconds
 
@@ -307,8 +331,8 @@ def clean_Incident():
     # Priority and Complexity - nominal variables
     ############################################
     # df.Priority = df.Priority.fillna("Normal") # Fill Priority's nulls with
-    # the most frequent value in the Series, Normal
-    # ..already done by fill_nulls_dfc() above
+    # the most frequent value in the Series, Normal # ..already done by
+    # fill_nulls_dfc() above
     df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2,
                                          "Immediate": 3})
     out_file.write("map Priority column to nominal variables: Low: 0, "
@@ -334,21 +358,18 @@ def clean_Incident():
     # Group levels together?
     # Combine infrequent levels as "Other"?
 
-    cat_vars_to_one_hot = ["SubReason", "ROCName", "sourcesystem", "Source",
-                           "Workbench", "StageName", "Revenutype",
-                           "StatusReason"]
-    # for var in cat_vars_to_one_hot:
-    #    df = one_hot_encoding(df, var, out_file)
+    cat_vars_to_one_hot = ["StatusReason", "SubReason", "ROCName",
+                           "sourcesystem", "Source",
+                           "StageName", "Revenutype",
+                           ]
+    for var in cat_vars_to_one_hot:
+       df = one_hot_encoding(df, var, out_file)
 
-    # todo combine variables with less than 100 entries into one variable, call it
-    # "other" or something
-    # CountrySource
-    # CountryProcessed
-    # SalesLocation
-    # CurrencyName
-    # sourcesystem
-    # Workbench
-    # Revenutype . . . . note, drop_NULL removes this (Rev NULL % is 31)
+    # todo combine variables with less than 100 entries into one variable,
+    # call it "other" or something
+    # CountrySource, CountryProcessed, SalesLocation, CurrencyName,
+    # sourcesystem, Workbench, Revenutype . . . . note, drop_NULL removes
+    # this (Rev NULL % is 31)
 
     # replace the Null values with the mean for the column
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
@@ -359,18 +380,7 @@ def clean_Incident():
     df = scale_quant_cols(df, quant_cols, out_file)
 
 
-    # df.dropna(inplace = True)
-
-    """
-    # Used for testing model program - can delete whenever
-    one_hot_encoding(df, "CountrySource", out_file)
-    one_hot_encoding(df, "CountryProcessed", out_file)
-    one_hot_encoding(df, "SalesLocation", out_file)
-    del df["CountrySource"]
-    del df["CountryProcessed"]
-    del df["SalesLocation"]
-    """
-
+    df.dropna(inplace = True)
 
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)   # export file
 
@@ -439,11 +449,11 @@ def clean_HoldActivity():
 
     # Note pd.get_dummies(df) may be useful for hot encoding
     # Map to nominal variables - need to decide which ones we want
-    df["HoldTypeName"] = map_variables(df["HoldTypeName"], out_file, "HoldTypeName")
-    df["Reason"] = map_variables(df["Reason"], out_file, "Reason")
-    df["AssignedToGroup"] = map_variables(df["AssignedToGroup"], out_file, "AssignedToGroup")
+    df = one_hot_encoding(df, "HoldTypeName", out_file)
+    df = one_hot_encoding(df, "Reason", out_file)
+    df = one_hot_encoding(df, "AssignedToGroup", out_file)
 
-    # df = fill_nulls(df, "AssignedToGroup", out_file)  # Fill in NULL values with 0s
+    # todo - fill TimeZoneRuleVersionNumber nulls
 
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
