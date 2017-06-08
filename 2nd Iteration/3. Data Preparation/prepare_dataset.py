@@ -17,6 +17,7 @@ Import libraries
 
 
 import pandas as pd
+import numpy as np
 import time
 
 
@@ -58,7 +59,15 @@ def time_taken(df, out_file, start, finish): # replace Created_On, Receiveddate 
     del df[start]
     del df[finish]
     df = pd.concat([df2, df], axis=1)
-    out_file.write("Time Taken column calculated" + "\n\n")
+    out_file.write("Time Taken column calculated" + "\n")
+    mean_time = sum(df["TimeTaken"].tolist()) / len(df)  # Calculate mean of time taken
+    std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
+    print(mean_time, std_time, mean_time + 3*std_time, len(df))
+    df = df[df.TimeTaken < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
+    mean_time = sum(df["TimeTaken"].tolist()) / len(df)  # Calculate mean of time taken
+    std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
+    print(mean_time, std_time, mean_time + 3 * std_time, len(df))
+    out_file.write("Outliers removed (> 10 sd from mean of TimeTaken" + "\n\n")
     return df
 
 
@@ -141,7 +150,6 @@ def one_hot_encoding(df, column, out_file):  # One hot encoding
     df = pd.concat([df, pd.get_dummies(df[column], prefix=column, drop_first=True)], axis=1)
     del df[column]
     out_file.write("One hot encoding completed for " + str(column) + "\n\n")
-    # todo include original column name in one hot encoding
     return df
 
 
@@ -205,6 +213,8 @@ def clean_Incident():
 
     df = pd.read_csv("../../../Data/vw_Incident.csv", encoding='latin-1', low_memory=False)
 
+    df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
+
     ############################################
     # Queue: One hot encoding in buckets
     ############################################
@@ -248,10 +258,8 @@ def clean_Incident():
 
     # fill nulls for columns with 50>null entries>10000 with most frequent
     # value
-    dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
-    fill_nulls_dfcs(df, dfcs, out_file)
-
-    df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
+    # dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
+    # fill_nulls_dfcs(df, dfcs, out_file)
 
     # Domain knowledge processing
     del df["CurrencyName"]  # Duplicate column - we will keep IsoCurrencyCode
