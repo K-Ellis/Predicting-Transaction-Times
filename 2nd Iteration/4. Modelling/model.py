@@ -42,12 +42,16 @@ def split_data(df):  # Split data into training and test data x, y.
         mean_test = sum(testData_y["TimeTaken"].tolist()) / len(testData_y)
         std_train = np.std(trainData_y["TimeTaken"].tolist())
         std_test = np.std(testData_y["TimeTaken"].tolist())
-        print(i, mean_train, mean_test, std_train, std_test)
         # Only accept a split with test data mean and std that is within 5% of train data mean and stc (stratification?)
         if (mean_train - mean_test) ** 2 < (mean_train * 0.05) ** 2:
             if (std_train - std_test) ** 2 < (std_train * 0.05) ** 2:
                 distribution = 1
         i = i+1
+    print("Number of iterations taken to get good data split:", i)
+    print("Mean value of Train Y:", mean_train)
+    print("Mean value of Test Y:", mean_test)
+    print("Standard deviation of train Y:", std_train)
+    print("Standard deviation of test Y:", std_test, "\n")
 
     # trainData_X.to_csv("../../../Data/trainData_X.csv", index = False)  # export file
     # trainData_y.to_csv("../../../Data/trainData_y.csv", index = False)  # export file
@@ -58,29 +62,37 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
     classifier = LinearRegression()
     classifier = classifier.fit(trainData_x, trainData_y)
     y_pred = classifier.predict(testData_x)
-
-    plt.plot(testData_y, y_pred, 'ro')
-    plt.xlabel('testData_y')
-    plt.ylabel('y_pred')
-    plt.title('LinearRegression')
-    plt.axis('equal')
-    plt.ylim(0, 2000000)
-    plt.xlim(0, 2000000)
-    plt.show()
-
-    print("LinearRegression rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
-    # More tools in sklearn metrics
-    # or https://stackoverflow.com/questions/19068862/how-to-overplot-a-line-on-a-scatter-plot-in-python
+    results(testData_y, y_pred, "LinearRegression")
 
 
 def elastic_net(trainData_x, trainData_y, testData_x, testData_y):  # Elastic Net
-    print("Todo")
-    # print("Elastic Net rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
+    classifier = ElasticNet()
+    classifier = classifier.fit(trainData_x, trainData_y)
+    y_pred = classifier.predict(testData_x)
+    results(testData_y, y_pred, "ElasticNet")
 
 
 def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ridge regression
-    print("Todo")
-    # print("Kernel ridge regression rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
+    classifier = KernelRidge()
+    classifier = classifier.fit(trainData_x, trainData_y)
+    y_pred = classifier.predict(testData_x)
+    results(testData_y, y_pred, "KernelRidge")
+
+
+def results(testData_y, y_pred, alg):
+    plt.figure()
+    plt.plot(testData_y, y_pred, 'ro')
+    plt.xlabel('testData_y')
+    plt.ylabel('y_pred')
+    plt.title(alg)
+    plt.axis('equal')
+    plt.ylim(0, 2000000)
+    plt.xlim(0, 2000000)
+    plt.savefig("../../../Logs/" + alg + ".png")
+
+    print(alg, "rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
+    # More tools in sklearn metrics
+    # or https://stackoverflow.com/questions/19068862/how-to-overplot-a-line-on-a-scatter-plot-in-python
 
 
 if __name__ == "__main__":  # Run program
@@ -91,4 +103,4 @@ if __name__ == "__main__":  # Run program
 
     linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
     elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
-    kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ridge regression
+    kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
