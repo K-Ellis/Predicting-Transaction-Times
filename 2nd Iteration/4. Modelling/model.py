@@ -72,7 +72,7 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
 
 if __name__ == "__main__":  # Run program
     np.random.seed(12345)  # Set seed
-    df = pd.read_csv("../../../Data/preprocessed_data.csv", encoding='latin-1', low_memory=False)  # Read in csv file
+    df = pd.read_csv("../../../Data/vw_Incident_cleaned.csv", encoding='latin-1', low_memory=False)  # Read in csv file
 
     trainData_x, trainData_y, testData_x, testData_y = split_data(df)  # Split data
 
