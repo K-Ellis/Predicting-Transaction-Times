@@ -209,7 +209,7 @@ def clean_Incident():
 
     df = pd.read_csv("../../../Data/vw_Incident.csv", encoding='latin-1', low_memory=False)
 
-    df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
+    df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable and filter outliers
 
     ############################################
     # Queue: One hot encoding in buckets
@@ -249,8 +249,6 @@ def clean_Incident():
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
-
-    df = fill_nulls(df, "CurrencyName", out_file)  # Fill in NULL values with 0s
 
     # fill nulls for columns with 50>null entries>10000 with most frequent
     # value
@@ -326,7 +324,7 @@ def clean_Incident():
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
     out_file.write("fill nulls with CaseRevenue mean \n\n")
 
-    df.dropna(inplace = True)
+    # df.dropna(inplace = True)
 
     """
     # Used for testing model program - can delete whenever
