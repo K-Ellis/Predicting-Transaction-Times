@@ -191,7 +191,7 @@ def transform_country(dfc, out_file, column="Column"):  # Convert country into c
     return dfc
 
 
-def scale_quant_cols(df, quant_cols):#, outfile):
+def scale_quant_cols(df, quant_cols, out_file):
     # Scale quantitative variables
     df_num = df[quant_cols]
     for col in quant_cols:
@@ -204,8 +204,7 @@ def scale_quant_cols(df, quant_cols):#, outfile):
     df_x_scaled.columns = df_num.keys().tolist()
 
     df = pd.concat([df_x_scaled, df], axis=1)
-    # out_file.write("columns scaled = " + str(df_num.keys().tolist()) + "\n\n")
-    print("columns scaled = " + str(df_num.keys().tolist()) + "\n\n")
+    out_file.write("columns scaled = " + str(df_num.keys().tolist()) + "\n\n")
     return df
 
 
@@ -342,7 +341,7 @@ def clean_Incident():
     out_file.write("fill nulls with CaseRevenue mean \n\n")
 
     num_cols = ["CaseRevenue", "AmountinUSD"]
-    df = scale_quant_cols(df, num_cols)
+    df = scale_quant_cols(df, num_cols, out_file)
 
     df.dropna(inplace = True)
 
