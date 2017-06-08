@@ -278,14 +278,12 @@ def clean_Incident():
     # fill nulls for columns with 50>null entries>10000 with most frequent
     # value
     # dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
-<<<<<<< HEAD
-    # fill_nulls_dfcs(df, dfcs, out_file)
-=======
+
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None)
     fill_nulls_dfcs(df, dfcs, out_file)
 
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable
->>>>>>> kron_7.6
+
 
     # Domain knowledge processing
     del df["CurrencyName"]  # Duplicate column - we will keep IsoCurrencyCode
