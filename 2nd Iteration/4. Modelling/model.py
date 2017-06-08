@@ -66,7 +66,7 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
     plt.xlim(0, 2000000)
     plt.show()
 
-    print("rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
+    print("LinearRegression rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
     # More tools in sklearn metrics or https://stackoverflow.com/questions/19068862/how-to-overplot-a-line-on-a-scatter-plot-in-python
 
 

@@ -138,7 +138,7 @@ def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proporti
 
 
 def one_hot_encoding(df, column, out_file):  # One hot encoding
-    df = pd.concat([df, pd.get_dummies(df[column], prefix = column)], axis=1, drop_first=True)
+    df = pd.concat([df, pd.get_dummies(df[column], prefix=column, drop_first=True)], axis=1)
     del df[column]
     out_file.write("One hot encoding completed for " + str(column) + "\n\n")
     # todo include original column name in one hot encoding
@@ -236,9 +236,6 @@ def clean_Incident():
     df = df[df.StatusReason != "Rejected"]  # Remove StatusReason = rejected
     df = df[df.ValidCase == 1]  # Remove ValidCase = 0
 
-
-
-
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
@@ -288,11 +285,11 @@ def clean_Incident():
 
     # Transform countries into continents and then one hot encode
     df["CountrySource"] = transform_country(df["CountrySource"], out_file, column="CountrySource")
-    # df = one_hot_encoding(df, "CountrySource", out_file)
+    df = one_hot_encoding(df, "CountrySource", out_file)
     df["CountryProcessed"] = transform_country(df["CountryProcessed"], out_file, column="CountryProcessed")
-    # df = one_hot_encoding(df, "CountrySource", out_file)
+    df = one_hot_encoding(df, "CountryProcessed", out_file)
     df["SalesLocation"] = transform_country(df["SalesLocation"], out_file, column="SalesLocation")
-    # df = one_hot_encoding(df, "CountrySource", out_file)
+    df = one_hot_encoding(df, "SalesLocation", out_file)
 
     # TODO - have a closer look at SubReason, sourcesystem, Source,
     # Workbench, Revenutype
