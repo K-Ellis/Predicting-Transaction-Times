@@ -27,7 +27,7 @@ Multipurpose Pre-Processing Functions
 ****************************************************************************"""
 
 
-def fill_nulls(df, column, out_file):  # Fill in NULL values for all columns
+def fill_nulls(df, column, out_file):  # Fill in NULL values for that column
     df[column].fillna(0, inplace=True)
     out_file.write("NULL Values replaced with 0's in " + column + "\n\n")
     return df
@@ -35,13 +35,14 @@ def fill_nulls(df, column, out_file):  # Fill in NULL values for all columns
 
 def fill_nulls_dfc(dfc, fill_value, out_file):  # Fill in NULL values for one column
     dfc.fillna(fill_value, inplace=True)
-    out_file.write("All NULL Values for \"%s\" replaced with most frequent value, %s"%(dfc.name, fill_value) +
-                   "\n\n")
+    out_file.write("All NULL Values for \"%s\" replaced with most frequent value, %s"%(dfc.name, fill_value) + "\n\n")
+    # todo should this have a return dfc?????
 
 
 def fill_nulls_dfcs(df, dfcs, out_file):
     for dfc in dfcs:
         fill_nulls_dfc(df[dfc], df[dfc].mode()[0], out_file)
+    # todo should this have a return df?????
 
 
 def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres):
@@ -57,7 +58,7 @@ def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres):
     return dfcs
 
 
-def time_taken(df, out_file, start, finish): # replace Created_On, Receiveddate and ResolvedDate with one new column, "TimeTaken"
+def time_taken(df, out_file, start, finish): # replace start & finish with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
     df2 = pd.DataFrame()  # create new dataframe, df2, to store answer
@@ -66,23 +67,11 @@ def time_taken(df, out_file, start, finish): # replace Created_On, Receiveddate 
     del df[finish]
     df = pd.concat([df2, df], axis=1)
     out_file.write("Time Taken column calculated" + "\n")
-    mean_time = sum(df["TimeTaken"].tolist()) / len(df)  # Calculate mean of time taken
+    mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
     std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
-    df = df[df.TimeTaken < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
+    df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
     out_file.write("Outliers removed > 3 sd from mean of TimeTaken" + "\n\n")
     return df
-
-
-def map_variables(dfc, out_file, column="Column"):  # Map categorical variables to numeric
-    var_map = dict(enumerate(dfc.value_counts().index.tolist()))
-    new_var_map = {}
-    new_var_map[0] = 0
-    for entry in var_map:  # Shift all so we can include a 0 entry for NULL values
-        new_var_map[var_map[entry]] = entry + 1
-    dfc = dfc.map(new_var_map)
-    out_file.write("Variable map for " + column + ": " + str(new_var_map) + "\n\n")
-    # todo - bug if one of the categories is 0 . . . it overwrites the NULL 0 default, need to workaround
-    return dfc
 
 
 def min_entries(df, out_file, min=3):  # Delete columns that have less than min entries regardless of number rows
@@ -200,19 +189,13 @@ def transform_country(dfc, out_file, column="Column"):  # Convert country into c
     return dfc
 
 
-def scale_quant_cols(df, quant_cols, out_file): # Scale quantitative variables
-    df_num = df[quant_cols]
-    for col in quant_cols:
-        del df[col]
-
+def scale_quant_cols(df, quant_cols, out_file):  # Scale quantitative variables
     min_max_scaler = preprocessing.MinMaxScaler()
-    # df_num = min_max_scaler.fit_transform(df_num)
-    x_scaled = min_max_scaler.fit_transform(df_num)
+    x_scaled = min_max_scaler.fit_transform(df[quant_cols])
     df_x_scaled = pd.DataFrame(x_scaled)
-    df_x_scaled.columns = df_num.keys().tolist()
-
+    df_x_scaled.columns = df[quant_cols].keys().tolist()
     df = pd.concat([df_x_scaled, df], axis=1)
-    out_file.write("columns scaled = " + str(df_num.keys().tolist()) + "\n\n")
+    out_file.write("columns scaled = " + str(df[quant_cols].keys().tolist()) + "\n\n")
     return df
 
 
@@ -259,10 +242,10 @@ def clean_Incident():
     ############################################
 
     # Filtering for the data we want
-    df = df[df.Program == "Enterprise"]  # Program column: only interested in Enterprise
-    df = df[df.LanguageName == "English"]  # Only keep the rows which are English
-    df = df[df.StatusReason != "Rejected"]  # Remove StatusReason = rejected
-    df = df[df.ValidCase == 1]  # Remove ValidCase = 0
+    df = df[df["Program"] == "Enterprise"]  # Program column: only interested in Enterprise
+    df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
+    df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
+    df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
 
     # Domain knowledge processing
     del df["TicketNumber"]  # Delete for first iteration
@@ -310,22 +293,10 @@ def clean_Incident():
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
     df = drop_null(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
-    # todo - all drop zero columns had a ratio of 0.014 . . . . need to look at further
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
-
-    # df = fill_nulls(df, "CurrencyName", out_file)  # Fill in NULL values with 0s
-    # fill nulls for columns with 50>null entries>10000 with most frequent
-    # value
-    # dfcs = find_dfcs_with_nulls_in_threshold(df, 50, len(df)-50)
 
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None)
     fill_nulls_dfcs(df, dfcs, out_file)
-
-
-    # TODO - convert TotalIdleTime and TotalWaitTime to seconds
-
-    # Note pd.get_dummies(df) may be useful for hot encoding
-    # Map to nominal variables - need to decide which ones we want
 
     ############################################
     # Priority and Complexity - nominal variables
@@ -375,10 +346,8 @@ def clean_Incident():
     df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
     out_file.write("fill nulls with CaseRevenue mean \n\n")
 
-
     quant_cols = ["CaseRevenue", "AmountinUSD"]
     df = scale_quant_cols(df, quant_cols, out_file)
-
 
     df.dropna(inplace = True)
 
