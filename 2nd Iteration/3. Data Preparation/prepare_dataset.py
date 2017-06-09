@@ -39,22 +39,27 @@ def fill_nulls_dfc(dfc, fill_value, out_file):  # Fill in NULL values for one co
     # todo should this have a return dfc?????
 
 
-def fill_nulls_dfcs(df, dfcs, out_file):
+def fill_nulls_dfcs(df, dfcs, fill_value, out_file):
     for dfc in dfcs:
-        fill_nulls_dfc(df[dfc], df[dfc].mode()[0], out_file)
+        if fill_value == "mode":
+            fill_nulls_dfc(df[dfc], df[dfc].mode()[0], out_file)
+        if fill_value == "mean":
+            fill_nulls_dfc(df[dfc], df[dfc].mean(), out_file)
     # todo should this have a return df?????
 
 
-def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres):
+def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres, exclude):
     dfcs = []
     if min_thres == None and max_thres == None:
         for col in df.columns:
-            if df[col].isnull().sum() > 0:
-                dfcs.append(col)
+            if col not in exclude:
+                if df[col].isnull().sum() > 0:
+                    dfcs.append(col)
     else:
         for col in df.columns:
-            if df[col].isnull().sum() > min_thres and df[col].isnull().sum() < max_thres:
-                dfcs.append(col)
+            if col not in exclude:
+                if df[col].isnull().sum() > min_thres and df[col].isnull().sum() < max_thres:
+                    dfcs.append(col)
     return dfcs
 
 
@@ -78,7 +83,6 @@ def min_entries(df, out_file, min=3):  # Delete columns that have less than min 
     out_file.write("min_entries function - min: " + str(min) + "\n")
     for column in df:
         if df[column].count() < min:
-            # print("Column deletion:", column, df[column].count())
             out_file.write("Column deletion: " + str(column) + " -> Entry Count: " + str(df[column].count()) + "\n")
             del df[column]  # delete column
     out_file.write("\n")
@@ -89,7 +93,6 @@ def min_variable_types(df, out_file, min=2):  # Delete columns with less than mi
     out_file.write("min_variable_types function - min: " + str(min) + "\n")
     for column in df:
         if len(df[column].value_counts().index.tolist()) < min:
-            # print("Column deletion: ", column, len(df[column].value_counts().index.tolist()))
             out_file.write("Column deletion: " + str(column) + " -> Variable Type Count: " +
                            str(len(df[column].value_counts().index.tolist())) + "\n")
             del df[column]  # delete column
@@ -103,7 +106,6 @@ def drop_null(df, out_file, x=0.95):  # Remove columns where there is a proporti
     out_file.write("drop_NULL - max ratio: " + str(x) + "\n")
     for column in df:
         if (len(df) - df[column].count()) / len(df) >= x:
-            # print("Drop Null:", column, df[column].count())
             out_file.write("Column deletion: " + str(column) + " -> Ratio: " +
                            str((len(df) - df[column].count()) / len(df)) + "\n")
             del df[column]  # delete column
@@ -116,7 +118,6 @@ def drop_zeros(df, out_file, x=0.95):  # Remove columns where there is a proport
     for column in df:
         if 0 in df[column].value_counts():  # Make sure 0 is in column
             if df[column].value_counts()[0] / len(df) >= x:  # If there are more 0s than out limit
-                # print("Drop Zeros:", column, df[column].value_counts()[0] / len(df))
                 out_file.write("Column deletion: " + str(column) + " -> Ratio: " +
                                str(df[column].value_counts()[0] / len(df)) + "\n")
                 del df[column]  # delete column
@@ -129,7 +130,6 @@ def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proporti
     for column in df:
         if 1 in df[column].value_counts():  # Make sure 0 is in column
             if df[column].value_counts()[1] / len(df) >= x:  # If there are more 1s than out limit
-                # print("Drop Ones:", column, df[column].value_counts()[0] / len(df))
                 out_file.write("Column deletion: " + str(column) + " -> Ratio: " +
                                str(df[column].value_counts()[1] / len(df)) + "\n")
                 del df[column]  # delete column
@@ -190,12 +190,18 @@ def transform_country(dfc, out_file, column="Column"):  # Convert country into c
 
 
 def scale_quant_cols(df, quant_cols, out_file):  # Scale quantitative variables
+    df_num = df[quant_cols]
+    for col in quant_cols:
+        del df[col]
     min_max_scaler = preprocessing.MinMaxScaler()
-    x_scaled = min_max_scaler.fit_transform(df[quant_cols])
+    x_scaled = min_max_scaler.fit_transform(df_num)
     df_x_scaled = pd.DataFrame(x_scaled)
-    df_x_scaled.columns = df[quant_cols].keys().tolist()
+    df_x_scaled.columns = df_num.keys().tolist()
+
+    df.reset_index(drop=True, inplace=True)
+
     df = pd.concat([df_x_scaled, df], axis=1)
-    out_file.write("columns scaled = " + str(df[quant_cols].keys().tolist()) + "\n\n")
+    out_file.write("columns scaled = " + str(df_num.keys().tolist()) + "\n\n")
     return df
 
 
@@ -240,6 +246,7 @@ def clean_Incident():
     df = one_hot_encoding(df, "Queue", out_file)
     ############################################
     ############################################
+
 
     # Filtering for the data we want
     df = df[df["Program"] == "Enterprise"]  # Program column: only interested in Enterprise
@@ -287,7 +294,6 @@ def clean_Incident():
     del df["StateCode"]
     del df["Isrevenueimpacting"]
 
-
     # Data mining processing - where there is not enough meaningful information
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
@@ -295,8 +301,14 @@ def clean_Incident():
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None)
-    fill_nulls_dfcs(df, dfcs, out_file)
+    quant_cols = ["CaseRevenue", "AmountinUSD"]
+    exclude_from_mode_fill = quant_cols
+    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
+    fill_nulls_dfcs(df, dfcs, "mode", out_file)
+
+    fill_nulls_dfcs(df, quant_cols, "mean", out_file)
+    df = scale_quant_cols(df, quant_cols, out_file)
+
 
     ############################################
     # Priority and Complexity - nominal variables
@@ -343,13 +355,11 @@ def clean_Incident():
     # this (Rev NULL % is 31)
 
     # replace the Null values with the mean for the column
-    df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
-    out_file.write("fill nulls with CaseRevenue mean \n\n")
+    # df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
+    # out_file.write("fill nulls with CaseRevenue mean \n\n")
 
-    quant_cols = ["CaseRevenue", "AmountinUSD"]
-    df = scale_quant_cols(df, quant_cols, out_file)
 
-    df.dropna(inplace = True)
+    # df.dropna(inplace = True)
 
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)   # export file
 
