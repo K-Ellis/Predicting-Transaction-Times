@@ -32,23 +32,43 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.hist(df[column], bins='auto')
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
-    plt.title(column)
+    plt.title(column + " all data")
     plt.savefig("../../../Logs/" + column + "_all.png")
 
     plt.figure()  # Plot times under 500,000 seconds
     plt.hist(df[df.TimeTaken < 500000][column], bins='auto')
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
-    plt.title(column)
+    plt.title(column + " < 500000s data")
     plt.savefig("../../../Logs/" + column + "_500000.png")
 
     plt.figure()  # Plot times under 100,000 seconds
     plt.hist(df[df.TimeTaken < 100000][column], bins='auto')
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
-    plt.title(column)
-    plt.xlim(0, 100000)
+    plt.title(column + " < 100000s data")
     plt.savefig("../../../Logs/" + column + "_100000.png")
+
+    plt.figure()  # Plot all data
+    plt.hist(np.log(df[column]), bins='auto')
+    plt.xlabel('Log of TimeTaken (Seconds)')
+    plt.ylabel('Frequency')
+    plt.title(column + " Log of all data")
+    plt.savefig("../../../Logs/" + column + "_log_all.png")
+
+    plt.figure()  # Plot times under 500,000 seconds
+    plt.hist(np.log(df[df.TimeTaken < 500000][column]), bins='auto')
+    plt.xlabel('Log of TimeTaken (Seconds)')
+    plt.ylabel('Frequency')
+    plt.title(column + " Log of < 500000s data")
+    plt.savefig("../../../Logs/" + column + "_log_500000.png")
+
+    plt.figure()  # Plot times under 100,000 seconds
+    plt.hist(np.log(df[df.TimeTaken < 100000][column]), bins='auto')
+    plt.xlabel('Log of TimeTaken (Seconds)')
+    plt.ylabel('Frequency')
+    plt.title(column + " Log of < 100000s data")
+    plt.savefig("../../../Logs/" + column + "_log_100000.png")
 
 
 def split_data(df):  # Split data into training and test data x, y.
