@@ -27,6 +27,30 @@ from sklearn.metrics import mean_squared_error
 from math import sqrt
 
 
+def histogram(df, column):  # Create histogram of preprocessed data
+    plt.figure()  # Plot all data
+    plt.hist(df[column], bins='auto')
+    plt.xlabel('TimeTaken (Seconds)')
+    plt.ylabel('Frequency')
+    plt.title(column)
+    plt.savefig("../../../Logs/" + column + "_all.png")
+
+    plt.figure()  # Plot times under 500,000 seconds
+    plt.hist(df[df.TimeTaken < 500000][column], bins='auto')
+    plt.xlabel('TimeTaken (Seconds)')
+    plt.ylabel('Frequency')
+    plt.title(column)
+    plt.savefig("../../../Logs/" + column + "_500000.png")
+
+    plt.figure()  # Plot times under 100,000 seconds
+    plt.hist(df[df.TimeTaken < 100000][column], bins='auto')
+    plt.xlabel('TimeTaken (Seconds)')
+    plt.ylabel('Frequency')
+    plt.title(column)
+    plt.xlim(0, 100000)
+    plt.savefig("../../../Logs/" + column + "_100000.png")
+
+
 def split_data(df):  # Split data into training and test data x, y.
     distribution = 0
     i = 0
@@ -107,6 +131,8 @@ def results(testData_y, y_pred, alg):
 if __name__ == "__main__":  # Run program
     np.random.seed(12345)  # Set seed
     df = pd.read_csv("../../../Data/vw_Incident_cleaned.csv", encoding='latin-1', low_memory=False)  # Read in csv file
+
+    histogram(df, "TimeTaken")  # Save histogram plots of TimeTaken
 
     trainData_x, trainData_y, testData_x, testData_y = split_data(df)  # Split data
 
