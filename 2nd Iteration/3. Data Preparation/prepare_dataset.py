@@ -1,19 +1,19 @@
-"""****************************************************************************
+"""*********************************************************************************************************************
 UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
-*******************************************************************************
+************************************************************************************************************************
 Iteration 2
 Data pre-processing program
-*******************************************************************************
+************************************************************************************************************************
 Eoin Carroll
 Kieron Ellis
-*******************************************************************************
+************************************************************************************************************************
 Working on dataset from Cosmic launch (6th Feb) to End March
-****************************************************************************"""
+*********************************************************************************************************************"""
 
 
-"""****************************************************************************
+"""*********************************************************************************************************************
 Import libraries
-****************************************************************************"""
+*********************************************************************************************************************"""
 
 
 import pandas as pd
@@ -22,9 +22,9 @@ import time
 from sklearn import preprocessing
 
 
-"""****************************************************************************
-Multipurpose Pre-Processing Functions
-****************************************************************************"""
+"""*********************************************************************************************************************
+Reusable Pre-Processing Functions
+*********************************************************************************************************************"""
 
 
 def fill_nulls(df, column, out_file):  # Fill in NULL values for that column
@@ -35,8 +35,7 @@ def fill_nulls(df, column, out_file):  # Fill in NULL values for that column
 
 def fill_nulls_dfc(dfc, fill_value, out_file):  # Fill in NULL values for one column
     dfc.fillna(fill_value, inplace=True)
-    out_file.write("All NULL Values for \"%s\" replaced with most frequent value, %s"%(dfc.name, fill_value) + "\n\n")
-    # todo should this have a return dfc?????
+    out_file.write("All NULL Values for \"%s\" replaced with most frequent value, %s" % (dfc.name, fill_value) + "\n\n")
 
 
 def fill_nulls_dfcs(df, dfcs, fill_value, out_file):
@@ -45,17 +44,16 @@ def fill_nulls_dfcs(df, dfcs, fill_value, out_file):
             fill_nulls_dfc(df[dfc], df[dfc].mode()[0], out_file)
         if fill_value == "mean":
             fill_nulls_dfc(df[dfc], df[dfc].mean(), out_file)
-    # todo should this have a return df?????
 
 
 def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres, exclude):
-    dfcs = []
-    if min_thres == None and max_thres == None:
+    dfcs = []  # DataFrameColumns
+    if min_thres is None and max_thres is None:  # if there is no min and max threshold
         for col in df.columns:
             if col not in exclude:
-                if df[col].isnull().sum() > 0:
+                if df[col].isnull().sum() > 0:  # if the column has Null entries append it to dfcs
                     dfcs.append(col)
-    else:
+    else:  # if the col has nulls within a given range, append it to dfcs
         for col in df.columns:
             if col not in exclude:
                 if df[col].isnull().sum() > min_thres and df[col].isnull().sum() < max_thres:
@@ -63,7 +61,7 @@ def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres, exclude):
     return dfcs
 
 
-def time_taken(df, out_file, start, finish): # replace start & finish with one new column, "TimeTaken"
+def time_taken(df, out_file, start, finish):  # replace start & finish with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
     df2 = pd.DataFrame()  # create new dataframe, df2, to store answer
@@ -79,20 +77,21 @@ def time_taken(df, out_file, start, finish): # replace start & finish with one n
     return df
 
 
-def min_entries(df, out_file, min=3):  # Delete columns that have less than min entries regardless of number rows
-    out_file.write("min_entries function - min: " + str(min) + "\n")
+def min_entries(df, out_file, min_entries=3):  # Delete columns that have less than min entries regardless of number
+    # rows
+    out_file.write("min_entries function - min: " + str(min_entries) + "\n")
     for column in df:
-        if df[column].count() < min:
+        if df[column].count() < min_entries:
             out_file.write("Column deletion: " + str(column) + " -> Entry Count: " + str(df[column].count()) + "\n")
             del df[column]  # delete column
     out_file.write("\n")
     return df
 
 
-def min_variable_types(df, out_file, min=2):  # Delete columns with less than min variable types in that column
-    out_file.write("min_variable_types function - min: " + str(min) + "\n")
+def min_variable_types(df, out_file, min_var=2):  # Delete columns with less than min variable types in that column
+    out_file.write("min_variable_types function - min: " + str(min_var) + "\n")
     for column in df:
-        if len(df[column].value_counts().index.tolist()) < min:
+        if len(df[column].value_counts().index.tolist()) < min_var:
             out_file.write("Column deletion: " + str(column) + " -> Variable Type Count: " +
                            str(len(df[column].value_counts().index.tolist())) + "\n")
             del df[column]  # delete column
@@ -205,9 +204,9 @@ def scale_quant_cols(df, quant_cols, out_file):  # Scale quantitative variables
     return df
 
 
-"""****************************************************************************
+"""*********************************************************************************************************************
 Excel Sheet functions
-****************************************************************************"""
+*********************************************************************************************************************"""
 
 
 def clean_Incident():
@@ -222,39 +221,36 @@ def clean_Incident():
 
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable and filter outliers
 
-    ############################################
+    ####################################################################################################################
     # Queue: One hot encoding in buckets
-    ############################################
+    ####################################################################################################################
     substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox", "OpsPM"]
-    # Create a list of 8 unique substrings located in the categorical
-    # variables. These will become the new one-hot encoded column names.
-    val_list = df.Queue.value_counts().index.tolist()# List the categorical
-    #  vales in Queue
-    cat_list = [[] for item in substr_list]# Create a list of 8 lists (the
-    # same size as substr_list)
+    # Create a list of 8 unique substrings located in the categorical variables. These will become the new one-hot
+    # encoded column names.
+    val_list = df.Queue.value_counts().index.tolist()  # List the categorical values in Queue
+    cat_list = [[] for item in substr_list]  # Create a list of 8 lists (the same size as substr_list)
     for i, substr in enumerate(substr_list):
         for j, val in enumerate(val_list):
-            if substr in val: # If one of the 8 substrings is located in a
-                # categorical variable, overwrite the variable with a
-                # nonsense value and append the variable name to cat_list
+            if substr in val:  # If one of the 8 substrings is located in a categorical variable, overwrite the
+                # variable with a nonsense value and append the variable name to cat_list
                 val_list[j] = "n"
                 cat_list[i].append(val)
     for i in range(len(substr_list)):
-        df.Queue = df.Queue.replace(cat_list[i], substr_list[i]) # Replace
-        # the categorical variables in Queue with the substrings
-
+        df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Replace the categorical variables in Queue with
+        # the substrings
     df = one_hot_encoding(df, "Queue", out_file)
-    ############################################
-    ############################################
 
-
-    # Filtering for the data we want
+    ####################################################################################################################
+    # Filtering for the data MS want
+    ####################################################################################################################
     df = df[df["Program"] == "Enterprise"]  # Program column: only interested in Enterprise
     df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
     df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
     df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
 
+    ####################################################################################################################
     # Domain knowledge processing
+    ####################################################################################################################
     del df["TicketNumber"]  # Delete for first iteration
     del df["IncidentId"]  # Delete for first iteration
     del df["Receiveddate"]  # Not using received
@@ -263,13 +259,14 @@ def clean_Incident():
     del df["caseOriginCode"]  # Don't understand what it does
     del df["pendingemails"]  # Don't understand what it does
     del df["WorkbenchGroup"]  # Don't understand what it does
-    del df["Workbench"] # Don't understand what it does # TODO one-hot with
-    # more B. Understanding
-    del df["RelatedCases"] # useless until we link cases together
-    del df["TotalIdleTime"] # can be used for real world predictions?
-    del df["TotalWaitTime"] # can be used for real world predictions?
+    del df["Workbench"]  # Don't understand what it does # TODO one-hot with more B. Understanding
+    del df["RelatedCases"]  # useless until we link cases together
+    del df["TotalIdleTime"]  # can be used for real world predictions?
+    del df["TotalWaitTime"]  # can be used for real world predictions?
 
+    ####################################################################################################################
     # not enough unique entries
+    ####################################################################################################################
     del df["RevenueImpactAmount"]  # Mostly NULL values
     del df["Auditresult"]  # Mostly NULL values
     del df["PendingRevenue"]
@@ -294,28 +291,28 @@ def clean_Incident():
     del df["StateCode"]
     del df["Isrevenueimpacting"]
 
-    # Data mining processing - where there is not enough meaningful information
+    ####################################################################################################################
+    # Data mining processing - where there is not enough meaningful information.
+    ####################################################################################################################
     df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
     df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
     df = drop_null(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
+    ####################################################################################################################
+    # Fill Categorical and numerical nulls. And Scale numerical variables.
+    ####################################################################################################################
     quant_cols = ["CaseRevenue", "AmountinUSD"]
     exclude_from_mode_fill = quant_cols
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
     fill_nulls_dfcs(df, dfcs, "mode", out_file)
-
     fill_nulls_dfcs(df, quant_cols, "mean", out_file)
     df = scale_quant_cols(df, quant_cols, out_file)
 
-
-    ############################################
-    # Priority and Complexity - nominal variables
-    ############################################
-    # df.Priority = df.Priority.fillna("Normal") # Fill Priority's nulls with
-    # the most frequent value in the Series, Normal # ..already done by
-    # fill_nulls_dfc() above
+    ####################################################################################################################
+    # Priority and Complexity - nominal variable mapping
+    ####################################################################################################################
     df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2,
                                          "Immediate": 3})
     out_file.write("map Priority column to nominal variables: Low: 0, "
@@ -324,10 +321,10 @@ def clean_Incident():
     df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
     out_file.write("map Complexity column to nominal variables: Low: 0, "
                    "Normal: 1, High: 2 \n\n")
-    ############################################
-    ############################################
 
+    ####################################################################################################################
     # Transform countries into continents and then one hot encode
+    ####################################################################################################################
     df["CountrySource"] = transform_country(df["CountrySource"], out_file, column="CountrySource")
     df = one_hot_encoding(df, "CountrySource", out_file)
     df["CountryProcessed"] = transform_country(df["CountryProcessed"], out_file, column="CountryProcessed")
@@ -335,33 +332,24 @@ def clean_Incident():
     df["SalesLocation"] = transform_country(df["SalesLocation"], out_file, column="SalesLocation")
     df = one_hot_encoding(df, "SalesLocation", out_file)
 
-    # TODO - have a closer look at SubReason, sourcesystem, Source,
-    # Workbench, Revenutype
-    # can we reduce the number of one-hot columns?
-    # Group levels together?
-    # Combine infrequent levels as "Other"?
-
-    cat_vars_to_one_hot = ["StatusReason", "SubReason", "ROCName",
-                           "sourcesystem", "Source",
-                           "StageName", "Revenutype",
-                           ]
+    ####################################################################################################################
+    # One-hot encode categorical variables
+    ####################################################################################################################
+    cat_vars_to_one_hot = ["StatusReason", "SubReason", "ROCName", "sourcesystem", "Source", "StageName", "Revenutype"]
     for var in cat_vars_to_one_hot:
        df = one_hot_encoding(df, var, out_file)
 
-    # todo combine variables with less than 100 entries into one variable,
-    # call it "other" or something
-    # CountrySource, CountryProcessed, SalesLocation, CurrencyName,
-    # sourcesystem, Workbench, Revenutype . . . . note, drop_NULL removes
-    # this (Rev NULL % is 31)
+    # TODO - have a closer look at SubReason, sourcesystem, Source, Workbench, Revenutype
+       # can we reduce the number of one-hot columns?
+       # Group levels together?
+       # Combine infrequent levels as "Other"?
 
-    # replace the Null values with the mean for the column
-    # df["CaseRevenue"] = df["CaseRevenue"].fillna(df["CaseRevenue"].mean())
-    # out_file.write("fill nulls with CaseRevenue mean \n\n")
+    ####################################################################################################################
+    # Export final df
+    ####################################################################################################################
+    df.dropna(inplace=True)
 
-
-    # df.dropna(inplace = True)
-
-    df.to_csv("../../../Data/vw_Incident_cleaned.csv", index = False)   # export file
+    df.to_csv("../../../Data/vw_Incident_cleaned.csv", index=False)   # export file
 
     out_file.write("clean_Incident complete")
     out_file.close()
@@ -438,7 +426,7 @@ def clean_HoldActivity():
     # delete for now, not sure what to do with it..
     # del df["ParentCase"]
 
-    df.to_csv("../../../Data/vw_HoldActivity_cleaned.csv", index = False)  # export file
+    df.to_csv("../../../Data/vw_HoldActivity_cleaned.csv", index=False)  # export file
 
     out_file.write("clean_AuditHistory complete")
     out_file.close()
@@ -448,7 +436,7 @@ def clean_HoldActivity():
 def clean_PackageTriageEntry():
 
     print("clean_PackageTriageEntry started")
-    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_clean_PackageTriageEntry" + ".txt"  # Log file name
+    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_clean_PackageTriageEntry" + ".txt" # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_PackageTriageEntry started" + "\n\n")
@@ -479,7 +467,7 @@ def clean_PackageTriageEntry():
 
     # df = fill_nulls(df, "EntryProcess", out_file)  # Fill in NULL values with 0s
 
-    df.to_csv("../../../Data/vw_PackageTriageEntry_cleaned.csv", index = False)  # export file
+    df.to_csv("../../../Data/vw_PackageTriageEntry_cleaned.csv", index=False)  # export file
 
     out_file.write("clean_PackageTriageEntry complete")
     out_file.close()
