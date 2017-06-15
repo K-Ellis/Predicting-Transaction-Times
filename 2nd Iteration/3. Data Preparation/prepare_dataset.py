@@ -254,6 +254,7 @@ def clean_Incident():
     del df["TicketNumber"]  # Delete for first iteration
     del df["IncidentId"]  # Delete for first iteration
     del df["Receiveddate"]  # Not using received
+    del df["CaseRevenue"] # In local currency. - we have all values in USD
     del df["CurrencyName"]  # Not using column - we have all values in USD
     del df["IsoCurrencyCode"]  # Not using IsoCurrencyCode - we have all values in USD
     del df["caseOriginCode"]  # Don't understand what it does
@@ -303,7 +304,7 @@ def clean_Incident():
     ####################################################################################################################
     # Fill Categorical and numerical nulls. And Scale numerical variables.
     ####################################################################################################################
-    quant_cols = ["CaseRevenue", "AmountinUSD"]
+    quant_cols = ["AmountinUSD"]
     exclude_from_mode_fill = quant_cols
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
     fill_nulls_dfcs(df, dfcs, "mode", out_file)
