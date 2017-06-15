@@ -112,6 +112,7 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
 def elastic_net(trainData_x, trainData_y, testData_x, testData_y):  # Elastic Net
     classifier = ElasticNet()
     classifier = classifier.fit(trainData_x, trainData_y)
+    print(classifier.coef_)
     y_pred = classifier.predict(testData_x)
     results(testData_y, y_pred, "ElasticNet")
 
@@ -156,6 +157,6 @@ if __name__ == "__main__":  # Run program
 
     trainData_x, trainData_y, testData_x, testData_y = split_data(df)  # Split data
 
-    linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
+    # linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
     elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
-    kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
+    # kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
