@@ -156,7 +156,8 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write(alg + " RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n")
+    out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
+    out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n")
     out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
     out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_pred)) + "\n")
     out_file.close()
