@@ -311,6 +311,13 @@ def clean_Incident():
     fill_nulls_dfcs(df, quant_cols, "mean", out_file)
     df = scale_quant_cols(df, quant_cols, out_file)
 
+    # put TimeTaken first
+    y = df.pop("TimeTaken")
+    df = pd.concat([y, df], axis=1)
+
+    df.IsSOXCase = df.IsSOXCase.astype(int)
+    df.Numberofreactivations = df.Numberofreactivations.astype(int)
+
     ####################################################################################################################
     # Priority and Complexity - nominal variable mapping
     ####################################################################################################################
