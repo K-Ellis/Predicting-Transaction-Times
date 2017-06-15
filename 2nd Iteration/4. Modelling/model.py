@@ -24,6 +24,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import ElasticNet
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error
+from sklearn.metrics import r2_score
 from math import sqrt
 
 
@@ -112,7 +113,7 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
 def elastic_net(trainData_x, trainData_y, testData_x, testData_y):  # Elastic Net
     classifier = ElasticNet()
     classifier = classifier.fit(trainData_x, trainData_y)
-    print(classifier.coef_)
+    # print(classifier.coef_)
     y_pred = classifier.predict(testData_x)
     results(testData_y, y_pred, "ElasticNet")
 
@@ -136,17 +137,8 @@ def results(testData_y, y_pred, alg):
     plt.savefig("../../../Logs/" + alg + ".png")
 
     print(alg, "rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
-    SST = []
-    SSReg = []
-    testData_y["TimeTaken"].tolist()
-    for i in range(len(y_pred)):
-        SST.append((testData_y["TimeTaken"].tolist()[i] -
-                   sum(testData_y["TimeTaken"].tolist())/len(testData_y["TimeTaken"].tolist())) ** 2)
-        SSReg.append((y_pred[i] - sum(testData_y["TimeTaken"].tolist()) / len(testData_y["TimeTaken"].tolist())) ** 2)
-    rsquared = sum(SSReg) / sum(SST)
-    print(alg, "rsquared:", rsquared, "\n")  # Print Root Mean Squared Error
-    # More tools in sklearn metrics
-    # or https://stackoverflow.com/questions/19068862/how-to-overplot-a-line-on-a-scatter-plot-in-python
+    print(alg, "R^2 score:", r2_score(testData_y, y_pred))  # Print Root Mean Squared Error
+    # http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html
 
 
 if __name__ == "__main__":  # Run program
@@ -157,6 +149,6 @@ if __name__ == "__main__":  # Run program
 
     trainData_x, trainData_y, testData_x, testData_y = split_data(df)  # Split data
 
-    # linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
+    linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
     elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
-    # kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
+    kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
