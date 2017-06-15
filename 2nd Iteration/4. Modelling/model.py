@@ -153,20 +153,18 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
     print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
 
-
     out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
-    out_file.write(alg + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write(alg + "rmse:" + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n")
-    out_file.write(alg + "R^2 score:" + str(r2_score(testData_y, y_pred)) + "\n")
+    out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
+    out_file.write(alg + " RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n")
+    out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
+    out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_pred)) + "\n")
     out_file.close()
 
-    print(alg, "rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
-    print(alg, "R^2 score:", r2_score(testData_y, y_pred))  # Print Root Mean Squared Error
+    print(alg, "RMSE:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
     print(alg, "Train R^2 score:", r2_score(trainData_y, y_train_pred))  # Print R Squared
     print(alg, "Test R^2 score:", r2_score(testData_y, y_pred))  # Print R Squared
     # http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html
-
 
 
 if __name__ == "__main__":  # Run program
