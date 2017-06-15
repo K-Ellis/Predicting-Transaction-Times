@@ -27,6 +27,7 @@ from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from math import sqrt
+from sklearn import preprocessing
 
 
 def histogram(df, column):  # Create histogram of preprocessed data
@@ -37,40 +38,40 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.title(column + " all data")
     plt.savefig("../../../Logs/" + column + "_all.png")
 
-    plt.figure()  # Plot times under 500,000 seconds
-    plt.hist(df[df.TimeTaken < 500000][column], bins='auto')
-    plt.xlabel('TimeTaken (Seconds)')
-    plt.ylabel('Frequency')
-    plt.title(column + " < 500000s data")
-    plt.savefig("../../../Logs/" + column + "_500000.png")
+    # plt.figure()  # Plot times under 500,000 seconds
+    # plt.hist(df[df.TimeTaken < 500000][column], bins='auto')
+    # plt.xlabel('TimeTaken (Seconds)')
+    # plt.ylabel('Frequency')
+    # plt.title(column + " < 500000s data")
+    # plt.savefig("../../../Logs/" + column + "_500000.png")
 
-    plt.figure()  # Plot times under 100,000 seconds
-    plt.hist(df[df.TimeTaken < 100000][column], bins='auto')
-    plt.xlabel('TimeTaken (Seconds)')
-    plt.ylabel('Frequency')
-    plt.title(column + " < 100000s data")
-    plt.savefig("../../../Logs/" + column + "_100000.png")
+    # plt.figure()  # Plot times under 100,000 seconds
+    # plt.hist(df[df.TimeTaken < 100000][column], bins='auto')
+    # plt.xlabel('TimeTaken (Seconds)')
+    # plt.ylabel('Frequency')
+    # plt.title(column + " < 100000s data")
+    # plt.savefig("../../../Logs/" + column + "_100000.png")
 
-    plt.figure()  # Plot all data
-    plt.hist(np.log(df[column]), bins='auto')
-    plt.xlabel('Log of TimeTaken (Seconds)')
-    plt.ylabel('Frequency')
-    plt.title(column + " Log of all data")
-    plt.savefig("../../../Logs/" + column + "_log_all.png")
+    # plt.figure()  # Plot all data
+    # plt.hist(np.log(df[column]), bins='auto')
+    # plt.xlabel('Log of TimeTaken (Seconds)')
+    # plt.ylabel('Frequency')
+    # plt.title(column + " Log of all data")
+    # plt.savefig("../../../Logs/" + column + "_log_all.png")
 
-    plt.figure()  # Plot times under 500,000 seconds
-    plt.hist(np.log(df[df.TimeTaken < 500000][column]), bins='auto')
-    plt.xlabel('Log of TimeTaken (Seconds)')
-    plt.ylabel('Frequency')
-    plt.title(column + " Log of < 500000s data")
-    plt.savefig("../../../Logs/" + column + "_log_500000.png")
+    # plt.figure()  # Plot times under 500,000 seconds
+    # plt.hist(np.log(df[df.TimeTaken < 500000][column]), bins='auto')
+    # plt.xlabel('Log of TimeTaken (Seconds)')
+    # plt.ylabel('Frequency')
+    # plt.title(column + " Log of < 500000s data")
+    # plt.savefig("../../../Logs/" + column + "_log_500000.png")
 
-    plt.figure()  # Plot times under 100,000 seconds
-    plt.hist(np.log(df[df.TimeTaken < 100000][column]), bins='auto')
-    plt.xlabel('Log of TimeTaken (Seconds)')
-    plt.ylabel('Frequency')
-    plt.title(column + " Log of < 100000s data")
-    plt.savefig("../../../Logs/" + column + "_log_100000.png")
+    # plt.figure()  # Plot times under 100,000 seconds
+    # plt.hist(np.log(df[df.TimeTaken < 100000][column]), bins='auto')
+    # plt.xlabel('Log of TimeTaken (Seconds)')
+    # plt.ylabel('Frequency')
+    # plt.title(column + " Log of < 100000s data")
+    # plt.savefig("../../../Logs/" + column + "_log_100000.png")
 
 
 def split_data(df):  # Split data into training and test data x, y.
@@ -101,10 +102,10 @@ def split_data(df):  # Split data into training and test data x, y.
 
     # trainData_X.to_csv("../../../Data/trainData_X.csv", index = False)  # export file
     # trainData_y.to_csv("../../../Data/trainData_y.csv", index = False)  # export file
-    return trainData_x, testData_x, trainData_y, testData_y
+    return trainData_x, trainData_y, testData_x, testData_y
 
 
-def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
+def linear_regression(trainData_x, trainData_y, testData_x, testData_y, scaler):
     classifier = LinearRegression()
     classifier = classifier.fit(trainData_x, trainData_y)
     y_pred = classifier.predict(testData_x)
@@ -130,6 +131,12 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ri
 
 
 def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
+    y_pred = (scaler.inverse_transform(y_pred)) ** 2
+    y_train_pred = (scaler.inverse_transform(y_train_pred)) ** 2
+
+    trainData_y = (scaler.inverse_transform(trainData_y)) ** 2
+    testData_y = (scaler.inverse_transform(testData_y)) ** 2
+
     plt.figure()
     plt.plot(trainData_y, y_train_pred, 'ro')
     plt.xlabel('trainData_y')
@@ -171,10 +178,23 @@ if __name__ == "__main__":  # Run program
     np.random.seed(12345)  # Set seed
     df = pd.read_csv("../../../Data/vw_Incident_cleaned.csv", encoding='latin-1', low_memory=False)  # Read in csv file
 
-    histogram(df, "TimeTaken")  # Save histogram plots of TimeTaken
+    # histogram(df, "TimeTaken")  # Save histogram plots of TimeTaken
 
-    trainData_x, testData_x, trainData_y, testData_y = split_data(df)  # Split data
+    scaler = preprocessing.StandardScaler()
 
-    linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
+    X = df.drop('TimeTaken', axis=1)
+    y = scaler.fit_transform(np.sqrt(df.TimeTaken))
+
+    plt.hist(y)
+    plt.xlabel('TimeTaken (Scaled Seconds)')
+    plt.ylabel('Frequency')
+    plt.title("TimeTaken Scaled Histogram" + " all data")
+    plt.savefig("../../../Logs/TimeTaken_scaled" + "_all.png")
+    # plt.show()
+
+    trainData_x, testData_x, trainData_y, testData_y = train_test_split(X, y, test_size=0.2)
+
+
+    linear_regression(trainData_x, trainData_y, testData_x, testData_y, scaler)  # Linear Regression
     # elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
     # kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
