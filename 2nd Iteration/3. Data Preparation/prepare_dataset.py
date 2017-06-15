@@ -99,7 +99,7 @@ def min_variable_types(df, out_file, min_var=2):  # Delete columns with less tha
     return df
 
 
-def drop_null(df, out_file, x=0.95):  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+def drop_null(df, out_file, x=0.99):  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
     # todo - this is very similar to min entries, might be able to combine the two
     # df.dropna(axis=1, thresh=int(len(df) * x)) .... an alternative method I could not get to work
     out_file.write("drop_NULL - max ratio: " + str(x) + "\n")
@@ -112,7 +112,7 @@ def drop_null(df, out_file, x=0.95):  # Remove columns where there is a proporti
     return df
 
 
-def drop_zeros(df, out_file, x=0.95):  # Remove columns where there is a proportion of 0 values greater than tol
+def drop_zeros(df, out_file, x=0.99):  # Remove columns where there is a proportion of 0 values greater than tol
     out_file.write("drop_zeros - max ratio: " + str(x) + "\n")
     for column in df:
         if 0 in df[column].value_counts():  # Make sure 0 is in column
@@ -124,7 +124,7 @@ def drop_zeros(df, out_file, x=0.95):  # Remove columns where there is a proport
     return df
 
 
-def drop_ones(df, out_file, x=0.95):  # Remove columns where there is a proportion of 1 values greater than tol
+def drop_ones(df, out_file, x=0.99):  # Remove columns where there is a proportion of 1 values greater than tol
     out_file.write("drop_ones - max ratio: " + str(x) + "\n")
     for column in df:
         if 1 in df[column].value_counts():  # Make sure 0 is in column
