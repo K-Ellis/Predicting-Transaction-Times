@@ -19,6 +19,8 @@ Import libraries
 import pandas as pd
 import numpy as np
 import time
+import os  # Used to create folders
+import getpass  # Used to check PC name
 from sklearn import preprocessing
 
 
@@ -212,7 +214,9 @@ Excel Sheet functions
 def clean_Incident():
 
     print("clean_Incident started")
-    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_clean_Incident" + ".txt"  # Log file name
+
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+                    time.strftime("%Y%m%d-%H%M%S") + "_clean_Incident.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_Incident started" + "\n\n")
@@ -367,7 +371,8 @@ def clean_Incident():
 def clean_AuditHistory():
 
     print("clean_AuditHistory started")
-    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_clean_AuditHistory" + ".txt"  # Log file name
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+                    time.strftime("%Y%m%d-%H%M%S") + "_clean_AuditHistory.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_AuditHistory started" + "\n\n")
@@ -399,7 +404,8 @@ def clean_AuditHistory():
 def clean_HoldActivity():
 
     print("clean_HoldActivity started")
-    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_clean_HoldActivity" + ".txt"  # Log file name
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+                    time.strftime("%Y%m%d-%H%M%S") + "_clean_HoldActivity.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_HoldActivity started" + "\n\n")
@@ -444,7 +450,8 @@ def clean_HoldActivity():
 def clean_PackageTriageEntry():
 
     print("clean_PackageTriageEntry started")
-    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_clean_PackageTriageEntry" + ".txt" # Log file name
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+                    time.strftime("%Y%m%d-%H%M%S") + "_clean_PackageTriageEntry.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_PackageTriageEntry started" + "\n\n")
@@ -488,6 +495,10 @@ Run All Code
 
 
 if __name__ == "__main__":  # Run program
+    newpath = r"../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d")
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)  # Make folder for storing results if it does not exist
+
     clean_Incident()
     clean_AuditHistory()
     clean_HoldActivity()

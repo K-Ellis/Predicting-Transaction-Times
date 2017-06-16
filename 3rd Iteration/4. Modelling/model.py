@@ -20,6 +20,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import os  # Used to create folders
+import getpass  # Used to check PC name
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import ElasticNet
@@ -35,48 +37,59 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " all data")
-    plt.savefig("../../../Logs/" + column + "_all.png")
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+                time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_all.png")
 
     plt.figure()  # Plot times under 500,000 seconds
     plt.hist(df[df.TimeTaken < 500000][column], bins='auto')
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " < 500000s data")
-    plt.savefig("../../../Logs/" + column + "_500000.png")
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+                time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_500000.png")
 
     plt.figure()  # Plot times under 100,000 seconds
     plt.hist(df[df.TimeTaken < 100000][column], bins='auto')
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " < 100000s data")
-    plt.savefig("../../../Logs/" + column + "_100000.png")
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+                time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_100000.png")
 
     plt.figure()  # Plot all data
     plt.hist(np.log(df[column]), bins='auto')
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of all data")
-    plt.savefig("../../../Logs/" + column + "_log_all.png")
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+                time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_all.png")
 
     plt.figure()  # Plot times under 500,000 seconds
     plt.hist(np.log(df[df.TimeTaken < 500000][column]), bins='auto')
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 500000s data")
-    plt.savefig("../../../Logs/" + column + "_log_500000.png")
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+                time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_500000.png")
 
     plt.figure()  # Plot times under 100,000 seconds
     plt.hist(np.log(df[df.TimeTaken < 100000][column]), bins='auto')
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 100000s data")
-    plt.savefig("../../../Logs/" + column + "_log_100000.png")
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+                time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_100000.png")
 
 
 def split_data(df):  # Split data into training and test data x, y.
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+                    time.strftime("%Y%m%d-%H%M%S") + "_split_data.txt"  # Log file name
+    out_file = open(out_file_name, "w")  # Open log file
+    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
+
     distribution = 0
     i = 0
-    while distribution == 0:
+    while distribution == 0:  # Loop until the data is split well
         trainData, testData = train_test_split(df, test_size=0.2)  # Split data 80:20 randomly
         trainData_y = pd.DataFrame()
         trainData_y["TimeTaken"] = trainData["TimeTaken"]
@@ -93,14 +106,16 @@ def split_data(df):  # Split data into training and test data x, y.
             if (std_train - std_test) ** 2 < (std_train * 0.05) ** 2:
                 distribution = 1
         i = i+1
-    print("Number of iterations taken to get good data split:", i)
-    print("Mean value of Train Y:", mean_train)
-    print("Mean value of Test Y:", mean_test)
-    print("Standard deviation of train Y:", std_train)
-    print("Standard deviation of test Y:", std_test, "\n")
+
+    out_file.write("Number of iterations taken to get good data split: " + str(i) + "\n\n")
+    out_file.write("Mean value of Train Y: " + str(mean_train) + "\n")
+    out_file.write("Mean value of Test Y: " + str(mean_test) + "\n\n")
+    out_file.write("Standard deviation of train Y: " + str(std_train) + "\n")
+    out_file.write("Standard deviation of test Y: " + str(std_test) + "\n")
 
     # trainData_X.to_csv("../../../Data/trainData_X.csv", index = False)  # export file
     # trainData_y.to_csv("../../../Data/trainData_y.csv", index = False)  # export file
+    out_file.close()
     return trainData_x, testData_x, trainData_y, testData_y
 
 
@@ -138,7 +153,8 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     plt.axis('equal')
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
-    plt.savefig("../../../Logs/" + alg + "train.png")
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+                time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.png")
 
     plt.figure()
     plt.plot(testData_y, y_pred, 'ro')
@@ -148,16 +164,18 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     plt.axis('equal')
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
-    plt.savefig("../../../Logs/" + alg + "test.png")
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+                time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
 
     print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
     print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
 
-    out_file_name = "../../../Logs/" + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+                    time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
-    out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
+    out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
     out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
-    out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n")
+    out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n\n")
     out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
     out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_pred)) + "\n")
     out_file.close()
@@ -168,6 +186,10 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
 
 
 if __name__ == "__main__":  # Run program
+    newpath = r"../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d")
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)  # Make folder for storing results if it does not exist
+
     np.random.seed(12345)  # Set seed
     df = pd.read_csv("../../../Data/vw_Incident_cleaned.csv", encoding='latin-1', low_memory=False)  # Read in csv file
 
@@ -176,5 +198,5 @@ if __name__ == "__main__":  # Run program
     trainData_x, testData_x, trainData_y, testData_y = split_data(df)  # Split data
 
     linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
-    # elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
-    # kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
+    elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
+    kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
