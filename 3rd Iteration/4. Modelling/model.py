@@ -37,7 +37,7 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " all data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_all.png")
 
     plt.figure()  # Plot times under 500,000 seconds
@@ -45,7 +45,7 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " < 500000s data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_500000.png")
 
     plt.figure()  # Plot times under 100,000 seconds
@@ -53,7 +53,7 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " < 100000s data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_100000.png")
 
     plt.figure()  # Plot all data
@@ -61,7 +61,7 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of all data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_all.png")
 
     plt.figure()  # Plot times under 500,000 seconds
@@ -69,7 +69,7 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 500000s data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_500000.png")
 
     plt.figure()  # Plot times under 100,000 seconds
@@ -77,12 +77,12 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 100000s data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_100000.png")
 
 
 def split_data(df):  # Split data into training and test data x, y.
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_split_data.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -153,7 +153,7 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     plt.axis('equal')
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.png")
 
     plt.figure()
@@ -164,13 +164,13 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     plt.axis('equal')
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" +
+    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
 
     print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
     print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
 
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
@@ -186,7 +186,7 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
 
 
 if __name__ == "__main__":  # Run program
-    newpath = r"../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d")
+    newpath = r"../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/"
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 

@@ -215,7 +215,7 @@ def clean_Incident():
 
     print("clean_Incident started")
 
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_clean_Incident.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -371,7 +371,7 @@ def clean_Incident():
 def clean_AuditHistory():
 
     print("clean_AuditHistory started")
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_clean_AuditHistory.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -404,7 +404,7 @@ def clean_AuditHistory():
 def clean_HoldActivity():
 
     print("clean_HoldActivity started")
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_clean_HoldActivity.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -450,7 +450,7 @@ def clean_HoldActivity():
 def clean_PackageTriageEntry():
 
     print("clean_PackageTriageEntry started")
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_clean_PackageTriageEntry.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -495,7 +495,7 @@ Run All Code
 
 
 if __name__ == "__main__":  # Run program
-    newpath = r"../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d")
+    newpath = r"../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset"
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
