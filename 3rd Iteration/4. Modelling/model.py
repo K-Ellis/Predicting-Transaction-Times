@@ -90,7 +90,7 @@ def split_data(df):  # Split data into training and test data x, y.
     distribution = 0
     i = 0
     while distribution == 0:  # Loop until the data is split well
-        trainData, testData = train_test_split(df, test_size=0.2)  # Split data 80:20 randomly
+        trainData, testData = train_test_split(df, test_size=0.1)  # Split data 80:20 randomly
         trainData_y = pd.DataFrame()
         trainData_y["TimeTaken"] = trainData["TimeTaken"]
         trainData_x = trainData.loc[:, trainData.columns != 'TimeTaken']
@@ -167,9 +167,6 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
 
-    print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
-    print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
-
     out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
@@ -180,6 +177,8 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_pred)) + "\n")
     out_file.close()
 
+    print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
+    print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
     print(alg, "Train R^2 score:", r2_score(trainData_y, y_train_pred))  # Print R Squared
     print(alg, "Test R^2 score:", r2_score(testData_y, y_pred), "\n")  # Print R Squared
     # http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html
