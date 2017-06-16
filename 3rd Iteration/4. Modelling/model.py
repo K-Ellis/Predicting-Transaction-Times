@@ -146,6 +146,22 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ri
 
 
 def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
+    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
+                    time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
+    out_file = open(out_file_name, "w")  # Open log file
+    out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
+
+    number_close = 0  # Use to track number of close estimations
+    for i in range(len(y_pred)):
+        if y_pred[i] < 0:  # Convert all negative predictions to 0
+            y_pred[i] = 0
+            # print(y_pred[i], ": 0 found")
+        if abs(y_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
+            number_close += 1
+
+    out_file.write(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_pred)) + "\n")
+    out_file.write(alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_pred))*100), 2)) + "%\n\n")
+
     plt.figure()
     plt.plot(trainData_y, y_train_pred, 'ro')
     plt.xlabel('trainData_y')
@@ -168,10 +184,6 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
 
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
-                    time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
-    out_file = open(out_file_name, "w")  # Open log file
-    out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
     out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
     out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n\n")
     out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
@@ -196,7 +208,8 @@ if __name__ == "__main__":  # Run program
     histogram(df, "TimeTaken")  # Save histogram plots of TimeTaken
 
     # Take log of y values
-    df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
+    # print("Y has been transformed by log . . . comment out in model code if needed\n")
+    # df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
 
     trainData_x, testData_x, trainData_y, testData_y = split_data(df)  # Split data
 

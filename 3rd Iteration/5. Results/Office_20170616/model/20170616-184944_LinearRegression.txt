@@ -1,0 +1,10 @@
+LinearRegression 20170616-184944
+
+LinearRegression Number close predictions: 845 / 845
+LinearRegression % close predictions: 1.0
+
+LinearRegression Train RMSE: 417997.8652240591
+LinearRegression Test RMSE: 442607.7720009139
+
+LinearRegression Train R^2 scoree: 0.220289140117
+LinearRegression Test R^2 score: 0.173974787209
