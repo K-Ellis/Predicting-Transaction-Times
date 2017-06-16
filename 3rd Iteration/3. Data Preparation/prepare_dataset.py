@@ -315,10 +315,6 @@ def clean_Incident():
     fill_nulls_dfcs(df, quant_cols, "mean", out_file)
     df = scale_quant_cols(df, quant_cols, out_file)
 
-    # put TimeTaken first
-    y = df.pop("TimeTaken")
-    df = pd.concat([y, df], axis=1)
-
     df.IsSOXCase = df.IsSOXCase.astype(int)
     df.Numberofreactivations = df.Numberofreactivations.astype(int)
 
@@ -359,7 +355,13 @@ def clean_Incident():
     ####################################################################################################################
     # Export final df
     ####################################################################################################################
-    df.dropna(inplace=True)
+    # df.dropna(inplace=True)
+
+    # Sort columns alphabetically and put TimeTaken first
+    df = df.reindex_axis(sorted(df.columns), axis=1)
+    # df.sort(list(df), axis=1, inplace=True)
+    y = df.pop("TimeTaken")
+    df = pd.concat([y, df], axis=1)
 
     df.to_csv("../../../Data/vw_Incident_cleaned.csv", index=False)   # export file
 
