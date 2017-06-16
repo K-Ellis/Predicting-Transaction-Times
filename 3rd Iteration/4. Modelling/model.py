@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 import time
 import os  # Used to create folders
 import getpass  # Used to check PC name
+import math
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import ElasticNet
@@ -192,10 +193,13 @@ if __name__ == "__main__":  # Run program
     np.random.seed(12345)  # Set seed
     df = pd.read_csv("../../../Data/vw_Incident_cleaned.csv", encoding='latin-1', low_memory=False)  # Read in csv file
 
-    # histogram(df, "TimeTaken")  # Save histogram plots of TimeTaken
+    histogram(df, "TimeTaken")  # Save histogram plots of TimeTaken
+
+    # Take log of y values
+    df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
 
     trainData_x, testData_x, trainData_y, testData_y = split_data(df)  # Split data
 
-    # linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
-    # elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
+    linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
+    elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
     kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
