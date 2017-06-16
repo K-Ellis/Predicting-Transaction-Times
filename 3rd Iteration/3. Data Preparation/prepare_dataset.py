@@ -74,7 +74,8 @@ def time_taken(df, out_file, start, finish):  # replace start & finish with one 
     out_file.write("Time Taken column calculated" + "\n")
     mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
     std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
-    df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
+    df = df[df["TimeTaken"] < (mean_time + 2*std_time)]  # Remove outliers that are > 2 std from mean
+    # df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
     out_file.write("Outliers removed > 3 sd from mean of TimeTaken" + "\n\n")
     return df
 
@@ -305,6 +306,13 @@ def clean_Incident():
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
+    # One hot encode isSOXcase with isSOXcase and isnotSOXcase. NULLS are set to 0
+    df["IsnotSOXcase"] = df["IsSOXCase"]
+    df["IsnotSOXcase"] = df["IsnotSOXcase"].replace(1, np.NaN)
+    df["IsnotSOXcase"] = df["IsnotSOXcase"].replace(0, 1)
+    df = fill_nulls(df, "IsSOXCase", out_file)
+    df = fill_nulls(df, "IsnotSOXcase", out_file)
+
     ####################################################################################################################
     # Fill Categorical and numerical nulls. And Scale numerical variables.
     ####################################################################################################################
@@ -359,7 +367,6 @@ def clean_Incident():
 
     # Sort columns alphabetically and put TimeTaken first
     df = df.reindex_axis(sorted(df.columns), axis=1)
-    # df.sort(list(df), axis=1, inplace=True)
     y = df.pop("TimeTaken")
     df = pd.concat([y, df], axis=1)
 
@@ -502,6 +509,6 @@ if __name__ == "__main__":  # Run program
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
     clean_Incident()
-    clean_AuditHistory()
-    clean_HoldActivity()
-    clean_PackageTriageEntry()
+    # clean_AuditHistory()
+    # clean_HoldActivity()
+    # clean_PackageTriageEntry()
