@@ -128,7 +128,7 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
 
 
 def elastic_net(trainData_x, trainData_y, testData_x, testData_y):  # Elastic Net
-    classifier = ElasticNet()
+    classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
     classifier = classifier.fit(trainData_x, trainData_y)
     # print(classifier.coef_)
     y_pred = classifier.predict(testData_x)
@@ -137,7 +137,7 @@ def elastic_net(trainData_x, trainData_y, testData_x, testData_y):  # Elastic Ne
 
 
 def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ridge regression
-    classifier = KernelRidge()
+    classifier = KernelRidge(alpha=0.1)
     classifier = classifier.fit(trainData_x, trainData_y)
     y_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
@@ -192,10 +192,10 @@ if __name__ == "__main__":  # Run program
     np.random.seed(12345)  # Set seed
     df = pd.read_csv("../../../Data/vw_Incident_cleaned.csv", encoding='latin-1', low_memory=False)  # Read in csv file
 
-    histogram(df, "TimeTaken")  # Save histogram plots of TimeTaken
+    # histogram(df, "TimeTaken")  # Save histogram plots of TimeTaken
 
     trainData_x, testData_x, trainData_y, testData_y = split_data(df)  # Split data
 
-    linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
-    elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
+    # linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
+    # elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
     kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
