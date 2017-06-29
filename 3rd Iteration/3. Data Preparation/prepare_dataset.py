@@ -40,7 +40,7 @@ def fill_nulls_dfc(dfc, fill_value, out_file):  # Fill in NULL values for one co
     out_file.write("All NULL Values for \"%s\" replaced with most frequent value, %s" % (dfc.name, fill_value) + "\n\n")
 
 
-def fill_nulls_dfcs(df, dfcs, fill_value, out_file):
+def fill_nulls_dfcs(df, dfcs, fill_value, out_file): # Fill in Nulls given a set of dataframe columns
     for dfc in dfcs:
         if fill_value == "mode":
             fill_nulls_dfc(df[dfc], df[dfc].mode()[0], out_file)
@@ -212,17 +212,18 @@ Excel Sheet functions
 *********************************************************************************************************************"""
 
 
-def clean_Incident():
+def clean_Incident(COSMIC_num):
 
-    print("clean_Incident started")
+    print("clean_Incident%s started" % COSMIC_num)
 
     out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
-                    time.strftime("%Y%m%d-%H%M%S") + "_clean_Incident.txt"  # Log file name
+                    time.strftime("%Y%m%d-%H%M%S") + "_clean_Incident%s.txt" % COSMIC_num  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write("clean_Incident started" + "\n\n")
+    out_file.write("clean_Incident%s started" % COSMIC_num + "\n\n")
 
-    df = pd.read_csv("../../../Data/vw_Incident.csv", encoding='latin-1', low_memory=False)
+    df = pd.read_csv("../../../Data/COSMIC_%s/vw_Incident%s.csv" % (COSMIC_num, COSMIC_num), encoding='latin-1',
+                     low_memory=False)
 
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable and filter outliers
 
@@ -233,7 +234,7 @@ def clean_Incident():
     # Create a list of 8 unique substrings located in the categorical variables. These will become the new one-hot
     # encoded column names.
     val_list = df.Queue.value_counts().index.tolist()  # List the categorical values in Queue
-    cat_list = [[] for item in substr_list]  # Create a list of 8 lists (the same size as substr_list)
+    cat_list = [[] for _ in substr_list]  # Create a list of 8 lists (the same size as substr_list)
     for i, substr in enumerate(substr_list):
         for j, val in enumerate(val_list):
             if substr in val:  # If one of the 8 substrings is located in a categorical variable, overwrite the
@@ -353,12 +354,12 @@ def clean_Incident():
     ####################################################################################################################
     cat_vars_to_one_hot = ["StatusReason", "SubReason", "ROCName", "sourcesystem", "Source", "StageName", "Revenutype"]
     for var in cat_vars_to_one_hot:
-       df = one_hot_encoding(df, var, out_file)
+        df = one_hot_encoding(df, var, out_file)
 
     # TODO - have a closer look at SubReason, sourcesystem, Source, Workbench, Revenutype
-       # can we reduce the number of one-hot columns?
-       # Group levels together?
-       # Combine infrequent levels as "Other"?
+        #  can we reduce the number of one-hot columns?
+        #  Group levels together?
+        #  Combine infrequent levels as "Other"?
 
     ####################################################################################################################
     # Export final df
@@ -370,23 +371,25 @@ def clean_Incident():
     y = df.pop("TimeTaken")
     df = pd.concat([y, df], axis=1)
 
-    df.to_csv("../../../Data/vw_Incident_cleaned.csv", index=False)   # export file
+    df.to_csv("../../../Data/COSMIC_%s/vw_Incident%s_cleaned.csv" % (COSMIC_num, COSMIC_num), index=False)   # export
+    # file
 
-    out_file.write("clean_Incident complete")
+    out_file.write("clean_Incident%s complete" % COSMIC_num)
     out_file.close()
-    print("clean_Incident complete")
+    print("clean_Incident%s complete"% COSMIC_num)
 
 
-def clean_AuditHistory():
+def clean_AuditHistory(COSMIC_num):
 
-    print("clean_AuditHistory started")
+    print("clean_AuditHistory%s started" % COSMIC_num)
     out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
-                    time.strftime("%Y%m%d-%H%M%S") + "_clean_AuditHistory.txt"  # Log file name
+                    time.strftime("%Y%m%d-%H%M%S") + "_clean_AuditHistory%s.txt" % COSMIC_num  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write("clean_AuditHistory started" + "\n\n")
+    out_file.write("clean_AuditHistory%s started" % COSMIC_num + "\n\n")
 
-    df = pd.read_csv("../../../Data/vw_AuditHistory.csv", encoding='latin-1', low_memory=False)
+    df = pd.read_csv("../../../Data/COSMIC_%s/vw_AuditHistory%s.csv" % (COSMIC_num, COSMIC_num), encoding='latin-1',
+                     low_memory=False)
 
     # Create Time Variable
     # df = time_taken(df, out_file, "Created_On", "Modified_On")
@@ -403,23 +406,25 @@ def clean_AuditHistory():
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    df.to_csv("../../../Data/vw_AuditHistory_cleaned.csv", index=False)  # export file
+    df.to_csv("../../../Data/COSMIC_%s/vw_AuditHistory%s_cleaned.csv" % (COSMIC_num, COSMIC_num), index=False)  #
+    # export file
 
-    out_file.write("clean_AuditHistory complete")
+    out_file.write("clean_AuditHistory%s complete" % COSMIC_num)
     out_file.close()
-    print("clean_AuditHistory complete")
+    print("clean_AuditHistory%s complete" % COSMIC_num)
 
 
-def clean_HoldActivity():
+def clean_HoldActivity(COSMIC_num):
 
-    print("clean_HoldActivity started")
+    print("clean_HoldActivity%s started" % COSMIC_num)
     out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
-                    time.strftime("%Y%m%d-%H%M%S") + "_clean_HoldActivity.txt"  # Log file name
+                    time.strftime("%Y%m%d-%H%M%S") + "_clean_HoldActivity%s.txt" % COSMIC_num  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write("clean_HoldActivity started" + "\n\n")
+    out_file.write("clean_HoldActivity%s started" % COSMIC_num + "\n\n")
 
-    df = pd.read_csv("../../../Data/vw_HoldActivity.csv", encoding='latin-1', low_memory=False)
+    df = pd.read_csv("../../../Data/COSMIC_%s/vw_HoldActivity%s.csv" % (COSMIC_num, COSMIC_num), encoding='latin-1',
+                     low_memory=False)
 
     # Domain knowledge processing
     # Use hold duration as time
@@ -449,23 +454,26 @@ def clean_HoldActivity():
     # delete for now, not sure what to do with it..
     # del df["ParentCase"]
 
-    df.to_csv("../../../Data/vw_HoldActivity_cleaned.csv", index=False)  # export file
+    df.to_csv("../../../Data/COSMIC_%s/vw_HoldActivity%s_cleaned.csv" % (COSMIC_num, COSMIC_num), index=False)  #
+    # export file
 
-    out_file.write("clean_AuditHistory complete")
+    out_file.write("clean_AuditHistory%s complete" % COSMIC_num)
     out_file.close()
-    print("clean_HoldActivity complete")
+    print("clean_HoldActivity%s complete" % COSMIC_num)
 
 
-def clean_PackageTriageEntry():
+def clean_PackageTriageEntry(COSMIC_num):
 
-    print("clean_PackageTriageEntry started")
+    print("clean_PackageTriageEntry%s started" % COSMIC_num)
     out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
-                    time.strftime("%Y%m%d-%H%M%S") + "_clean_PackageTriageEntry.txt"  # Log file name
+                    time.strftime("%Y%m%d-%H%M%S") + "_clean_PackageTriageEntry%s.txt" % COSMIC_num  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write("clean_PackageTriageEntry started" + "\n\n")
+    out_file.write("clean_PackageTriageEntry%s started" % COSMIC_num + "\n\n")
 
-    df = pd.read_csv("../../../Data/vw_PackageTriageEntry.csv", encoding='latin-1', low_memory=False)
+    df = pd.read_csv("../../../Data/COSMIC_%s/vw_PackageTriageEntry%s.csv" % (COSMIC_num, COSMIC_num),
+                     encoding='latin-1',
+                     low_memory=False)
 
     # Create Time Variable
     # df = time_taken(df, out_file, "Created_On", "Modified_On")
@@ -491,11 +499,12 @@ def clean_PackageTriageEntry():
 
     # df = fill_nulls(df, "EntryProcess", out_file)  # Fill in NULL values with 0s
 
-    df.to_csv("../../../Data/vw_PackageTriageEntry_cleaned.csv", index=False)  # export file
+    df.to_csv("../../../Data/COSMIC_%s/vw_PackageTriageEntry%s_cleaned.csv" % (COSMIC_num, COSMIC_num), index=False)  #
+    #  export file
 
-    out_file.write("clean_PackageTriageEntry complete")
+    out_file.write("clean_PackageTriageEntry%s complete" % COSMIC_num)
     out_file.close()
-    print("clean_PackageTriageEntry complete")
+    print("clean_PackageTriageEntry%s complete" % COSMIC_num)
 
 
 """****************************************************************************
@@ -508,7 +517,14 @@ if __name__ == "__main__":  # Run program
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
-    clean_Incident()
-    # clean_AuditHistory()
-    # clean_HoldActivity()
-    # clean_PackageTriageEntry()
+    COSMIC_num = "1"  # First COSMIC dataset received
+    clean_Incident(COSMIC_num)
+    clean_AuditHistory(COSMIC_num)
+    clean_HoldActivity(COSMIC_num)
+    clean_PackageTriageEntry(COSMIC_num)
+
+    COSMIC_num = "2"  # First COSMIC dataset received
+    clean_Incident(COSMIC_num)
+    clean_AuditHistory(COSMIC_num)
+    clean_HoldActivity(COSMIC_num)
+    clean_PackageTriageEntry(COSMIC_num)

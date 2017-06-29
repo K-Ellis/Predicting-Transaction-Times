@@ -30,15 +30,17 @@ from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from math import sqrt
+from ask_user_which_file import ask_user
 
 
-def histogram(df, column):  # Create histogram of preprocessed data
+def histogram(df, column, COSMIC_num):  # Create histogram of preprocessed data
     plt.figure()  # Plot all data
     plt.hist(df[column], bins='auto')
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " all data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") +
+                "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_all.png")
 
     plt.figure()  # Plot times under 500,000 seconds
@@ -46,7 +48,8 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " < 500000s data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") +
+                "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_500000.png")
 
     plt.figure()  # Plot times under 100,000 seconds
@@ -54,7 +57,7 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " < 100000s data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_100000.png")
 
     plt.figure()  # Plot all data
@@ -62,7 +65,7 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of all data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_all.png")
 
     plt.figure()  # Plot times under 500,000 seconds
@@ -70,7 +73,7 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 500000s data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_500000.png")
 
     plt.figure()  # Plot times under 100,000 seconds
@@ -78,12 +81,12 @@ def histogram(df, column):  # Create histogram of preprocessed data
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 100000s data")
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_100000.png")
 
 
-def split_data(df):  # Split data into training and test data x, y.
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
+def split_data(df, COSMIC_num):  # Split data into training and test data x, y.
+    out_file_name = "../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_split_data.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -120,21 +123,21 @@ def split_data(df):  # Split data into training and test data x, y.
     return trainData_x, testData_x, trainData_y, testData_y
 
 
-def linear_regression(trainData_x, trainData_y, testData_x, testData_y):
+def linear_regression(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num):
     classifier = LinearRegression()
     classifier = classifier.fit(trainData_x, trainData_y)
     y_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
-    results(testData_y, y_pred, trainData_y, y_train_pred, "LinearRegression")
+    results(testData_y, y_pred, trainData_y, y_train_pred, "LinearRegression", COSMIC_num)
 
 
-def elastic_net(trainData_x, trainData_y, testData_x, testData_y):  # Elastic Net
+def elastic_net(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num):  # Elastic Net
     classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
     classifier = classifier.fit(trainData_x, trainData_y)
     # print(classifier.coef_)
     y_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
-    results(testData_y, y_pred, trainData_y, y_train_pred, "ElasticNet")
+    results(testData_y, y_pred, trainData_y, y_train_pred, "ElasticNet", COSMIC_num)
 
 
 def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ridge regression
@@ -142,11 +145,11 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ri
     classifier = classifier.fit(trainData_x, trainData_y)
     y_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
-    results(testData_y, y_pred, trainData_y, y_train_pred, "KernelRidge")
+    results(testData_y, y_pred, trainData_y, y_train_pred, "KernelRidge", COSMIC_num)
 
 
-def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
+def results(testData_y, y_pred, trainData_y, y_train_pred, alg, COSMIC_num):
+    out_file_name = "../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
@@ -170,7 +173,7 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     plt.axis('equal')
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.png")
 
     plt.figure()
@@ -181,7 +184,7 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
     plt.axis('equal')
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
-    plt.savefig("../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
 
     out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
@@ -198,21 +201,25 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
 
 
 if __name__ == "__main__":  # Run program
-    newpath = r"../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/"
+    COSMIC_num = ask_user()
+    newpath = r"../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/"
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
     np.random.seed(12345)  # Set seed
-    df = pd.read_csv("../../../Data/vw_Incident_cleaned.csv", encoding='latin-1', low_memory=False)  # Read in csv file
 
-    histogram(df, "TimeTaken")  # Save histogram plots of TimeTaken
+    df = pd.read_csv("../../../Data/COSMIC_%s/vw_Incident%s_cleaned.csv" % (COSMIC_num, COSMIC_num),
+                     encoding='latin-1',
+                     low_memory=False)
+
+    histogram(df, "TimeTaken", COSMIC_num)  # Save histogram plots of TimeTaken
 
     # Take log of y values
     # print("Y has been transformed by log . . . comment out in model code if needed\n")
     # df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
 
-    trainData_x, testData_x, trainData_y, testData_y = split_data(df)  # Split data
+    trainData_x, testData_x, trainData_y, testData_y = split_data(df, COSMIC_num)  # Split data
 
-    linear_regression(trainData_x, trainData_y, testData_x, testData_y)  # Linear Regression
-    elastic_net(trainData_x, trainData_y, testData_x, testData_y)  # elastic net
-    kernel_ridge(trainData_x, trainData_y, testData_x, testData_y)  # Kernel ridge regression
+    linear_regression(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # Linear Regression
+    elastic_net(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # elastic net
+    # kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # Kernel ridge regression
