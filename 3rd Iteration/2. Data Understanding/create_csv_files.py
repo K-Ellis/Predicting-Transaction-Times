@@ -39,6 +39,6 @@ if __name__ == "__main__":  # Run program
     create_csv(dataset, 1)
     print("CSVs created for", dataset)
 
-    dataset = "UCD_Data_20170623_1.xlsx"
-    create_csv(dataset, 2)
-    print("CSVs created for", dataset)
+    # dataset = "UCD_Data_20170623_1.xlsx"
+    # create_csv(dataset, 2)
+    # print("CSVs created for", dataset)
