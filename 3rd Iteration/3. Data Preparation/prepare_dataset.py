@@ -308,11 +308,13 @@ def clean_Incident(COSMIC_num):
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
     # One hot encode isSOXcase with isSOXcase and isnotSOXcase. NULLS are set to 0
-    df["IsnotSOXcase"] = df["IsSOXCase"]
-    df["IsnotSOXcase"] = df["IsnotSOXcase"].replace(1, np.NaN)
-    df["IsnotSOXcase"] = df["IsnotSOXcase"].replace(0, 1)
-    df = fill_nulls(df, "IsSOXCase", out_file)
-    df = fill_nulls(df, "IsnotSOXcase", out_file)
+    # df["IsnotSOXcase"] = df["IsSOXCase"]
+    # df["IsnotSOXcase"] = df["IsnotSOXcase"].replace(1, np.NaN)
+    # df["IsnotSOXcase"] = df["IsnotSOXcase"].replace(0, 1)
+    # df = fill_nulls(df, "IsSOXCase", out_file)
+    # df = fill_nulls(df, "IsnotSOXcase", out_file)
+    df["IsSOXCase"].fillna(2, inplace=True)
+    df = df[df["IsSOXCase"] != 2]
 
     ####################################################################################################################
     # Fill Categorical and numerical nulls. And Scale numerical variables.
@@ -530,15 +532,14 @@ if __name__ == "__main__":  # Run program
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
 
-
-    COSMIC_num = "1"  # First COSMIC dataset received
-    clean_Incident(COSMIC_num)
+    # COSMIC_num = "1"  # First COSMIC dataset received
+    # clean_Incident(COSMIC_num)
     # clean_AuditHistory(COSMIC_num)
     # clean_HoldActivity(COSMIC_num)
     # clean_PackageTriageEntry(COSMIC_num)
-    #
+
     COSMIC_num = "2"  # First COSMIC dataset received
     clean_Incident(COSMIC_num)
-    # clean_AuditHistory(COSMIC_num)
-    # clean_HoldActivity(COSMIC_num)
-    # clean_PackageTriageEntry(COSMIC_num)
+    clean_AuditHistory(COSMIC_num)
+    clean_HoldActivity(COSMIC_num)
+    clean_PackageTriageEntry(COSMIC_num)
