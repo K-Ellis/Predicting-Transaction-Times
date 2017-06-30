@@ -201,7 +201,8 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, COSMIC_num):
 
 
 if __name__ == "__main__":  # Run program
-    COSMIC_num = ask_user()
+    # COSMIC_num = ask_user()
+    COSMIC_num = 2  # Use the Second COSMIC dataset
     newpath = r"../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/"
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
