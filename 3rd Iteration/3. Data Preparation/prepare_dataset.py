@@ -22,7 +22,7 @@ import time
 import os  # Used to create folders
 import getpass  # Used to check PC name
 from sklearn import preprocessing
-
+# from multicollinearity import find_and_delete_corr
 
 """*********************************************************************************************************************
 Reusable Pre-Processing Functions
@@ -361,6 +361,18 @@ def clean_Incident(COSMIC_num):
         #  Group levels together?
         #  Combine infrequent levels as "Other"?
 
+    # ####################################################################################################################
+    # # Delete Collinear Variables above a given threshold
+    # ####################################################################################################################
+    # df, cols_deleted = find_and_delete_corr(df, correlation_threshold)
+    #
+    # out_file.write("\n Delete one of the columns when correlation between a pair is above %s:" %  correlation_threshold)
+    # for col in cols_deleted:
+    #     out_file.write("%s" % col)
+    # out_file.write("\n\n")
+
+
+
     ####################################################################################################################
     # Export final df
     ####################################################################################################################
@@ -517,14 +529,16 @@ if __name__ == "__main__":  # Run program
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
+
+
     COSMIC_num = "1"  # First COSMIC dataset received
     clean_Incident(COSMIC_num)
-    clean_AuditHistory(COSMIC_num)
-    clean_HoldActivity(COSMIC_num)
-    clean_PackageTriageEntry(COSMIC_num)
-
+    # clean_AuditHistory(COSMIC_num)
+    # clean_HoldActivity(COSMIC_num)
+    # clean_PackageTriageEntry(COSMIC_num)
+    #
     COSMIC_num = "2"  # First COSMIC dataset received
     clean_Incident(COSMIC_num)
-    clean_AuditHistory(COSMIC_num)
-    clean_HoldActivity(COSMIC_num)
-    clean_PackageTriageEntry(COSMIC_num)
+    # clean_AuditHistory(COSMIC_num)
+    # clean_HoldActivity(COSMIC_num)
+    # clean_PackageTriageEntry(COSMIC_num)

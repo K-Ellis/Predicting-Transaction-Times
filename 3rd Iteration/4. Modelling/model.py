@@ -213,6 +213,11 @@ if __name__ == "__main__":  # Run program
                      encoding='latin-1',
                      low_memory=False)
 
+    # df = pd.read_csv("../../../Data/COSMIC_%s/vw_Incident%s_cleaned(collinearity_thresh_0.9).csv" % (COSMIC_num,
+    #                                                                                                COSMIC_num),
+    #                  encoding='latin-1',
+    #                  low_memory=False)
+
     histogram(df, "TimeTaken", COSMIC_num)  # Save histogram plots of TimeTaken
 
     # Take log of y values
