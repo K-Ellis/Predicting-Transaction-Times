@@ -236,4 +236,4 @@ if __name__ == "__main__":  # Run program
 
     linear_regression(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # Linear Regression
     elastic_net(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # elastic net
-    # kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # Kernel ridge regression
+    kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # Kernel ridge regression
