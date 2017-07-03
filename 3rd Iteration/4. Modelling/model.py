@@ -143,7 +143,7 @@ def elastic_net(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num):  
     results(testData_y, y_pred, trainData_y, y_train_pred, "ElasticNet", COSMIC_num)
 
 
-def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ridge regression
+def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num):  # Kernel ridge regression
     classifier = KernelRidge(alpha=0.1)
     classifier = classifier.fit(trainData_x, trainData_y)
     y_pred = classifier.predict(testData_x)
@@ -231,4 +231,4 @@ if __name__ == "__main__":  # Run program
 
     linear_regression(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # Linear Regression
     elastic_net(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # elastic net
-    # kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # Kernel ridge regression
+    kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num)  # Kernel ridge regression
