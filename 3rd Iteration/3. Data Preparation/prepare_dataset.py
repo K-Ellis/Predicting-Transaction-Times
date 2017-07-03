@@ -216,7 +216,7 @@ def clean_Incident(COSMIC_num):
 
     print("clean_Incident%s started" % COSMIC_num)
 
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
+    out_file_name = "../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_clean_Incident%s.txt" % COSMIC_num  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -384,7 +384,7 @@ def clean_Incident(COSMIC_num):
 def clean_AuditHistory(COSMIC_num):
 
     print("clean_AuditHistory%s started" % COSMIC_num)
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
+    out_file_name = "../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_clean_AuditHistory%s.txt" % COSMIC_num  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -419,7 +419,7 @@ def clean_AuditHistory(COSMIC_num):
 def clean_HoldActivity(COSMIC_num):
 
     print("clean_HoldActivity%s started" % COSMIC_num)
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
+    out_file_name = "../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_clean_HoldActivity%s.txt" % COSMIC_num  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -467,7 +467,7 @@ def clean_HoldActivity(COSMIC_num):
 def clean_PackageTriageEntry(COSMIC_num):
 
     print("clean_PackageTriageEntry%s started" % COSMIC_num)
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
+    out_file_name = "../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_clean_PackageTriageEntry%s.txt" % COSMIC_num  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -515,7 +515,7 @@ Run All Code
 
 
 if __name__ == "__main__":  # Run program
-    newpath = r"../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset"
+    newpath = r"../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset"
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 

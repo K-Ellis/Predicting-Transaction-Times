@@ -5,10 +5,10 @@ import getpass  # Used to check PC name
 
 
 def create_csv(dataset, COSMIC_num):  # Convert files to CSV
-    newpath = r"../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d")
+    newpath = r"../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d")
     if not os.path.exists(newpath):
         os.makedirs(newpath)
-    out_file_name = "../5. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
+    out_file_name = "../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_create_csv" + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")

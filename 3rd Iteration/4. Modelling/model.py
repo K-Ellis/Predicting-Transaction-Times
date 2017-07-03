@@ -10,11 +10,9 @@ Kieron Ellis
 Working on dataset from Cosmic launch (6th Feb) to End March
 ****************************************************************************"""
 
-
 """****************************************************************************
 Import libraries
 ****************************************************************************"""
-
 
 import pandas as pd
 import numpy as np
@@ -39,7 +37,7 @@ def histogram(df, column, COSMIC_num):  # Create histogram of preprocessed data
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " all data")
-    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") +
+    plt.savefig("../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") +
                 "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_all.png")
 
@@ -48,7 +46,7 @@ def histogram(df, column, COSMIC_num):  # Create histogram of preprocessed data
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " < 500000s data")
-    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") +
+    plt.savefig("../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") +
                 "/model/" +
                 time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_500000.png")
 
@@ -57,36 +55,41 @@ def histogram(df, column, COSMIC_num):  # Create histogram of preprocessed data
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " < 100000s data")
-    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
-                time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_100000.png")
+    plt.savefig(
+        "../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+        time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_100000.png")
 
     plt.figure()  # Plot all data
     plt.hist(np.log(df[column]), bins='auto')
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of all data")
-    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
-                time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_all.png")
+    plt.savefig(
+        "../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+        time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_all.png")
 
     plt.figure()  # Plot times under 500,000 seconds
     plt.hist(np.log(df[df.TimeTaken < 500000][column]), bins='auto')
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 500000s data")
-    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
-                time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_500000.png")
+    plt.savefig(
+        "../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+        time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_500000.png")
 
     plt.figure()  # Plot times under 100,000 seconds
     plt.hist(np.log(df[df.TimeTaken < 100000][column]), bins='auto')
     plt.xlabel('Log of TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 100000s data")
-    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
-                time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_100000.png")
+    plt.savefig(
+        "../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+        time.strftime("%Y%m%d-%H%M%S") + "_" + column + "_log_100000.png")
 
 
 def split_data(df, COSMIC_num):  # Split data into training and test data x, y.
-    out_file_name = "../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
+    out_file_name = "../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime(
+        "%Y%m%d") + "/model/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_split_data.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
@@ -101,7 +104,7 @@ def split_data(df, COSMIC_num):  # Split data into training and test data x, y.
         testData_y = pd.DataFrame()
         testData_y["TimeTaken"] = testData["TimeTaken"]
         testData_x = testData.loc[:, testData.columns != 'TimeTaken']
-        mean_train = sum(trainData_y["TimeTaken"].tolist())/len(trainData_y)
+        mean_train = sum(trainData_y["TimeTaken"].tolist()) / len(trainData_y)
         mean_test = sum(testData_y["TimeTaken"].tolist()) / len(testData_y)
         std_train = np.std(trainData_y["TimeTaken"].tolist())
         std_test = np.std(testData_y["TimeTaken"].tolist())
@@ -109,7 +112,7 @@ def split_data(df, COSMIC_num):  # Split data into training and test data x, y.
         if (mean_train - mean_test) ** 2 < (mean_train * 0.05) ** 2:
             if (std_train - std_test) ** 2 < (std_train * 0.05) ** 2:
                 distribution = 1
-        i = i+1
+        i = i + 1
 
     out_file.write("Number of iterations taken to get good data split: " + str(i) + "\n\n")
     out_file.write("Mean value of Train Y: " + str(mean_train) + "\n")
@@ -149,7 +152,8 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ri
 
 
 def results(testData_y, y_pred, trainData_y, y_train_pred, alg, COSMIC_num):
-    out_file_name = "../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" + \
+    out_file_name = "../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime(
+        "%Y%m%d") + "/model/" + \
                     time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
@@ -163,7 +167,8 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, COSMIC_num):
             number_close += 1
 
     out_file.write(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_pred)) + "\n")
-    out_file.write(alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_pred))*100), 2)) + "%\n\n")
+    out_file.write(
+        alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_pred)) * 100), 2)) + "%\n\n")
 
     plt.figure()
     plt.plot(trainData_y, y_train_pred, 'ro')
@@ -173,8 +178,9 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, COSMIC_num):
     plt.axis('equal')
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
-    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
-                time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.png")
+    plt.savefig(
+        "../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+        time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.png")
 
     plt.figure()
     plt.plot(testData_y, y_pred, 'ro')
@@ -184,8 +190,9 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, COSMIC_num):
     plt.axis('equal')
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
-    plt.savefig("../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
-                time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
+    plt.savefig(
+        "../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/" +
+        time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
 
     out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
     out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n\n")
@@ -203,7 +210,8 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, COSMIC_num):
 if __name__ == "__main__":  # Run program
     # COSMIC_num = ask_user()
     COSMIC_num = 2  # Use the Second COSMIC dataset
-    newpath = r"../5. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/model/"
+    newpath = r"../0. Results/COSMIC_%s/" % COSMIC_num + str(getpass.getuser()) + "_" + time.strftime(
+        "%Y%m%d") + "/model/"
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
