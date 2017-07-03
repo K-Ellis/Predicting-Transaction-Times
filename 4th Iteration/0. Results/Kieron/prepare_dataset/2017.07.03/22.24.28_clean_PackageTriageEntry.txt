@@ -1,0 +1,23 @@
+Date and time: 20170703-222428
+clean_PackageTriageEntry started
+
+user = Kieron
+file opened = vw_PackageTriageEntry.csv
+COSMIC Number = 2
+min_entries function - min: 3
+
+min_variable_types function - min: 2
+
+drop_NULL - max ratio: 0.99
+
+drop_zeros - max ratio: 0.99
+
+drop_ones - max ratio: 0.99
+
+One hot encoding completed for EntryType
+
+One hot encoding completed for EntryLevel
+
+One hot encoding completed for EntryProcess
+
+clean_PackageTriageEntry%s completefile saved as vw_PackageTriageEntry_cleaned

@@ -1,0 +1,5 @@
+Date and time: 20170703-220651
+clean_AuditHistory%s started
+
+user = Kieron
+file opened = ABT_Incident_HoldDuration.csv

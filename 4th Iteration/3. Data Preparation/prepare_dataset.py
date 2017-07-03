@@ -22,7 +22,6 @@ import time
 import os  # Used to create folders
 import getpass  # Used to check PC name
 from sklearn import preprocessing
-# from multicollinearity import find_and_delete_corr
 
 """*********************************************************************************************************************
 Reusable Pre-Processing Functions
@@ -71,10 +70,10 @@ def time_taken(df, out_file, start, finish):  # replace start & finish with one 
     del df[start]
     del df[finish]
     df = pd.concat([df2, df], axis=1)
-    out_file.write("Time Taken column calculated" + "\n")
+    out_file.write("\nTime Taken column calculated" + "\n")
     mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
     std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
-    df = df[df["TimeTaken"] < (mean_time + 2*std_time)]  # Remove outliers that are > 2 std from mean
+    df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 2 std from mean
     # df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
     out_file.write("Outliers removed > 3 sd from mean of TimeTaken" + "\n\n")
     return df
@@ -212,18 +211,20 @@ Excel Sheet functions
 *********************************************************************************************************************"""
 
 
-def clean_Incident(COSMIC_num):
+def clean_Incident(d, newpath):
 
-    print("clean_Incident%s started" % COSMIC_num)
+    print("clean_Incident started")
 
-    out_file_name = "../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
-                    time.strftime("%Y%m%d-%H%M%S") + "_clean_Incident%s.txt" % COSMIC_num  # Log file name
+    out_file_name = newpath + time.strftime("%H.%M.%S") + "_clean_Incident.txt"  # Log file name
+
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write("clean_Incident%s started" % COSMIC_num + "\n\n")
+    out_file.write("clean_Incident started" + "\n\n")
+    out_file.write("user = %s" % d["User"] + "\n")
+    out_file.write("file opened = %s.csv" % d["Infile"] + "\n")
+    out_file.write("COSMIC Number = %s" % d["COSMIC_Number"] + "\n")
 
-    df = pd.read_csv("../../../Data/COSMIC_%s/vw_Incident%s.csv" % (COSMIC_num, COSMIC_num), encoding='latin-1',
-                     low_memory=False)
+    df = pd.read_csv("../../../Data/%s.csv" % d["Infile"], encoding='latin-1', low_memory=False)
 
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable and filter outliers
 
@@ -319,11 +320,15 @@ def clean_Incident(COSMIC_num):
     ####################################################################################################################
     # Fill Categorical and numerical nulls. And Scale numerical variables.
     ####################################################################################################################
-    quant_cols = ["AmountinUSD"]
+    if d["Infile"] == "ABT_Incident_HoldDuration":
+        quant_cols = ["AmountinUSD", "HoldDuration"]
+    else:
+        quant_cols = ["AmountinUSD"]
+
     exclude_from_mode_fill = quant_cols
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
     fill_nulls_dfcs(df, dfcs, "mode", out_file)
-    fill_nulls_dfcs(df, quant_cols, "mean", out_file)
+    fill_nulls_dfcs(df, ["AmountinUSD"], "mean", out_file)
     df = scale_quant_cols(df, quant_cols, out_file)
 
     df.IsSOXCase = df.IsSOXCase.astype(int)
@@ -385,26 +390,27 @@ def clean_Incident(COSMIC_num):
     y = df.pop("TimeTaken")
     df = pd.concat([y, df], axis=1)
 
-    df.to_csv("../../../Data/COSMIC_%s/vw_Incident%s_cleaned.csv" % (COSMIC_num, COSMIC_num), index=False)   # export
-    # file
+    df.to_csv("../../../Data/%s.csv" % (d["Outfile"]), index=False)  # export # file
 
-    out_file.write("clean_Incident%s complete" % COSMIC_num)
+    out_file.write("file saved as %s" % d["Outfile"] + "\n")
+    out_file.write("clean_Incident complete")
     out_file.close()
-    print("clean_Incident%s complete"% COSMIC_num)
+    print("clean_Incident complete")
 
 
-def clean_AuditHistory(COSMIC_num):
+def clean_AuditHistory(d, newpath):
 
-    print("clean_AuditHistory%s started" % COSMIC_num)
-    out_file_name = "../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
-                    time.strftime("%Y%m%d-%H%M%S") + "_clean_AuditHistory%s.txt" % COSMIC_num  # Log file name
+    print("clean_AuditHistory started")
+    out_file_name = newpath + time.strftime("%H.%M.%S") + "_clean_AuditHistory.txt"  # Log file name
+
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write("clean_AuditHistory%s started" % COSMIC_num + "\n\n")
+    out_file.write("clean_AuditHistory started" + "\n\n")
+    df = pd.read_csv("../../../Data/%s.csv" % d["Infile"], encoding='latin-1', low_memory=False)
 
-    df = pd.read_csv("../../../Data/COSMIC_%s/vw_AuditHistory%s.csv" % (COSMIC_num, COSMIC_num), encoding='latin-1',
-                     low_memory=False)
-
+    out_file.write("user = %s" % d["User"] + "\n")
+    out_file.write("file opened = %s.csv" % d["Infile"] + "\n")
+    out_file.write("COSMIC Number = %s" % d["COSMIC_Number"] + "\n")
     # Create Time Variable
     # df = time_taken(df, out_file, "Created_On", "Modified_On")
     # todo - to_datetime not working for audit history
@@ -420,25 +426,28 @@ def clean_AuditHistory(COSMIC_num):
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    df.to_csv("../../../Data/COSMIC_%s/vw_AuditHistory%s_cleaned.csv" % (COSMIC_num, COSMIC_num), index=False)  #
-    # export file
+    df.to_csv("../../../Data/%s.csv" % (d["Outfile"]), index=False)  # export # file
 
-    out_file.write("clean_AuditHistory%s complete" % COSMIC_num)
+    out_file.write("clean_AuditHistory%s complete")
+    out_file.write("file saved as %s" % d["Outfile"] + "\n")
     out_file.close()
-    print("clean_AuditHistory%s complete" % COSMIC_num)
+    print("clean_AuditHistory complete")
 
 
-def clean_HoldActivity(COSMIC_num):
+def clean_HoldActivity(d, newpath):
 
-    print("clean_HoldActivity%s started" % COSMIC_num)
-    out_file_name = "../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
-                    time.strftime("%Y%m%d-%H%M%S") + "_clean_HoldActivity%s.txt" % COSMIC_num  # Log file name
+    print("clean_HoldActivity started")
+
+    out_file_name = newpath + time.strftime("%H.%M.%S") + "_clean_HoldActivity.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write("clean_HoldActivity%s started" % COSMIC_num + "\n\n")
+    out_file.write("clean_HoldActivity started" + "\n\n")
 
-    df = pd.read_csv("../../../Data/COSMIC_%s/vw_HoldActivity%s.csv" % (COSMIC_num, COSMIC_num), encoding='latin-1',
-                     low_memory=False)
+    df = pd.read_csv("../../../Data/%s.csv" % d["Infile"], encoding='latin-1', low_memory=False)
+
+    out_file.write("user = %s" % d["User"] + "\n")
+    out_file.write("file opened = %s.csv" % d["Infile"] + "\n")
+    out_file.write("COSMIC Number = %s" % d["COSMIC_Number"] + "\n")
 
     # Domain knowledge processing
     # Use hold duration as time
@@ -468,26 +477,29 @@ def clean_HoldActivity(COSMIC_num):
     # delete for now, not sure what to do with it..
     # del df["ParentCase"]
 
-    df.to_csv("../../../Data/COSMIC_%s/vw_HoldActivity%s_cleaned.csv" % (COSMIC_num, COSMIC_num), index=False)  #
+    df.to_csv("../../../Data/%s.csv" % (d["Outfile"]), index=False)  # export # file
     # export file
 
-    out_file.write("clean_AuditHistory%s complete" % COSMIC_num)
+    out_file.write("clean_HoldActivity%s complete")
+    out_file.write("file saved as %s" % d["Outfile"] + "\n")
     out_file.close()
-    print("clean_HoldActivity%s complete" % COSMIC_num)
+    print("clean_HoldActivity complete")
 
 
-def clean_PackageTriageEntry(COSMIC_num):
+def clean_PackageTriageEntry(d, newpath):
 
-    print("clean_PackageTriageEntry%s started" % COSMIC_num)
-    out_file_name = "../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset/" + \
-                    time.strftime("%Y%m%d-%H%M%S") + "_clean_PackageTriageEntry%s.txt" % COSMIC_num  # Log file name
+    print("clean_PackageTriageEntry started")
+
+    out_file_name = newpath + time.strftime("%H.%M.%S") + "_clean_PackageTriageEntry.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write("clean_PackageTriageEntry%s started" % COSMIC_num + "\n\n")
+    out_file.write("clean_PackageTriageEntry started" + "\n\n")
 
-    df = pd.read_csv("../../../Data/COSMIC_%s/vw_PackageTriageEntry%s.csv" % (COSMIC_num, COSMIC_num),
-                     encoding='latin-1',
-                     low_memory=False)
+    df = pd.read_csv("../../../Data/%s.csv" % d["Infile"], encoding='latin-1', low_memory=False)
+
+    out_file.write("user = %s" % d["User"] + "\n")
+    out_file.write("file opened = %s.csv" % d["Infile"] + "\n")
+    out_file.write("COSMIC Number = %s" % d["COSMIC_Number"] + "\n")
 
     # Create Time Variable
     # df = time_taken(df, out_file, "Created_On", "Modified_On")
@@ -513,12 +525,13 @@ def clean_PackageTriageEntry(COSMIC_num):
 
     # df = fill_nulls(df, "EntryProcess", out_file)  # Fill in NULL values with 0s
 
-    df.to_csv("../../../Data/COSMIC_%s/vw_PackageTriageEntry%s_cleaned.csv" % (COSMIC_num, COSMIC_num), index=False)  #
-    #  export file
+    df.to_csv("../../../Data/%s.csv" % (d["Outfile"]), index=False)  # export # file
+    # export file
 
-    out_file.write("clean_PackageTriageEntry%s complete" % COSMIC_num)
+    out_file.write("clean_PackageTriageEntry%s complete")
+    out_file.write("file saved as %s" % d["Outfile"] + "\n")
     out_file.close()
-    print("clean_PackageTriageEntry%s complete" % COSMIC_num)
+    print("clean_PackageTriageEntry%s complete")
 
 
 """****************************************************************************
@@ -527,18 +540,55 @@ Run All Code
 
 
 if __name__ == "__main__":  # Run program
-    newpath = r"../0. Results/" + str(getpass.getuser()) + "_" + time.strftime("%Y%m%d") + "/prepare_dataset"
+    newpath = r"../0. Results/" + str(getpass.getuser()) + "/prepare_dataset/" + time.strftime("%Y.%m.%d/")  # Log
+    # file name
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
-    # COSMIC_num = "1"  # First COSMIC dataset received
-    # clean_Incident(COSMIC_num)
-    # clean_AuditHistory(COSMIC_num)
-    # clean_HoldActivity(COSMIC_num)
-    # clean_PackageTriageEntry(COSMIC_num)
+    d = {}
+    with open("../../../Data/prepare_inputs.txt", "r") as f:
+        for line in f:
+            line = line.replace(":", "")
+            (key, val) = line.split()
+            d[key] = val
 
-    COSMIC_num = "2"  # First COSMIC dataset received
-    clean_Incident(COSMIC_num)
-    clean_AuditHistory(COSMIC_num)
-    clean_HoldActivity(COSMIC_num)
-    clean_PackageTriageEntry(COSMIC_num)
+    if d["clean_Incident"] == "y":
+        clean_Incident(d, newpath)
+    if d["clean_AuditHistory"] == "y":
+        clean_AuditHistory(d, newpath)
+    if d["clean_HoldActivity"] == "y":
+        clean_HoldActivity(d, newpath)
+    if d["clean_PackageTriageEntry"] == "y":
+        clean_PackageTriageEntry(d, newpath)
+
+
+
+"""
+User:
+
+# choose which prepare_dataset option(s) with y/n
+clean_Incident: y
+clean_AuditHistory: y
+clean_HoldActivity: y
+clean_PackageTriageEntry: y
+
+Prepare_Infile: # name of file to be transformed
+- vw_Incident
+- vw_AuditHistory
+- vw_HoldActivity
+- vw_PackageTriageEntry
+- ABT_Incident_HoldDuration
+
+Prepare_Infile: # name for file to be saved as
+- vw_Incident_cleaned
+- vw_AuditHistory_cleaned
+- vw_HoldActivity_cleaned
+- vw_PackageTriageEntry_cleaned
+- ABT_Incident_HoldDuration_cleaned(2std)
+- ABT_Incident_HoldDuration_cleaned(3std)
+
+COSMIC_Number:
+- 1
+- 2
+
+"""
