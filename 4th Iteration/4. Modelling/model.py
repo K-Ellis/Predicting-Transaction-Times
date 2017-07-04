@@ -28,6 +28,7 @@ from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from math import sqrt
+from sklearn.ensemble import RandomForestRegressor
 # from ask_user_which_file import ask_user
 
 
@@ -136,8 +137,16 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath):  # 
     y_train_pred = classifier.predict(trainData_x)
     results(testData_y, y_pred, trainData_y, y_train_pred, "KernelRidge", newpath)
 
+def Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath):  # Kernel ridge regression
+    classifier = RandomForestRegressor(n_estimators=50)
+    classifier = classifier.fit(trainData_x, trainData_y)
+    y_pred = classifier.predict(testData_x)
+    y_train_pred = classifier.predict(trainData_x)
+    importances = classifier.feature_importances_
+    results(testData_y, y_pred, trainData_y, y_train_pred, "RandomForestRegressor", newpath, importances, trainData_x)
 
-def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath):
+
+def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath, importances=None, trainData_x=None):
     out_file_name = newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
@@ -153,6 +162,9 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath):
     out_file.write(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_pred)) + "\n")
     out_file.write(
         alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_pred)) * 100), 2)) + "%\n\n")
+
+    print(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_pred)))
+    print(alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_pred)) * 100), 2)) + "%")
 
     plt.figure()
     plt.plot(trainData_y, y_train_pred, 'ro')
@@ -178,13 +190,21 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath):
     out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n\n")
     out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
     out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_pred)) + "\n")
-    out_file.close()
+
 
     print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
     print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
     print(alg, "Train R^2 score:", r2_score(trainData_y, y_train_pred))  # Print R Squared
     print(alg, "Test R^2 score:", r2_score(testData_y, y_pred), "\n")  # Print R Squared
     # http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html
+
+    if importances is not None:
+        print("Feature Importances:")
+        out_file.write("Feature Importances:\n")
+        for i, (col, importance) in enumerate(zip(trainData_x.columns, importances)):
+            print("%d. \"%s\" (%f)" % (i, col, importance))
+            out_file.write("%d. \"%s\" \t (%f)\n" % (i, col, importance))
+    out_file.close()
 
 
 def write_parameters(newpath, d):
@@ -230,6 +250,8 @@ if __name__ == "__main__":  # Run program
         elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath)  # elastic net
     if d["kernel_ridge"] == "y":
         kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Kernel ridge regression
+    if d["Random_Forest_Regressor"] == "y":
+        Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Random Forest regression
 
 
 """
