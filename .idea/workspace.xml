@@ -2,8 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70eb957a-a204-4b1c-88d1-29e67eac447e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py" afterPath="$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py" afterPath="$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/20170704-101307_LinearRegression.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/20170704-101307_split_data.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/20170704-101308_LinearRegression_test.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/20170704-101308_LinearRegression_train.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/20170704-101309_ElasticNet.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/20170704-101309_ElasticNet_train.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/20170704-101310_ElasticNet_test.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/20170704-101431_KernelRidge.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/20170704-101432_KernelRidge_train.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/20170704-101433_KernelRidge_test.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/TimeTaken_100000.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/TimeTaken_500000.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/TimeTaken_all.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/TimeTaken_log_100000.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/TimeTaken_log_500000.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/TimeTaken_log_all.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/model/COSMIC_2/2017.07.04-10.13.05/model_parameters.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/prepare_dataset/2017.07.04/09.53.12_clean_Incident.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/prepare_dataset/2017.07.04/09.53.31_clean_Incident.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/prepare_dataset/2017.07.04/09.54.08_clean_Incident.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/prepare_dataset/2017.07.04/09.58.14_clean_Incident.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/prepare_dataset/2017.07.04/09.58.29_clean_Incident.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/prepare_dataset/2017.07.04/09.58.51_clean_Incident.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/prepare_dataset/2017.07.04/09.59.07_clean_Incident.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/prepare_dataset/2017.07.04/09.59.48_clean_Incident.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/prepare_dataset/2017.07.04/10.02.53_clean_Incident.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office/prepare_dataset/2017.07.04/10.03.45_clean_Incident.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office_20170704/20170704-092653_create_csv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office_20170704/20170704-092819_create_csv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office_20170704/20170704-101527_create_csv.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/4th Iteration/0. Results/Office_20170704/20170704-101653_create_csv.txt" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Predicting-Transaction-Times.iml" afterPath="$PROJECT_DIR$/.idea/Predicting-Transaction-Times.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/4th Iteration/2. Data Understanding/create_csv_files.py" afterPath="$PROJECT_DIR$/4th Iteration/2. Data Understanding/create_csv_files.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/4th Iteration/3. Data Preparation/prepare_dataset.py" afterPath="$PROJECT_DIR$/4th Iteration/3. Data Preparation/prepare_dataset.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,18 +46,22 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Predicting_Transaction_Times$prepare_dataset.coverage" NAME="prepare_dataset Coverage Results" MODIFIED="1498840011161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3rd Iteration/3. Data Preparation" />
-    <SUITE FILE_PATH="coverage/Predicting_Transaction_Times$model.coverage" NAME="model Coverage Results" MODIFIED="1498840112288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3rd Iteration/4. Modelling" />
-    <SUITE FILE_PATH="coverage/Predicting_Transaction_Times$create_csv_files.coverage" NAME="create_csv_files Coverage Results" MODIFIED="1498837409765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3rd Iteration/2. Data Understanding" />
+    <SUITE FILE_PATH="coverage/Predicting_Transaction_Times$prepare_dataset__1_.coverage" NAME="prepare_dataset (1) Coverage Results" MODIFIED="1499159024954" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/4th Iteration/3. Data Preparation" />
+    <SUITE FILE_PATH="coverage/Predicting_Transaction_Times$prepare_dataset.coverage" NAME="prepare_dataset Coverage Results" MODIFIED="1499076220032" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3rd Iteration/3. Data Preparation" />
+    <SUITE FILE_PATH="coverage/Predicting_Transaction_Times$ABT_Incident_Hold.coverage" NAME="ABT_Incident_Hold Coverage Results" MODIFIED="1499159335239" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/4th Iteration/3. Data Preparation" />
+    <SUITE FILE_PATH="coverage/Predicting_Transaction_Times$create_csv_files__1_.coverage" NAME="create_csv_files (1) Coverage Results" MODIFIED="1499175516196" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/4th Iteration/2. Data Understanding" />
+    <SUITE FILE_PATH="coverage/Predicting_Transaction_Times$model__1_.coverage" NAME="model (1) Coverage Results" MODIFIED="1499159584685" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/4th Iteration/4. Modelling" />
+    <SUITE FILE_PATH="coverage/Predicting_Transaction_Times$model.coverage" NAME="model Coverage Results" MODIFIED="1499086253726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3rd Iteration/4. Modelling" />
+    <SUITE FILE_PATH="coverage/Predicting_Transaction_Times$create_csv_files.coverage" NAME="create_csv_files Coverage Results" MODIFIED="1499076080131" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/3rd Iteration/2. Data Understanding" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="create_csv_files.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py">
+        <entry file="file://$PROJECT_DIR$/4th Iteration/2. Data Understanding/create_csv_files.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="43" column="6" lean-forward="false" selection-start-line="43" selection-start-column="6" selection-end-line="43" selection-end-column="6" />
+            <state relative-caret-position="415">
+              <caret line="35" column="41" lean-forward="true" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="41" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -33,33 +70,48 @@
         </entry>
       </file>
       <file leaf-file-name="prepare_dataset.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py">
+        <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/prepare_dataset.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="427">
-              <caret line="530" column="34" lean-forward="true" selection-start-line="530" selection-start-column="34" selection-end-line="530" selection-end-column="34" />
+            <state relative-caret-position="319">
+              <caret line="538" column="107" lean-forward="false" selection-start-line="538" selection-start-column="81" selection-end-line="538" selection-end-column="107" />
               <folding>
-                <element signature="e#2363#2969#0" expanded="false" />
-                <element signature="e#3080#3906#0" expanded="false" />
-                <element signature="e#4030#4380#0" expanded="false" />
-                <element signature="e#4503#4930#0" expanded="false" />
-                <element signature="e#5051#5614#0" expanded="false" />
-                <element signature="e#5734#6237#0" expanded="false" />
-                <element signature="e#6356#6858#0" expanded="false" />
-                <element signature="e#6929#7127#0" expanded="false" />
-                <element signature="e#7224#10258#0" expanded="false" />
-                <element signature="e#10345#10792#0" expanded="false" />
-                <element signature="e#20939#22743#0" expanded="false" />
-                <element signature="e#22787#25166#0" expanded="false" />
+                <element signature="e#1592#1714#0" expanded="false" />
+                <element signature="e#1806#1963#0" expanded="false" />
+                <element signature="e#2072#2281#0" expanded="false" />
+                <element signature="e#2362#2968#0" expanded="false" />
+                <element signature="e#3079#3907#0" expanded="false" />
+                <element signature="e#4031#4381#0" expanded="false" />
+                <element signature="e#4504#4931#0" expanded="false" />
+                <element signature="e#5052#5615#0" expanded="false" />
+                <element signature="e#5735#6238#0" expanded="false" />
+                <element signature="e#6357#6859#0" expanded="false" />
+                <element signature="e#6930#7128#0" expanded="false" />
+                <element signature="e#7225#10259#0" expanded="false" />
+                <element signature="e#10346#10793#0" expanded="false" />
+                <element signature="e#11099#21499#0" expanded="false" />
+                <element signature="e#21543#23298#0" expanded="false" />
+                <element signature="e#23342#25692#0" expanded="false" />
+                <element signature="e#25742#27805#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="model.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/3rd Iteration/4. Modelling/model.py">
+      <file leaf-file-name="ABT_Incident_Hold.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/ABT_Incident_Hold.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="225" column="6" lean-forward="false" selection-start-line="225" selection-start-column="6" selection-end-line="225" selection-end-column="6" />
+            <state relative-caret-position="306">
+              <caret line="18" column="45" lean-forward="false" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="model.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/4th Iteration/4. Modelling/model.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="218" column="0" lean-forward="false" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -67,15 +119,26 @@
       </file>
     </leaf>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>5. Results</find>
+      <find>dataset</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>0. Results</replace>
+    </replaceStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py" />
-        <option value="$PROJECT_DIR$/3rd Iteration/4. Modelling/model.py" />
         <option value="$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py" />
+        <option value="$PROJECT_DIR$/3rd Iteration/4. Modelling/model.py" />
+        <option value="$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py" />
+        <option value="$PROJECT_DIR$/4th Iteration/3. Data Preparation/prepare_dataset.py" />
+        <option value="$PROJECT_DIR$/4th Iteration/2. Data Understanding/create_csv_files.py" />
       </list>
     </option>
   </component>
@@ -106,6 +169,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -128,11 +192,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="3rd Iteration" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="5. Results" />
+              <option name="myItemId" value="4th Iteration" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -146,7 +206,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="3rd Iteration" />
+              <option name="myItemId" value="4th Iteration" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -164,7 +224,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="3rd Iteration" />
+              <option name="myItemId" value="4th Iteration" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -182,7 +242,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="3rd Iteration" />
+              <option name="myItemId" value="4th Iteration" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -190,14 +250,33 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Predicting-Transaction-Times" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Predicting-Transaction-Times" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="4th Iteration" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="0. Results" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -211,45 +290,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.model">
-    <configuration default="false" name="create_csv_files" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/3rd Iteration/2. Data Understanding" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Predicting-Transaction-Times" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="prepare_dataset" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/3rd Iteration/3. Data Preparation" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Predicting-Transaction-Times" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.create_csv_files (1)">
     <configuration default="false" name="model" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -264,6 +305,82 @@
       <module name="Predicting-Transaction-Times" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/3rd Iteration/4. Modelling/model.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="create_csv_files (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/4th Iteration/2. Data Understanding" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Predicting-Transaction-Times" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/4th Iteration/2. Data Understanding/create_csv_files.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="prepare_dataset (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/4th Iteration/3. Data Preparation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Predicting-Transaction-Times" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/4th Iteration/3. Data Preparation/prepare_dataset.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ABT_Incident_Hold" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/4th Iteration/3. Data Preparation" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Predicting-Transaction-Times" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/4th Iteration/3. Data Preparation/ABT_Incident_Hold.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="model (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/4th Iteration/4. Modelling" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Predicting-Transaction-Times" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/4th Iteration/4. Modelling/model.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -418,16 +535,20 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
-    <list size="3">
-      <item index="0" class="java.lang.String" itemvalue="Python.create_csv_files" />
-      <item index="1" class="java.lang.String" itemvalue="Python.prepare_dataset" />
-      <item index="2" class="java.lang.String" itemvalue="Python.model" />
+    <list size="5">
+      <item index="0" class="java.lang.String" itemvalue="Python.model" />
+      <item index="1" class="java.lang.String" itemvalue="Python.create_csv_files (1)" />
+      <item index="2" class="java.lang.String" itemvalue="Python.prepare_dataset (1)" />
+      <item index="3" class="java.lang.String" itemvalue="Python.ABT_Incident_Hold" />
+      <item index="4" class="java.lang.String" itemvalue="Python.model (1)" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Python.model" />
-        <item index="1" class="java.lang.String" itemvalue="Python.prepare_dataset" />
-        <item index="2" class="java.lang.String" itemvalue="Python.create_csv_files" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.create_csv_files (1)" />
+        <item index="1" class="java.lang.String" itemvalue="Python.model (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.ABT_Incident_Hold" />
+        <item index="3" class="java.lang.String" itemvalue="Python.prepare_dataset (1)" />
+        <item index="4" class="java.lang.String" itemvalue="Python.model" />
       </list>
     </recent_temporary>
   </component>
@@ -448,13 +569,13 @@
     <frame x="1912" y="14" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22023809" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32969433" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.015283843" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -477,12 +598,116 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py">
+    <entry file="file://$PROJECT_DIR$/4th Iteration/2. Data Understanding/create_csv_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="19" column="81" lean-forward="false" selection-start-line="19" selection-start-column="81" selection-end-line="19" selection-end-column="81" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/prepare_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9350">
+          <caret line="550" column="34" lean-forward="true" selection-start-line="550" selection-start-column="34" selection-end-line="550" selection-end-column="34" />
+          <folding>
+            <element signature="e#1592#1714#0" expanded="false" />
+            <element signature="e#1806#1963#0" expanded="false" />
+            <element signature="e#2072#2281#0" expanded="false" />
+            <element signature="e#2362#2968#0" expanded="false" />
+            <element signature="e#3079#3907#0" expanded="false" />
+            <element signature="e#4031#4381#0" expanded="false" />
+            <element signature="e#4504#4931#0" expanded="false" />
+            <element signature="e#5052#5615#0" expanded="false" />
+            <element signature="e#5735#6238#0" expanded="false" />
+            <element signature="e#6357#6859#0" expanded="false" />
+            <element signature="e#6930#7128#0" expanded="false" />
+            <element signature="e#7225#10259#0" expanded="false" />
+            <element signature="e#10346#10793#0" expanded="false" />
+            <element signature="e#11099#21499#0" expanded="false" />
+            <element signature="e#21543#23298#0" expanded="false" />
+            <element signature="e#23342#25692#0" expanded="false" />
+            <element signature="e#25742#27805#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/ABT_Incident_Hold.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="45" lean-forward="false" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/4. Modelling/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3706">
+          <caret line="218" column="0" lean-forward="true" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/2. Data Understanding/create_csv_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/ABT_Incident_Hold.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="45" lean-forward="true" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/4. Modelling/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4131">
+          <caret line="256" column="3" lean-forward="false" selection-start-line="256" selection-start-column="3" selection-end-line="256" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/prepare_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9469">
+          <caret line="562" column="0" lean-forward="false" selection-start-line="562" selection-start-column="0" selection-end-line="562" selection-end-column="0" />
+          <folding>
+            <element signature="e#1592#1714#0" expanded="false" />
+            <element signature="e#1806#1963#0" expanded="false" />
+            <element signature="e#2072#2281#0" expanded="false" />
+            <element signature="e#2362#2968#0" expanded="false" />
+            <element signature="e#3079#3907#0" expanded="false" />
+            <element signature="e#4031#4381#0" expanded="false" />
+            <element signature="e#4504#4931#0" expanded="false" />
+            <element signature="e#5052#5615#0" expanded="false" />
+            <element signature="e#5735#6238#0" expanded="false" />
+            <element signature="e#6357#6859#0" expanded="false" />
+            <element signature="e#6930#7128#0" expanded="false" />
+            <element signature="e#7225#10259#0" expanded="false" />
+            <element signature="e#10346#10793#0" expanded="false" />
+            <element signature="e#11099#21499#0" expanded="false" />
+            <element signature="e#21543#23298#0" expanded="false" />
+            <element signature="e#23342#25692#0" expanded="false" />
+            <element signature="e#25742#27805#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/2. Data Understanding/create_csv_files.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -492,24 +717,167 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/prepare_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9554">
+          <caret line="562" column="0" lean-forward="false" selection-start-line="562" selection-start-column="0" selection-end-line="562" selection-end-column="0" />
+          <folding>
+            <element signature="e#1592#1714#0" expanded="false" />
+            <element signature="e#1806#1963#0" expanded="false" />
+            <element signature="e#2072#2281#0" expanded="false" />
+            <element signature="e#2362#2968#0" expanded="false" />
+            <element signature="e#3079#3907#0" expanded="false" />
+            <element signature="e#4031#4381#0" expanded="false" />
+            <element signature="e#4504#4931#0" expanded="false" />
+            <element signature="e#5052#5615#0" expanded="false" />
+            <element signature="e#5735#6238#0" expanded="false" />
+            <element signature="e#6357#6859#0" expanded="false" />
+            <element signature="e#6930#7128#0" expanded="false" />
+            <element signature="e#7225#10259#0" expanded="false" />
+            <element signature="e#10346#10793#0" expanded="false" />
+            <element signature="e#11099#21499#0" expanded="false" />
+            <element signature="e#21543#23298#0" expanded="false" />
+            <element signature="e#23342#25692#0" expanded="false" />
+            <element signature="e#25742#27805#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/ABT_Incident_Hold.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="81" lean-forward="false" selection-start-line="27" selection-start-column="81" selection-end-line="27" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/4. Modelling/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4131">
+          <caret line="256" column="3" lean-forward="false" selection-start-line="256" selection-start-column="3" selection-end-line="256" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/2. Data Understanding/create_csv_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/prepare_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9554">
+          <caret line="562" column="0" lean-forward="false" selection-start-line="562" selection-start-column="0" selection-end-line="562" selection-end-column="0" />
+          <folding>
+            <element signature="e#1592#1714#0" expanded="false" />
+            <element signature="e#1806#1963#0" expanded="false" />
+            <element signature="e#2072#2281#0" expanded="false" />
+            <element signature="e#2362#2968#0" expanded="false" />
+            <element signature="e#3079#3907#0" expanded="false" />
+            <element signature="e#4031#4381#0" expanded="false" />
+            <element signature="e#4504#4931#0" expanded="false" />
+            <element signature="e#5052#5615#0" expanded="false" />
+            <element signature="e#5735#6238#0" expanded="false" />
+            <element signature="e#6357#6859#0" expanded="false" />
+            <element signature="e#6930#7128#0" expanded="false" />
+            <element signature="e#7225#10259#0" expanded="false" />
+            <element signature="e#10346#10793#0" expanded="false" />
+            <element signature="e#11099#21499#0" expanded="false" />
+            <element signature="e#21543#23298#0" expanded="false" />
+            <element signature="e#23342#25692#0" expanded="false" />
+            <element signature="e#25742#27805#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/ABT_Incident_Hold.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="81" lean-forward="false" selection-start-line="27" selection-start-column="81" selection-end-line="27" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/4. Modelling/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4131">
+          <caret line="256" column="3" lean-forward="false" selection-start-line="256" selection-start-column="3" selection-end-line="256" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="43" column="20" lean-forward="true" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6477">
+          <caret line="381" column="0" lean-forward="true" selection-start-line="381" selection-start-column="0" selection-end-line="381" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/4. Modelling/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3587">
+          <caret line="225" column="26" lean-forward="true" selection-start-line="225" selection-start-column="26" selection-end-line="225" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="43" column="6" lean-forward="false" selection-start-line="43" selection-start-column="6" selection-end-line="43" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5423">
+          <caret line="530" column="34" lean-forward="true" selection-start-line="530" selection-start-column="34" selection-end-line="530" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/4. Modelling/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3553">
+          <caret line="223" column="9" lean-forward="false" selection-start-line="223" selection-start-column="9" selection-end-line="223" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="e#2363#2969#0" expanded="false" />
-            <element signature="e#3080#3906#0" expanded="false" />
-            <element signature="e#4030#4380#0" expanded="false" />
-            <element signature="e#4503#4930#0" expanded="false" />
-            <element signature="e#5051#5614#0" expanded="false" />
-            <element signature="e#5734#6237#0" expanded="false" />
-            <element signature="e#6356#6858#0" expanded="false" />
-            <element signature="e#6929#7127#0" expanded="false" />
-            <element signature="e#7224#10258#0" expanded="false" />
-            <element signature="e#10345#10792#0" expanded="false" />
-            <element signature="e#20939#22743#0" expanded="false" />
-            <element signature="e#22787#25166#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -517,43 +885,76 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1360">
           <caret line="94" column="9" lean-forward="true" selection-start-line="94" selection-start-column="9" selection-end-line="94" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3rd Iteration/4. Modelling/model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="225" column="6" lean-forward="false" selection-start-line="225" selection-start-column="6" selection-end-line="225" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="530" column="34" lean-forward="true" selection-start-line="530" selection-start-column="34" selection-end-line="530" selection-end-column="34" />
-          <folding>
-            <element signature="e#2363#2969#0" expanded="false" />
-            <element signature="e#3080#3906#0" expanded="false" />
-            <element signature="e#4030#4380#0" expanded="false" />
-            <element signature="e#4503#4930#0" expanded="false" />
-            <element signature="e#5051#5614#0" expanded="false" />
-            <element signature="e#5734#6237#0" expanded="false" />
-            <element signature="e#6356#6858#0" expanded="false" />
-            <element signature="e#6929#7127#0" expanded="false" />
-            <element signature="e#7224#10258#0" expanded="false" />
-            <element signature="e#10345#10792#0" expanded="false" />
-            <element signature="e#20939#22743#0" expanded="false" />
-            <element signature="e#22787#25166#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/3rd Iteration/2. Data Understanding/create_csv_files.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="43" column="6" lean-forward="false" selection-start-line="43" selection-start-column="6" selection-end-line="43" selection-end-column="6" />
+        <state relative-caret-position="323">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/3. Data Preparation/prepare_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="43" column="20" lean-forward="false" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/3rd Iteration/4. Modelling/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="218" column="0" lean-forward="false" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/ABT_Incident_Hold.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="45" lean-forward="false" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/4. Modelling/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="218" column="0" lean-forward="false" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/3. Data Preparation/prepare_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="538" column="107" lean-forward="false" selection-start-line="538" selection-start-column="81" selection-end-line="538" selection-end-column="107" />
+          <folding>
+            <element signature="e#1592#1714#0" expanded="false" />
+            <element signature="e#1806#1963#0" expanded="false" />
+            <element signature="e#2072#2281#0" expanded="false" />
+            <element signature="e#2362#2968#0" expanded="false" />
+            <element signature="e#3079#3907#0" expanded="false" />
+            <element signature="e#4031#4381#0" expanded="false" />
+            <element signature="e#4504#4931#0" expanded="false" />
+            <element signature="e#5052#5615#0" expanded="false" />
+            <element signature="e#5735#6238#0" expanded="false" />
+            <element signature="e#6357#6859#0" expanded="false" />
+            <element signature="e#6930#7128#0" expanded="false" />
+            <element signature="e#7225#10259#0" expanded="false" />
+            <element signature="e#10346#10793#0" expanded="false" />
+            <element signature="e#11099#21499#0" expanded="false" />
+            <element signature="e#21543#23298#0" expanded="false" />
+            <element signature="e#23342#25692#0" expanded="false" />
+            <element signature="e#25742#27805#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/4th Iteration/2. Data Understanding/create_csv_files.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="35" column="41" lean-forward="true" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="41" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
