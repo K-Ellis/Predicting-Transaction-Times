@@ -337,14 +337,10 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Priority and Complexity - nominal variable mapping
     ####################################################################################################################
-    df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2,
-                                         "Immediate": 3})
-    out_file.write("map Priority column to nominal variables: Low: 0, "
-                   "Normal: 1, High: 2, Immediate: 3 \n\n")
-
+    df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
+    out_file.write("map Priority column to nominal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 \n\n")
     df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
-    out_file.write("map Complexity column to nominal variables: Low: 0, "
-                   "Normal: 1, High: 2 \n\n")
+    out_file.write("map Complexity column to nominal variables: Low: 0, Normal: 1, High: 2 \n\n")
 
     ####################################################################################################################
     # Transform countries into continents and then one hot encode
