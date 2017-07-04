@@ -1,0 +1,16 @@
+user: Eoin
+raw_data: UCD_Data_20170623_1.xlsx
+raw_data_location: ../../../Data/
+file_name: _0
+file_location: ../../../Data/
+clean_Incident: y
+clean_AuditHistory: y
+clean_HoldActivity: y
+clean_PackageTriageEntry: y
+linear_regression: y
+elastic_net: y
+kernel_ridge: y
+log_of_y: y
+seed: 12345
+histogram: y
+notes: This_is_a_note
