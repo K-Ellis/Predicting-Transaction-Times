@@ -328,7 +328,7 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Fill Categorical and numerical nulls. And Scale numerical variables.
     ####################################################################################################################
-    if d["file_name"] == "ABT_Incident_HoldDuration":  # todo - this might not work using the apended filenames
+    if d["file_name"] == "ABT_Incident_HoldDuration":
         quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName", "HoldDuration"]
 
     else:
