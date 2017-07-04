@@ -1,0 +1,9 @@
+User: Eoin
+Infile: vw_Incident_cleaned
+COSMIC_Number: 2
+linear_regression: y
+elastic_net: y
+kernel_ridge: y
+log_of_y: y
+seed: 12345
+histogram: y
