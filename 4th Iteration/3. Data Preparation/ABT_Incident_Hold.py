@@ -1,9 +1,9 @@
 import pandas as pd
 COSMIC_num = 2
-dfincident = pd.read_csv("../../../Data/COSMIC_%s/vw_Incident%s.csv" % (COSMIC_num, COSMIC_num),
+dfincident = pd.read_csv("../../../Data/vw_Incident.csv",
                       encoding='latin-1',
                      low_memory=False)
-dfholdactivity = pd.read_csv("../../../Data/COSMIC_%s/vw_HoldActivity%s.csv" % (COSMIC_num, COSMIC_num),
+dfholdactivity = pd.read_csv("../../../Data/vw_HoldActivity.csv",
                       encoding='latin-1',
                      low_memory=False)
 
@@ -25,4 +25,4 @@ dfincident = dfincident.merge(dfduration,how='left', left_on='TicketNumber', rig
 dfincident["HoldDuration"].fillna(0, inplace=True)
 
 # save the new Analytical Base Table
-dfincident.to_csv("../../../Data/COSMIC_%s/ABT_Incident_HoldDuration.csv" % (COSMIC_num), index=False)
+dfincident.to_csv("../../../Data/ABT_Incident_HoldDuration.csv", index=False)
