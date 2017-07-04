@@ -422,6 +422,24 @@ def clean_AuditHistory(d, newpath):
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
+    dfstageid = pd.read_csv("../../../Data/vw_StageTable.csv", encoding='latin-1', low_memory=False)
+
+    # replace NewValue and OldValue with their respective StageNames from the StageID table
+    dfstageid["StageId"] = dfstageid["StageId"].str.lower()  # upper case only in stage ID table
+    # Give new names so they can be deleted after the merge
+    dfstageidnew = dfstageid.rename(columns={'StageId': 'NewStageId', 'StageName': 'NewValueName'})
+    dfstageidold = dfstageid.rename(columns={'StageId': 'OldStageId', 'StageName': 'OldValueName'})
+    df = df.merge(dfstageidnew, how="left", left_on='NewValue', right_on='NewStageId')
+    df = df.merge(dfstageidold, how="left", left_on='OldValue', right_on='OldStageId')
+    to_be_deleted = ["NewValue", "OldValue", "NewStageId", "OldStageId"]
+    for item in to_be_deleted:
+        del df[item]
+
+    new_cols = ["NewValueName", "OldValueName"]
+    fill_nulls_dfcs(df, new_cols, "mode", out_file)
+    for col in new_cols:
+        df = one_hot_encoding(df, col, out_file)
+
     df.to_csv("../../../Data/%s.csv" % (d["Outfile"]), index=False)  # export # file
 
     out_file.write("clean_AuditHistory%s complete")
