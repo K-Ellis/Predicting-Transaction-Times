@@ -1,49 +1,61 @@
 import pandas as pd
 import time
 import os  # Used to create folders
+from shutil import copyfile  # Used to copy parameters file to directory
 
 
-def create_csv(user, dataset, outfile_name, outfile_location):  # Convert files to CSV
-    newpath = r"../0. Results/" + user + "/create_csv_files/" + time.strftime("%Y.%m.%d/")
-    if not os.path.exists(newpath):
-        os.makedirs(newpath)
-    out_file_name = newpath + time.strftime("%H.%M.%S") + "_create_csv.txt"  # Log file name
-    out_file = open(out_file_name, "w")  # Open log file
-    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-
+def create_csv(dataset, outfile_name, outfile_location, out_file):  # Convert files to CSV
     df = pd.read_excel(dataset, sheetname=0)
     df.to_csv(outfile_location + "/vw_Incident" + outfile_name + ".csv", index=False)
     out_file.write(outfile_location + "vw_Incident saved" + outfile_name + " saved" + "\n")
+    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
 
     df = pd.read_excel(dataset, sheetname=1)
     df.to_csv(outfile_location + "/vw_HoldActivity" + outfile_name + ".csv", index=False)
-    out_file.write(outfile_location + "vw_HoldActivity saved" + outfile_name + " saved" + "\n")
+    out_file.write(outfile_location + "vw_HoldActivity" + outfile_name + " saved" + "\n")
+    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
 
     df = pd.read_excel(dataset, sheetname=2)
     df.to_csv(outfile_location + "/vw_AuditHistory" + outfile_name + ".csv", index=False)
     out_file.write(outfile_location + "vw_AuditHistory" + outfile_name + " saved" + "\n")
+    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
 
     df = pd.read_excel(dataset, sheetname=3)
     df.to_csv(outfile_location + "/vw_PackageTriageEntry" + outfile_name + ".csv", index=False)
     out_file.write(outfile_location + "vw_PackageTriageEntry" + outfile_name + " saved" + "\n")
+    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
 
     df = pd.read_excel(dataset, sheetname=4)
     df.to_csv(outfile_location + "/vw_StageTable" + outfile_name + ".csv", index=False)
     out_file.write(outfile_location + "vw_StageTable" + outfile_name + " saved" + "\n")
-    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.close()
+    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
+
 
 if __name__ == "__main__":  # Run program
-
+    parameters = "../../../Data/create_csv_files.txt"  # Parameters file for this program
     d = {}
-    with open("../../../Data/create_csv_files.txt", "r") as f:
+    with open(parameters, "r") as f:
         for line in f:
             line = line.replace(":", "")
             (key, val) = line.split()
             d[key] = val
 
-    create_csv(d["user"], d["raw_data_location"] + d["raw_data"], d["outfile_name"], d["outfile_location"])
-    print("CSVs created for", d["raw_data"])
+    # This code sets up logging
+    newpath = r"../0. Results/" + d["user"] + "/create_csv_files/" + time.strftime("%Y.%m.%d/")
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)
+    out_file_name = newpath + time.strftime("%H.%M.%S") + "_create_csv_log.txt"  # Log file name
+    out_file = open(out_file_name, "w")  # Open log file
+    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
+
+    # This function generates the csv files
+    create_csv(d["raw_data_location"] + d["raw_data"], d["outfile_name"], d["outfile_location"], out_file)
+
+    # This code copies the parameters file into the results folder
+    copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_create_csv_parameters.txt")
+    out_file.close()
+
+    print("CSVs created for", d["raw_data_location"] + d["raw_data"])
 
     # Parameters file "create_csv_files.txt" required
     # user: Yourname . . . eg. Eoin
