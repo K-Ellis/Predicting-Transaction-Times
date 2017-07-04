@@ -19,7 +19,7 @@ import os  # Used to create folders
 from sklearn import preprocessing
 from shutil import copyfile  # Used to copy parameters file to directory
 
-parameters = "../../../Data/parameters.txt"  # Parameters file for this program
+parameters = "../../../Data/parameters.txt"  # Parameters file
 
 
 """*********************************************************************************************************************

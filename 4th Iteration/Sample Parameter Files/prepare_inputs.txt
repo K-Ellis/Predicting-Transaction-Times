@@ -1,8 +1,0 @@
-User: Test
-clean_Incident: y
-clean_AuditHistory: n
-clean_HoldActivity: n
-clean_PackageTriageEntry: n
-Infile: vw_Incident
-Outfile: vw_Incident_cleaned
-COSMIC_Number: 2
