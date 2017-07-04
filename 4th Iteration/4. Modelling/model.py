@@ -1,13 +1,13 @@
 """****************************************************************************
 UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
 *******************************************************************************
-Iteration 2
+Iteration 4
 Data modelling program
 *******************************************************************************
 Eoin Carroll
 Kieron Ellis
 *******************************************************************************
-Working on dataset from Cosmic launch (6th Feb) to End March
+Working on dataset 2 from Cosmic: UCD_Data_20170623_1.xlsx
 ****************************************************************************"""
 
 """****************************************************************************
@@ -19,7 +19,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import os  # Used to create folders
-import getpass  # Used to check PC name
 import math
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -29,7 +28,11 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from math import sqrt
 from sklearn.ensemble import RandomForestRegressor
+from shutil import copyfile  # Used to copy parameters file to directory
 # from ask_user_which_file import ask_user
+
+
+parameters = "../../../Data/parameters.txt"  # Parameters file
 
 
 def histogram(df, column, newpath):  # Create histogram of preprocessed data
@@ -200,45 +203,36 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath, importa
 
     if importances is not None:
         print("Feature Importances:")
-        out_file.write("Feature Importances:\n")
+        out_file.write("\nFeature Importances:\n")
         for i, (col, importance) in enumerate(zip(trainData_x.columns, importances)):
             print("%d. \"%s\" (%f)" % (i, col, importance))
             out_file.write("%d. \"%s\" \t (%f)\n" % (i, col, importance))
     out_file.close()
 
 
-def write_parameters(newpath, d):
-    with open(newpath + "model_parameters.txt", "w") as f:
-        keys = ["User", "Infile", "COSMIC_Number","linear_regression", "elastic_net", "kernel_ridge", "log_of_y",
-                "seed", "histogram"]
-        for key in keys:
-            f.write(key + ": " + d[key] + "\n")
-
 if __name__ == "__main__":  # Run program
     d = {}
-    with open("../../../Data/model_inputs.txt", "r") as f:
+    with open(parameters, "r") as f:
         for line in f:
             line = line.replace(":", "")
             (key, val) = line.split()
             d[key] = val
 
-    COSMIC_num = str(d["COSMIC_Number"])  # Use the Second COSMIC dataset
-    newpath = r"../0. Results/" + str(getpass.getuser()) + "/model/" + "COSMIC_%s" % COSMIC_num + time.strftime(
-        "/%Y.%m.%d-%H.%M.%S/")
+    newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/")  # Log file location
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
-    write_parameters(newpath, d)
-
     np.random.seed(int(d["seed"]))  # Set seed
-
-    df = pd.read_csv("../../../Data/%s.csv" % d["Infile"], encoding='latin-1', low_memory=False)
+    if d["user"] == "Eoin":
+        df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
+                     low_memory=False)
+    else:
+        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
 
     if d["histogram"] == "y":
         histogram(df, "TimeTaken", newpath)  # Save histogram plots of TimeTaken
 
-    if d["log_of_y"] == "y":
-        # Take log of y values
+    if d["log_of_y"] == "y":  # Take log of y values
         print("Y has been transformed by log . . . comment out in model code if needed\n")
         df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
 
@@ -253,11 +247,9 @@ if __name__ == "__main__":  # Run program
     if d["Random_Forest_Regressor"] == "y":
         Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Random Forest regression
 
+    copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters
 
 """
-User:
-
-Infile:
 - vw_Incident_cleaned
     - default iteration 3 file
 - vw_Incident_cleaned(collinearity_thresh_0.9)
@@ -270,31 +262,5 @@ Infile:
         - ElasticNet Test R^2 score: 0.441629243027
 - ABT_Incident_HoldDuration_cleaned(2std)
     - Incident merged with summed HoldDuration from HoldActivity df and std cut off increased to 2 std
-
-COSMIC_Number:
-- 1
-- 2
-
-linear_regression:
-- y
-- n
-
-elastic_net:
-- y
-- n
-
-kernel_ridge:
-- y
-- n
-
-log_of_y:
-- y
-- n
-
-seed:
-- 12345
-
-histogram:
-- y
-- n
+todo note: Eoin does not have these files . . . 
 """
