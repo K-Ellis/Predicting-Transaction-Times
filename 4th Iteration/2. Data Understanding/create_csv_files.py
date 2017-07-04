@@ -1,38 +1,30 @@
+"""*********************************************************************************************************************
+UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
+************************************************************************************************************************
+Iteration 4
+Create CSV file program
+************************************************************************************************************************
+Eoin Carroll
+Kieron Ellis
+************************************************************************************************************************
+Working on dataset 2 from Cosmic: UCD_Data_20170623_1.xlsx
+************************************************************************************************************************
+Parameters file "create_csv_files.txt" required
+user: Yourname . . . eg. Eoin
+raw_data: Dataset . . . eg. UCD_Data_20170623_1.xlsx
+raw_data_location: eg. ../../../Data/ or ../../../Data/Cosmic_1
+outfile_name: Appended to the sheet name. Eg. _1
+outfile_location: ../../../Data/
+*********************************************************************************************************************"""
+
 import pandas as pd
 import time
 import os  # Used to create folders
 from shutil import copyfile  # Used to copy parameters file to directory
 
-
-def create_csv(dataset, outfile_name, outfile_location, out_file):  # Convert files to CSV
-    df = pd.read_excel(dataset, sheetname=0)
-    df.to_csv(outfile_location + "/vw_Incident" + outfile_name + ".csv", index=False)
-    out_file.write(outfile_location + "vw_Incident saved" + outfile_name + " saved" + "\n")
-    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
-
-    df = pd.read_excel(dataset, sheetname=1)
-    df.to_csv(outfile_location + "/vw_HoldActivity" + outfile_name + ".csv", index=False)
-    out_file.write(outfile_location + "vw_HoldActivity" + outfile_name + " saved" + "\n")
-    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
-
-    df = pd.read_excel(dataset, sheetname=2)
-    df.to_csv(outfile_location + "/vw_AuditHistory" + outfile_name + ".csv", index=False)
-    out_file.write(outfile_location + "vw_AuditHistory" + outfile_name + " saved" + "\n")
-    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
-
-    df = pd.read_excel(dataset, sheetname=3)
-    df.to_csv(outfile_location + "/vw_PackageTriageEntry" + outfile_name + ".csv", index=False)
-    out_file.write(outfile_location + "vw_PackageTriageEntry" + outfile_name + " saved" + "\n")
-    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
-
-    df = pd.read_excel(dataset, sheetname=4)
-    df.to_csv(outfile_location + "/vw_StageTable" + outfile_name + ".csv", index=False)
-    out_file.write(outfile_location + "vw_StageTable" + outfile_name + " saved" + "\n")
-    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
-
+parameters = "../../../Data/create_csv_files.txt"  # Parameters file for this program
 
 if __name__ == "__main__":  # Run program
-    parameters = "../../../Data/create_csv_files.txt"  # Parameters file for this program
     d = {}
     with open(parameters, "r") as f:
         for line in f:
@@ -48,19 +40,13 @@ if __name__ == "__main__":  # Run program
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
 
-    # This function generates the csv files
-    create_csv(d["raw_data_location"] + d["raw_data"], d["outfile_name"], d["outfile_location"], out_file)
-
-    # This code copies the parameters file into the results folder
-    copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_create_csv_parameters.txt")
+    sheets = ["vw_Incident", "vw_HoldActivity", "vw_AuditHistory", "vw_PackageTriageEntry", "vw_StageTable"]
+    for i in range(len(sheets)):  # This generates the csv files
+        df = pd.read_excel(d["raw_data_location"] + d["raw_data"], sheetname=i)
+        df.to_csv(d["outfile_location"] + "/" + sheets[i] + d["outfile_name"] + ".csv", index=False)
+        out_file.write("Output:" + d["outfile_location"] + sheets[i] + d["outfile_name"] + " saved" + "\n")
+        out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
     out_file.close()
 
+    copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_create_csv_parameters.txt")  # Save parameters
     print("CSVs created for", d["raw_data_location"] + d["raw_data"])
-
-    # Parameters file "create_csv_files.txt" required
-    # user: Yourname . . . eg. Eoin
-    # raw_data: Dataset . . . eg. UCD_Data_20170623_1.xlsx
-    # raw_data_location: eg. ../../../Data/ or ../../../Data/Cosmic_1
-    # outfile_name: Appended to the sheet name. Eg. _1
-    # outfile_location: ../../../Data/
-    # Remember to update this if any changes are made
