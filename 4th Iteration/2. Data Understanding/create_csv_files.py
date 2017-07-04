@@ -17,7 +17,7 @@ import time
 import os  # Used to create folders
 from shutil import copyfile  # Used to copy parameters file to directory
 
-parameters = "../../../Data/parameters.txt"  # Parameters file for this program
+parameters = "../../../Data/parameters.txt"  # Parameters file
 
 if __name__ == "__main__":  # Run program
     d = {}
