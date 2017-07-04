@@ -271,6 +271,7 @@ def clean_Incident(d, newpath):
     del df["RelatedCases"]  # useless until we link cases together
     del df["TotalIdleTime"]  # can be used for real world predictions?
     del df["TotalWaitTime"]  # can be used for real world predictions?
+    del df["OLSRevenue"]
 
     ####################################################################################################################
     # not enough unique entries
@@ -318,29 +319,33 @@ def clean_Incident(d, newpath):
     df = df[df["IsSOXCase"] != 2]
 
     ####################################################################################################################
-    # Fill Categorical and numerical nulls. And Scale numerical variables.
-    ####################################################################################################################
-    if d["Infile"] == "ABT_Incident_HoldDuration":
-        quant_cols = ["AmountinUSD", "HoldDuration"]
-    else:
-        quant_cols = ["AmountinUSD"]
-
-    exclude_from_mode_fill = quant_cols
-    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
-    fill_nulls_dfcs(df, dfcs, "mode", out_file)
-    fill_nulls_dfcs(df, ["AmountinUSD"], "mean", out_file)
-    df = scale_quant_cols(df, quant_cols, out_file)
-
-    df.IsSOXCase = df.IsSOXCase.astype(int)
-    df.Numberofreactivations = df.Numberofreactivations.astype(int)
-
-    ####################################################################################################################
     # Priority and Complexity - nominal variable mapping
     ####################################################################################################################
     df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
     out_file.write("map Priority column to nominal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 \n\n")
     df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
     out_file.write("map Complexity column to nominal variables: Low: 0, Normal: 1, High: 2 \n\n")
+    df["StageName"] = df["StageName"].map({"Ops In": 0, "Triage And Validation": 1, "Data Entry": 2, "Submission": 3,
+                                           "Ops Out": 4})
+    out_file.write("map StageName column to nominal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, "
+                   "Submission: 3, Ops Out: 4 \n\n")
+
+    ####################################################################################################################
+    # Fill Categorical and numerical nulls. And Scale numerical variables.
+    ####################################################################################################################
+    if d["Infile"] == "ABT_Incident_HoldDuration":
+        quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName", "HoldDuration"]
+    else:
+        quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
+
+    exclude_from_mode_fill = quant_cols
+    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
+    fill_nulls_dfcs(df, dfcs, "mode", out_file)
+    fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean", out_file)
+    df = scale_quant_cols(df, quant_cols, out_file)
+
+    df.IsSOXCase = df.IsSOXCase.astype(int)
+    df.Numberofreactivations = df.Numberofreactivations.astype(int)
 
     ####################################################################################################################
     # Transform countries into continents and then one hot encode
@@ -355,7 +360,7 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # One-hot encode categorical variables
     ####################################################################################################################
-    cat_vars_to_one_hot = ["StatusReason", "SubReason", "ROCName", "sourcesystem", "Source", "StageName", "Revenutype"]
+    cat_vars_to_one_hot = ["StatusReason", "SubReason", "ROCName", "sourcesystem", "Source", "Revenutype"]
     for var in cat_vars_to_one_hot:
         df = one_hot_encoding(df, var, out_file)
 
