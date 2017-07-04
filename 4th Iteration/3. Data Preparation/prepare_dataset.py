@@ -319,15 +319,15 @@ def clean_Incident(d, newpath):
     df = df[df["IsSOXCase"] != 2]
 
     ####################################################################################################################
-    # Priority and Complexity - nominal variable mapping
+    # Priority and Complexity - ordinal variable mapping
     ####################################################################################################################
     df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
-    out_file.write("map Priority column to nominal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 \n\n")
+    out_file.write("map Priority column to ordinal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 \n\n")
     df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
-    out_file.write("map Complexity column to nominal variables: Low: 0, Normal: 1, High: 2 \n\n")
+    out_file.write("map Complexity column to ordinal variables: Low: 0, Normal: 1, High: 2 \n\n")
     df["StageName"] = df["StageName"].map({"Ops In": 0, "Triage And Validation": 1, "Data Entry": 2, "Submission": 3,
                                            "Ops Out": 4})
-    out_file.write("map StageName column to nominal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, "
+    out_file.write("map StageName column to ordinal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, "
                    "Submission: 3, Ops Out: 4 \n\n")
 
     ####################################################################################################################
@@ -485,7 +485,7 @@ def clean_HoldActivity(d, newpath):
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
     # Note pd.get_dummies(df) may be useful for hot encoding
-    # Map to nominal variables - need to decide which ones we want
+    # Map to ordinal variables - need to decide which ones we want
     df = one_hot_encoding(df, "HoldTypeName", out_file)
     df = one_hot_encoding(df, "Reason", out_file)
     df = one_hot_encoding(df, "AssignedToGroup", out_file)
