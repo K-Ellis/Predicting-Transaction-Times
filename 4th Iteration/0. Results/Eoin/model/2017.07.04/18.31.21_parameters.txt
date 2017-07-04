@@ -7,3 +7,10 @@ clean_Incident: y
 clean_AuditHistory: y
 clean_HoldActivity: y
 clean_PackageTriageEntry: y
+linear_regression: y
+elastic_net: y
+kernel_ridge: n
+log_of_y: y
+seed: 12345
+histogram: y
+notes: This_is_a_note
