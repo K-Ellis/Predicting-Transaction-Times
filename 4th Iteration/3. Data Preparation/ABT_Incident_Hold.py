@@ -25,4 +25,4 @@ dfincident = dfincident.merge(dfduration,how='left', left_on='TicketNumber', rig
 dfincident["HoldDuration"].fillna(0, inplace=True)
 
 # save the new Analytical Base Table
-dfincident.to_csv("../../../Data/ABT_Incident_HoldDuration.csv", index=False)
+dfincident.to_csv("../../../Data/vw_Incident_ABT_Incident_HoldDuration.csv", index=False)

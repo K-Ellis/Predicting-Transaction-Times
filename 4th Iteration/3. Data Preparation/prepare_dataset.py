@@ -417,7 +417,7 @@ def clean_AuditHistory(d, newpath):
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    dfstageid = pd.read_csv("../../../Data/vw_StageTable.csv", encoding='latin-1', low_memory=False)
+    dfstageid = pd.read_csv(d["file_location"] + "vw_StageTable" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
 
     # replace NewValue and OldValue with their respective StageNames from the StageID table
     dfstageid["StageId"] = dfstageid["StageId"].str.lower()  # upper case only in stage ID table
