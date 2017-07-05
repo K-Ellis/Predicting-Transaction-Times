@@ -1,0 +1,5 @@
+LinearRegression 20170705-113626
+
+LinearRegression Number predictions within 1 hour: 32 / 5012
+LinearRegression % predictions within 1 hour: 0.64%
+
