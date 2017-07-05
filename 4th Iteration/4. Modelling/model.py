@@ -43,6 +43,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " all data")
     plt.savefig(newpath + column + "_all.png")
+    plt.savefig(newpath + column + "_all.pdf")
 
     plt.figure()  # Plot times under 500,000 seconds
     plt.hist(df[df.TimeTaken < 500000][column], bins='auto')
@@ -50,6 +51,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " < 500000s data")
     plt.savefig(newpath + column + "_500000.png")
+    plt.savefig(newpath + column + "_500000.pdf")
 
     plt.figure()  # Plot times under 100,000 seconds
     plt.hist(df[df.TimeTaken < 100000][column], bins='auto')
@@ -57,6 +59,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " < 100000s data")
     plt.savefig(newpath + column + "_100000.png")
+    plt.savefig(newpath + column + "_100000.pdf")
 
     plt.figure()  # Plot all data
     plt.hist(np.log(df[column]), bins='auto')
@@ -64,6 +67,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " Log of all data")
     plt.savefig(newpath + column + "_log_all.png")
+    plt.savefig(newpath + column + "_log_all.pdf")
 
     plt.figure()  # Plot times under 500,000 seconds
     plt.hist(np.log(df[df.TimeTaken < 500000][column]), bins='auto')
@@ -71,6 +75,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 500000s data")
     plt.savefig(newpath + column + "_log_500000.png")
+    plt.savefig(newpath + column + "_log_500000.pdf")
 
     plt.figure()  # Plot times under 100,000 seconds
     plt.hist(np.log(df[df.TimeTaken < 100000][column]), bins='auto')
@@ -78,6 +83,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 100000s data")
     plt.savefig(newpath + column + "_log_100000.png")
+    plt.savefig(newpath + column + "_log_100000.pdf")
 
 
 def split_data(df, newpath):  # Split data into training and test data x, y.
@@ -155,6 +161,7 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath, d): 
     y_train_pred = classifier.predict(trainData_x)
     results(testData_y, y_test_pred, trainData_y, y_train_pred, "KernelRidge", newpath, d)
 
+
 def Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Kernel ridge regression
     classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
     classifier = classifier.fit(trainData_x, trainData_y.values.ravel())
@@ -174,6 +181,7 @@ def results(testData_y, y_test_pred, trainData_y, y_train_pred, alg, newpath, d,
     for i in range(len(y_test_pred)):
         if y_test_pred[i] < 0:  # Convert all negative predictions to 0
             y_test_pred[i] = 0
+
         # if d["holdduration"] == "y":
         #     if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600:  # Within 1 hour
         #         number_close += 1
@@ -181,26 +189,26 @@ def results(testData_y, y_test_pred, trainData_y, y_train_pred, alg, newpath, d,
         if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
             number_close += 1
 
-    out_file.write(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_test_pred)) + "\n")
+    out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
+    out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_test_pred))) + "\n")
     out_file.write(
-        alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_test_pred)) * 100), 2)) + "%\n\n")
+        alg + " number test predictions within 1 hour: " + str(number_close) + " / " + str(len(y_test_pred)) + "\n")
+    out_file.write(
+        alg + " % test predictions within 1 hour: " + str(round(((number_close / len(y_test_pred)) * 100), 2)) + "%\n")
+    out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
+    out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_test_pred)) + "\n")
+    out_file.write("\n")
 
-    print(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_test_pred)))
-    print(alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_test_pred)) * 100), 2)) + "%")
+    print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
+    print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_test_pred)))  # Print Root Mean Squared Error
+    print(alg + " number test predictions within 1 hour: " + str(number_close) + " / " + str(len(y_test_pred)))
+    print(alg + " % test predictions within 1 hour: " + str(round(((number_close / len(y_test_pred)) * 100), 2)) + "%")
+    print(alg, "Train R^2 score:", r2_score(trainData_y, y_train_pred))  # Print R Squared
+    print(alg, "Test R^2 score:", r2_score(testData_y, y_test_pred), "\n")  # Print R Squared
 
     plot(trainData_y, y_train_pred, alg, "Train", newpath)
     plot(testData_y, y_test_pred, alg, "Test", newpath)
 
-    out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
-    out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_test_pred))) + "\n\n")
-    out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
-    out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_test_pred)) + "\n")
-
-    print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
-    print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_test_pred)))  # Print Root Mean Squared Error
-    print(alg, "Train R^2 score:", r2_score(trainData_y, y_train_pred))  # Print R Squared
-    print(alg, "Test R^2 score:", r2_score(testData_y, y_test_pred), "\n")  # Print R Squared
-    # http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html
 
     if importances is not None:
         print("Feature Importances:")
@@ -236,11 +244,11 @@ if __name__ == "__main__":  # Run program
 
     np.random.seed(int(d["seed"]))  # Set seed
 
-    if d["user"] == "Eoin":
+    if d["user"] == "Kieron":
+        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+    else:
         df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
                      low_memory=False)
-    else:
-        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
 
 
     if d["histogram"] == "y":
@@ -248,7 +256,6 @@ if __name__ == "__main__":  # Run program
 
     if d["log_of_y"] == "y":  # Take log of y values
         print("Y has been transformed by log . . . change parameter file to remove this feature\n")
-        # todo add this to logs
         df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
 
     if d["resample"] == "y":

@@ -35,7 +35,7 @@ def fill_nulls(df, column, out_file):  # Fill in NULL values for that column
 
 def fill_nulls_dfc(dfc, fill_value, out_file):  # Fill in NULL values for one column
     dfc.fillna(fill_value, inplace=True)
-    out_file.write("All NULL Values for \"%s\" replaced with most frequent value, %s" % (dfc.name, fill_value) + "\n\n")
+    out_file.write("All NULL Values for \"%s\" replaced with most frequent value, %s" % (dfc.name, fill_value) + "\n")
 
 
 def fill_nulls_dfcs(df, dfcs, fill_value, out_file): # Fill in Nulls given a set of dataframe columns
@@ -140,7 +140,7 @@ def drop_ones(df, out_file, x=0.99):  # Remove columns where there is a proporti
 def one_hot_encoding(df, column, out_file):  # One hot encoding
     df = pd.concat([df, pd.get_dummies(df[column], prefix=column, drop_first=True)], axis=1)
     del df[column]
-    out_file.write("One hot encoding completed for " + str(column) + "\n\n")
+    out_file.write("One hot encoding completed for " + str(column) + "\n")
     return df
 
 
@@ -185,7 +185,7 @@ def transform_country(dfc, out_file, column="Column"):  # Convert country into c
             dfc.iloc[i] = "southamerica"
         else:
             dfc.iloc[i] = "other"
-    out_file.write("Continents assigned for " + column + "\n\n")
+    out_file.write("Continents assigned for " + column + "\n")
     return dfc
 
 
@@ -217,7 +217,7 @@ def clean_Incident(d, newpath):
     out_file_name = newpath + time.strftime("%H.%M.%S") + "_clean_Incident.txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write("clean_Incident started" + "\n\n")
+    out_file.write("clean_Incident started" + "\n")
 
     df = pd.read_csv(d["file_location"] + "vw_Incident" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
 
@@ -241,6 +241,7 @@ def clean_Incident(d, newpath):
         df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Replace the categorical variables in Queue with
         # the substrings
     df = one_hot_encoding(df, "Queue", out_file)
+    out_file.write("\n")
 
     ####################################################################################################################
     # Filtering for the data MS want
@@ -262,14 +263,13 @@ def clean_Incident(d, newpath):
     del df["caseOriginCode"]  # Don't understand what it does
     del df["pendingemails"]  # Don't understand what it does
     del df["WorkbenchGroup"]  # Don't understand what it does
-    del df["Workbench"]  # Don't understand what it does # TODO one-hot with more B. Understanding
+    del df["Workbench"]  # Don't understand what it does
     del df["RelatedCases"]  # useless until we link cases together
     del df["TotalIdleTime"]  # can be used for real world predictions?
     del df["TotalWaitTime"]  # can be used for real world predictions?
-    del df["OLSRevenue"]
 
     ####################################################################################################################
-    # not enough unique entries
+    # Not enough unique entries
     ####################################################################################################################
     del df["RevenueImpactAmount"]  # Mostly NULL values
     del df["Auditresult"]  # Mostly NULL values
@@ -296,41 +296,51 @@ def clean_Incident(d, newpath):
     del df["Isrevenueimpacting"]
 
     ####################################################################################################################
+    # Temporary deletions to overcome Queue issue
+    ####################################################################################################################
+    del df["ValidCase"]
+    del df["BusinessFunction"]
+    del df["LineOfBusiness"]
+    del df["Program"]
+    del df["CaseType"]
+    del df["CaseSubTypes"]
+    del df["Reason"]
+    del df["Language"]
+    del df["LanguageName"]
+    del df["IsAudited"]
+    del df["SubSubReason"]
+
+    ####################################################################################################################
     # Data mining processing - where there is not enough meaningful information.
     ####################################################################################################################
-    df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
-    df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
-    df = drop_null(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
-    df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
-    df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
+    # df = min_entries(df, out_file)  # Delete columns that have less than x=3 entries
+    # df = min_variable_types(df, out_file)  # Delete columns with less than x=2 variable types in that column
+    # df = drop_null(df, out_file)  # Remove columns where there is a proportion of NULL,NaN,blank values > tol
+    # df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
+    # df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
     # One hot encode isSOXcase with isSOXcase and isnotSOXcase. NULLS are set to 0
-    # df["IsnotSOXcase"] = df["IsSOXCase"]
-    # df["IsnotSOXcase"] = df["IsnotSOXcase"].replace(1, np.NaN)
-    # df["IsnotSOXcase"] = df["IsnotSOXcase"].replace(0, 1)
-    # df = fill_nulls(df, "IsSOXCase", out_file)
-    # df = fill_nulls(df, "IsnotSOXcase", out_file)
     df["IsSOXCase"].fillna(2, inplace=True)
     df = df[df["IsSOXCase"] != 2]
 
     ####################################################################################################################
-    # Priority and Complexity - ordinal variable mapping
+    # Priority, Complexity, StageName - ordinal variable mapping
     ####################################################################################################################
     df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
-    out_file.write("map Priority column to ordinal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 \n\n")
+    out_file.write("Map Priority column to ordinal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 \n")
     df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
-    out_file.write("map Complexity column to ordinal variables: Low: 0, Normal: 1, High: 2 \n\n")
+    out_file.write("Map Complexity column to ordinal variables: Low: 0, Normal: 1, High: 2 \n")
     df["StageName"] = df["StageName"].map({"Ops In": 0, "Triage And Validation": 1, "Data Entry": 2, "Submission": 3,
                                            "Ops Out": 4})
-    out_file.write("map StageName column to ordinal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, "
+    out_file.write("Map StageName column to ordinal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, "
                    "Submission: 3, Ops Out: 4 \n\n")
+
 
     ####################################################################################################################
     # Fill Categorical and numerical nulls. And Scale numerical variables.
     ####################################################################################################################
     if d["file_name"] == "ABT_Incident_HoldDuration":
         quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName", "HoldDuration"]
-
     else:
         quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
 
@@ -338,6 +348,7 @@ def clean_Incident(d, newpath):
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
     fill_nulls_dfcs(df, dfcs, "mode", out_file)
     fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean", out_file)
+    out_file.write("\n")
     df = scale_quant_cols(df, quant_cols, out_file)
 
     df.IsSOXCase = df.IsSOXCase.astype(int)
@@ -347,18 +358,18 @@ def clean_Incident(d, newpath):
     # Transform countries into continents and then one hot encode
     ####################################################################################################################
     df["CountrySource"] = transform_country(df["CountrySource"], out_file, column="CountrySource")
-    df = one_hot_encoding(df, "CountrySource", out_file)
     df["CountryProcessed"] = transform_country(df["CountryProcessed"], out_file, column="CountryProcessed")
-    df = one_hot_encoding(df, "CountryProcessed", out_file)
     df["SalesLocation"] = transform_country(df["SalesLocation"], out_file, column="SalesLocation")
-    df = one_hot_encoding(df, "SalesLocation", out_file)
+    out_file.write("\n")
 
     ####################################################################################################################
     # One-hot encode categorical variables
     ####################################################################################################################
-    cat_vars_to_one_hot = ["StatusReason", "SubReason", "ROCName", "sourcesystem", "Source", "Revenutype"]
+    cat_vars_to_one_hot = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason",
+                           "ROCName", "sourcesystem", "Source", "Revenutype"]
     for var in cat_vars_to_one_hot:
         df = one_hot_encoding(df, var, out_file)
+    out_file.write("\n")
 
     # TODO - have a closer look at SubReason, sourcesystem, Source, Workbench, Revenutype
         #  can we reduce the number of one-hot columns?
@@ -370,7 +381,8 @@ def clean_Incident(d, newpath):
     # ####################################################################################################################
     # df, cols_deleted = find_and_delete_corr(df, correlation_threshold)
     #
-    # out_file.write("\n Delete one of the columns when correlation between a pair is above %s:" %  correlation_threshold)
+    # out_file.write("\n Delete one of the columns when correlation between a pair is above %s:" %
+    # correlation_threshold)
     # for col in cols_deleted:
     #     out_file.write("%s" % col)
     # out_file.write("\n\n")

@@ -1,0 +1,10 @@
+KernelRidge 20170705-120738
+
+KernelRidge Number predictions within 1 hour: 44 / 5012
+KernelRidge % predictions within 1 hour: 0.88%
+
+KernelRidge Train RMSE: 428865.7881550273
+KernelRidge Test RMSE: 414771.03459903534
+
+KernelRidge Train R^2 scoree: 0.163386896514
+KernelRidge Test R^2 score: 0.169142310389

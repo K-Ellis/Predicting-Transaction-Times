@@ -1,0 +1,39 @@
+Date and time: 20170705-165709
+clean_Incident started
+
+Time Taken column calculated
+Outliers removed > 3 sd from mean of TimeTaken
+
+min_entries function - min: 3
+Column deletion: Deleted -> Entry Count: 0
+
+min_variable_types function - min: 2
+Column deletion: BusinessFunction -> Variable Type Count: 1
+Column deletion: LineOfBusiness -> Variable Type Count: 1
+Column deletion: CaseType -> Variable Type Count: 1
+Column deletion: CaseSubTypes -> Variable Type Count: 1
+Column deletion: Reason -> Variable Type Count: 1
+Column deletion: SubSubReason -> Variable Type Count: 1
+Column deletion: StateCode -> Variable Type Count: 1
+
+drop_NULL - max ratio: 0.99
+Column deletion: RevenueImpactAmount -> Ratio: 0.995183912578
+Column deletion: OrderAmount -> Ratio: 0.999746521715
+Column deletion: InvoiceAmount -> Ratio: 0.999690193207
+Column deletion: NumberofChildIncidents -> Ratio: 0.994507970484
+Column deletion: Referencesystem -> Ratio: 0.998760772827
+
+drop_zeros - max ratio: 0.99
+Column deletion: IsAudited -> Ratio: 0.999802850222
+Column deletion: Auditresult -> Ratio: 0.999943671492
+Column deletion: PendingRevenue -> Ratio: 0.999324057906
+Column deletion: RequiredThreshold -> Ratio: 0.999633864699
+Column deletion: Slipped -> Ratio: 0.999633864699
+Column deletion: DefectiveCase -> Ratio: 0.998450966034
+Column deletion: Isrevenueimpacting -> Ratio: 0.999324057906
+
+drop_ones - max ratio: 0.99
+Column deletion: Requestspercase -> Ratio: 0.999436714921
+
+One hot encoding completed for Queue
+
