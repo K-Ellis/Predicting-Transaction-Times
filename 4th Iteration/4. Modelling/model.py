@@ -44,6 +44,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " all data")
     plt.savefig(newpath + column + "_all.png")
+    plt.savefig(newpath + column + "_all.pdf")
 
     plt.figure()  # Plot times under 500,000 seconds
     plt.hist(df[df.TimeTaken < 500000][column], bins='auto')
@@ -51,6 +52,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " < 500000s data")
     plt.savefig(newpath + column + "_500000.png")
+    plt.savefig(newpath + column + "_500000.pdf")
 
     plt.figure()  # Plot times under 100,000 seconds
     plt.hist(df[df.TimeTaken < 100000][column], bins='auto')
@@ -58,6 +60,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " < 100000s data")
     plt.savefig(newpath + column + "_100000.png")
+    plt.savefig(newpath + column + "_100000.pdf")
 
     plt.figure()  # Plot all data
     plt.hist(np.log(df[column]), bins='auto')
@@ -65,6 +68,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " Log of all data")
     plt.savefig(newpath + column + "_log_all.png")
+    plt.savefig(newpath + column + "_log_all.pdf")
 
     plt.figure()  # Plot times under 500,000 seconds
     plt.hist(np.log(df[df.TimeTaken < 500000][column]), bins='auto')
@@ -72,6 +76,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 500000s data")
     plt.savefig(newpath + column + "_log_500000.png")
+    plt.savefig(newpath + column + "_log_500000.pdf")
 
     plt.figure()  # Plot times under 100,000 seconds
     plt.hist(np.log(df[df.TimeTaken < 100000][column]), bins='auto')
@@ -79,6 +84,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 100000s data")
     plt.savefig(newpath + column + "_log_100000.png")
+    plt.savefig(newpath + column + "_log_100000.pdf")
 
 
 def split_data(df, newpath):  # Split data into training and test data x, y.
@@ -232,11 +238,11 @@ if __name__ == "__main__":  # Run program
 
     np.random.seed(int(d["seed"]))  # Set seed
 
-    if d["user"] == "Eoin":
+    if d["user"] == "Kieron":
+        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+    else:
         df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
                      low_memory=False)
-    else:
-        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
 
 
     if d["histogram"] == "y":
