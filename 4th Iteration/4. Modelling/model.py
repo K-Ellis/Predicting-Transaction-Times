@@ -244,7 +244,6 @@ if __name__ == "__main__":  # Run program
         df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
                      low_memory=False)
 
-
     if d["histogram"] == "y":
         histogram(df, "TimeTaken", newpath)  # Save histogram plots of TimeTaken
 
