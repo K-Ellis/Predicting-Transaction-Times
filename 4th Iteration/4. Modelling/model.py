@@ -178,6 +178,7 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath, importa
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
     plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.png")
+    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.pdf")
 
     plt.figure()
     plt.plot(testData_y, y_pred, 'ro')
@@ -188,6 +189,7 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath, importa
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
     plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
+    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.pdf")
 
     out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
     out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n\n")
