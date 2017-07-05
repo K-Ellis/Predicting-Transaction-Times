@@ -29,6 +29,8 @@ from sklearn.metrics import r2_score
 from math import sqrt
 from sklearn.ensemble import RandomForestRegressor
 from shutil import copyfile  # Used to copy parameters file to directory
+from sklearn.utils import resample
+from select_k_importance import select_importants, trim_df, select_top_k_importants
 # from ask_user_which_file import ask_user
 
 
@@ -140,9 +142,9 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath):  # 
     y_train_pred = classifier.predict(trainData_x)
     results(testData_y, y_pred, trainData_y, y_train_pred, "KernelRidge", newpath)
 
-def Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath):  # Kernel ridge regression
-    classifier = RandomForestRegressor(n_estimators=50)
-    classifier = classifier.fit(trainData_x, trainData_y)
+def Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Kernel ridge regression
+    classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
+    classifier = classifier.fit(trainData_x, trainData_y.values.ravel())
     y_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
     importances = classifier.feature_importances_
@@ -203,10 +205,16 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath, importa
 
     if importances is not None:
         print("Feature Importances:")
+        dfimportances = pd.DataFrame(data=trainData_x.columns, columns=["Columns"])
+        dfimportances["importances"] = importances
+        dfimportances.to_csv(newpath + "importances.csv", index=False)
+        dfimportances = dfimportances.sort_values("importances", ascending=False)
+        print(dfimportances[:10], "\n")
+
         out_file.write("\nFeature Importances:\n")
-        for i, (col, importance) in enumerate(zip(trainData_x.columns, importances)):
-            print("%d. \"%s\" (%f)" % (i, col, importance))
-            out_file.write("%d. \"%s\" \t (%f)\n" % (i, col, importance))
+        for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances["importances"].values.tolist())):
+            out_file.write("%d. \"%s\" (%f)\n" % (i, col, importance))
+
     out_file.close()
 
 
@@ -218,11 +226,17 @@ if __name__ == "__main__":  # Run program
             (key, val) = line.split()
             d[key] = val
 
-    newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/")  # Log file location
-    if not os.path.exists(newpath):
-        os.makedirs(newpath)  # Make folder for storing results if it does not exist
+    if d["user"] == "Eoin":
+        newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/")  # Log file location
+        if not os.path.exists(newpath):
+            os.makedirs(newpath)  # Make folder for storing results if it does not exist
+    else:
+        newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/") + time.strftime("%H.%M.%S/") # Log file location
+        if not os.path.exists(newpath):
+            os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
     np.random.seed(int(d["seed"]))  # Set seed
+
     if d["user"] == "Eoin":
         df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
                      low_memory=False)
@@ -236,6 +250,9 @@ if __name__ == "__main__":  # Run program
         print("Y has been transformed by log . . . comment out in model code if needed\n")
         df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
 
+    if d["resample"] == "y":
+        df = resample(df, n_samples=5000, random_state=int(d["seed"]))
+
     trainData_x, testData_x, trainData_y, testData_y = split_data(df, newpath)  # Split data
 
     if d["linear_regression"] == "y":
@@ -245,7 +262,25 @@ if __name__ == "__main__":  # Run program
     if d["kernel_ridge"] == "y":
         kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Kernel ridge regression
     if d["random_forest_regressor"] == "y":
-        Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Random Forest regression
+        Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Random Forest
+
+        # cols_to_be_deleted = select_importants(newpath + "importances.csv", thresh=0.001) # keep above threshold
+        k = 30
+        cols_to_be_deleted = select_top_k_importants(newpath + "importances.csv", k) # keep top k
+        df2 = trim_df(df, cols_to_be_deleted)
+        with open(newpath + "cols_deleted_k=%s_" % k + time.strftime("%H.%M.%S.txt"), "w") as f:
+            f.write(str(cols_to_be_deleted))
+
+        trainData_x, testData_x, trainData_y, testData_y = split_data(df2, newpath)  # Split data
+
+        if d["linear_regression"] == "y":
+            linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Linear Regression
+        if d["elastic_net"] == "y":
+            elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath)  # elastic net
+        if d["kernel_ridge"] == "y":
+            kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Kernel ridge regression
+        if d["random_forest_regressor"] == "y":
+            Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Random Forest
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters
 
