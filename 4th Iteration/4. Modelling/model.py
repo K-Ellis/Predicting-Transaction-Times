@@ -21,8 +21,7 @@ import time
 import os  # Used to create folders
 import math
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.linear_model import ElasticNet
+from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
@@ -132,71 +131,75 @@ def plot(x, y, alg, data, newpath):
     plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + data + ".pdf")
 
 
-def linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath):
+def linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath, d):
     classifier = LinearRegression()
     classifier = classifier.fit(trainData_x, trainData_y)
-    y_pred = classifier.predict(testData_x)
+    y_test_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
-    results(testData_y, y_pred, trainData_y, y_train_pred, "LinearRegression", newpath)
+    results(testData_y, y_test_pred, trainData_y, y_train_pred, "LinearRegression", newpath, d)
 
 
-def elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath):  # Elastic Net
+def elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Elastic Net
     classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
     classifier = classifier.fit(trainData_x, trainData_y)
     # print(classifier.coef_)
-    y_pred = classifier.predict(testData_x)
+    y_test_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
-    results(testData_y, y_pred, trainData_y, y_train_pred, "ElasticNet", newpath)
+    results(testData_y, y_test_pred, trainData_y, y_train_pred, "ElasticNet", newpath, d)
 
 
-def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath):  # Kernel ridge regression
+def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Kernel ridge regression
     classifier = KernelRidge(alpha=0.1)
     classifier = classifier.fit(trainData_x, trainData_y)
-    y_pred = classifier.predict(testData_x)
+    y_test_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
-    results(testData_y, y_pred, trainData_y, y_train_pred, "KernelRidge", newpath)
+    results(testData_y, y_test_pred, trainData_y, y_train_pred, "KernelRidge", newpath, d)
 
 def Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Kernel ridge regression
     classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
     classifier = classifier.fit(trainData_x, trainData_y.values.ravel())
-    y_pred = classifier.predict(testData_x)
+    y_test_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
     importances = classifier.feature_importances_
-    results(testData_y, y_pred, trainData_y, y_train_pred, "RandomForestRegressor", newpath, importances, trainData_x)
+    results(testData_y, y_test_pred, trainData_y, y_train_pred, "RandomForestRegressor", newpath, d, importances,
+            trainData_x)
 
 
-def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath, importances=None, trainData_x=None):
+def results(testData_y, y_test_pred, trainData_y, y_train_pred, alg, newpath, d, importances=None, trainData_x=None):
     out_file_name = newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
 
     number_close = 0  # Use to track number of close estimations
-    for i in range(len(y_pred)):
-        if y_pred[i] < 0:  # Convert all negative predictions to 0
-            y_pred[i] = 0
-            # print(y_pred[i], ": 0 found")
-        if abs(y_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
+    for i in range(len(y_test_pred)):
+        if y_test_pred[i] < 0:  # Convert all negative predictions to 0
+            y_test_pred[i] = 0
+        # if d["holdduration"] == "y":
+        #     if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600:  # Within 1 hour
+        #         number_close += 1
+        # else:
+        if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
             number_close += 1
 
-    out_file.write(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_pred)) + "\n")
+    out_file.write(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_test_pred)) + "\n")
     out_file.write(
-        alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_pred)) * 100), 2)) + "%\n\n")
+        alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_test_pred)) * 100), 2)) + "%\n\n")
 
-    print(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_pred)))
-    print(alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_pred)) * 100), 2)) + "%")
+    print(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_test_pred)))
+    print(alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_test_pred)) * 100), 2)) + "%")
 
     plot(trainData_y, y_train_pred, alg, "Train", newpath)
-    plot(testData_y, y_pred, alg, "Test", newpath)
+    plot(testData_y, y_test_pred, alg, "Test", newpath)
 
     out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
-    out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n\n")
+    out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_test_pred))) + "\n\n")
     out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
-    out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_pred)) + "\n")
+    out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_test_pred)) + "\n")
 
     print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
-    print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
+    print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_test_pred)))  # Print Root Mean Squared Error
     print(alg, "Train R^2 score:", r2_score(trainData_y, y_train_pred))  # Print R Squared
-    print(alg, "Test R^2 score:", r2_score(testData_y, y_pred), "\n")  # Print R Squared
+    print(alg, "Test R^2 score:", r2_score(testData_y, y_test_pred), "\n")  # Print R Squared
     # http://scikit-learn.org/stable/modules/generated/sklearn.metrics.r2_score.html
 
     if importances is not None:
@@ -249,7 +252,7 @@ if __name__ == "__main__":  # Run program
         df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
 
     if d["resample"] == "y":
-        df = resample(df, n_samples=5000, random_state=int(d["seed"]))
+        df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
 
     trainData_x, testData_x, trainData_y, testData_y = split_data(df, newpath)  # Split data
 
