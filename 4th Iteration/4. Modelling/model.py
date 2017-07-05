@@ -244,7 +244,7 @@ if __name__ == "__main__":  # Run program
         elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath)  # elastic net
     if d["kernel_ridge"] == "y":
         kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Kernel ridge regression
-    if d["Random_Forest_Regressor"] == "y":
+    if d["random_forest_regressor"] == "y":
         Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Random Forest regression
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters

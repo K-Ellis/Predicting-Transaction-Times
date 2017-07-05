@@ -10,6 +10,7 @@ clean_PackageTriageEntry: y
 linear_regression: y
 elastic_net: y
 kernel_ridge: y
+Random_Forest_Regressor: y
 log_of_y: y
 seed: 12345
 histogram: y
