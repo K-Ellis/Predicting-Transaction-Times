@@ -238,11 +238,11 @@ if __name__ == "__main__":  # Run program
 
     np.random.seed(int(d["seed"]))  # Set seed
 
-    if d["user"] == "Eoin":
+    if d["user"] == "Kieron":
+        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+    else:
         df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
                      low_memory=False)
-    else:
-        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
 
 
     if d["histogram"] == "y":
