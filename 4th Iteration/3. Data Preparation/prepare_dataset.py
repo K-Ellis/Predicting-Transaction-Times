@@ -72,7 +72,7 @@ def time_taken(df, out_file, start, finish):  # replace start & finish with one 
     out_file.write("\nTime Taken column calculated" + "\n")
     mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
     std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
-    df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 2 std from mean
+    df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
     # df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
     out_file.write("Outliers removed > 3 sd from mean of TimeTaken" + "\n\n")
     return df
@@ -560,35 +560,3 @@ if __name__ == "__main__":  # Run program
         clean_PackageTriageEntry(d, newpath)
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save params
-
-
-
-"""
-User:
-
-# choose which prepare_dataset option(s) with y/n
-clean_Incident: y
-clean_AuditHistory: y
-clean_HoldActivity: y
-clean_PackageTriageEntry: y
-
-Prepare_Infile: # name of file to be transformed
-- vw_Incident
-- vw_AuditHistory
-- vw_HoldActivity
-- vw_PackageTriageEntry
-- ABT_Incident_HoldDuration
-
-Prepare_Infile: # name for file to be saved as
-- vw_Incident_cleaned
-- vw_AuditHistory_cleaned
-- vw_HoldActivity_cleaned
-- vw_PackageTriageEntry_cleaned
-- ABT_Incident_HoldDuration_cleaned(2std)
-- ABT_Incident_HoldDuration_cleaned(3std)
-
-COSMIC_Number:
-- 1
-- 2
-
-"""

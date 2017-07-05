@@ -118,6 +118,20 @@ def split_data(df, newpath):  # Split data into training and test data x, y.
     return trainData_x, testData_x, trainData_y, testData_y
 
 
+def plot(x, y, alg, data, newpath):
+    plt.figure()
+    plt.plot(x, y, 'ro', alpha=0.1, markersize=3)
+    plt.xlabel(data + " Data")
+    plt.ylabel(data + " Data Prediction")
+    plt.title(alg + " - " + data + " Data")
+    plt.axis('equal')
+    plt.ylim(0, 2000000)
+    plt.xlim(0, 2000000)
+    plt.tight_layout()  # Force everything to fit on figure
+    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + data + ".png")
+    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + data + ".pdf")
+
+
 def linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath):
     classifier = LinearRegression()
     classifier = classifier.fit(trainData_x, trainData_y)
@@ -171,31 +185,13 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath, importa
     print(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_pred)))
     print(alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_pred)) * 100), 2)) + "%")
 
-    plt.figure()
-    plt.plot(trainData_y, y_train_pred, 'ro')
-    plt.xlabel('trainData_y')
-    plt.ylabel('y_train_pred')
-    plt.title(alg + " - Train Data")
-    plt.axis('equal')
-    plt.ylim(0, 2000000)
-    plt.xlim(0, 2000000)
-    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.png")
-
-    plt.figure()
-    plt.plot(testData_y, y_pred, 'ro')
-    plt.xlabel('testData_y')
-    plt.ylabel('y_pred')
-    plt.title(alg + " - Test Data")
-    plt.axis('equal')
-    plt.ylim(0, 2000000)
-    plt.xlim(0, 2000000)
-    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
+    plot(trainData_y, y_train_pred, alg, "Train", newpath)
+    plot(testData_y, y_pred, alg, "Test", newpath)
 
     out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
     out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n\n")
     out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
     out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_pred)) + "\n")
-
 
     print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
     print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
@@ -243,11 +239,13 @@ if __name__ == "__main__":  # Run program
     else:
         df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
 
+
     if d["histogram"] == "y":
         histogram(df, "TimeTaken", newpath)  # Save histogram plots of TimeTaken
 
     if d["log_of_y"] == "y":  # Take log of y values
-        print("Y has been transformed by log . . . comment out in model code if needed\n")
+        print("Y has been transformed by log . . . change parameter file to remove this feature\n")
+        # todo add this to logs
         df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
 
     if d["resample"] == "y":
@@ -283,19 +281,3 @@ if __name__ == "__main__":  # Run program
             Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Random Forest
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters
-
-"""
-- vw_Incident_cleaned
-    - default iteration 3 file
-- vw_Incident_cleaned(collinearity_thresh_0.9)
-    - columns with correlation >0.9 deleted from df
-- ABT_Incident_HoldDuration_cleaned(3std)
-    - Incident merged with summed HoldDuration from HoldActivity df and std cut off increased to 3 std
-        - LinearRegression Test rmse: 343551.1532271481
-        - LinearRegression Test R^2 score: 0.4419826483
-        - ElasticNet Test rmse: 343659.9254466486
-        - ElasticNet Test R^2 score: 0.441629243027
-- ABT_Incident_HoldDuration_cleaned(2std)
-    - Incident merged with summed HoldDuration from HoldActivity df and std cut off increased to 2 std
-todo note: Eoin does not have these files . . . 
-"""

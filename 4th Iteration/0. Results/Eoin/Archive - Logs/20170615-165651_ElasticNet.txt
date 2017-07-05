@@ -1,0 +1,3 @@
+ElasticNet20170615-165651
+ElasticNetrmse:503959.7003864003
+ElasticNetR^2 score:0.0965370594201
