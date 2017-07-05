@@ -1,0 +1,87 @@
+Date and time: 20170615-175555
+clean_Incident started
+
+Time Taken column calculated
+Outliers removed > 3 sd from mean of TimeTaken
+
+One hot encoding completed for Queue
+
+min_entries function - min: 3
+Column deletion: SubSubReason -> Entry Count: 0
+
+min_variable_types function - min: 2
+Column deletion: ValidCase -> Variable Type Count: 1
+Column deletion: BusinessFunction -> Variable Type Count: 1
+Column deletion: LineOfBusiness -> Variable Type Count: 1
+Column deletion: Program -> Variable Type Count: 1
+Column deletion: CaseType -> Variable Type Count: 1
+Column deletion: CaseSubTypes -> Variable Type Count: 1
+Column deletion: Reason -> Variable Type Count: 1
+Column deletion: Language -> Variable Type Count: 1
+Column deletion: LanguageName -> Variable Type Count: 1
+Column deletion: Queue_OpsPM -> Variable Type Count: 1
+Column deletion: Queue_Xbox -> Variable Type Count: 1
+
+drop_NULL - max ratio: 0.95
+Column deletion: Numberofreactivations -> Ratio: 0.952342300557
+
+drop_zeros - max ratio: 0.95
+Column deletion: IsAudited -> Ratio: 0.999536178108
+Column deletion: Queue_E&E -> Ratio: 0.981331168831
+Column deletion: Queue_LOC -> Ratio: 0.984809833024
+
+drop_ones - max ratio: 0.95
+
+All NULL Values for "Priority" replaced with most frequent value, Normal
+
+All NULL Values for "SalesLocation" replaced with most frequent value, United States
+
+All NULL Values for "ROCName" replaced with most frequent value, AOC
+
+All NULL Values for "sourcesystem" replaced with most frequent value, CLT
+
+All NULL Values for "Source" replaced with most frequent value, Web
+
+All NULL Values for "Revenutype" replaced with most frequent value, Current Revenue
+
+All NULL Values for "Complexity" replaced with most frequent value, Medium
+
+All NULL Values for "IsSOXCase" replaced with most frequent value, 1.0
+
+All NULL Values for "CaseRevenue" replaced with most frequent value, 2793740.6653826414
+
+All NULL Values for "AmountinUSD" replaced with most frequent value, 145609.29290997458
+
+columns scaled = ['CaseRevenue', 'AmountinUSD']
+
+map Priority column to nominal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 
+
+map Complexity column to nominal variables: Low: 0, Normal: 1, High: 2 
+
+Continents assigned for CountrySource
+
+One hot encoding completed for CountrySource
+
+Continents assigned for CountryProcessed
+
+One hot encoding completed for CountryProcessed
+
+Continents assigned for SalesLocation
+
+One hot encoding completed for SalesLocation
+
+One hot encoding completed for StatusReason
+
+One hot encoding completed for SubReason
+
+One hot encoding completed for ROCName
+
+One hot encoding completed for sourcesystem
+
+One hot encoding completed for Source
+
+One hot encoding completed for StageName
+
+One hot encoding completed for Revenutype
+
+clean_Incident complete

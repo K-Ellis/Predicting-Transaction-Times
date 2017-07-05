@@ -29,7 +29,6 @@ from sklearn.metrics import r2_score
 from math import sqrt
 from sklearn.ensemble import RandomForestRegressor
 from shutil import copyfile  # Used to copy parameters file to directory
-# from ask_user_which_file import ask_user
 
 
 parameters = "../../../Data/parameters.txt"  # Parameters file
@@ -140,6 +139,7 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath):  # 
     y_train_pred = classifier.predict(trainData_x)
     results(testData_y, y_pred, trainData_y, y_train_pred, "KernelRidge", newpath)
 
+
 def Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath):  # Kernel ridge regression
     classifier = RandomForestRegressor(n_estimators=50)
     classifier = classifier.fit(trainData_x, trainData_y)
@@ -178,6 +178,7 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath, importa
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
     plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.png")
+    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.pdf")
 
     plt.figure()
     plt.plot(testData_y, y_pred, 'ro')
@@ -188,6 +189,7 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath, importa
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
     plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
+    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.pdf")
 
     out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
     out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n\n")
@@ -223,17 +225,18 @@ if __name__ == "__main__":  # Run program
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
     np.random.seed(int(d["seed"]))  # Set seed
-    if d["user"] == "Eoin":
-        df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
-                     low_memory=False)
-    else:
+    if d["user"] == "Kieron":
         df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+    else:
+        df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
+                         low_memory=False)
 
     if d["histogram"] == "y":
         histogram(df, "TimeTaken", newpath)  # Save histogram plots of TimeTaken
 
     if d["log_of_y"] == "y":  # Take log of y values
-        print("Y has been transformed by log . . . comment out in model code if needed\n")
+        print("Y has been transformed by log . . . change parameter file to remove this feature\n")
+        # todo add this to logs
         df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
 
     trainData_x, testData_x, trainData_y, testData_y = split_data(df, newpath)  # Split data
@@ -248,19 +251,3 @@ if __name__ == "__main__":  # Run program
         Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Random Forest regression
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters
-
-"""
-- vw_Incident_cleaned
-    - default iteration 3 file
-- vw_Incident_cleaned(collinearity_thresh_0.9)
-    - columns with correlation >0.9 deleted from df
-- ABT_Incident_HoldDuration_cleaned(3std)
-    - Incident merged with summed HoldDuration from HoldActivity df and std cut off increased to 3 std
-        - LinearRegression Test rmse: 343551.1532271481
-        - LinearRegression Test R^2 score: 0.4419826483
-        - ElasticNet Test rmse: 343659.9254466486
-        - ElasticNet Test R^2 score: 0.441629243027
-- ABT_Incident_HoldDuration_cleaned(2std)
-    - Incident merged with summed HoldDuration from HoldActivity df and std cut off increased to 2 std
-todo note: Eoin does not have these files . . . 
-"""
