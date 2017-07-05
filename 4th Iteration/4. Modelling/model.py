@@ -115,6 +115,20 @@ def split_data(df, newpath):  # Split data into training and test data x, y.
     return trainData_x, testData_x, trainData_y, testData_y
 
 
+def plot(x, y, alg, data, newpath):
+    plt.figure()
+    plt.plot(x, y, 'ro', alpha=0.1, markersize=3)
+    plt.xlabel(data + " Data")
+    plt.ylabel(data + " Data Prediction")
+    plt.title(alg + " - " + data + " Data")
+    plt.axis('equal')
+    plt.ylim(0, 2000000)
+    plt.xlim(0, 2000000)
+    plt.tight_layout()  # Force everything to fit on figure
+    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + data + ".png")
+    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + data + ".pdf")
+
+
 def linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath):
     classifier = LinearRegression()
     classifier = classifier.fit(trainData_x, trainData_y)
@@ -169,33 +183,13 @@ def results(testData_y, y_pred, trainData_y, y_train_pred, alg, newpath, importa
     print(alg + " Number predictions within 1 hour: " + str(number_close) + " / " + str(len(y_pred)))
     print(alg + " % predictions within 1 hour: " + str(round(((number_close / len(y_pred)) * 100), 2)) + "%")
 
-    plt.figure()
-    plt.plot(trainData_y, y_train_pred, 'ro')
-    plt.xlabel('trainData_y')
-    plt.ylabel('y_train_pred')
-    plt.title(alg + " - Train Data")
-    plt.axis('equal')
-    plt.ylim(0, 2000000)
-    plt.xlim(0, 2000000)
-    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.png")
-    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "train.pdf")
-
-    plt.figure()
-    plt.plot(testData_y, y_pred, 'ro')
-    plt.xlabel('testData_y')
-    plt.ylabel('y_pred')
-    plt.title(alg + " - Test Data")
-    plt.axis('equal')
-    plt.ylim(0, 2000000)
-    plt.xlim(0, 2000000)
-    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.png")
-    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + "test.pdf")
+    plot(trainData_y, y_train_pred, alg, "Train", newpath)
+    plot(testData_y, y_pred, alg, "Test", newpath)
 
     out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
     out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_pred))) + "\n\n")
     out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
     out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_pred)) + "\n")
-
 
     print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
     print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_pred)))  # Print Root Mean Squared Error
