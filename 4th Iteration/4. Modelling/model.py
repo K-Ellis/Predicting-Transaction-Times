@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 import time
 import os  # Used to create folders
 import math
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, KFold, cross_val_score
 from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error
@@ -86,8 +86,8 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
 
 
 def split_data(df, newpath):  # Split data into training and test data x, y.
-    out_file_name = newpath + time.strftime("%Y%m%d-%H%M%S") + "_split_data.txt"  # Log file name
-    out_file = open(out_file_name, "w")  # Open log file
+    out_file_name = newpath + time.strftime("%H.%M") + "_split_data.txt"  # Log file name
+    out_file = open(out_file_name, "a")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
 
     distribution = 0
@@ -115,8 +115,9 @@ def split_data(df, newpath):  # Split data into training and test data x, y.
     out_file.write("Mean value of Test Y: " + str(mean_test) + "\n\n")
     out_file.write("Standard deviation of train Y: " + str(std_train) + "\n")
     out_file.write("Standard deviation of test Y: " + str(std_test) + "\n")
-
+    out_file.write("Standard deviation of test Y: " + str(std_test) + "\n\n")
     out_file.close()
+
     return trainData_x, testData_x, trainData_y, testData_y
 
 
@@ -130,81 +131,76 @@ def plot(x, y, alg, data, newpath):
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
     plt.tight_layout()  # Force everything to fit on figure
-    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + data + ".png")
-    plt.savefig(newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + "_" + data + ".pdf")
+    plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + alg + "_" + data + ".png")
+    plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + alg + "_" + data + ".pdf")
 
 
-def linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath, d):
-    classifier = LinearRegression()
-    classifier = classifier.fit(trainData_x, trainData_y)
-    y_test_pred = classifier.predict(testData_x)
-    y_train_pred = classifier.predict(trainData_x)
-    results(testData_y, y_test_pred, trainData_y, y_train_pred, "LinearRegression", newpath, d)
-
-
-def elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Elastic Net
-    classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
-    classifier = classifier.fit(trainData_x, trainData_y)
-    y_test_pred = classifier.predict(testData_x)
-    y_train_pred = classifier.predict(trainData_x)
-    results(testData_y, y_test_pred, trainData_y, y_train_pred, "ElasticNet", newpath, d)
-
-
-def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Kernel ridge regression
-    classifier = KernelRidge(alpha=0.1)
-    classifier = classifier.fit(trainData_x, trainData_y)
-    y_test_pred = classifier.predict(testData_x)
-    y_train_pred = classifier.predict(trainData_x)
-    results(testData_y, y_test_pred, trainData_y, y_train_pred, "KernelRidge", newpath, d)
-
-
-def Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Kernel ridge regression
-    classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
-    classifier = classifier.fit(trainData_x, trainData_y.values.ravel())
-    y_test_pred = classifier.predict(testData_x)
-    y_train_pred = classifier.predict(trainData_x)
-    importances = classifier.feature_importances_
-    results(testData_y, y_test_pred, trainData_y, y_train_pred, "RandomForestRegressor", newpath, d, importances,
-            trainData_x)
-
-
-def results(testData_y, y_test_pred, trainData_y, y_train_pred, alg, newpath, d, importances=None, trainData_x=None):
-    out_file_name = newpath + time.strftime("%Y%m%d-%H%M%S") + "_" + alg + ".txt"  # Log file name
+def results(df, alg, classifier, newpath, d, importances=None, trainData_x=None):
+    out_file_name = newpath + time.strftime("%H.%M.%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
 
-    number_close = 0  # Use to track number of close estimations
-    for i in range(len(y_test_pred)):
-        if y_test_pred[i] < 0:  # Convert all negative predictions to 0
-            y_test_pred[i] = 0
+    train_rmse = []
+    test_rmse = []
+    train_r_sq = []
+    test_r_sq = []
+    number_test = []
 
-        # if d["holdduration"] == "y":
-        #     if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600:  # Within 1 hour
-        #         number_close += 1
-        # else:
-        if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
-            number_close += 1
+    for i in range(int(d["crossvalidation"])):  # Repeat tests this number of times and save min, max and average
+        trainData_x, testData_x, trainData_y, testData_y = split_data(df, newpath)  # Split data
+        classified = classifier.fit(trainData_x, trainData_y)
+        y_test_pred = classified.predict(testData_x)
+        y_train_pred = classified.predict(trainData_x)
 
-    out_file.write(alg + " Train RMSE: " + str(sqrt(mean_squared_error(trainData_y, y_train_pred))) + "\n")
-    out_file.write(alg + " Test RMSE: " + str(sqrt(mean_squared_error(testData_y, y_test_pred))) + "\n")
-    out_file.write(
-        alg + " number test predictions within 1 hour: " + str(number_close) + " / " + str(len(y_test_pred)) + "\n")
-    out_file.write(
-        alg + " % test predictions within 1 hour: " + str(round(((number_close / len(y_test_pred)) * 100), 2)) + "%\n")
-    out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
-    out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_test_pred)) + "\n")
+        train_rmse.append(sqrt(mean_squared_error(trainData_y, y_train_pred)))
+        test_rmse.append(sqrt(mean_squared_error(testData_y, y_test_pred)))
+        train_r_sq.append(r2_score(trainData_y, y_train_pred))
+        test_r_sq.append(r2_score(testData_y, y_test_pred))
+
+        number_close = 0  # Use to track number of close estimations
+        for i in range(len(y_test_pred)):
+            if y_test_pred[i] < 0:  # Convert all negative predictions to 0
+                y_test_pred[i] = 0
+            if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
+                number_close += 1
+        number_test.append(number_close)
+
+    out_file.write(alg + " Cross Validation: " + d["crossvalidation"] + "\n")
+    out_file.write(alg + " Train RMSE -> Max: " + str(round(max(train_rmse), 2)) + ", Min: " +
+          str(round(min(train_rmse), 2)) + ", Avg: " + str(round(sum(train_rmse) / len(train_rmse), 2)) + "\n")  # Print Root Mean Squared Error
+    out_file.write(alg + " Test RMSE -> Max: " + str(round(max(test_rmse), 2)) + ", Min: " +
+          str(round(min(test_rmse), 2)) + ", Avg: " + str(round(sum(test_rmse) / len(test_rmse), 2)) + "\n")  # Print Root Mean Squared Error
+    out_file.write(alg + " Train R^2 score -> Max: " + str(round(max(train_r_sq), 2)) + ", Min: " + str(round(min(train_r_sq),2)) + ", Avg: " + str(round(sum(train_r_sq) / len(train_r_sq), 2)) + "\n")  # Print R Squared
+    out_file.write(alg + " Test R^2 score -> Max: " + str(round(max(test_r_sq), 2)) + ", Min: " + str(round(min(test_r_sq), 2)) + ", Avg: " + str(round(sum(test_r_sq) / len(test_r_sq), 2)) + "\n")  # Print R Squared
+    out_file.write(alg + " number test predictions within 1 hour -> Max: " + str(max(number_test)) + "/" +
+                   str(len(y_test_pred)) + ", Min: " + str(min(number_test)) + "/" +
+                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test) / len(number_test)) + "/" +
+                   str(len(y_test_pred)) + "\n")
+    out_file.write(alg + " % test predictions within 1 hour: -> Max: " +
+                   str(round(((max(number_test) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
+                   str(round(((min(number_test) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
+                   str(round(((sum(number_test) / len(number_test)) / len(y_test_pred) * 100), 2)) + "%" + "\n")
     out_file.write("\n")
 
-    print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
-    print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_test_pred)))  # Print Root Mean Squared Error
-    print(alg + " number test predictions within 1 hour: " + str(number_close) + " / " + str(len(y_test_pred)))
-    print(alg + " % test predictions within 1 hour: " + str(round(((number_close / len(y_test_pred)) * 100), 2)) + "%")
-    print(alg, "Train R^2 score:", r2_score(trainData_y, y_train_pred))  # Print R Squared
-    print(alg, "Test R^2 score:", r2_score(testData_y, y_test_pred), "\n")  # Print R Squared
+    print(alg + " Cross Validation: " + d["crossvalidation"])
+    print(alg + " Train RMSE -> Max: " + str(round(max(train_rmse), 2)) + ", Min: " +
+          str(round(min(train_rmse), 2)) + ", Avg: " + str(round(sum(train_rmse) / len(train_rmse), 2)))  # Print Root Mean Squared Error
+    print(alg + " Test RMSE -> Max: " + str(round(max(test_rmse), 2)) + ", Min: " +
+          str(round(min(test_rmse), 2)) + ", Avg: " + str(round(sum(test_rmse) / len(test_rmse), 2)))  # Print Root Mean Squared Error
+    print(alg + " Train R^2 score -> Max: " + str(round(max(train_r_sq), 2)) + ", Min: " + str(round(min(train_r_sq),2)) + ", Avg: " + str(round(sum(train_r_sq) / len(train_r_sq), 2)))  # Print R Squared
+    print(alg + " Test R^2 score -> Max: " + str(round(max(test_r_sq), 2)) + ", Min: " + str(round(min(test_r_sq), 2)) + ", Avg: " + str(round(sum(test_r_sq) / len(test_r_sq), 2)))  # Print R Squared
+    print(alg + " number test predictions within 1 hour -> Max: " + str(max(number_test)) + "/" +
+                   str(len(y_test_pred)) + ", Min: " + str(min(number_test)) + "/" +
+                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test) / len(number_test)) + "/" +
+                   str(len(y_test_pred)))
+    print(alg + " % test predictions within 1 hour: -> Max: " +
+                   str(round(((max(number_test) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
+                   str(round(((min(number_test) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
+                   str(round(((sum(number_test) / len(number_test)) / len(y_test_pred) * 100), 2)) + "%")
+    print("Note: only last cross validation plots saved! \n")
 
     plot(trainData_y, y_train_pred, alg, "Train", newpath)
     plot(testData_y, y_test_pred, alg, "Test", newpath)
-
 
     if importances is not None:
         print("Feature Importances:")
@@ -255,34 +251,43 @@ if __name__ == "__main__":  # Run program
     if d["resample"] == "y":
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
 
-    trainData_x, testData_x, trainData_y, testData_y = split_data(df, newpath)  # Split data
+    if d["LinearRegression"] == "y":
+        classifier = LinearRegression()
+        results(df, "LinearRegression", classifier, newpath, d)
+    if d["ElasticNet"] == "y":
+        classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
+        results(df, "ElasticNet", classifier, newpath, d)
+    if d["KernelRidge"] == "y":
+        classifier = KernelRidge(alpha=0.1)
+        results(df, "KernelRidge", classifier, newpath, d)
+    if d["RandomForestRegressor"] == "y":
+        classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
+        # importances = classifier.feature_importances_# todo
+        # results(df, "RandomForestRegressor", classifier, newpath, d, importances, trainData_x) todo
+        results(df, "RandomForestRegressor", classifier, newpath, d)
 
-    if d["linear_regression"] == "y":
-        linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Linear Regression
-    if d["elastic_net"] == "y":
-        elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # elastic net
-    if d["kernel_ridge"] == "y":
-        kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Kernel ridge regression
-    if d["random_forest_regressor"] == "y":
-        Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Random Forest
-
+        # todo Kieron to fix importances . . . should work with cross validation when rerunnnig each classifier
+        """
         # cols_to_be_deleted = select_importants(newpath + "importances.csv", thresh=0.001) # keep above threshold
         k = 30
         cols_to_be_deleted = select_top_k_importants(newpath + "importances.csv", k) # keep top k
-        df2 = trim_df(df, cols_to_be_deleted)
+        df = trim_df(df, cols_to_be_deleted)
         with open(newpath + "cols_deleted_k=%s_" % k + time.strftime("%H.%M.%S.txt"), "w") as f:
             f.write(str(cols_to_be_deleted))
+            
         print("cols to be deleted", cols_to_be_deleted)
 
-        trainData_x, testData_x, trainData_y, testData_y = split_data(df2, newpath)  # Split data
-
-        if d["linear_regression"] == "y":
-            linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Linear Regression
-        if d["elastic_net"] == "y":
-            elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # elastic net
-        if d["kernel_ridge"] == "y":
-            kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Kernel ridge regression
-        if d["random_forest_regressor"] == "y":
-            Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Random Forest
+        if d["LinearRegression"] == "y":
+            classifier = LinearRegression()
+            results(df, "LinearRegression", classifier, newpath, d)
+        if d["ElasticNet"] == "y":
+            classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
+            results(df, "ElasticNet", classifier, newpath, d)
+        if d["KernelRidge"] == "y":
+            classifier = KernelRidge(alpha=0.1)
+            results(df, "KernelRidge", classifier, newpath, d)
+        if d["RandomForestRegressor"] == "y":
+            classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
+            results(df, "RandomForestRegressor", classifier, newpath, d)"""
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters
