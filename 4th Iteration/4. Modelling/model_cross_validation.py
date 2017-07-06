@@ -279,7 +279,7 @@ if __name__ == "__main__":  # Run program
 
 
     # todo - Kieron confirm indentation here . . .
-    """
+
         # cols_to_be_deleted = select_importants(newpath + "importances.csv", thresh=0.001) # keep above threshold
         k = 30
         cols_to_be_deleted = select_top_k_importants(newpath + "importances.csv", k) # keep top k
@@ -301,6 +301,6 @@ if __name__ == "__main__":  # Run program
         if d["RandomForestRegressor"] == "y":
             classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
             results(df, "RandomForestRegressor", classifier, newpath, d)
-    """
+
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters
