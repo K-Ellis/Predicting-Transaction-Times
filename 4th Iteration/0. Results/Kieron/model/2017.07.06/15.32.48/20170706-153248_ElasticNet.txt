@@ -1,0 +1,7 @@
+ElasticNet 20170706-153248
+
+ElasticNet Train RMSE: 0.004643483779463593
+ElasticNet Test RMSE: 0.004271710237038248
+
+ElasticNet Train R^2 scoree: 0.0
+ElasticNet Test R^2 score: -0.196899204972

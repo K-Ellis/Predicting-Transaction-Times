@@ -1,0 +1,39 @@
+RandomForestRegressor 20170706-144903
+
+RandomForestRegressor Train RMSE: 0.007486557228337641
+RandomForestRegressor Test RMSE: 0.021641941743337192
+
+RandomForestRegressor Train R^2 scoree: 0.792564371023
+RandomForestRegressor Test R^2 score: -0.180406447304
+
+Feature Importances:
+0. "AmountinUSD" (0.498522)
+1. "Revenutype_Future OTRRR with OLS" (0.112589)
+2. "SubReason_True Up" (0.083559)
+3. "SubReason_Meteaop" (0.056530)
+4. "SubReason_Manual Order Entry" (0.035914)
+5. "SalesLocation_northamerica" (0.034132)
+6. "Revenutype_Current Revenue" (0.029385)
+7. "Source_Soft Copy" (0.025986)
+8. "SubReason_Basic Enterprise Commitment" (0.025114)
+9. "Queue_NAOC" (0.013714)
+10. "Queue_AOC" (0.012151)
+11. "CountryProcessed_northamerica" (0.010246)
+12. "SalesLocation_europe" (0.007927)
+13. "StageName" (0.007528)
+14. "Queue_EOC" (0.006803)
+15. "Source_Web" (0.005493)
+16. "StatusReason_Problem Solved" (0.005347)
+17. "ROCName_APOC" (0.004801)
+18. "Queue_APOC" (0.004389)
+19. "SalesLocation_asia" (0.004290)
+20. "CountrySource_europe" (0.003290)
+21. "CountryProcessed_europe" (0.002548)
+22. "ROCName_EOC" (0.002459)
+23. "SalesLocation_southamerica" (0.001849)
+24. "CountrySource_southamerica" (0.001817)
+25. "Revenutype_Credit / Rebill" (0.001265)
+26. "CountryProcessed_southamerica" (0.001154)
+27. "IsGovernment" (0.000629)
+28. "IsSOXCase" (0.000570)
+29. "Numberofreactivations" (0.000000)

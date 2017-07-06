@@ -131,6 +131,7 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y):  # Kernel ri
 
 
 def results(testData_y, y_pred, trainData_y, y_train_pred, alg):
+    # transform y values back to seconds
     y_pred = (scaler.inverse_transform(y_pred)) ** 2
     y_train_pred = (scaler.inverse_transform(y_train_pred)) ** 2
 
@@ -180,10 +181,10 @@ if __name__ == "__main__":  # Run program
 
     # histogram(df, "TimeTaken")  # Save histogram plots of TimeTaken
 
-    scaler = preprocessing.StandardScaler()
-
     X = df.drop('TimeTaken', axis=1)
-    y = scaler.fit_transform(np.sqrt(df.TimeTaken))
+
+    scaler = preprocessing.StandardScaler()
+    y = scaler.fit_transform(np.sqrt(df.TimeTaken)) # transform y value
 
     plt.hist(y)
     plt.xlabel('TimeTaken (Scaled Seconds)')

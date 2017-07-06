@@ -1,0 +1,39 @@
+RandomForestRegressor 20170706-135806
+
+RandomForestRegressor Train RMSE: 0.06239134964705011
+RandomForestRegressor Test RMSE: 0.18799123812965754
+
+RandomForestRegressor Train R^2 scoree: 0.961651597575
+RandomForestRegressor Test R^2 score: 0.703052422444
+
+Feature Importances:
+0. "Queue_EOC" (0.220212)
+1. "ROCName_EOC" (0.150227)
+2. "CountryProcessed_northamerica" (0.095130)
+3. "SalesLocation_asia" (0.094676)
+4. "StatusReason_Problem Solved" (0.061621)
+5. "CountrySource_europe" (0.050683)
+6. "Source_Web" (0.048907)
+7. "SalesLocation_southamerica" (0.045855)
+8. "StageName" (0.040746)
+9. "Queue_APOC" (0.028893)
+10. "SalesLocation_northamerica" (0.026080)
+11. "HoldDuration" (0.022791)
+12. "Source_Soft Copy" (0.022033)
+13. "Complexity" (0.021271)
+14. "Queue_NAOC" (0.020237)
+15. "SubReason_Basic Enterprise Commitment" (0.013074)
+16. "AmountinUSD" (0.012587)
+17. "Revenutype_Credit / Rebill" (0.006964)
+18. "SubReason_Electronic Order Pend / Reject" (0.006377)
+19. "CountryProcessed_europe" (0.004232)
+20. "Source_eAgreement (Phy)" (0.003730)
+21. "SubReason_Future Pricing Only CPS" (0.002350)
+22. "CountryProcessed_southamerica" (0.001321)
+23. "ROCName_APOC" (0.000000)
+24. "CountrySource_southamerica" (0.000000)
+25. "Source_eAgreement (Ele)" (0.000000)
+26. "CountrySource_asia" (0.000000)
+27. "StatusReason_Information Provided" (0.000000)
+28. "sourcesystem_NEMEC" (0.000000)
+29. "sourcesystem_clt" (0.000000)

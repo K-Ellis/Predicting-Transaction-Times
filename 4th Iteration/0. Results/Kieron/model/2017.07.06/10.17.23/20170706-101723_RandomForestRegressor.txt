@@ -1,0 +1,7 @@
+RandomForestRegressor 20170706-101723
+
+RandomForestRegressor Train RMSE: 0.007134341483525927
+RandomForestRegressor Test RMSE: 0.017513239772955498
+
+RandomForestRegressor Train R^2 scoree: 0.834141418023
+RandomForestRegressor Test R^2 score: 0.0288324292829

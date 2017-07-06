@@ -1,0 +1,72 @@
+Columns,importances
+AmountinUSD,0.0017701758766324113
+Complexity,5.658506006425984e-05
+CountryProcessed_asia,0.0
+CountryProcessed_australia,0.0
+CountryProcessed_europe,0.006406545441541407
+CountryProcessed_northamerica,4.6083123708828066e-05
+CountryProcessed_other,0.0
+CountryProcessed_southamerica,0.0018440509068962704
+CountrySource_asia,0.00014104550830925842
+CountrySource_australia,0.0
+CountrySource_europe,0.0019036795442141864
+CountrySource_northamerica,0.0
+CountrySource_other,0.0
+CountrySource_southamerica,0.0078639879992297
+HoldDuration,0.9512108637323404
+IsGovernment,0.0
+IsMagnumCase,0.0
+IsSOXCase,0.0
+IsSignature,0.0
+Numberofreactivations,0.0
+Priority,0.0
+Queue_AOC,0.0
+Queue_APOC,0.002243479979931024
+Queue_EOC,0.0030113338469725274
+Queue_LOC,0.0
+Queue_NAOC,0.00013885563462090272
+ROCName_APOC,7.421969394910626e-05
+ROCName_EOC,0.00018645717497853267
+Revenutype_Credit / Rebill,0.00047904213900595795
+Revenutype_Current Revenue,0.0
+Revenutype_Disputed Revenue,0.0
+Revenutype_Future Billing,0.0
+Revenutype_Future OTRRR with OLS,0.0
+Revenutype_Future OTRRR without OLS,0.0
+Revenutype_New Work Sold,0.0
+Revenutype_Non-revenue,0.0
+Revenutype_Revenue Impacting Case / Pending Revenue,0.0
+Revenutype_Revenue Unknown,0.0
+SalesLocation_asia,0.000145191123308901
+SalesLocation_australia,0.0
+SalesLocation_europe,0.0
+SalesLocation_northamerica,0.00014699161760588783
+SalesLocation_southamerica,0.01968831594693964
+Source_Fax,0.0
+Source_Hard Copy,0.0
+Source_Manual,0.0
+Source_Soft Copy,9.10561006479993e-05
+Source_Web,3.927861532052837e-05
+Source_eAgreement (Ele),0.0
+Source_eAgreement (Phy),0.0
+StageName,0.0
+StatusReason_Information Provided,0.0
+StatusReason_Problem Solved,0.0008403784181668509
+SubReason_Basic Enterprise Commitment,0.0016723825156154312
+SubReason_Electronic Order Pend / Reject,0.0
+SubReason_Future Pricing Only CPS,0.0
+SubReason_Manual Order Entry,0.0
+SubReason_Meteaop,0.0
+SubReason_P&H Electronic Order,0.0
+SubReason_Tax Exemption Order,0.0
+SubReason_True Up,0.0
+SubReason_Zero Usage Order,0.0
+sourcesystem_Aplquest,0.0
+sourcesystem_CLT,0.0
+sourcesystem_Current Revenue,0.0
+sourcesystem_Moritz Jürgensen,0.0
+sourcesystem_NEMEC,0.0
+sourcesystem_NMEC,0.0
+sourcesystem_Web,0.0
+sourcesystem_clt,0.0
+sourcesystem_web,0.0

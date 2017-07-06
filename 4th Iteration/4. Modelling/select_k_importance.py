@@ -18,9 +18,10 @@ def select_top_k_importants(csvfile, k):
     # return cols_to_be_deleted
 
 def trim_df(df, cols_to_be_deleted):
+    newdf = df.copy()
     for col in cols_to_be_deleted:
-        del df[col]
-    return df
+        del newdf[col]
+    return newdf
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # used for testing
     select_top_k_importants("../0. Results/Kieron/model/2017.07.05/11.47.45/importances.csv", 20)
