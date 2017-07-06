@@ -12,7 +12,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
 from sklearn.ensemble import RandomForestRegressor
 from select_k_importance import select_importants, trim_df, select_top_k_importants
-
+from sklearn import preprocessing
 
 # infile needs to be the Incident cleaned data plus the summed HoldDuration column from HoldActivity
 
@@ -171,12 +171,13 @@ for alg, regressor in zip(algs, regressors):
 
 regr = regr.fit(X, y)
 hold_predictions = regr.predict(X)
+min_max_scaler = preprocessing.MinMaxScaler()
+
+hold_predictions_scaled = pd.DataFrame(min_max_scaler.fit_transform(hold_predictions.reshape(-1, 1)))
 
 finaldf = df.copy()
-
 del finaldf["HoldDuration"]
-
-finaldf["HoldDuration"] = hold_predictions
+finaldf["HoldDuration"] = hold_predictions_scaled
 
 out_file.write("Final Train RMSE: " + str(sqrt(mean_squared_error(y, hold_predictions))) + "\n")
 out_file.write("Final Train R^2 scoree: " + str(r2_score(y, hold_predictions)) + "\n")
