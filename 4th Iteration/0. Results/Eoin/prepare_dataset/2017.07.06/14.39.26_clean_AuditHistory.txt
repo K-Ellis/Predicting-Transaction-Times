@@ -1,0 +1,30 @@
+Date and time: 20170706-143926
+clean_AuditHistory started
+
+One hot encoding completed for Action
+min_entries function - min: 3
+Column deletion: Deleted -> Entry Count: 0
+Column deletion: ImportSequenceNumber -> Entry Count: 0
+Column deletion: OverriddenCreatedOn -> Entry Count: 0
+
+min_variable_types function - min: 2
+Column deletion: EntityLogicalName -> Variable Type Count: 1
+Column deletion: Attribute -> Variable Type Count: 1
+Column deletion: TenantId -> Variable Type Count: 1
+Column deletion: VersionNumber -> Variable Type Count: 1
+Column deletion: StateCode -> Variable Type Count: 1
+Column deletion: Status -> Variable Type Count: 1
+Column deletion: StatusCode -> Variable Type Count: 1
+Column deletion: StatusReason -> Variable Type Count: 1
+
+drop_NULL - max ratio: 0.99
+
+drop_zeros - max ratio: 0.99
+
+drop_ones - max ratio: 0.99
+
+All NULL Values for "NewValueName" replaced with most frequent value, Ops In
+All NULL Values for "OldValueName" replaced with most frequent value, Ops In
+One hot encoding completed for NewValueName
+One hot encoding completed for OldValueName
+clean_AuditHistory completefile saved as ../../../Data/vw_AuditHistory_cleaned_0.csv
