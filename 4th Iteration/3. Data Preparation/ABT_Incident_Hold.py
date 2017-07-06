@@ -1,3 +1,7 @@
+"""
+Works well - add to prepare dataset file
+"""
+
 import pandas as pd
 COSMIC_num = 2
 dfincident = pd.read_csv("../../../Data/vw_Incident_0.csv",

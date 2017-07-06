@@ -158,7 +158,6 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath, d): 
     results(testData_y, y_test_pred, trainData_y, y_train_pred, "KernelRidge", newpath, d)
 
 
-
 def Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Kernel ridge regression
     classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
     classifier = classifier.fit(trainData_x, trainData_y.values.ravel())
@@ -219,6 +218,7 @@ def results(testData_y, y_test_pred, trainData_y, y_train_pred, alg, newpath, d,
         for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances["importances"].values.tolist())):
             out_file.write("%d. \"%s\" (%f)\n" % (i, col, importance))
     out_file.close()
+
 
 if __name__ == "__main__":  # Run program
     d = {}

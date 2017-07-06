@@ -1,3 +1,8 @@
+"""
+Used in model.py
+Add in at some point
+"""
+
 import pandas as pd
 
 def select_importants(csvfile, thesh):
