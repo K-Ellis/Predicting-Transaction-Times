@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 import time
 import os  # Used to create folders
 import math
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, KFold, cross_val_score
 from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error
@@ -30,7 +30,6 @@ from math import sqrt
 from sklearn.ensemble import RandomForestRegressor
 from shutil import copyfile  # Used to copy parameters file to directory
 from sklearn.utils import resample
-from sklearn.model_selection import cross_val_score
 from select_k_importance import select_importants, trim_df, select_top_k_importants
 
 
@@ -95,7 +94,7 @@ def split_data(df, newpath):  # Split data into training and test data x, y.
     distribution = 0
     i = 0
     while distribution == 0:  # Loop until the data is split well
-        trainData, testData = train_test_split(df)  # Split data 75:25 randomly
+        trainData, testData = train_test_split(df, test_size=0.25)  # Split data 75:25 randomly
         trainData_y = pd.DataFrame()
         trainData_y["TimeTaken"] = trainData["TimeTaken"]
         trainData_x = trainData.loc[:, trainData.columns != 'TimeTaken']
@@ -141,8 +140,10 @@ def linear_regression(df, trainData_x, trainData_y, testData_x, testData_y, newp
     classifier = classifier.fit(trainData_x, trainData_y)
     y_test_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
-    scores = cross_val_score(classifier, df, df["TimeTaken"], cv=10)
-    print("linear_regression scores:", scores)
+    k_fold = KFold(n_splits=3)
+    scores = cross_val_score(classifier, df, df["TimeTaken"], cv=k_fold)
+    print("CV scores:", scores)
+    print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
     results(testData_y, y_test_pred, trainData_y, y_train_pred, "LinearRegression", newpath, d)
 
 
@@ -151,8 +152,9 @@ def elastic_net(df, trainData_x, trainData_y, testData_x, testData_y, newpath, d
     classifier = classifier.fit(trainData_x, trainData_y)
     y_test_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
-    scores = cross_val_score(classifier, df, df["TimeTaken"], cv=10)
-    print("linear_regression scores:", scores)
+    scores = cross_val_score(classifier, df, df["TimeTaken"], cv=5)
+    print("CV scores:", scores)
+    print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
     results(testData_y, y_test_pred, trainData_y, y_train_pred, "ElasticNet", newpath, d)
 
 
@@ -161,8 +163,9 @@ def kernel_ridge(df, trainData_x, trainData_y, testData_x, testData_y, newpath, 
     classifier = classifier.fit(trainData_x, trainData_y)
     y_test_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
-    scores = cross_val_score(classifier, df, df["TimeTaken"], cv=10)
-    print("linear_regression scores:", scores)
+    scores = cross_val_score(classifier, df, df["TimeTaken"], cv=5)
+    print("CV scores:", scores)
+    print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
     results(testData_y, y_test_pred, trainData_y, y_train_pred, "KernelRidge", newpath, d)
 
 
@@ -171,8 +174,9 @@ def Random_Forest_Regressor(df, trainData_x, trainData_y, testData_x, testData_y
     classifier = classifier.fit(trainData_x, trainData_y.values.ravel())
     y_test_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
-    scores = cross_val_score(classifier, df, df["TimeTaken"], cv=10)
-    print("linear_regression scores:", scores)
+    scores = cross_val_score(classifier, df, df["TimeTaken"], cv=5)
+    print("CV scores:", scores)
+    print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
     importances = classifier.feature_importances_
     results(testData_y, y_test_pred, trainData_y, y_train_pred, "RandomForestRegressor", newpath, d, importances,
             trainData_x)
