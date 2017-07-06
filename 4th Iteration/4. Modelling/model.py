@@ -227,8 +227,12 @@ if __name__ == "__main__":  # Run program
             d[key] = val
 
     if d["user"] == "Kieron":
-        newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/") + time.strftime(
-            "%H.%M.%S/")  # Log file location
+        if d["specify_subfolder"] == "n":
+            newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/") + time.strftime("%H.%M.%S/")# Log file location
+        else:
+            newpath = r"../0. Results/" + d["user"] + "/model/" + d["subfolder"] + time.strftime("/%Y.%m.%d/") + \
+                      time.strftime("%H.%M.%S/")  # Log file location
+
     else:
         newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/")  # Log file location
     if not os.path.exists(newpath):
@@ -277,7 +281,7 @@ if __name__ == "__main__":  # Run program
         with open(newpath + "cols_kept_and_deleted_for_k=%s_" % k + time.strftime("%H.%M.%S.txt"), "w") as f:
             f.write("cols deleted = \n")
             f.write(str(cols_to_be_deleted))
-            f.write("cols kept = \n")
+            f.write("\ncols kept = \n")
             f.write(str(df.columns.tolist()))
         print("Top", len(df.columns), "Columns = ", df.columns.tolist())
         print("Bottom", len(cols_to_be_deleted), "Columns to be deleted = ", cols_to_be_deleted, "\n")

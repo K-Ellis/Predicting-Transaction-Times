@@ -1,9 +1,0 @@
-LinearRegression 20170706-152807
-
-LinearRegression Train RMSE: 417718.77991496114
-LinearRegression Test RMSE: 420125.0307033836
-LinearRegression number test predictions within 1 hour: 53 / 5012
-LinearRegression % test predictions within 1 hour: 1.06%
-LinearRegression Train R^2 scoree: 0.192079398327
-LinearRegression Test R^2 score: 0.193035323828
-

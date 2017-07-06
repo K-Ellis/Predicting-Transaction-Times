@@ -1,7 +1,0 @@
-KernelRidge 20170706-135620
-
-KernelRidge Train RMSE: 0.03881815444184513
-KernelRidge Test RMSE: 0.08837990095900453
-
-KernelRidge Train R^2 scoree: 0.981490700968
-KernelRidge Test R^2 score: 0.907266732081

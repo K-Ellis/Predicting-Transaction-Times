@@ -1,9 +1,0 @@
-RandomForestRegressor 20170706-152211
-
-RandomForestRegressor Train RMSE: 245392.95730959726
-RandomForestRegressor Test RMSE: 422371.19291252404
-RandomForestRegressor number test predictions within 1 hour: 57 / 5012
-RandomForestRegressor % test predictions within 1 hour: 1.14%
-RandomForestRegressor Train R^2 scoree: 0.726091161713
-RandomForestRegressor Test R^2 score: 0.138414494507
-
