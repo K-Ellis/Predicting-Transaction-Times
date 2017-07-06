@@ -1,3 +1,17 @@
+"""****************************************************************************
+UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
+*******************************************************************************
+Iteration 4
+Colinearity testing
+*******************************************************************************
+Eoin Carroll
+Kieron Ellis
+*******************************************************************************
+Code to remove highly correlated variables
+Results were the same as not removing these variables
+Plan to come back and test more at the end
+****************************************************************************"""
+
 import pandas as pd
 import numpy as np
 
