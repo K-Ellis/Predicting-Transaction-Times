@@ -31,7 +31,6 @@ from sklearn.ensemble import RandomForestRegressor
 from shutil import copyfile  # Used to copy parameters file to directory
 from sklearn.utils import resample
 from select_k_importance import select_importants, trim_df, select_top_k_importants
-# from ask_user_which_file import ask_user
 
 
 parameters = "../../../Data/parameters.txt"  # Parameters file
@@ -118,8 +117,6 @@ def split_data(df, newpath):  # Split data into training and test data x, y.
     out_file.write("Standard deviation of train Y: " + str(std_train) + "\n")
     out_file.write("Standard deviation of test Y: " + str(std_test) + "\n")
 
-    # trainData_X.to_csv("../../../Data/trainData_X.csv", index = False)  # export file
-    # trainData_y.to_csv("../../../Data/trainData_y.csv", index = False)  # export file
     out_file.close()
     return trainData_x, testData_x, trainData_y, testData_y
 
@@ -149,7 +146,6 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath)
 def elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath):  # Elastic Net
     classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
     classifier = classifier.fit(trainData_x, trainData_y)
-    # print(classifier.coef_)
     y_test_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
     results(testData_y, y_test_pred, trainData_y, y_train_pred, "ElasticNet", newpath)
@@ -161,6 +157,7 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath):  # 
     y_test_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
     results(testData_y, y_test_pred, trainData_y, y_train_pred, "KernelRidge", newpath)
+
 
 def Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Kernel ridge regression
     classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
@@ -193,6 +190,7 @@ def results(testData_y, y_test_pred, trainData_y, y_train_pred, alg, newpath, im
     out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
     out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_test_pred)) + "\n")
     out_file.write("\n")
+    out_file.close()
 
     print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
     print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_test_pred)))  # Print Root Mean Squared Error
@@ -216,8 +214,6 @@ def results(testData_y, y_test_pred, trainData_y, y_train_pred, alg, newpath, im
         for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances["importances"].values.tolist())):
             out_file.write("%d. \"%s\" (%f)\n" % (i, col, importance))
 
-    out_file.close()
-
 
 if __name__ == "__main__":  # Run program
     d = {}
@@ -227,14 +223,13 @@ if __name__ == "__main__":  # Run program
             (key, val) = line.split()
             d[key] = val
 
-    if d["user"] == "Eoin":
-        newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/")  # Log file location
-        if not os.path.exists(newpath):
-            os.makedirs(newpath)  # Make folder for storing results if it does not exist
+    if d["user"] == "Kieron":
+        newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/") + time.strftime(
+            "%H.%M.%S/")  # Log file location
     else:
-        newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/") + time.strftime("%H.%M.%S/") # Log file location
-        if not os.path.exists(newpath):
-            os.makedirs(newpath)  # Make folder for storing results if it does not exist
+        newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/")  # Log file location
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
     np.random.seed(int(d["seed"]))  # Set seed
 
