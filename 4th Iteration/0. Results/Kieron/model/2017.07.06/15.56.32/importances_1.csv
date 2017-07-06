@@ -1,0 +1,71 @@
+Columns,importances
+AmountinUSD,0.026918193759953014
+Complexity,0.0025477208303127754
+CountryProcessed_asia,0.0003147403111982688
+CountryProcessed_australia,0.0
+CountryProcessed_europe,0.013221433361530744
+CountryProcessed_northamerica,0.009490254916928051
+CountryProcessed_other,0.0
+CountryProcessed_southamerica,0.0030423971579601372
+CountrySource_asia,0.0002908247075887405
+CountrySource_australia,0.0
+CountrySource_europe,0.014469178908513972
+CountrySource_northamerica,0.008766671050931743
+CountrySource_other,0.0
+CountrySource_southamerica,0.0028100921347210413
+IsGovernment,0.002038557938533552
+IsMagnumCase,0.11416620750094697
+IsSOXCase,0.11885161883851851
+IsSignature,0.002205249664541119
+Numberofreactivations,0.0
+Priority,0.0
+Queue_AOC,0.0003234761528824186
+Queue_APOC,0.0005737341536838327
+Queue_EOC,0.01033041844844112
+Queue_LOC,0.0
+Queue_NAOC,0.03842484202849249
+ROCName_APOC,0.0006352952794173618
+ROCName_EOC,0.011693946120724085
+Revenutype_Credit / Rebill,0.009064792829027802
+Revenutype_Current Revenue,0.006965513955617123
+Revenutype_Disputed Revenue,0.0
+Revenutype_Future Billing,0.00014049514288354376
+Revenutype_Future OTRRR with OLS,0.0
+Revenutype_Future OTRRR without OLS,0.0
+Revenutype_New Work Sold,0.0
+Revenutype_Non-revenue,0.00945340001908565
+Revenutype_Revenue Impacting Case / Pending Revenue,0.0
+Revenutype_Revenue Unknown,0.00018523894178970073
+SalesLocation_asia,0.00020684940332397822
+SalesLocation_australia,0.0
+SalesLocation_europe,0.008645289172175217
+SalesLocation_northamerica,0.009214884248720063
+SalesLocation_southamerica,0.002407315945907708
+Source_Fax,0.0
+Source_Hard Copy,0.0
+Source_Manual,0.0012027504265906988
+Source_Soft Copy,0.0044511147572056774
+Source_Web,0.004813174874816679
+Source_eAgreement (Ele),0.0
+Source_eAgreement (Phy),0.0006248980879805001
+StageName,0.03503232703934571
+StatusReason_Information Provided,0.0
+StatusReason_Problem Solved,0.004541842147067197
+SubReason_Basic Enterprise Commitment,0.0062325048572640564
+SubReason_Electronic Order Pend / Reject,0.0007040731546783011
+SubReason_Future Pricing Only CPS,0.00019660191935464162
+SubReason_Manual Order Entry,0.013298319823834661
+SubReason_Meteaop,0.0025556481236155095
+SubReason_P&H Electronic Order,0.0
+SubReason_Tax Exemption Order,0.0
+SubReason_True Up,0.00031951142880827814
+SubReason_Zero Usage Order,0.4986286004350876
+sourcesystem_Aplquest,0.0
+sourcesystem_CLT,0.0
+sourcesystem_Current Revenue,0.0
+sourcesystem_Moritz Jürgensen,0.0
+sourcesystem_NEMEC,0.0
+sourcesystem_NMEC,0.0
+sourcesystem_Web,0.0
+sourcesystem_clt,0.0
+sourcesystem_web,0.0

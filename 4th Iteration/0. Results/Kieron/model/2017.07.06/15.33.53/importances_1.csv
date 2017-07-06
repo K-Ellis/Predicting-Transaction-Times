@@ -1,0 +1,31 @@
+Columns,importances
+AmountinUSD,0.04824159290310094
+Complexity,0.001072333061029338
+CountryProcessed_asia,4.621741803159901e-05
+CountryProcessed_europe,0.09017176499946167
+CountryProcessed_northamerica,0.001283709559485117
+CountrySource_asia,1.2266041624381768e-05
+CountrySource_northamerica,0.0014485899877328644
+IsGovernment,0.013073377609116038
+IsMagnumCase,0.3901895109443615
+IsSignature,0.0004024426379671897
+Numberofreactivations,0.0
+Priority,0.0
+Queue_AOC,8.657440107311076e-06
+Queue_LOC,0.0
+Queue_NAOC,0.003203781257455741
+Revenutype_Credit / Rebill,0.013448558144719434
+Revenutype_Current Revenue,0.013501923688381554
+Revenutype_Future Billing,0.004609025878225299
+Revenutype_Revenue Unknown,0.0
+SalesLocation_asia,3.1767296415223925e-05
+SalesLocation_northamerica,0.0015041030716487554
+Source_Soft Copy,0.007161535661599892
+Source_Web,0.003930238289662481
+StageName,0.1105468749608922
+StatusReason_Problem Solved,0.0028833396015018006
+SubReason_Basic Enterprise Commitment,0.001289416923859338
+SubReason_Manual Order Entry,0.012713531923001342
+SubReason_Meteaop,0.003991132481357833
+SubReason_True Up,0.0003800669513992938
+SubReason_Zero Usage Order,0.27485424126786173

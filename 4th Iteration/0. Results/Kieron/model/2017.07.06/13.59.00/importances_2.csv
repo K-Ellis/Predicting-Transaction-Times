@@ -1,0 +1,30 @@
+Columns,importances
+AmountinUSD,0.017606998185477573
+Complexity,0.0412918778377626
+CountryProcessed_europe,0.04837595747680348
+CountryProcessed_northamerica,0.08484365484949234
+CountryProcessed_southamerica,0.004043674569167948
+CountrySource_asia,0.03280308197437057
+CountrySource_europe,0.04661980358272136
+CountrySource_southamerica,0.03356833517702109
+Queue_APOC,0.05116385883570791
+Queue_EOC,0.18921314371509318
+Queue_NAOC,0.02535858939758494
+ROCName_APOC,0.05296188238452084
+ROCName_EOC,0.11572424315235821
+Revenutype_Credit / Rebill,0.005701593486842903
+SalesLocation_asia,0.02889291374585151
+SalesLocation_northamerica,0.026584804958127768
+SalesLocation_southamerica,0.011122739074089628
+Source_Soft Copy,0.033744359661163945
+Source_Web,0.03199711477106049
+Source_eAgreement (Ele),0.0
+Source_eAgreement (Phy),0.015221863514057979
+StageName,0.03116981663052002
+StatusReason_Information Provided,0.0
+StatusReason_Problem Solved,0.04683131140412213
+SubReason_Basic Enterprise Commitment,0.02174580038319996
+SubReason_Electronic Order Pend / Reject,0.0
+SubReason_Future Pricing Only CPS,0.003412581232881603
+sourcesystem_NEMEC,0.0
+sourcesystem_clt,0.0

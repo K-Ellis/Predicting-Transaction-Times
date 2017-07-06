@@ -236,6 +236,7 @@ if __name__ == "__main__":  # Run program
 
     if d["user"] == "Kieron":
         df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+        # If you insist on hardcoding something in a program, keep my name out of it
     else:
         df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
                      low_memory=False)
@@ -273,6 +274,9 @@ if __name__ == "__main__":  # Run program
         df = trim_df(df, cols_to_be_deleted)
         with open(newpath + "cols_deleted_k=%s_" % k + time.strftime("%H.%M.%S.txt"), "w") as f:
             f.write(str(cols_to_be_deleted))
+            
+        print("cols to be deleted", cols_to_be_deleted)
+
         if d["LinearRegression"] == "y":
             classifier = LinearRegression()
             results(df, "LinearRegression", classifier, newpath, d)
@@ -286,4 +290,4 @@ if __name__ == "__main__":  # Run program
             classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
             results(df, "RandomForestRegressor", classifier, newpath, d)"""
 
-    copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters
+      copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters

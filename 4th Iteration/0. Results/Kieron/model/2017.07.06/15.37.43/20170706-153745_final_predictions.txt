@@ -1,0 +1,4 @@
+best_RMSE list: [('ElasticNet2', 0.020704137034766312), ('RandomForestRegressor2', 0.021641941743337192), ('ElasticNet1', 0.022918690270155157), ('LinearRegression2', 0.02346687993404009), ('RandomForestRegressor1', 0.02552212435813533), ('LinearRegression1', 0.031893907344970794)]
+best_R2 list: [('ElasticNet1', -0.0054619048447155372), ('ElasticNet2', -0.080322428536887536), ('RandomForestRegressor2', -0.18040644730409161), ('RandomForestRegressor1', -0.24686567846545659), ('LinearRegression2', -0.38787332362325433), ('LinearRegression1', -0.9471593128743232)]
+Final Train RMSE: 0.01758531831626469
+Final Train R^2 scoree: 0.0

@@ -1,0 +1,39 @@
+RandomForestRegressor 20170706-153521
+
+RandomForestRegressor Train RMSE: 0.00035062396381148976
+RandomForestRegressor Test RMSE: 0.0007173088044998578
+
+RandomForestRegressor Train R^2 scoree: 0.992856526731
+RandomForestRegressor Test R^2 score: 0.970644950788
+
+Feature Importances:
+0. "StageName" (0.258606)
+1. "IsMagnumCase" (0.244552)
+2. "CountryProcessed_europe" (0.164716)
+3. "SubReason_Zero Usage Order" (0.152444)
+4. "IsGovernment" (0.039012)
+5. "SubReason_Manual Order Entry" (0.037790)
+6. "Revenutype_Credit / Rebill" (0.037478)
+7. "AmountinUSD" (0.019722)
+8. "Source_Soft Copy" (0.011130)
+9. "Source_Web" (0.009047)
+10. "Revenutype_Current Revenue" (0.006851)
+11. "SubReason_Meteaop" (0.005658)
+12. "StatusReason_Problem Solved" (0.003397)
+13. "Complexity" (0.002656)
+14. "CountryProcessed_northamerica" (0.001301)
+15. "SubReason_Basic Enterprise Commitment" (0.001291)
+16. "Revenutype_Future Billing" (0.001163)
+17. "Queue_NAOC" (0.001110)
+18. "SalesLocation_northamerica" (0.001085)
+19. "CountrySource_northamerica" (0.000934)
+20. "IsSignature" (0.000038)
+21. "Revenutype_Revenue Unknown" (0.000016)
+22. "CountrySource_asia" (0.000007)
+23. "SalesLocation_asia" (0.000000)
+24. "Queue_LOC" (0.000000)
+25. "Queue_AOC" (0.000000)
+26. "Priority" (0.000000)
+27. "Numberofreactivations" (0.000000)
+28. "CountryProcessed_asia" (0.000000)
+29. "SubReason_True Up" (0.000000)
