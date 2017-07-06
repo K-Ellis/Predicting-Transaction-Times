@@ -135,7 +135,7 @@ def plot(x, y, alg, data, newpath):
     plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + alg + "_" + data + ".pdf")
 
 
-def results(df, alg, classifier, newpath, d, importances=None, trainData_x=None):
+def results(df, alg, classifier, newpath, d, RFR=False):
     out_file_name = newpath + time.strftime("%H.%M.%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
@@ -148,7 +148,7 @@ def results(df, alg, classifier, newpath, d, importances=None, trainData_x=None)
 
     for i in range(int(d["crossvalidation"])):  # Repeat tests this number of times and save min, max and average
         trainData_x, testData_x, trainData_y, testData_y = split_data(df, newpath)  # Split data
-        classified = classifier.fit(trainData_x, trainData_y)
+        classified = classifier.fit(trainData_x, trainData_y.values.ravel())
         y_test_pred = classified.predict(testData_x)
         y_train_pred = classified.predict(trainData_x)
 
@@ -164,6 +164,8 @@ def results(df, alg, classifier, newpath, d, importances=None, trainData_x=None)
             if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
                 number_close += 1
         number_test.append(number_close)
+    if RFR == True:
+        importances = classified.feature_importances_
 
     out_file.write(alg + " Cross Validation: " + d["crossvalidation"] + "\n")
     out_file.write(alg + " Train RMSE -> Max: " + str(round(max(train_rmse), 2)) + ", Min: " +
@@ -202,8 +204,8 @@ def results(df, alg, classifier, newpath, d, importances=None, trainData_x=None)
     plot(trainData_y, y_train_pred, alg, "Train", newpath)
     plot(testData_y, y_test_pred, alg, "Test", newpath)
 
-    if importances is not None:
-        print("Feature Importances:")
+    if RFR == True:
+        print("Top 10 Feature Importances:")
         dfimportances = pd.DataFrame(data=trainData_x.columns, columns=["Columns"])
         dfimportances["importances"] = importances
         dfimportances.to_csv(newpath + "importances.csv", index=False)
@@ -264,18 +266,21 @@ if __name__ == "__main__":  # Run program
         classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
         # importances = classifier.feature_importances_# todo
         # results(df, "RandomForestRegressor", classifier, newpath, d, importances, trainData_x) todo
-        results(df, "RandomForestRegressor", classifier, newpath, d)
+        results(df, "RandomForestRegressor", classifier, newpath, d, RFR=True)
 
         # todo Kieron to fix importances . . . should work with cross validation when rerunnnig each classifier
-        """
+
         # cols_to_be_deleted = select_importants(newpath + "importances.csv", thresh=0.001) # keep above threshold
         k = 30
-        cols_to_be_deleted = select_top_k_importants(newpath + "importances.csv", k) # keep top k
+        cols_to_be_deleted = select_top_k_importants(newpath + "importances.csv", k-1) # keep top k
         df = trim_df(df, cols_to_be_deleted)
-        with open(newpath + "cols_deleted_k=%s_" % k + time.strftime("%H.%M.%S.txt"), "w") as f:
+        with open(newpath + "cols_kept_and_deleted_for_k=%s_" % k + time.strftime("%H.%M.%S.txt"), "w") as f:
+            f.write("cols deleted = \n")
             f.write(str(cols_to_be_deleted))
-            
-        print("cols to be deleted", cols_to_be_deleted)
+            f.write("cols kept = \n")
+            f.write(str(df.columns.tolist()))
+        print("Top", len(df.columns), "Columns = ", df.columns.tolist())
+        print("Bottom", len(cols_to_be_deleted), "Columns to be deleted = ", cols_to_be_deleted, "\n")
 
         if d["LinearRegression"] == "y":
             classifier = LinearRegression()
@@ -288,6 +293,6 @@ if __name__ == "__main__":  # Run program
             results(df, "KernelRidge", classifier, newpath, d)
         if d["RandomForestRegressor"] == "y":
             classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
-            results(df, "RandomForestRegressor", classifier, newpath, d)"""
+            results(df, "RandomForestRegressor", classifier, newpath, d, RFR=True)
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters

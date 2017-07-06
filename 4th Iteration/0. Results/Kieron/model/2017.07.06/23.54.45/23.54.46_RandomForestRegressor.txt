@@ -1,0 +1,42 @@
+RandomForestRegressor 20170706-235446
+
+RandomForestRegressor Cross Validation: 5
+RandomForestRegressor Train RMSE -> Max: 173303.27, Min: 98719.77, Avg: 133586.52
+RandomForestRegressor Test RMSE -> Max: 321642.97, Min: 98725.69, Avg: 205374.2
+RandomForestRegressor Train R^2 score -> Max: 0.95, Min: 0.85, Avg: 0.91
+RandomForestRegressor Test R^2 score -> Max: 0.95, Min: 0.49, Avg: 0.76
+RandomForestRegressor number test predictions within 1 hour -> Max: 7/13, Min: 5/13, Avg: 6.2/13
+RandomForestRegressor % test predictions within 1 hour: -> Max: 53.85%, Min: 38.46%, Avg: 47.69%
+
+
+Feature Importances:
+0. "Source_Soft Copy" (0.305659)
+1. "Source_Web" (0.225827)
+2. "HoldDuration" (0.161609)
+3. "StageName" (0.092381)
+4. "AmountinUSD" (0.077830)
+5. "Revenutype_Credit / Rebill" (0.055708)
+6. "Revenutype_Current Revenue" (0.042822)
+7. "SubReason_Future Pricing Only CPS" (0.015882)
+8. "CountryProcessed_northamerica" (0.006370)
+9. "ROCName_APOC" (0.005223)
+10. "Queue_AOC" (0.003269)
+11. "CountryProcessed_europe" (0.002895)
+12. "SubReason_Meteaop" (0.001772)
+13. "CountryProcessed_southamerica" (0.000883)
+14. "CountrySource_europe" (0.000863)
+15. "StatusReason_Problem Solved" (0.000706)
+16. "IsMagnumCase" (0.000299)
+17. "SubReason_Basic Enterprise Commitment" (0.000002)
+18. "CountrySource_northamerica" (0.000001)
+19. "Queue_APOC" (0.000000)
+20. "StatusReason_Information Provided" (0.000000)
+21. "IsSOXCase" (0.000000)
+22. "Source_eAgreement (Phy)" (0.000000)
+23. "SubReason_Electronic Order Pend / Reject" (0.000000)
+24. "Source_eAgreement (Ele)" (0.000000)
+25. "SubReason_Manual Order Entry" (0.000000)
+26. "CountryProcessed_asia" (0.000000)
+27. "SubReason_P&H Electronic Order" (0.000000)
+28. "SubReason_True Up" (0.000000)
+29. "Queue_EOC" (0.000000)

@@ -1,6 +1,5 @@
 ind = 1
 import xgboost
-help(xgboost)
 if ind == 1:
 	import pandas as pd
 	from xgboost import XGBRegressor

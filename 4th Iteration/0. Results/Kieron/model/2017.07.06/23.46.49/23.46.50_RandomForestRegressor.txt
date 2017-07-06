@@ -1,0 +1,42 @@
+RandomForestRegressor 20170706-234650
+
+RandomForestRegressor Cross Validation: 5
+RandomForestRegressor Train RMSE -> Max: 158518.34, Min: 93131.0, Avg: 127164.81
+RandomForestRegressor Test RMSE -> Max: 269071.93, Min: 98831.11, Avg: 195419.77
+RandomForestRegressor Train R^2 score -> Max: 0.96, Min: 0.88, Avg: 0.92
+RandomForestRegressor Test R^2 score -> Max: 0.95, Min: 0.65, Avg: 0.8
+RandomForestRegressor number test predictions within 1 hour -> Max: 8/13, Min: 5/13, Avg: 6.2/13
+RandomForestRegressor % test predictions within 1 hour: -> Max: 61.54%, Min: 38.46%, Avg: 47.69%
+
+
+Feature Importances:
+0. "AmountinUSD" (1.000000)
+1. "Revenutype_Revenue Unknown" (1.000000)
+2. "sourcesystem_clt" (1.000000)
+3. "sourcesystem_Web" (1.000000)
+4. "sourcesystem_NMEC" (1.000000)
+5. "sourcesystem_NEMEC" (1.000000)
+6. "sourcesystem_Moritz Jürgensen" (1.000000)
+7. "sourcesystem_Current Revenue" (1.000000)
+8. "sourcesystem_CLT" (1.000000)
+9. "sourcesystem_Aplquest" (1.000000)
+10. "SubReason_Zero Usage Order" (1.000000)
+11. "SubReason_Manual Order Entry" (1.000000)
+12. "SubReason_Future Pricing Only CPS" (1.000000)
+13. "SubReason_Electronic Order Pend / Reject" (1.000000)
+14. "SubReason_Basic Enterprise Commitment" (1.000000)
+15. "StatusReason_Problem Solved" (1.000000)
+16. "StatusReason_Information Provided" (1.000000)
+17. "StageName" (1.000000)
+18. "Source_eAgreement (Phy)" (1.000000)
+19. "Source_eAgreement (Ele)" (1.000000)
+20. "Source_Web" (1.000000)
+21. "Source_Soft Copy" (1.000000)
+22. "Source_Manual" (1.000000)
+23. "Source_Hard Copy" (1.000000)
+24. "Source_Fax" (1.000000)
+25. "SalesLocation_southamerica" (1.000000)
+26. "SalesLocation_northamerica" (1.000000)
+27. "SalesLocation_europe" (1.000000)
+28. "SalesLocation_australia" (1.000000)
+29. "sourcesystem_web" (1.000000)

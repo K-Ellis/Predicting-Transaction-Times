@@ -1,0 +1,31 @@
+Columns,importances
+AmountinUSD,True
+Revenutype_Revenue Unknown,True
+SalesLocation_australia,True
+SalesLocation_europe,True
+SalesLocation_northamerica,True
+SalesLocation_southamerica,True
+Source_Fax,True
+Source_Hard Copy,True
+Source_Manual,True
+Source_Soft Copy,True
+Source_Web,True
+Source_eAgreement (Ele),True
+Source_eAgreement (Phy),True
+StageName,True
+StatusReason_Information Provided,True
+StatusReason_Problem Solved,True
+SubReason_Basic Enterprise Commitment,True
+SubReason_Electronic Order Pend / Reject,True
+SubReason_Future Pricing Only CPS,True
+SubReason_Manual Order Entry,True
+SubReason_Zero Usage Order,True
+sourcesystem_Aplquest,True
+sourcesystem_CLT,True
+sourcesystem_Current Revenue,True
+sourcesystem_Moritz Jürgensen,True
+sourcesystem_NEMEC,True
+sourcesystem_NMEC,True
+sourcesystem_Web,True
+sourcesystem_clt,True
+sourcesystem_web,True
