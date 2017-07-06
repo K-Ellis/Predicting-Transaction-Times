@@ -158,7 +158,6 @@ def kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath, d): 
     results(testData_y, y_test_pred, trainData_y, y_train_pred, "KernelRidge", newpath, d)
 
 
-
 def Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d):  # Kernel ridge regression
     classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
     classifier = classifier.fit(trainData_x, trainData_y.values.ravel())
@@ -195,7 +194,6 @@ def results(testData_y, y_test_pred, trainData_y, y_train_pred, alg, newpath, d,
     out_file.write(alg + " Train R^2 scoree: " + str(r2_score(trainData_y, y_train_pred)) + "\n")
     out_file.write(alg + " Test R^2 score: " + str(r2_score(testData_y, y_test_pred)) + "\n")
     out_file.write("\n")
-    out_file.close()
 
     print(alg, "Train rmse:", sqrt(mean_squared_error(trainData_y, y_train_pred)))  # Print Root Mean Squared Error
     print(alg, "Test rmse:", sqrt(mean_squared_error(testData_y, y_test_pred)))  # Print Root Mean Squared Error
@@ -219,7 +217,7 @@ def results(testData_y, y_test_pred, trainData_y, y_train_pred, alg, newpath, d,
         out_file.write("\nFeature Importances:\n")
         for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances["importances"].values.tolist())):
             out_file.write("%d. \"%s\" (%f)\n" % (i, col, importance))
-
+    out_file.close()
 
 if __name__ == "__main__":  # Run program
     d = {}
@@ -258,11 +256,11 @@ if __name__ == "__main__":  # Run program
     trainData_x, testData_x, trainData_y, testData_y = split_data(df, newpath)  # Split data
 
     if d["linear_regression"] == "y":
-        linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Linear Regression
+        linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Linear Regression
     if d["elastic_net"] == "y":
-        elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath)  # elastic net
+        elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # elastic net
     if d["kernel_ridge"] == "y":
-        kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Kernel ridge regression
+        kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Kernel ridge regression
     if d["random_forest_regressor"] == "y":
         Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Random Forest
 
@@ -276,11 +274,11 @@ if __name__ == "__main__":  # Run program
         trainData_x, testData_x, trainData_y, testData_y = split_data(df2, newpath)  # Split data
 
         if d["linear_regression"] == "y":
-            linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Linear Regression
+            linear_regression(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Linear Regression
         if d["elastic_net"] == "y":
-            elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath)  # elastic net
+            elastic_net(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # elastic net
         if d["kernel_ridge"] == "y":
-            kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath)  # Kernel ridge regression
+            kernel_ridge(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Kernel ridge regression
         if d["random_forest_regressor"] == "y":
             Random_Forest_Regressor(trainData_x, trainData_y, testData_x, testData_y, newpath, d)  # Random Forest
 
