@@ -380,11 +380,11 @@ def clean_Incident(d, newpath):
     # # Delete Collinear Variables above a given threshold
     # ####################################################################################################################
     # df, cols_deleted = find_and_delete_corr(df, correlation_threshold)
-    #
+
     # out_file.write("\n Delete one of the columns when correlation between a pair is above %s:" %
     # correlation_threshold)
     # for col in cols_deleted:
-    #     out_file.write("%s" % col)
+    #    out_file.write("%s" % col)
     # out_file.write("\n\n")
 
     ####################################################################################################################
