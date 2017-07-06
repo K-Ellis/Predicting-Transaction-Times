@@ -7,10 +7,10 @@ clean_Incident: y
 clean_AuditHistory: y
 clean_HoldActivity: y
 clean_PackageTriageEntry: y
-linear_regression: y
-elastic_net: y
-kernel_ridge: y
-Random_Forest_Regressor: y
+LinearRegression: y
+ElasticNet: y
+KernelRidge: n
+RandomForestRegressor: y
 n_estimators: 10
 log_of_y: y
 seed: 12345
@@ -18,3 +18,4 @@ histogram: y
 notes: This_is_a_note
 resample: y
 n_samples: 50
+crossvalidation: 5

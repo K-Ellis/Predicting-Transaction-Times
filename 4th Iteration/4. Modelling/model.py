@@ -93,7 +93,7 @@ def split_data(df, newpath):  # Split data into training and test data x, y.
     distribution = 0
     i = 0
     while distribution == 0:  # Loop until the data is split well
-        trainData, testData = train_test_split(df)  # Split data 75:25 randomly
+        trainData, testData = train_test_split(df, test_size=0.25)  # Split data 75:25 randomly
         trainData_y = pd.DataFrame()
         trainData_y["TimeTaken"] = trainData["TimeTaken"]
         trainData_x = trainData.loc[:, trainData.columns != 'TimeTaken']
