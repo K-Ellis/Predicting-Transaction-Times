@@ -219,6 +219,7 @@ def results(testData_y, y_test_pred, trainData_y, y_train_pred, alg, newpath, d,
             out_file.write("%d. \"%s\" (%f)\n" % (i, col, importance))
     out_file.close()
 
+
 if __name__ == "__main__":  # Run program
     d = {}
     with open(parameters, "r") as f:

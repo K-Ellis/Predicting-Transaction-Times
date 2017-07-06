@@ -1,15 +1,16 @@
 """****************************************************************************
 UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
 *******************************************************************************
-Iteration 2
-Data modelling program
+Iteration 4
+Data modelling testing
 *******************************************************************************
 Eoin Carroll
 Kieron Ellis
 *******************************************************************************
-Working on dataset from Cosmic launch (6th Feb) to End March
+Transform experiments - preprocessing standard scaler, np square root of time taken
+Transform back into real values
+Results were less accuracy
 ****************************************************************************"""
-
 
 """****************************************************************************
 Import libraries
