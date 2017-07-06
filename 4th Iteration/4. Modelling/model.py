@@ -235,6 +235,7 @@ if __name__ == "__main__":  # Run program
 
     if d["user"] == "Kieron":
         df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+        # If you insist on hardcoding something in a program, keep my name out of it
     else:
         df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
                      low_memory=False)
