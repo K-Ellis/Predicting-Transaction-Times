@@ -164,16 +164,16 @@ def results(df, alg, classifier, newpath, d, RFR=False):
             if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
                 number_close += 1
         number_test.append(number_close)
-    if RFR == True:
-        importances = classified.feature_importances_
 
     out_file.write(alg + " Cross Validation: " + d["crossvalidation"] + "\n")
-    out_file.write(alg + " Train RMSE -> Max: " + str(round(max(train_rmse), 2)) + ", Min: " +
-          str(round(min(train_rmse), 2)) + ", Avg: " + str(round(sum(train_rmse) / len(train_rmse), 2)) + "\n")  # Print Root Mean Squared Error
-    out_file.write(alg + " Test RMSE -> Max: " + str(round(max(test_rmse), 2)) + ", Min: " +
-          str(round(min(test_rmse), 2)) + ", Avg: " + str(round(sum(test_rmse) / len(test_rmse), 2)) + "\n")  # Print Root Mean Squared Error
-    out_file.write(alg + " Train R^2 score -> Max: " + str(round(max(train_r_sq), 2)) + ", Min: " + str(round(min(train_r_sq),2)) + ", Avg: " + str(round(sum(train_r_sq) / len(train_r_sq), 2)) + "\n")  # Print R Squared
-    out_file.write(alg + " Test R^2 score -> Max: " + str(round(max(test_r_sq), 2)) + ", Min: " + str(round(min(test_r_sq), 2)) + ", Avg: " + str(round(sum(test_r_sq) / len(test_r_sq), 2)) + "\n")  # Print R Squared
+    out_file.write(alg + " Train RMSE -> Max: " + str(round(max(train_rmse), 2)) + ", Min: " + str(round(min(
+        train_rmse), 2)) + ", Avg: " + str(round(sum(train_rmse) / len(train_rmse), 2)) + "\n")  # RMSE
+    out_file.write(alg + " Test RMSE -> Max: " + str(round(max(test_rmse), 2)) + ", Min: " + str(round(min(
+        test_rmse), 2)) + ", Avg: " + str(round(sum(test_rmse) / len(test_rmse), 2)) + "\n")  # Save RMS
+    out_file.write(alg + " Train R^2 score -> Max: " + str(round(max(train_r_sq), 2)) + ", Min: " +
+                   str(round(min(train_r_sq),2)) + ", Avg: " + str(round(sum(train_r_sq) / len(train_r_sq), 2)) + "\n")
+    out_file.write(alg + " Test R^2 score -> Max: " + str(round(max(test_r_sq), 2)) + ", Min: " +
+                   str(round(min(test_r_sq), 2)) + ", Avg: " + str(round(sum(test_r_sq) / len(test_r_sq), 2)) + "\n")
     out_file.write(alg + " number test predictions within 1 hour -> Max: " + str(max(number_test)) + "/" +
                    str(len(y_test_pred)) + ", Min: " + str(min(number_test)) + "/" +
                    str(len(y_test_pred)) + ", Avg: " + str(sum(number_test) / len(number_test)) + "/" +
@@ -186,11 +186,13 @@ def results(df, alg, classifier, newpath, d, RFR=False):
 
     print(alg + " Cross Validation: " + d["crossvalidation"])
     print(alg + " Train RMSE -> Max: " + str(round(max(train_rmse), 2)) + ", Min: " +
-          str(round(min(train_rmse), 2)) + ", Avg: " + str(round(sum(train_rmse) / len(train_rmse), 2)))  # Print Root Mean Squared Error
+          str(round(min(train_rmse), 2)) + ", Avg: " + str(round(sum(train_rmse) / len(train_rmse), 2)))  # Print RMSE
     print(alg + " Test RMSE -> Max: " + str(round(max(test_rmse), 2)) + ", Min: " +
-          str(round(min(test_rmse), 2)) + ", Avg: " + str(round(sum(test_rmse) / len(test_rmse), 2)))  # Print Root Mean Squared Error
-    print(alg + " Train R^2 score -> Max: " + str(round(max(train_r_sq), 2)) + ", Min: " + str(round(min(train_r_sq),2)) + ", Avg: " + str(round(sum(train_r_sq) / len(train_r_sq), 2)))  # Print R Squared
-    print(alg + " Test R^2 score -> Max: " + str(round(max(test_r_sq), 2)) + ", Min: " + str(round(min(test_r_sq), 2)) + ", Avg: " + str(round(sum(test_r_sq) / len(test_r_sq), 2)))  # Print R Squared
+          str(round(min(test_rmse), 2)) + ", Avg: " + str(round(sum(test_rmse) / len(test_rmse), 2)))  # Print RMSE
+    print(alg + " Train R^2 score -> Max: " + str(round(max(train_r_sq), 2)) + ", Min: " +
+          str(round(min(train_r_sq),2)) + ", Avg: " + str(round(sum(train_r_sq) / len(train_r_sq), 2)))  # Print R Sq
+    print(alg + " Test R^2 score -> Max: " + str(round(max(test_r_sq), 2)) + ", Min: " +
+          str(round(min(test_r_sq), 2)) + ", Avg: " + str(round(sum(test_r_sq) / len(test_r_sq), 2)))  # Print R Squared
     print(alg + " number test predictions within 1 hour -> Max: " + str(max(number_test)) + "/" +
                    str(len(y_test_pred)) + ", Min: " + str(min(number_test)) + "/" +
                    str(len(y_test_pred)) + ", Avg: " + str(sum(number_test) / len(number_test)) + "/" +
@@ -205,6 +207,7 @@ def results(df, alg, classifier, newpath, d, RFR=False):
     plot(testData_y, y_test_pred, alg, "Test", newpath)
 
     if RFR == True:
+        importances = classified.feature_importances_
         print("Top 10 Feature Importances:")
         dfimportances = pd.DataFrame(data=trainData_x.columns, columns=["Columns"])
         dfimportances["importances"] = importances
@@ -268,12 +271,7 @@ if __name__ == "__main__":  # Run program
         results(df, "KernelRidge", classifier, newpath, d)
     if d["RandomForestRegressor"] == "y":
         classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
-        # importances = classifier.feature_importances_# todo
-        # results(df, "RandomForestRegressor", classifier, newpath, d, importances, trainData_x) todo
         results(df, "RandomForestRegressor", classifier, newpath, d, RFR=True)
-
-        # todo Kieron to fix importances - currently relies on "importances.csv" which is not being generated
-        # importances.csv was not being generated with a date or timestamp
 
         # cols_to_be_deleted = select_importants(newpath + "importances.csv", thresh=0.001) # keep above threshold
         k = 30
