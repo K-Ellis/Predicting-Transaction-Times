@@ -64,7 +64,7 @@ def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres, exclude):
 def time_taken(df, out_file, start, finish):  # replace start & finish with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
-    df2 = pd.DataFrame()  # create new dataframe, df2, to store answer
+    df2 = pd.DataFrame()  # create new dataframe, df2, to store answer  # todo - no need for df2
     df2["TimeTaken"] = (df[finish] - df[start]).astype('timedelta64[s]')
     del df[start]
     del df[finish]
