@@ -1,0 +1,10 @@
+xgboost 20170707-180420
+
+xgboost Cross Validation: 5
+xgboost Train RMSE -> Max: 399491.54, Min: 393761.46, Avg: 395893.9
+xgboost Test RMSE -> Max: 408593.23, Min: 397471.09, Avg: 403895.32
+xgboost Train R^2 score -> Max: 0.28, Min: 0.27, Avg: 0.28
+xgboost Test R^2 score -> Max: 0.26, Min: 0.24, Avg: 0.24
+xgboost number test predictions within 1 hour -> Max: 55/5012, Min: 37/5012, Avg: 44.4/5012
+xgboost % test predictions within 1 hour: -> Max: 1.1%, Min: 0.74%, Avg: 0.89%
+
