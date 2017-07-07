@@ -152,18 +152,31 @@ def results(df, alg, classifier, newpath, d, RFR=False):
         y_test_pred = classified.predict(testData_x)
         y_train_pred = classified.predict(trainData_x)
 
-        train_rmse.append(sqrt(mean_squared_error(trainData_y, y_train_pred)))
-        test_rmse.append(sqrt(mean_squared_error(testData_y, y_test_pred)))
-        train_r_sq.append(r2_score(trainData_y, y_train_pred))
-        test_r_sq.append(r2_score(testData_y, y_test_pred))
-
         number_close = 0  # Use to track number of close estimations
-        for i in range(len(y_test_pred)):
+        mean_time = sum(trainData_y["TimeTaken"].tolist()) / len(trainData_y["TimeTaken"].tolist())  # Calculate mean of predictions
+        std_time = np.std(trainData_y["TimeTaken"].tolist())  # Calculate standard deviation of predictions
+        for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
+            if y_train_pred[i] < 0:  # Convert all negative predictions to 0
+                y_train_pred[i] = 0
+            if y_train_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
+                y_train_pred[i] = (mean_time + 3*std_time)
+            if math.isnan(y_train_pred[i]):  # If NaN set to 0
+                y_train_pred[i] = 0
+        for i in range(len(y_test_pred)): # Convert high or low predictions to 0 or 3 std
             if y_test_pred[i] < 0:  # Convert all negative predictions to 0
+                y_test_pred[i] = 0
+            if y_test_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
+                y_test_pred[i] = (mean_time + 3*std_time)
+            if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
             if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
                 number_close += 1
         number_test.append(number_close)
+
+        train_rmse.append(sqrt(mean_squared_error(trainData_y, y_train_pred)))
+        test_rmse.append(sqrt(mean_squared_error(testData_y, y_test_pred)))
+        train_r_sq.append(r2_score(trainData_y, y_train_pred))
+        test_r_sq.append(r2_score(testData_y, y_test_pred))
 
     out_file.write(alg + " Cross Validation: " + d["crossvalidation"] + "\n")
     out_file.write(alg + " Train RMSE -> Max: " + str(round(max(train_rmse), 2)) + ", Min: " + str(round(min(
