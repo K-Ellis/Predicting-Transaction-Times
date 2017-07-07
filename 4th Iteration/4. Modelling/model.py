@@ -272,7 +272,8 @@ if __name__ == "__main__":  # Run program
         # results(df, "RandomForestRegressor", classifier, newpath, d, importances, trainData_x) todo
         results(df, "RandomForestRegressor", classifier, newpath, d, RFR=True)
 
-        # todo Kieron to fix importances . . . should work with cross validation when rerunnnig each classifier
+        # todo Kieron to fix importances - currently relies on "importances.csv" which is not being generated
+        # importances.csv was not being generated with a date or timestamp
 
         # cols_to_be_deleted = select_importants(newpath + "importances.csv", thresh=0.001) # keep above threshold
         k = 30
