@@ -1,0 +1,41 @@
+RandomForestRegressor 20170707-173637
+
+RandomForestRegressor Cross Validation: 5
+RandomForestRegressor Train RMSE -> Max: 240709.62, Min: 206681.43, Avg: 223747.81
+RandomForestRegressor Test RMSE -> Max: 798930.8, Min: 464249.28, Avg: 592444.22
+RandomForestRegressor Train R^2 score -> Max: 0.79, Min: 0.71, Avg: 0.75
+RandomForestRegressor Test R^2 score -> Max: -0.01, Min: -2.25, Avg: -0.79
+RandomForestRegressor number test predictions within 1 hour -> Max: 2/13, Min: 0/13, Avg: 0.6/13
+RandomForestRegressor % test predictions within 1 hour: -> Max: 15.38%, Min: 0.0%, Avg: 4.62%
+
+
+Feature Importances:
+0. "AmountinUSD" (0.312879)
+1. "IsSignature" (0.129997)
+2. "IsMagnumCase" (0.104754)
+3. "SubReason_Manual Order Entry" (0.095591)
+4. "Revenutype_Credit / Rebill" (0.092479)
+5. "StageName_3" (0.077103)
+6. "StatusReason_Problem Solved" (0.049259)
+7. "Queue_NAOC" (0.027149)
+8. "IsSOXCase" (0.024381)
+9. "Numberofreactivations" (0.020954)
+10. "StageName_4" (0.015943)
+11. "CountrySource_europe" (0.012299)
+12. "Complexity" (0.010277)
+13. "SubReason_Basic Enterprise Commitment" (0.006173)
+14. "Source_Web" (0.004280)
+15. "ROCName_APOC" (0.003040)
+16. "Queue_AOC" (0.002305)
+17. "SalesLocation_europe" (0.002169)
+18. "Revenutype_Non-revenue" (0.002064)
+19. "SubReason_True Up" (0.001682)
+20. "CountrySource_asia" (0.001667)
+21. "CountrySource_northamerica" (0.001288)
+22. "SubReason_Meteaop" (0.000750)
+23. "IsGovernment" (0.000661)
+24. "CountryProcessed_asia" (0.000516)
+25. "Queue_EOC" (0.000234)
+26. "CountryProcessed_europe" (0.000106)
+27. "SalesLocation_australia" (0.000000)
+28. "Revenutype_Future OTRRR with OLS" (0.000000)
