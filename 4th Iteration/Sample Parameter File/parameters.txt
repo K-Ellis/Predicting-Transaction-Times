@@ -20,3 +20,5 @@ resample: y
 n_samples: 50
 crossvalidation: 5
 iteration: 4
+delete_ticketNumber: y
+xgboost: n

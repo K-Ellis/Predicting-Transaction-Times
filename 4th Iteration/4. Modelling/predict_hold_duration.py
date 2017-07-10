@@ -16,6 +16,8 @@ from sklearn import preprocessing
 
 # infile needs to be the Incident cleaned data plus the summed HoldDuration column from HoldActivity
 
+# find the alg with the best R2 to predict HoldDurations given the incident worksheet info
+
 def holdduration_modeling_passes(trainData_x, testData_x, trainData_y, testData_y,regressor, alg, newpath, scores,
                                  pass_number):
     regr = regressor
@@ -83,11 +85,13 @@ else: df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='l
 
 if d["resample"] == "y": df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
 
+
 X = df.drop("HoldDuration", axis=1)
 X = X.drop("TimeTaken", axis=1)
 y = df["HoldDuration"]
 
 trainData_x, testData_x, trainData_y, testData_y = train_test_split(X, y)
+
 
 regressors = []
 algs = []
@@ -109,6 +113,7 @@ for regressor, alg in zip(regressors, algs):
     holdduration_modeling_passes(trainData_x, testData_x, trainData_y, testData_y,regressor, alg, newpath, scores,
                                  pass_number=1)
 
+# keep the top 30 columns and predict again
 k = 30
 cols_to_be_deleted = select_top_k_importants(newpath + "importances_1.csv", k)  # keep top k
 df2 = trim_df(df, cols_to_be_deleted)
@@ -125,6 +130,8 @@ for regressor, alg in zip(regressors, algs):
     holdduration_modeling_passes(trainData_x, testData_x, trainData_y, testData_y, regressor, alg, newpath, scores,
                                  pass_number=2)
 
+
+# find the algs with the best R2
 best_RMSE = []
 best_R2 = []
 pass_numbers = [1, 2]
@@ -153,6 +160,7 @@ out_file = open(out_file_name, "w")  # Open log file
 out_file.write("best_RMSE list: " + str(best_RMSE))
 out_file.write("\nbest_R2 list: " + str(best_R2) + "\n")
 
+# use the alg with the best R2 to predict the hold duration given the incident worksheet
 for alg, regressor in zip(algs, regressors):
     for i in range(1,3):
         if best_R2[0][0] == alg + str(i):
@@ -168,13 +176,14 @@ for alg, regressor in zip(algs, regressors):
                 X = df.drop("HoldDuration", axis=1)
                 X = X.drop("TimeTaken", axis=1)
                 y = df["HoldDuration"]
-
 regr = regr.fit(X, y)
 hold_predictions = regr.predict(X)
 min_max_scaler = preprocessing.MinMaxScaler()
 
+# scale predictions
 hold_predictions_scaled = pd.DataFrame(min_max_scaler.fit_transform(hold_predictions.reshape(-1, 1)))
 
+# return the final df (incident + predicted HoldDurations)
 finaldf = df.copy()
 del finaldf["HoldDuration"]
 finaldf["HoldDuration"] = hold_predictions_scaled
