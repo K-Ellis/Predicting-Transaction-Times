@@ -2,15 +2,13 @@
 UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
 ************************************************************************************************************************
 Iteration 4
-Data pre-processing program
-
-******Testing seasonality
-
+Seasonality study
 ************************************************************************************************************************
 Eoin Carroll
 Kieron Ellis
 ************************************************************************************************************************
 Working on dataset 2 from Cosmic: UCD_Data_20170623_1.xlsx
+Results will be saved in Iteration\0. Results\User\prepare_dataset\Date
 *********************************************************************************************************************"""
 
 
