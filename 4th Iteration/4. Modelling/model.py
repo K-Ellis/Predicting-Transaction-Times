@@ -8,7 +8,7 @@ Eoin Carroll
 Kieron Ellis
 *******************************************************************************
 Working on dataset 2 from Cosmic: UCD_Data_20170623_1.xlsx
-Results will be saved in Iteration\0. Results\User\model\Date
+Results will be saved in Iteration > 0. Results > User > prepare_dataset > Date
 ****************************************************************************"""
 
 """****************************************************************************
@@ -145,7 +145,8 @@ def results(df, alg, classifier, newpath, d, RFR=False):
     test_rmse = []
     train_r_sq = []
     test_r_sq = []
-    number_test = []
+    number_test_1 = []  # Tracking predictions within 1 hour
+    number_test_24 = []  # Tracking predictions within 24 hours
 
     for i in range(int(d["crossvalidation"])):  # Repeat tests this number of times and save min, max and average
         trainData_x, testData_x, trainData_y, testData_y = split_data(df, newpath)  # Split data
@@ -153,7 +154,8 @@ def results(df, alg, classifier, newpath, d, RFR=False):
         y_test_pred = classified.predict(testData_x)
         y_train_pred = classified.predict(trainData_x)
 
-        number_close = 0  # Use to track number of close estimations
+        number_close_1 = 0  # Use to track number of close estimations within 1 hour
+        number_close_24 = 0  # Use to track number of close estimations within 24 hours
         mean_time = sum(trainData_y["TimeTaken"].tolist()) / len(trainData_y["TimeTaken"].tolist())  # Calculate mean of predictions
         std_time = np.std(trainData_y["TimeTaken"].tolist())  # Calculate standard deviation of predictions
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
@@ -171,8 +173,11 @@ def results(df, alg, classifier, newpath, d, RFR=False):
             if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
             if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
-                number_close += 1
-        number_test.append(number_close)
+                number_close_1 += 1
+            if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600*24:  # Within 24 hours
+                number_close_24 += 1
+        number_test_1.append(number_close_1)
+        number_test_24.append(number_close_24)
 
         train_rmse.append(sqrt(mean_squared_error(trainData_y, y_train_pred)))
         test_rmse.append(sqrt(mean_squared_error(testData_y, y_test_pred)))
@@ -188,14 +193,22 @@ def results(df, alg, classifier, newpath, d, RFR=False):
                    str(round(min(train_r_sq),2)) + ", Avg: " + str(round(sum(train_r_sq) / len(train_r_sq), 2)) + "\n")
     out_file.write(alg + " Test R^2 score -> Max: " + str(round(max(test_r_sq), 2)) + ", Min: " +
                    str(round(min(test_r_sq), 2)) + ", Avg: " + str(round(sum(test_r_sq) / len(test_r_sq), 2)) + "\n")
-    out_file.write(alg + " number test predictions within 1 hour -> Max: " + str(max(number_test)) + "/" +
-                   str(len(y_test_pred)) + ", Min: " + str(min(number_test)) + "/" +
-                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test) / len(number_test)) + "/" +
+    out_file.write(alg + " number test predictions within 1 hour -> Max: " + str(max(number_test_1)) + "/" +
+                   str(len(y_test_pred)) + ", Min: " + str(min(number_test_1)) + "/" +
+                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_1) / len(number_test_1)) + "/" +
                    str(len(y_test_pred)) + "\n")
     out_file.write(alg + " % test predictions within 1 hour: -> Max: " +
-                   str(round(((max(number_test) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
-                   str(round(((min(number_test) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
-                   str(round(((sum(number_test) / len(number_test)) / len(y_test_pred) * 100), 2)) + "%" + "\n")
+                   str(round(((max(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
+                   str(round(((min(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
+                   str(round(((sum(number_test_1) / len(number_test_1)) / len(y_test_pred) * 100), 2)) + "%" + "\n")
+    out_file.write(alg + " number test predictions within 24 hours -> Max: " + str(max(number_test_24)) + "/" +
+                   str(len(y_test_pred)) + ", Min: " + str(min(number_test_24)) + "/" +
+                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_24) / len(number_test_24)) + "/" +
+                   str(len(y_test_pred)) + "\n")
+    out_file.write(alg + " % test predictions within 24 hours -> Max: " +
+                   str(round(((max(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
+                   str(round(((min(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
+                   str(round(((sum(number_test_24) / len(number_test_24)) / len(y_test_pred) * 100), 2)) + "%" + "\n")
     out_file.write("\n")
 
     print(alg + " Cross Validation: " + d["crossvalidation"])
@@ -207,15 +220,23 @@ def results(df, alg, classifier, newpath, d, RFR=False):
           str(round(min(train_r_sq),2)) + ", Avg: " + str(round(sum(train_r_sq) / len(train_r_sq), 2)))  # Print R Sq
     print(alg + " Test R^2 score -> Max: " + str(round(max(test_r_sq), 2)) + ", Min: " +
           str(round(min(test_r_sq), 2)) + ", Avg: " + str(round(sum(test_r_sq) / len(test_r_sq), 2)))  # Print R Squared
-    print(alg + " number test predictions within 1 hour -> Max: " + str(max(number_test)) + "/" +
-                   str(len(y_test_pred)) + ", Min: " + str(min(number_test)) + "/" +
-                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test) / len(number_test)) + "/" +
+    print(alg + " number test predictions within 1 hour -> Max: " + str(max(number_test_1)) + "/" +
+                   str(len(y_test_pred)) + ", Min: " + str(min(number_test_1)) + "/" +
+                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_1) / len(number_test_1)) + "/" +
                    str(len(y_test_pred)))
     print(alg + " % test predictions within 1 hour: -> Max: " +
-                   str(round(((max(number_test) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
-                   str(round(((min(number_test) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
-                   str(round(((sum(number_test) / len(number_test)) / len(y_test_pred) * 100), 2)) + "%")
-    print("Note: only last cross validation plots saved! \n")
+                   str(round(((max(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
+                   str(round(((min(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
+                   str(round(((sum(number_test_1) / len(number_test_1)) / len(y_test_pred) * 100), 2)) + "%")
+    print(alg + " number test predictions within 24 hours -> Max: " + str(max(number_test_24)) + "/" +
+                   str(len(y_test_pred)) + ", Min: " + str(min(number_test_24)) + "/" +
+                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_24) / len(number_test_24)) + "/" +
+                   str(len(y_test_pred)))
+    print(alg + " % test predictions within 24 hours -> Max: " +
+                   str(round(((max(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
+                   str(round(((min(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
+                   str(round(((sum(number_test_24) / len(number_test_24)) / len(y_test_pred) * 100), 2)) + "%")
+    print("Note: Only last cross validation plots saved! \n")
 
     plot(trainData_y, y_train_pred, alg, "Train", newpath)
     plot(testData_y, y_test_pred, alg, "Test", newpath)

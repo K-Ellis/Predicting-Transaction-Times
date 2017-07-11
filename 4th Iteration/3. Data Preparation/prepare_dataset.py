@@ -8,7 +8,7 @@ Eoin Carroll
 Kieron Ellis
 ************************************************************************************************************************
 Working on dataset 2 from Cosmic: UCD_Data_20170623_1.xlsx
-Results will be saved in Iteration\0. Results\User\prepare_dataset\Date
+Results will be saved in Iteration > 0. Results > User > prepare_dataset > Date
 *********************************************************************************************************************"""
 
 
@@ -222,6 +222,7 @@ def clean_Incident(d, newpath):
 
     if d["user"] == "Eoin":
         df = pd.read_csv(d["file_location"] + "vw_Incident" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+        # todo - don't write my name in code. Use your own or better yet - find a way to make it work without names
     else:
         df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1',
                          low_memory=False)
