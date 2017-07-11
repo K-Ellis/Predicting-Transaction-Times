@@ -53,7 +53,7 @@ if __name__ == "__main__":
     not_included = ["TicketNumber","ActivityId", "RegardingObjectId", "HoldDuration", "TimeZoneRuleVersionNumber", "HoldTypeName_Customer"]
     for item in not_included:
         holdactivitycolumns.remove(item)
-    ABT1 = show_existance_of_variable(dfholdactivity,holdactivitycolumns, dfincident)
+    ABT1 = show_existance_of_variable(dfholdactivity,holdactivitycolumns)
     ABT1.to_csv("../../../Data/ABT1.csv", index=False)
 
     dfaudithistorycolumns = dfaudithistory.columns.tolist()
@@ -62,14 +62,14 @@ if __name__ == "__main__":
                     "Action_Update"]
     for item in not_included:
         dfaudithistory.remove(item)
-    ABT2 = show_existance_of_variable(dfaudithistory, dfaudithistorycolumns, ABT1)
+    ABT2 = show_existance_of_variable(dfaudithistory, dfaudithistorycolumns)
     ABT2.to_csv("../../../Data/ABT2.csv", index=False)
 
     packagetiageetrycolumns = dfpackagetiageetry.columns.tolist()
     not_included = ["TicketNumber", "PackageTriageEntryId", "PackageTriageFormId", "Created_On", "Modified_On"]
     for item in not_included:
         packagetiageetrycolumns.remove(item)
-    ABT3 = show_existance_of_variable(dfpackagetiageetry, packagetiageetrycolumns, ABT2)
+    ABT3 = show_existance_of_variable(dfpackagetiageetry, packagetiageetrycolumns)
     ABT3.to_csv("../../../Data/ABT.csv", index=False)
 
     # merge the dfs together

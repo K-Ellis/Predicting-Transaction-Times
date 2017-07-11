@@ -1,4 +1,4 @@
-ElasticNet 20170711-101724
+ElasticNet 20170711-105543
 
 ElasticNet Cross Validation: 5
 ElasticNet Train RMSE -> Max: 412478.9, Min: 410926.34, Avg: 411876.32

@@ -1,0 +1,12 @@
+KernelRidge 20170711-110358
+
+KernelRidge Cross Validation: 5
+KernelRidge Train RMSE -> Max: 917871.8, Min: 412727.81, Avg: 590982.22
+KernelRidge Test RMSE -> Max: 909795.21, Min: 413001.12, Avg: 589592.68
+KernelRidge Train R^2 score -> Max: 0.21, Min: -2.9, Avg: -0.77
+KernelRidge Test R^2 score -> Max: 0.21, Min: -2.79, Avg: -0.74
+KernelRidge number test predictions within 1 hour -> Max: 120/5012, Min: 38/5012, Avg: 77.8/5012
+KernelRidge % test predictions within 1 hour: -> Max: 2.39%, Min: 0.76%, Avg: 1.55%
+KernelRidge number test predictions within 24 hours -> Max: 1586/5012, Min: 850/5012, Avg: 1200.0/5012
+KernelRidge % test predictions within 24 hours -> Max: 31.64%, Min: 16.96%, Avg: 23.94%
+
