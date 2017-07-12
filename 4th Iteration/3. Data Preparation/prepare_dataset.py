@@ -8,6 +8,7 @@ Eoin Carroll
 Kieron Ellis
 ************************************************************************************************************************
 Working on dataset 2 from Cosmic: UCD_Data_20170623_1.xlsx
+Results will be saved in Iteration > 0. Results > User > prepare_dataset > Date
 *********************************************************************************************************************"""
 
 
@@ -219,7 +220,12 @@ def clean_Incident(d, newpath):
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_Incident started" + "\n")
 
-    df = pd.read_csv(d["file_location"] + "vw_Incident" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+    if d["user"] == "Eoin":
+        df = pd.read_csv(d["file_location"] + "vw_Incident" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+        # todo - don't write my name in code. Use your own or better yet - find a way to make it work without names
+    else:
+        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1',
+                         low_memory=False)
 
     df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable and filter outliers
 
@@ -254,7 +260,8 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Domain knowledge processing
     ####################################################################################################################
-    del df["TicketNumber"]  # Delete for first iteration
+    if d["delete_ticketNumber"] == "y":
+        del df["TicketNumber"]  # Delete for first iteration
     del df["IncidentId"]  # Delete for first iteration
     del df["Receiveddate"]  # Not using received
     del df["CaseRevenue"] # In local currency. - we have all values in USD
@@ -397,9 +404,13 @@ def clean_Incident(d, newpath):
     y = df.pop("TimeTaken")
     df = pd.concat([y, df], axis=1)
 
-    df.to_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", index=False)  # export file
+    if d["user"] == "Eoin":
+        df.to_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv" + "\n")
+    else:
+        df.to_csv(d["file_location"] + d["output_file_name"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + d["output_file_name"] + ".csv" + "\n")
 
-    out_file.write("file saved as " + d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv" + "\n")
     out_file.write("clean_Incident complete")
     out_file.close()
     print("clean_Incident complete")
@@ -412,8 +423,11 @@ def clean_AuditHistory(d, newpath):
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_AuditHistory started" + "\n\n")
-    df = pd.read_csv(d["file_location"] + "vw_AuditHistory" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
-
+    if d["user"] == "Eoin":
+        df = pd.read_csv(d["file_location"] + "vw_AuditHistory" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+    else:
+        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1',
+                         low_memory=False)
     # Create Time Variable
     # df = time_taken(df, out_file, "Created_On", "Modified_On")
     # todo - to_datetime not working for audit history
@@ -447,10 +461,14 @@ def clean_AuditHistory(d, newpath):
     for col in new_cols:
         df = one_hot_encoding(df, col, out_file)
 
-    df.to_csv(d["file_location"] + "vw_AuditHistory_cleaned" + d["file_name"] + ".csv", index=False)  # export file
+    if d["user"] == "Eoin":
+        df.to_csv(d["file_location"] + "vw_AuditHistory_cleaned" + d["file_name"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + "vw_AuditHistory_cleaned" + d["file_name"] + ".csv" + "\n")
+    else:
+        df.to_csv(d["file_location"] + d["output_file_name"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + d["output_file_name"] + ".csv" + "\n")
 
     out_file.write("clean_AuditHistory complete")
-    out_file.write("file saved as " + d["file_location"] + "vw_AuditHistory_cleaned" + d["file_name"] + ".csv" + "\n")
     out_file.close()
     print("clean_AuditHistory complete")
 
@@ -464,8 +482,11 @@ def clean_HoldActivity(d, newpath):
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_HoldActivity started" + "\n\n")
 
-    df = pd.read_csv(d["file_location"] + "vw_HoldActivity" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
-
+    if d["user"] == "Eoin":
+        df = pd.read_csv(d["file_location"] + "vw_HoldActivity" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+    else:
+        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1',
+                         low_memory=False)
     # Domain knowledge processing
     # Use hold duration as time
     del df["StartTime"]
@@ -489,15 +510,21 @@ def clean_HoldActivity(d, newpath):
     df = one_hot_encoding(df, "AssignedToGroup", out_file)
 
     # todo - fill TimeZoneRuleVersionNumber nulls
+    fill_nulls_dfcs(df, ["TimeZoneRuleVersionNumber"], "mode", out_file)
+    # fill_nulls_dfcs(df, dfcs, fill_value, out_file)
 
     # todo combine the transactions into their respective cases?
     # delete for now, not sure what to do with it..
     # del df["ParentCase"]
 
-    df.to_csv(d["file_location"] + "vw_HoldActivity_cleaned" + d["file_name"] + ".csv", index=False)  # export file
+    if d["user"] == "Eoin":
+        df.to_csv(d["file_location"] + "vw_HoldActivity_cleaned" + d["file_name"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + "vw_HoldActivity_cleaned" + d["file_name"] + ".csv" + "\n")
+    else:
+        df.to_csv(d["file_location"] + d["output_file_name"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + d["output_file_name"] + ".csv" + "\n")
 
     out_file.write("clean_HoldActivity complete")
-    out_file.write("file saved as " + d["file_location"] + "vw_HoldActivity_cleaned" + d["file_name"] + ".csv" + "\n")
     out_file.close()
     print("clean_HoldActivity complete")
 
@@ -511,8 +538,11 @@ def clean_PackageTriageEntry(d, newpath):
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_PackageTriageEntry started" + "\n\n")
 
-    df = pd.read_csv(d["file_location"] + "vw_PackageTriageEntry" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
-
+    if d["user"] == "Eoin":
+        df = pd.read_csv(d["file_location"] + "vw_PackageTriageEntry" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+    else:
+        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1',
+                         low_memory=False)
     # Create Time Variable
     # df = time_taken(df, out_file, "Created_On", "Modified_On")
     # todo - to_datetime not working
@@ -537,10 +567,16 @@ def clean_PackageTriageEntry(d, newpath):
 
     # df = fill_nulls(df, "EntryProcess", out_file)  # Fill in NULL values with 0s
 
-    df.to_csv(d["file_location"] + "vw_PackageTriageEntry_cleaned" + d["file_name"] + ".csv", index=False)  # export file
+
+    if d["user"] == "Eoin":
+        df.to_csv(d["file_location"] + "vw_PackageTriageEntry_cleaned" + d["file_name"] + ".csv", index=False)  # export file
+        out_file.write(
+            "file saved as " + d["file_location"] + "vw_PackageTriageEntry_cleaned" + d["file_name"] + ".csv" + "\n")
+    else:
+        df.to_csv(d["file_location"] + d["output_file_name"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + d["output_file_name"] + ".csv" + "\n")
 
     out_file.write("clean_PackageTriageEntry complete")
-    out_file.write("file saved as " + d["file_location"] + "vw_PackageTriageEntry_cleaned" + d["file_name"] + ".csv" + "\n")
     out_file.close()
     print("clean_PackageTriageEntry complete")
 
