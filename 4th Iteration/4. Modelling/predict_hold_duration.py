@@ -131,7 +131,7 @@ for regressor, alg in zip(regressors, algs):
                                  pass_number=2)
 
 
-# find the algs with the best R2
+# find the alg_names with the best R2
 best_RMSE = []
 best_R2 = []
 pass_numbers = [1, 2]

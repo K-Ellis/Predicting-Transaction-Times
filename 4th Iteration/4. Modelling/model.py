@@ -307,30 +307,30 @@ if __name__ == "__main__":  # Run program
     if d["RandomForestRegressor"] == "y":
         classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
         results(df, "RandomForestRegressor", classifier, newpath, d, RFR=True)
+        if d["rerun_with_top_importances"] == "y":
+            # cols_to_be_deleted = select_importants(newpath + "importances.csv", thresh=0.001) # keep above threshold
+            k = 15
+            cols_to_be_deleted = select_top_k_importants(newpath + "importances.csv", k) # keep top k
+            # df = trim_df(df, cols_to_be_deleted)
+            with open(newpath + "cols_kept_and_deleted_for_k=%s_" % k + time.strftime("%H.%M.%S.txt"), "w") as f:
+                f.write("cols deleted = \n")
+                f.write(str(cols_to_be_deleted))
+                f.write("\ncols kept = \n")
+                f.write(str(df.columns.tolist()))
+            print("Top", len(df.columns), "Columns = ", df.columns.tolist())
+            print("Bottom", len(cols_to_be_deleted), "Columns to be deleted = ", cols_to_be_deleted, "\n")
 
-        # cols_to_be_deleted = select_importants(newpath + "importances.csv", thresh=0.001) # keep above threshold
-        k = 15
-        cols_to_be_deleted = select_top_k_importants(newpath + "importances.csv", k) # keep top k
-        df = trim_df(df, cols_to_be_deleted)
-        with open(newpath + "cols_kept_and_deleted_for_k=%s_" % k + time.strftime("%H.%M.%S.txt"), "w") as f:
-            f.write("cols deleted = \n")
-            f.write(str(cols_to_be_deleted))
-            f.write("\ncols kept = \n")
-            f.write(str(df.columns.tolist()))
-        print("Top", len(df.columns), "Columns = ", df.columns.tolist())
-        print("Bottom", len(cols_to_be_deleted), "Columns to be deleted = ", cols_to_be_deleted, "\n")
-
-        if d["LinearRegression"] == "y":
-            classifier = LinearRegression()
-            results(df, "LinearRegression", classifier, newpath, d)
-        if d["ElasticNet"] == "y":
-            classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
-            results(df, "ElasticNet", classifier, newpath, d)
-        if d["KernelRidge"] == "y":
-            classifier = KernelRidge(alpha=0.1)
-            results(df, "KernelRidge", classifier, newpath, d)
-        if d["RandomForestRegressor"] == "y":
-            classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
-            results(df, "RandomForestRegressor", classifier, newpath, d, RFR=True)
+            if d["LinearRegression"] == "y":
+                classifier = LinearRegression()
+                results(df, "LinearRegression", classifier, newpath, d)
+            if d["ElasticNet"] == "y":
+                classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
+                results(df, "ElasticNet", classifier, newpath, d)
+            if d["KernelRidge"] == "y":
+                classifier = KernelRidge(alpha=0.1)
+                results(df, "KernelRidge", classifier, newpath, d)
+            if d["RandomForestRegressor"] == "y":
+                classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
+                results(df, "RandomForestRegressor", classifier, newpath, d, RFR=True)
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters
