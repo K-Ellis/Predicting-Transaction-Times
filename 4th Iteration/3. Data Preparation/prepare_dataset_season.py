@@ -278,6 +278,9 @@ def clean_Incident(d, newpath):
     for i in range(len(substr_list)):
         df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Replace the categorical variables in Queue with
         # the substrings
+    extra_queues = ["<VL Broken 1N Communications>", "<VL Broken Communications>", "<WWCS - EMEA Admin>"]
+    for extra in extra_queues:
+        df["Queue"] = df["Queue"].replace(extra, "Other")
     df = one_hot_encoding(df, "Queue", out_file)
     out_file.write("\n")
 
@@ -378,7 +381,7 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Fill Categorical and numerical nulls. And Scale numerical variables.
     ####################################################################################################################
-    if d["file_name"] == "ABT_Incident_HoldDuration":
+    if "HoldDuration" in d["file_name"]:
         quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName", "HoldDuration"]
     else:
         quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
