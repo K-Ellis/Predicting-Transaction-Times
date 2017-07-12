@@ -295,7 +295,7 @@ if __name__ == "__main__":  # Run program
         results(df, "RandomForestRegressor", classifier, newpath, d, RFR=True)
 
         # cols_to_be_deleted = select_importants(newpath + "importances.csv", thresh=0.001) # keep above threshold
-        k = 30
+        k = 50
         cols_to_be_deleted = select_top_k_importants(newpath + "importances.csv", k-1) # keep top k
         df = trim_df(df, cols_to_be_deleted)
         with open(newpath + "cols_kept_and_deleted_for_k=%s_" % k + time.strftime("%H.%M.%S.txt"), "w") as f:

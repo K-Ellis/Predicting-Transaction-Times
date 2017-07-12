@@ -268,7 +268,7 @@ if __name__ == "__main__":  # Run program
         if d["specify_subfolder"] == "n":
             newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/") + time.strftime("%H.%M.%S/")# Log file location
         else:
-            newpath = r"../0. Results/" + d["user"] + "/model/" + d["subfolder"] + time.strftime("/%Y.%m.%d/") + \
+            newpath = r"../0. Results/" + d["user"] + "/model/" + d["specify_subfolder"] + time.strftime("/%Y.%m.%d/") + \
                       time.strftime("%H.%M.%S/")  # Log file location
 
     else:

@@ -4,8 +4,8 @@ Works well - add to prepare dataset file
 
 import pandas as pd
 COSMIC_num = 2
-dfincident = pd.read_csv("../../../Data/vw_Incident_0.csv", encoding='latin-1', low_memory=False)
-dfholdactivity = pd.read_csv("../../../Data/vw_HoldActivity_0.csv", encoding='latin-1', low_memory=False)
+dfincident = pd.read_csv("../../../Data/vw_Incident.csv", encoding='latin-1', low_memory=False)
+dfholdactivity = pd.read_csv("../../../Data/vw_HoldActivity.csv", encoding='latin-1', low_memory=False)
 
 # Create a new df with the unique Ticket numbers and 0 for hold durations
 dfduration = pd.DataFrame(dfholdactivity["TicketNumber"].unique(), columns=["TicketNumber"])
@@ -25,4 +25,4 @@ dfincident = dfincident.merge(dfduration,how='left', left_on='TicketNumber', rig
 dfincident["HoldDuration"].fillna(0, inplace=True)
 
 # save the new Analytical Base Table
-dfincident.to_csv("../../../Data/vw_Incident_ABT_Incident_HoldDuration.csv", index=False)
+dfincident.to_csv("../../../Data/ABT_Incident_HoldDuration.csv", index=False)
