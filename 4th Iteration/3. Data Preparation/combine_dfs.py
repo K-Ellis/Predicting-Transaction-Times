@@ -61,7 +61,7 @@ if __name__ == "__main__":
                     "Created_On", "Modified_On",
                     "Action_Update"]
     for item in not_included:
-        dfaudithistory.remove(item)
+        dfaudithistorycolumns.remove(item)
     ABT2 = show_existance_of_variable(dfaudithistory, dfaudithistorycolumns)
     ABT2.to_csv("../../../Data/ABT2.csv", index=False)
 
