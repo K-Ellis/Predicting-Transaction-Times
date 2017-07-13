@@ -73,10 +73,49 @@ if __name__ == "__main__":
     ABT3.to_csv("../../../Data/ABT.csv", index=False)
 
     # merge the dfs together
-    finalABT = ABT1.merge(ABT2, how='right', left_on='TicketNumber', right_on='TicketNumber')
-    finalABT = finalABT.merge(ABT3, how='right', left_on='TicketNumber', right_on='TicketNumber')
-    finalABT = finalABT.merge(dfincident, how='right', left_on='TicketNumber', right_on='TicketNumber')
+	finalABT = ABT1.merge(dfincident, how='right', left_on='TicketNumber', right_on='TicketNumber')
+	finalABT = ABT2.merge(finalABT, how='right', left_on='TicketNumber', right_on='TicketNumber')
+	finalABT = ABT3.merge(finalABT, how='right', left_on='TicketNumber', right_on='TicketNumber')
 
-    # finalABT[col].fillna(0, inplace=True)
+	del finalABT["TicketNumber"]
+	
+	finalABT_filled = finalABT.fillna(0)
+	finalABT_filled.to_csv("../../../Data/ABT_filled.csv", index=False)
+	
+	finalABT_dropped = finalABT.dropna()
+	finalABT_dropped.to_csv("../../../Data/ABT_dropped.csv", index=False)
 
-    finalABT.to_csv("../../../Data/ABT.csv", index=False)
+	# hold activity info merged with incident
+	ABT_HOLD = ABT1.merge(dfincident, how='right', left_on='TicketNumber', right_on='TicketNumber')
+	del ABT_HOLD["TicketNumber"]
+	ABT_HOLD_dropped = ABT_HOLD.dropna()
+	ABT_HOLD_dropped.to_csv("../../../Data/ABT_HOLD_dropped.csv", index=False)
+	ABT_HOLD_filled = ABT_HOLD.fillna(0)
+	ABT_HOLD_filled.to_csv("../../../Data/ABT_HOLD_filled.csv", index=False)
+	
+	# audit history info merged with incident
+	ABT_AUD = ABT2.merge(dfincident, how='right', left_on='TicketNumber', right_on='TicketNumber')
+	del ABT_AUD["TicketNumber"]
+	ABT_AUD_dropped = ABT_AUD.dropna()
+	ABT_AUD_dropped.to_csv("../../../Data/ABT_AUD_dropped.csv", index=False)
+	ABT_AUD_filled = ABT_AUD.fillna(0)
+	ABT_AUD_filled.to_csv("../../../Data/ABT_AUD_filled.csv", index=False)
+	
+	
+	# package triage info merged with incident
+	ABT_PAC = ABT3.merge(dfincident, how='right', left_on='TicketNumber', right_on='TicketNumber')
+	del ABT_PAC["TicketNumber"]
+	ABT_PAC_dropped = ABT_PAC.dropna()
+	ABT_PAC_dropped.to_csv("../../../Data/ABT_PAC_dropped.csv", index=False)
+	ABT_PAC_filled = ABT_PAC.fillna(0)
+	ABT_PAC_filled.to_csv("../../../Data/ABT_PAC_filled.csv", index=False)
+	
+		
+	# audit history and hold activity info merged with incident
+	ABT_HOLD_AUD = ABT2.merge(dfincident, how='right', left_on='TicketNumber', right_on='TicketNumber')
+	ABT_HOLD_AUD = ABT1.merge(ABT_HOLD_AUD, how='right', left_on='TicketNumber', right_on='TicketNumber')
+	del ABT_HOLD_AUD["TicketNumber"]
+	ABT_HOLD_AUD_dropped = ABT_HOLD_AUD.dropna()
+	ABT_HOLD_AUD_dropped.to_csv("../../../Data/ABT_HOLD_AUD_dropped.csv", index=False)
+	ABT_HOLD_AUD_filled = ABT_HOLD_AUD.fillna(0)
+	ABT_HOLD_AUD_filled.to_csv("../../../Data/ABT_HOLD_AUD_filled.csv", index=False)
