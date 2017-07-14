@@ -14,12 +14,10 @@ Results will be saved in Iteration > 0. Results > User > prepare_dataset > Date
 
 # Import libraries
 import pandas as pd
-import numpy as np
 import time
 import datetime
 import matplotlib.pyplot as plt
 import os  # Used to create folders
-from sklearn import preprocessing
 from shutil import copyfile  # Used to copy parameters file to directory
 
 parameters = "../../../Data/parameters.txt"  # Parameters file
@@ -55,8 +53,6 @@ if __name__ == "__main__":  # Run program
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
-    print("clean_Incident started")
-
     df = pd.read_csv(d["file_location"] + "vw_Incident" + d["file_name"] + ".csv", encoding='latin-1',
                      low_memory=False)
 
@@ -80,14 +76,19 @@ if __name__ == "__main__":  # Run program
 
     for column in list:
         plt.figure()
-        plt.plot(df[column], df["TimeTaken"], 'ro', alpha=0.1, markersize=3)
+        data_to_plot = []
+        for i in df[column].unique():
+            df_temp = df[df[column] == i]
+            data_to_plot.append(df_temp["TimeTaken"])
+        plt.boxplot(data_to_plot, showfliers=False)
+        plt.xticks([])
         plt.xlabel(column + " - Day Number")
         plt.ylabel("TimeTaken")
         plt.title(column)
         plt.tight_layout()  # Force everything to fit on figure
         plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + column + ".png")
         plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + column + ".pdf")
+        print(column, "plot created")
 
     df.to_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", index=False)  # export file
-    print("clean_Incident complete")
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save params
