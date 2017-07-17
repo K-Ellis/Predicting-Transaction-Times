@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 import time
 import os  # Used to create folders
 import math
-from sklearn.model_selection import train_test_split, KFold, cross_val_score
+from sklearn.model_selection import KFold, cross_val_predict #, cross_val_score, train_test_split
 from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error
@@ -86,42 +86,6 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.savefig(newpath + column + "_log_100000.pdf")
 
 
-def split_data(df, newpath):  # Split data into training and test data x, y.
-    out_file_name = newpath + time.strftime("%H.%M") + "_split_data.txt"  # Log file name
-    out_file = open(out_file_name, "a")  # Open log file
-    out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-
-    distribution = 0
-    i = 0
-    while distribution == 0:  # Loop until the data is split well
-        trainData, testData = train_test_split(df, test_size=0.25)  # Split data 75:25 randomly
-        trainData_y = pd.DataFrame()
-        trainData_y["TimeTaken"] = trainData["TimeTaken"]
-        trainData_x = trainData.loc[:, trainData.columns != 'TimeTaken']
-        testData_y = pd.DataFrame()
-        testData_y["TimeTaken"] = testData["TimeTaken"]
-        testData_x = testData.loc[:, testData.columns != 'TimeTaken']
-        mean_train = sum(trainData_y["TimeTaken"].tolist()) / len(trainData_y)
-        mean_test = sum(testData_y["TimeTaken"].tolist()) / len(testData_y)
-        std_train = np.std(trainData_y["TimeTaken"].tolist())
-        std_test = np.std(testData_y["TimeTaken"].tolist())
-        # Only accept a split with test data mean and std that is within 5% of train data mean and stc (stratification?)
-        if (mean_train - mean_test) ** 2 < (mean_train * 0.05) ** 2:
-            if (std_train - std_test) ** 2 < (std_train * 0.05) ** 2:
-                distribution = 1
-        i = i + 1
-
-    out_file.write("Number of iterations taken to get good data split: " + str(i) + "\n\n")
-    out_file.write("Mean value of Train Y: " + str(mean_train) + "\n")
-    out_file.write("Mean value of Test Y: " + str(mean_test) + "\n\n")
-    out_file.write("Standard deviation of train Y: " + str(std_train) + "\n")
-    out_file.write("Standard deviation of test Y: " + str(std_test) + "\n")
-    out_file.write("Standard deviation of test Y: " + str(std_test) + "\n\n")
-    out_file.close()
-
-    return trainData_x, testData_x, trainData_y, testData_y
-
-
 def plot(x, y, alg, data, newpath):
     plt.figure()
     plt.plot(x, y, 'ro', alpha=0.1, markersize=3)
@@ -136,10 +100,16 @@ def plot(x, y, alg, data, newpath):
     plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + alg + "_" + data + ".pdf")
 
 
-def results(df, alg, classifier, newpath, d, RFR=False):
+def results(df, alg, regressor, newpath, d, RFR=False):
     out_file_name = newpath + time.strftime("%H.%M.%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
+
+    X = df.drop("TimeTaken", axis=1)
+    y = df["TimeTaken"]
+
+    numFolds = int(d["crossvalidation"])
+    kf = KFold(n_splits=numFolds, shuffle=True, random_state=int(d["seed"]))
 
     train_rmse = []
     test_rmse = []
@@ -148,33 +118,43 @@ def results(df, alg, classifier, newpath, d, RFR=False):
     number_test_1 = []  # Tracking predictions within 1 hour
     number_test_24 = []  # Tracking predictions within 24 hours
 
-    for i in range(int(d["crossvalidation"])):  # Repeat tests this number of times and save min, max and average
-        trainData_x, testData_x, trainData_y, testData_y = split_data(df, newpath)  # Split data
-        classified = classifier.fit(trainData_x, trainData_y.values.ravel())
-        y_test_pred = classified.predict(testData_x)
-        y_train_pred = classified.predict(trainData_x)
+    for train_indices, test_indices in kf.split(X, y):
+        # Get the dataset; this is the way to access values in a pandas DataFrame
+        trainData_x = X.iloc[train_indices]
+        trainData_y = y.iloc[train_indices]
+        testData_x = X.iloc[test_indices]
+        testData_y = y.iloc[test_indices]
+
+        # Train the model, and evaluate it
+        regr = regressor
+        regr.fit(trainData_x, trainData_y.values.ravel())
+
+        # Get predictions
+        y_train_pred = regr.predict(trainData_x)
+        y_test_pred = regr.predict(testData_x)
 
         number_close_1 = 0  # Use to track number of close estimations within 1 hour
         number_close_24 = 0  # Use to track number of close estimations within 24 hours
-        mean_time = sum(trainData_y["TimeTaken"].tolist()) / len(trainData_y["TimeTaken"].tolist())  # Calculate mean of predictions
-        std_time = np.std(trainData_y["TimeTaken"].tolist())  # Calculate standard deviation of predictions
+        mean_time = np.mean(trainData_y)#sum(trainData_y["TimeTaken"].tolist()) / len(trainData_y["TimeTaken"].tolist())  #
+        # Calculate mean of predictions
+        std_time = np.std(trainData_y)  # Calculate standard deviation of predictions
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
             if y_train_pred[i] < 0:  # Convert all negative predictions to 0
                 y_train_pred[i] = 0
-            if y_train_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
-                y_train_pred[i] = (mean_time + 3*std_time)
+            if y_train_pred[i] > (mean_time + 4*std_time):  # Convert all predictions > 3 std to 3std
+                y_train_pred[i] = (mean_time + 4*std_time)
             if math.isnan(y_train_pred[i]):  # If NaN set to 0
                 y_train_pred[i] = 0
         for i in range(len(y_test_pred)): # Convert high or low predictions to 0 or 3 std
             if y_test_pred[i] < 0:  # Convert all negative predictions to 0
                 y_test_pred[i] = 0
-            if y_test_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
-                y_test_pred[i] = (mean_time + 3*std_time)
+            if y_test_pred[i] > (mean_time + 4*std_time):  # Convert all predictions > 3 std to 3std
+                y_test_pred[i] = (mean_time + 4*std_time)
             if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
-            if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600:  # Within 1 hour
                 number_close_1 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600*24:  # Within 24 hours
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*24:  # Within 24 hours
                 number_close_24 += 1
         number_test_1.append(number_close_1)
         number_test_24.append(number_close_24)
@@ -184,65 +164,73 @@ def results(df, alg, classifier, newpath, d, RFR=False):
         train_r_sq.append(r2_score(trainData_y, y_train_pred))
         test_r_sq.append(r2_score(testData_y, y_test_pred))
 
-    out_file.write(alg + " Cross Validation: " + d["crossvalidation"] + "\n")
-    out_file.write(alg + " Train RMSE -> Max: " + str(round(max(train_rmse), 2)) + ", Min: " + str(round(min(
-        train_rmse), 2)) + ", Avg: " + str(round(sum(train_rmse) / len(train_rmse), 2)) + "\n")  # RMSE
-    out_file.write(alg + " Test RMSE -> Max: " + str(round(max(test_rmse), 2)) + ", Min: " + str(round(min(
-        test_rmse), 2)) + ", Avg: " + str(round(sum(test_rmse) / len(test_rmse), 2)) + "\n")  # Save RMS
-    out_file.write(alg + " Train R^2 score -> Max: " + str(round(max(train_r_sq), 2)) + ", Min: " +
-                   str(round(min(train_r_sq),2)) + ", Avg: " + str(round(sum(train_r_sq) / len(train_r_sq), 2)) + "\n")
-    out_file.write(alg + " Test R^2 score -> Max: " + str(round(max(test_r_sq), 2)) + ", Min: " +
-                   str(round(min(test_r_sq), 2)) + ", Avg: " + str(round(sum(test_r_sq) / len(test_r_sq), 2)) + "\n")
-    out_file.write(alg + " number test predictions within 1 hour -> Max: " + str(max(number_test_1)) + "/" +
+    train_rmse_ave = np.mean(train_rmse)
+    test_rmse_ave = np.mean(test_rmse)
+    train_r2_ave = np.mean(train_r_sq)
+    test_r2_ave = np.mean(test_r_sq)
+
+    train_rmse_std = np.std(train_rmse)
+    test_rmse_std = np.std(test_rmse)
+    train_r2_std = np.std(train_r_sq)
+    test_r2_std = np.std(test_r_sq)
+
+    out_file.write(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)\n")
+
+    out_file.write("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(train_rmse_ave, train_rmse_std))
+    out_file.write("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(test_rmse_ave, test_rmse_std))
+    out_file.write("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})\n".format(train_r2_ave, train_r2_std))
+    out_file.write("\tTest Mean R2: {0:.5f} (+/-{1:.5f})\n".format(test_r2_ave, test_r2_std))
+
+    out_file.write("\n\t" + alg + " number test predictions within 1 hour -> Max: " + str(max(number_test_1)) + "/" +
                    str(len(y_test_pred)) + ", Min: " + str(min(number_test_1)) + "/" +
                    str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_1) / len(number_test_1)) + "/" +
                    str(len(y_test_pred)) + "\n")
-    out_file.write(alg + " % test predictions within 1 hour: -> Max: " +
+    out_file.write("\t" + alg + " % test predictions within 1 hour: -> Max: " +
                    str(round(((max(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
                    str(round(((min(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
                    str(round(((sum(number_test_1) / len(number_test_1)) / len(y_test_pred) * 100), 2)) + "%" + "\n")
-    out_file.write(alg + " number test predictions within 24 hours -> Max: " + str(max(number_test_24)) + "/" +
+    out_file.write("\t" + alg + " number test predictions within 24 hours -> Max: " + str(max(number_test_24)) + "/" +
                    str(len(y_test_pred)) + ", Min: " + str(min(number_test_24)) + "/" +
                    str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_24) / len(number_test_24)) + "/" +
                    str(len(y_test_pred)) + "\n")
-    out_file.write(alg + " % test predictions within 24 hours -> Max: " +
+    out_file.write("\t" + alg + " % test predictions within 24 hours -> Max: " +
                    str(round(((max(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
                    str(round(((min(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
                    str(round(((sum(number_test_24) / len(number_test_24)) / len(y_test_pred) * 100), 2)) + "%" + "\n")
     out_file.write("\n")
 
-    print(alg + " Cross Validation: " + d["crossvalidation"])
-    print(alg + " Train RMSE -> Max: " + str(round(max(train_rmse), 2)) + ", Min: " +
-          str(round(min(train_rmse), 2)) + ", Avg: " + str(round(sum(train_rmse) / len(train_rmse), 2)))  # Print RMSE
-    print(alg + " Test RMSE -> Max: " + str(round(max(test_rmse), 2)) + ", Min: " +
-          str(round(min(test_rmse), 2)) + ", Avg: " + str(round(sum(test_rmse) / len(test_rmse), 2)))  # Print RMSE
-    print(alg + " Train R^2 score -> Max: " + str(round(max(train_r_sq), 2)) + ", Min: " +
-          str(round(min(train_r_sq),2)) + ", Avg: " + str(round(sum(train_r_sq) / len(train_r_sq), 2)))  # Print R Sq
-    print(alg + " Test R^2 score -> Max: " + str(round(max(test_r_sq), 2)) + ", Min: " +
-          str(round(min(test_r_sq), 2)) + ", Avg: " + str(round(sum(test_r_sq) / len(test_r_sq), 2)))  # Print R Squared
-    print(alg + " number test predictions within 1 hour -> Max: " + str(max(number_test_1)) + "/" +
+    print(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
+
+    print("\tTrain Mean RMSE: {0:.3f} (+/-{1:.3f})".format(train_rmse_ave, train_rmse_std))
+    print("\tTest Mean RMSE: {0:.3f} (+/-{1:.3f})".format(test_rmse_ave, test_rmse_std))
+    print("\tTrain Mean R2: {0:.3f} (+/-{1:.3f})".format(train_r2_ave, train_r2_std))
+    print("\tTest Mean R2: {0:.3f} (+/-{1:.3f})".format(test_r2_ave, test_r2_std))
+
+    print("\n\t" +alg + " number test predictions within 1 hour -> Max: " + str(max(number_test_1)) + "/" +
                    str(len(y_test_pred)) + ", Min: " + str(min(number_test_1)) + "/" +
                    str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_1) / len(number_test_1)) + "/" +
                    str(len(y_test_pred)))
-    print(alg + " % test predictions within 1 hour: -> Max: " +
+    print("\t" + alg + " % test predictions within 1 hour: -> Max: " +
                    str(round(((max(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
                    str(round(((min(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
                    str(round(((sum(number_test_1) / len(number_test_1)) / len(y_test_pred) * 100), 2)) + "%")
-    print(alg + " number test predictions within 24 hours -> Max: " + str(max(number_test_24)) + "/" +
+    print("\t" + alg + " number test predictions within 24 hours -> Max: " + str(max(number_test_24)) + "/" +
                    str(len(y_test_pred)) + ", Min: " + str(min(number_test_24)) + "/" +
                    str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_24) / len(number_test_24)) + "/" +
                    str(len(y_test_pred)))
-    print(alg + " % test predictions within 24 hours -> Max: " +
+    print("\t" + alg + " % test predictions within 24 hours -> Max: " +
                    str(round(((max(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
                    str(round(((min(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
-                   str(round(((sum(number_test_24) / len(number_test_24)) / len(y_test_pred) * 100), 2)) + "%")
-    print("Note: Only last cross validation plots saved! \n")
+                   str(round(((sum(number_test_24) / len(number_test_24)) / len(y_test_pred) * 100), 2)) + "%\n")
 
+    # plot the results for the whole cross validation
+    y_train_pred = cross_val_predict(regr, trainData_x, trainData_y, cv=int(d["crossvalidation"]))
+    y_test_pred = cross_val_predict(regr, testData_x, testData_y, cv=int(d["crossvalidation"]))
     plot(trainData_y, y_train_pred, alg, "Train", newpath)
     plot(testData_y, y_test_pred, alg, "Test", newpath)
 
     if RFR == True:
-        importances = classified.feature_importances_
+        importances = regr.feature_importances_
         print("Top 10 Feature Importances:")
         dfimportances = pd.DataFrame(data=trainData_x.columns, columns=["Columns"])
         dfimportances["importances"] = importances
@@ -309,9 +297,11 @@ if __name__ == "__main__":  # Run program
         results(df, "RandomForestRegressor", classifier, newpath, d, RFR=True)
         if d["rerun_with_top_importances"] == "y":
             # cols_to_be_deleted = select_importants(newpath + "importances.csv", thresh=0.001) # keep above threshold
-            k = 15
+
+            k = int(d["top_k_features"])
+
             cols_to_be_deleted = select_top_k_importants(newpath + "importances.csv", k) # keep top k
-            # df = trim_df(df, cols_to_be_deleted)
+            df = trim_df(df, cols_to_be_deleted)
             with open(newpath + "cols_kept_and_deleted_for_k=%s_" % k + time.strftime("%H.%M.%S.txt"), "w") as f:
                 f.write("cols deleted = \n")
                 f.write(str(cols_to_be_deleted))

@@ -7,7 +7,7 @@ def RFE_k_features(in_regressor, d, X_train, y_train, X_test, y_test, outfile):
     else:
         k = int(d["top_k_features"])
     if d["step"] == "y":
-        step = 1 # 1 is the default value
+        step = 1  # 1 is the default value
     else:
         step = int(d["step"])
 

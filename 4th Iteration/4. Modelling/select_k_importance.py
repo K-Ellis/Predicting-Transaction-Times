@@ -15,7 +15,7 @@ def select_importants(csvfile, thesh):
 def select_top_k_importants(csvfile, k):
     dfimportances = pd.read_csv(csvfile, encoding='latin-1', low_memory=False)
     dfimportances.sort_values("importances", ascending=False, inplace=True)
-    top = dfimportances["Columns"].iloc[:k].values.tolist()
+    top = dfimportances["Columns"].iloc[:k-1].values.tolist()
     bottom = []
     for col in dfimportances["Columns"].values.tolist():
         if col not in top:
