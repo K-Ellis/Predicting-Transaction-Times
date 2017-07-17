@@ -1,0 +1,369 @@
+Recursive Feature Selection: 
+	 k = None
+	 step = 1
+
+train score (all features): 0.991741710103
+test score (all features): -4.11291971115
+
+Used: True, Ranking: 1, Column name: Reason_3PP - Identify Payment
+Used: True, Ranking: 1, Column name: Reason_3PP - Other
+Used: True, Ranking: 1, Column name: Reason_3PP - Payment Status
+Used: True, Ranking: 1, Column name: Reason_3PP - Pending Payment
+Used: True, Ranking: 1, Column name: Reason_3rd Party Hold
+Used: True, Ranking: 1, Column name: Reason_A - Missing information from customer - Confirmation
+Used: True, Ranking: 1, Column name: Reason_A - Missing information from customer - Missing information
+Used: True, Ranking: 1, Column name: Reason_APOC - Waiting for document review
+Used: True, Ranking: 1, Column name: Reason_Affiliates Section Error
+Used: True, Ranking: 1, Column name: Reason_Agreement  Number Error
+Used: True, Ranking: 1, Column name: Reason_Agreement - Bill To/Ship To Participant
+Used: True, Ranking: 1, Column name: Reason_Agreement - Compliance
+Used: True, Ranking: 1, Column name: Reason_Agreement - Paperwork Validation
+Used: True, Ranking: 1, Column name: Reason_Agreement /Enrollment Number Error
+Used: True, Ranking: 1, Column name: Reason_Agreement/Enrollment Number Error
+Used: True, Ranking: 1, Column name: Reason_Agreement/Enrollment Number Issue
+Used: True, Ranking: 1, Column name: Reason_Agreement/Enrollment Number/Date Issue
+Used: True, Ranking: 1, Column name: Reason_Agreement/Enrollment Number/Name  Issue
+Used: True, Ranking: 1, Column name: Reason_Amendment - Amendment Description
+Used: True, Ranking: 1, Column name: Reason_Amendment - Other
+Used: True, Ranking: 1, Column name: Reason_Amendment Completion Error
+Used: True, Ranking: 1, Column name: Reason_Approval - Business - Delegation
+Used: True, Ranking: 1, Column name: Reason_Approval - ROC - Exception
+Used: True, Ranking: 1, Column name: Reason_Audience Manager  - Approval required for credit & rebill request
+Used: True, Ranking: 1, Column name: Reason_Audience Manager  - Policy clarification/Complex Query
+Used: True, Ranking: 1, Column name: Reason_Audience Manager  - Product related
+Used: True, Ranking: 1, Column name: Reason_Audience Manager  - Query held open on PM Request
+Used: True, Ranking: 1, Column name: Reason_Audience Manager  - Standard Approval
+Used: True, Ranking: 1, Column name: Reason_Audience Manager  - System & Tools related
+Used: True, Ranking: 1, Column name: Reason_Azure OLS - Approval required for credit & rebill request
+Used: True, Ranking: 1, Column name: Reason_Azure OLS - Approval required for final fee
+Used: True, Ranking: 1, Column name: Reason_Billing Option Error
+Used: True, Ranking: 1, Column name: Reason_CP Requested - N/A
+Used: True, Ranking: 1, Column name: Reason_Cancel Order - Duplication
+Used: True, Ranking: 1, Column name: Reason_Cancel Order - N/A
+Used: True, Ranking: 1, Column name: Reason_Clarification
+Used: True, Ranking: 1, Column name: Reason_Clarification Needed
+Used: True, Ranking: 1, Column name: Reason_Clarification on Price
+Used: True, Ranking: 1, Column name: Reason_Collections - Waiting for Amendment Approval
+Used: True, Ranking: 1, Column name: Reason_Collections - Waiting for Credit Approval
+Used: True, Ranking: 1, Column name: Reason_Compliance - Clarification Needed
+Used: True, Ranking: 1, Column name: Reason_Compliance Error
+Used: True, Ranking: 1, Column name: Reason_Compliance Issue
+Used: True, Ranking: 1, Column name: Reason_Contact Details Error
+Used: True, Ranking: 1, Column name: Reason_Credit & Collections Issues - Channel Partner on Credit Hold
+Used: True, Ranking: 1, Column name: Reason_Credit Check Error
+Used: True, Ranking: 1, Column name: Reason_Credit Services
+Used: True, Ranking: 1, Column name: Reason_Credit Services - Clarification Needed
+Used: True, Ranking: 1, Column name: Reason_Credit Services - Credit Approval
+Used: True, Ranking: 1, Column name: Reason_Credit Services - Invoice Issue
+Used: True, Ranking: 1, Column name: Reason_Credit Services - Partner on hold
+Used: True, Ranking: 1, Column name: Reason_Credit Services - SAP
+Used: True, Ranking: 1, Column name: Reason_Customer/Partner Credit Hold
+Used: True, Ranking: 1, Column name: Reason_DD-Waiting on Customer Signature
+Used: True, Ranking: 1, Column name: Reason_Document Code Error
+Used: True, Ranking: 1, Column name: Reason_Document Description Error
+Used: True, Ranking: 1, Column name: Reason_Duplicate Case - Duplicate case
+Used: True, Ranking: 1, Column name: Reason_Duplicate Order
+Used: True, Ranking: 1, Column name: Reason_E-Agreement Tool - Other
+Used: True, Ranking: 1, Column name: Reason_EOC - Waiting for document review
+Used: True, Ranking: 1, Column name: Reason_Electronic Order - Simple
+Used: True, Ranking: 1, Column name: Reason_End Customer Contact Details Error
+Used: True, Ranking: 1, Column name: Reason_End Customer Signature Block Issue
+Used: True, Ranking: 1, Column name: Reason_End Customer/Partner Signature Block Issue
+Used: True, Ranking: 1, Column name: Reason_End of Term Date Error
+Used: True, Ranking: 1, Column name: Reason_Enrollment # Error
+Used: True, Ranking: 1, Column name: Reason_Field - Clarification Needed
+Used: False, Ranking: 26, Column name: Reason_Field - DD-Awaiting information from Field
+Used: False, Ranking: 28, Column name: Reason_Field - DD-Clarification Needed
+Used: False, Ranking: 30, Column name: Reason_Field - DD-Waiting for Paperwork
+Used: True, Ranking: 1, Column name: Reason_Field - Waiting for Clarification
+Used: False, Ranking: 33, Column name: Reason_Field Invalid-AMENDMENT (STD/CTM)-Required and Missing - Field
+Used: False, Ranking: 35, Column name: Reason_Field Invalid-AMENDMENT(STD/CTM)-Completion Error - Field
+Used: False, Ranking: 3, Column name: Reason_Field Invalid-CPS-Pricing, Quantity or Amount Error - Field
+Used: False, Ranking: 5, Column name: Reason_Field Invalid-CPS-SKU Description Error - Field
+Used: False, Ranking: 7, Column name: Reason_Field Invalid-Standard Policy Error w/o Empowerment - Field
+Used: False, Ranking: 9, Column name: Reason_Field-AMENDMENT(STD/CTM)-Completion Error - Field
+Used: False, Ranking: 11, Column name: Reason_Field-Amendment-Clarification Needed - Amendment Clarification Needed
+Used: False, Ranking: 13, Column name: Reason_Field-CPS-Clarification Needed - CPS Clarification Needed
+Used: False, Ranking: 15, Column name: Reason_Field-CPS-Header Error - Field
+Used: False, Ranking: 17, Column name: Reason_Field-CPS-Notes Error - Field
+Used: False, Ranking: 19, Column name: Reason_Field-CPS-Other Error - Field
+Used: False, Ranking: 21, Column name: Reason_Field-MOPETApprovals-Approval Error - Field
+Used: False, Ranking: 23, Column name: Reason_Field-MOPETApprovals-Hard/Soft Copy Error - Field
+Used: True, Ranking: 1, Column name: Reason_Field-MOPETApprovals-Not Posted - Field
+Used: False, Ranking: 61, Column name: Reason_Field-Other Custom Document Error - Field
+Used: False, Ranking: 63, Column name: Reason_Field-Pricing Transparency Form - Missing/Incomplete Document
+Used: False, Ranking: 65, Column name: Reason_Form not submitted pre-submission
+Used: False, Ranking: 67, Column name: Reason_Forms
+Used: False, Ranking: 69, Column name: Reason_Global Program Manager - Policy clarification/Complex Query
+Used: False, Ranking: 71, Column name: Reason_Incomplete/ Inaccurate Information
+Used: False, Ranking: 73, Column name: Reason_Incorrect Document Version
+Used: False, Ranking: 37, Column name: Reason_Internal Hold - MOET & Msops Approvers
+Used: False, Ranking: 39, Column name: Reason_Internal Hold - Ops PM
+Used: False, Ranking: 58, Column name: Reason_Internal Hold - SME
+Used: False, Ranking: 41, Column name: Reason_Internal Hold - Team Lead
+Used: False, Ranking: 43, Column name: Reason_Internal Hold - Translations
+Used: False, Ranking: 45, Column name: Reason_Internal Hold - VL Processing Team
+Used: False, Ranking: 46, Column name: Reason_MOPET - Other
+Used: False, Ranking: 49, Column name: Reason_MSL/EMSL - Incorrect Billing Multiplier
+Used: False, Ranking: 51, Column name: Reason_MSL/EMSL - Incorrect Coverage
+Used: False, Ranking: 53, Column name: Reason_MSL/EMSL - Other
+Used: False, Ranking: 55, Column name: Reason_MSL/EMSL - Split Invoices
+Used: True, Ranking: 1, Column name: Reason_Magnum
+Used: False, Ranking: 75, Column name: Reason_Missing Documents
+Used: False, Ranking: 95, Column name: Reason_Missing Final TUP/Update Statement
+Used: False, Ranking: 97, Column name: Reason_Missing or Incorrect Documents
+Used: False, Ranking: 99, Column name: Reason_Missing signatures
+Used: False, Ranking: 98, Column name: Reason_Missing/Incomplete Document
+Used: True, Ranking: 1, Column name: Reason_Need Approval - Other
+Used: False, Ranking: 79, Column name: Reason_Need Approval - PO Number
+Used: False, Ranking: 81, Column name: Reason_Need Approval - Signature Form
+Used: False, Ranking: 83, Column name: Reason_Need Document - Agreement
+Used: False, Ranking: 85, Column name: Reason_Need Document - Credit Request Form
+Used: False, Ranking: 87, Column name: Reason_Need Document - Customer Letter
+Used: True, Ranking: 1, Column name: Reason_Need Document - Missing Physical Invoice
+Used: True, Ranking: 1, Column name: Reason_Need Document - Other
+Used: False, Ranking: 141, Column name: Reason_Need Document - PO
+Used: False, Ranking: 109, Column name: Reason_Need Document - Signature Form
+Used: False, Ranking: 107, Column name: Reason_Need Info/Clarification/Correction
+Used: False, Ranking: 111, Column name: Reason_Need Info/Clarification/Correction - 2nd Strike
+Used: False, Ranking: 113, Column name: Reason_Need Info/Clarification/Correction - 3rd Strike
+Used: False, Ranking: 115, Column name: Reason_Need Info/Clarification/Correction - Adjustment reason
+Used: False, Ranking: 117, Column name: Reason_Need Info/Clarification/Correction - Agreement
+Used: False, Ranking: 119, Column name: Reason_Need Info/Clarification/Correction - Closed - CH Unresolved
+Used: False, Ranking: 121, Column name: Reason_Need Info/Clarification/Correction - Customer request unclear
+Used: False, Ranking: 123, Column name: Reason_Need Info/Clarification/Correction - Escalation/Other
+Used: False, Ranking: 125, Column name: Reason_Need Info/Clarification/Correction - Forms are altered
+Used: False, Ranking: 127, Column name: Reason_Need Info/Clarification/Correction - Forms are not visible
+Used: False, Ranking: 129, Column name: Reason_Need Info/Clarification/Correction - Incomplete Documents
+Used: False, Ranking: 131, Column name: Reason_Need Info/Clarification/Correction - Invoice number
+Used: False, Ranking: 143, Column name: Reason_Need Info/Clarification/Correction - Missing Enrollment Number
+Used: False, Ranking: 145, Column name: Reason_Need Info/Clarification/Correction - Needs Definition
+Used: False, Ranking: 147, Column name: Reason_Need Info/Clarification/Correction - Other
+Used: False, Ranking: 148, Column name: Reason_Need Info/Clarification/Correction - PCN
+Used: False, Ranking: 133, Column name: Reason_Need Info/Clarification/Correction - PO Number
+Used: False, Ranking: 135, Column name: Reason_Need Info/Clarification/Correction - Resolution Confirmation
+Used: False, Ranking: 137, Column name: Reason_Need Info/Clarification/Correction - Screenshots
+Used: False, Ranking: 139, Column name: Reason_Need Info/Clarification/Correction - Signature Form
+Used: False, Ranking: 142, Column name: Reason_Need Info/Clarification/Correction - System Error
+Used: False, Ranking: 101, Column name: Reason_OAM - Approval request  (Mainly GRT/RMA)
+Used: False, Ranking: 149, Column name: Reason_OAM - Information Request
+Used: False, Ranking: 151, Column name: Reason_OAM - Order related
+Used: False, Ranking: 153, Column name: Reason_OAM - Routed for Credit Approval
+Used: False, Ranking: 103, Column name: Reason_OLS Hub - Unknown Query Response
+Used: True, Ranking: 1, Column name: Reason_Offering Error
+Used: False, Ranking: 106, Column name: Reason_OpsPM - Policy/Program clarification
+Used: True, Ranking: 1, Column name: Reason_OpsPM - Process clarification
+Used: True, Ranking: 1, Column name: Reason_Order - Billing Date
+Used: True, Ranking: 1, Column name: Reason_Order - Billing Option
+Used: False, Ranking: 89, Column name: Reason_Order - Billing Type
+Used: True, Ranking: 1, Column name: Reason_Order - Compliance not flipped
+Used: True, Ranking: 1, Column name: Reason_Order - Coverage - Incorrect Usage Date
+Used: True, Ranking: 1, Column name: Reason_Order - Coverage - Tier 2
+Used: False, Ranking: 77, Column name: Reason_Order - Coverage Period
+Used: False, Ranking: 93, Column name: Reason_Order - Credit Hold
+Used: False, Ranking: 154, Column name: Reason_Order - Duplicate
+Used: False, Ranking: 57, Column name: Reason_Order - Incorrect Agreement
+Used: False, Ranking: 25, Column name: Reason_Order - License Reduction not processed
+Used: False, Ranking: 91, Column name: Reason_Order - License Reduction processed incorrectly
+Used: True, Ranking: 1, Column name: Reason_Order - Other
+Used: True, Ranking: 1, Column name: Reason_Order - PO Number
+Used: True, Ranking: 1, Column name: Reason_Order - PO Type
+Used: True, Ranking: 1, Column name: Reason_Order - Paperwork Validation
+Used: True, Ranking: 1, Column name: Reason_Order - Pre-requisites Missing
+Used: False, Ranking: 155, Column name: Reason_Order - Price
+Used: False, Ranking: 157, Column name: Reason_Order - Price - Anniversary order
+Used: False, Ranking: 159, Column name: Reason_Order - Price - CPS
+Used: False, Ranking: 161, Column name: Reason_Order - Price - Price List
+Used: False, Ranking: 163, Column name: Reason_Order - Price - Proration
+Used: False, Ranking: 165, Column name: Reason_Order - Price/Currency
+Used: False, Ranking: 167, Column name: Reason_Order - Quanity
+Used: False, Ranking: 169, Column name: Reason_Order - SKU
+Used: False, Ranking: 171, Column name: Reason_Order - Usage Country
+Used: False, Ranking: 173, Column name: Reason_Order - Usage Date
+Used: False, Ranking: 175, Column name: Reason_Order - Usage Date/Coverage
+Used: False, Ranking: 177, Column name: Reason_Order - Wrong Program offering
+Used: False, Ranking: 179, Column name: Reason_Order ? Bridge SKU Coverage processed incorrectly
+Used: False, Ranking: 178, Column name: Reason_Order ? License Reservation(s) not reconciled
+Used: False, Ranking: 176, Column name: Reason_Other
+Used: False, Ranking: 174, Column name: Reason_Other - Agreement
+Used: True, Ranking: 1, Column name: Reason_Other - Other
+Used: False, Ranking: 152, Column name: Reason_Other - Signature Form
+Used: False, Ranking: 150, Column name: Reason_Other CPS Completion Error
+Used: True, Ranking: 1, Column name: Reason_Other Completion error
+Used: False, Ranking: 146, Column name: Reason_Other Enrollment Completion Error
+Used: True, Ranking: 1, Column name: Reason_Other Manual PO completion Error
+Used: False, Ranking: 140, Column name: Reason_Other PLT Completion Error
+Used: False, Ranking: 138, Column name: Reason_Other PSF Completion Error
+Used: False, Ranking: 136, Column name: Reason_Other Signature Form Error
+Used: False, Ranking: 134, Column name: Reason_PO Number Error
+Used: False, Ranking: 132, Column name: Reason_PO Type Error
+Used: False, Ranking: 130, Column name: Reason_Package Triage form - Unable to Close Form
+Used: False, Ranking: 128, Column name: Reason_Part Number/Description Error
+Used: False, Ranking: 126, Column name: Reason_Partner
+Used: False, Ranking: 124, Column name: Reason_Partner Business Desk - Approval required for credit & rebill request
+Used: False, Ranking: 122, Column name: Reason_Partner Business Desk - Override Approval Review/Confirmation
+Used: False, Ranking: 120, Column name: Reason_Partner Business Desk - Program/Policy Clarification
+Used: False, Ranking: 118, Column name: Reason_Partner Risk - Account Query - General
+Used: False, Ranking: 116, Column name: Reason_Previous Enrollment Detail Error
+Used: False, Ranking: 114, Column name: Reason_Price Error
+Used: False, Ranking: 112, Column name: Reason_Price Level or Customer Commitment Error
+Used: False, Ranking: 110, Column name: Reason_Pricing
+Used: False, Ranking: 108, Column name: Reason_Pricing Team - Clarification Needed
+Used: True, Ranking: 1, Column name: Reason_Pricing Team - Price verification
+Used: False, Ranking: 96, Column name: Reason_Pricing Team - Replacement sku verification
+Used: False, Ranking: 94, Column name: Reason_Product/Price Level Determination Error
+Used: False, Ranking: 92, Column name: Reason_Proposal ID error
+Used: False, Ranking: 90, Column name: Reason_Purchase Order Type Error
+Used: False, Ranking: 88, Column name: Reason_Quantity Error
+Used: False, Ranking: 86, Column name: Reason_Quantity Error v CPS
+Used: False, Ranking: 84, Column name: Reason_RO Tool - Billing option
+Used: False, Ranking: 82, Column name: Reason_Reason for Manual Order Error
+Used: False, Ranking: 80, Column name: Reason_Regional Program Manager - Adjustment Approval
+Used: False, Ranking: 78, Column name: Reason_Regional Program Manager - Exception Approval
+Used: False, Ranking: 76, Column name: Reason_Regional Program Manager - Exception Request
+Used: False, Ranking: 74, Column name: Reason_Regional Program Manager - Manual Order Approval
+Used: False, Ranking: 72, Column name: Reason_Regional Program Manager - Order related
+Used: False, Ranking: 70, Column name: Reason_Rework - Other
+Used: False, Ranking: 68, Column name: Reason_Rework - Rebill / Rework Incorrect
+Used: False, Ranking: 66, Column name: Reason_SAP - Account Holds
+Used: False, Ranking: 64, Column name: Reason_SAP - Other
+Used: False, Ranking: 62, Column name: Reason_SKU Description Error
+Used: False, Ranking: 60, Column name: Reason_SUB - Approval
+Used: False, Ranking: 56, Column name: Reason_SUB - Clarification Needed
+Used: False, Ranking: 54, Column name: Reason_SUB - Other
+Used: False, Ranking: 52, Column name: Reason_Signature
+Used: False, Ranking: 50, Column name: Reason_Signature Block Error
+Used: False, Ranking: 48, Column name: Reason_Standard Policy Error w/o Empowerment
+Used: False, Ranking: 44, Column name: Reason_Subscription Term Error
+Used: False, Ranking: 42, Column name: Reason_Subsidiary Invalid - Standard Policy Error w/o Empowerment
+Used: False, Ranking: 40, Column name: Reason_System Issue
+Used: False, Ranking: 38, Column name: Reason_Systems - BART issue
+Used: False, Ranking: 36, Column name: Reason_Systems - Chip Help - Other
+Used: False, Ranking: 34, Column name: Reason_Systems - Docusign - System issues
+Used: False, Ranking: 32, Column name: Reason_Systems - EDI/XML issue
+Used: False, Ranking: 24, Column name: Reason_Systems - EOLAS Issue
+Used: False, Ranking: 22, Column name: Reason_Systems - Explore ms - System issues
+Used: False, Ranking: 20, Column name: Reason_Systems - Global Sales Support - System issue
+Used: False, Ranking: 18, Column name: Reason_Systems - LIR - Awaiting data insertion into LIR
+Used: False, Ranking: 16, Column name: Reason_Systems - MIMOS - System issue
+Used: False, Ranking: 14, Column name: Reason_Systems - MOET Issue
+Used: False, Ranking: 12, Column name: Reason_Systems - MSL - Backend Correction
+Used: False, Ranking: 10, Column name: Reason_Systems - MSL - Contract cannot be activated
+Used: False, Ranking: 8, Column name: Reason_Systems - No Access to Tool
+Used: False, Ranking: 6, Column name: Reason_Systems - Papervision - System issues
+Used: False, Ranking: 4, Column name: Reason_Systems - Partner Quotes issue
+Used: False, Ranking: 2, Column name: Reason_Systems - SAP - Access issue/request
+Used: True, Ranking: 1, Column name: Reason_Systems - SAP - Change CP contact info in SAP
+Used: True, Ranking: 1, Column name: Reason_Systems - SAP - Reports request
+Used: True, Ranking: 1, Column name: Reason_Systems - System Issue
+Used: True, Ranking: 1, Column name: Reason_Systems - Unknown Query Response
+Used: True, Ranking: 1, Column name: Reason_Systems - VLCM Issue
+Used: True, Ranking: 1, Column name: Reason_Systems - VLSC Issue
+Used: True, Ranking: 1, Column name: Reason_Systems - eMSL Issue
+Used: True, Ranking: 1, Column name: Reason_Tax - Clarification Needed
+Used: True, Ranking: 1, Column name: Reason_Tax - Sales and Use Tax Issue
+Used: True, Ranking: 1, Column name: Reason_Tax - Tax Adjustment
+Used: True, Ranking: 1, Column name: Reason_Tax - Tax Credit Approval
+Used: True, Ranking: 1, Column name: Reason_Tax - Waiting for tax exempt form approval
+Used: True, Ranking: 1, Column name: Reason_Tier 2 - Tier 2 - Waiting for MSL backend correction
+Used: True, Ranking: 1, Column name: Reason_Trade - Trade Status Hold
+Used: True, Ranking: 1, Column name: Reason_Usage Country Error
+Used: True, Ranking: 1, Column name: Reason_Usage Date Error
+Used: True, Ranking: 1, Column name: Reason_VLCM - Agreement failed to activate
+Used: True, Ranking: 1, Column name: Reason_WWLP - Verify Fee Calculation
+Used: True, Ranking: 1, Column name: Reason_Waiting for Sub-Signature
+Used: True, Ranking: 1, Column name: Reason_Workbench
+Used: True, Ranking: 1, Column name: Reason_X - LIR - Awaiting data insertion into LIR
+Used: True, Ranking: 1, Column name: AssignedToGroup_CRMT
+Used: True, Ranking: 1, Column name: AssignedToGroup_Internal
+Used: True, Ranking: 1, Column name: AssignedToGroup_Microsoft IT
+Used: True, Ranking: 1, Column name: AssignedToGroup_Ops. Program Manager
+Used: True, Ranking: 1, Column name: AssignedToGroup_Submitter (Contact)
+Used: True, Ranking: 1, Column name: NewValueName_Ops In
+Used: True, Ranking: 1, Column name: NewValueName_Ops Out
+Used: True, Ranking: 1, Column name: NewValueName_Submission
+Used: True, Ranking: 1, Column name: NewValueName_Triage And Validation
+Used: True, Ranking: 1, Column name: OldValueName_Ops In
+Used: True, Ranking: 1, Column name: OldValueName_Ops Out
+Used: True, Ranking: 1, Column name: OldValueName_Submission
+Used: True, Ranking: 1, Column name: OldValueName_Triage And Validation
+Used: True, Ranking: 1, Column name: AmountinUSD
+Used: True, Ranking: 1, Column name: Complexity
+Used: True, Ranking: 1, Column name: CountryProcessed_asia
+Used: False, Ranking: 27, Column name: CountryProcessed_australia
+Used: True, Ranking: 1, Column name: CountryProcessed_europe
+Used: True, Ranking: 1, Column name: CountryProcessed_northamerica
+Used: False, Ranking: 29, Column name: CountryProcessed_other
+Used: True, Ranking: 1, Column name: CountryProcessed_southamerica
+Used: True, Ranking: 1, Column name: CountrySource_asia
+Used: False, Ranking: 31, Column name: CountrySource_australia
+Used: True, Ranking: 1, Column name: CountrySource_europe
+Used: True, Ranking: 1, Column name: CountrySource_northamerica
+Used: True, Ranking: 1, Column name: CountrySource_other
+Used: True, Ranking: 1, Column name: CountrySource_southamerica
+Used: True, Ranking: 1, Column name: IsGovernment
+Used: True, Ranking: 1, Column name: IsMagnumCase
+Used: True, Ranking: 1, Column name: IsSOXCase
+Used: True, Ranking: 1, Column name: IsSignature
+Used: False, Ranking: 100, Column name: Numberofreactivations
+Used: True, Ranking: 1, Column name: OLSRevenue
+Used: True, Ranking: 1, Column name: Priority
+Used: True, Ranking: 1, Column name: Queue_AOC
+Used: True, Ranking: 1, Column name: Queue_APOC
+Used: True, Ranking: 1, Column name: Queue_EOC
+Used: False, Ranking: 47, Column name: Queue_LOC
+Used: True, Ranking: 1, Column name: Queue_NAOC
+Used: True, Ranking: 1, Column name: ROCName_APOC
+Used: True, Ranking: 1, Column name: ROCName_EOC
+Used: True, Ranking: 1, Column name: Revenutype_Credit / Rebill
+Used: True, Ranking: 1, Column name: Revenutype_Current Revenue
+Used: True, Ranking: 1, Column name: Revenutype_Disputed Revenue
+Used: True, Ranking: 1, Column name: Revenutype_Future Billing
+Used: True, Ranking: 1, Column name: Revenutype_Future OTRRR with OLS
+Used: True, Ranking: 1, Column name: Revenutype_Future OTRRR without OLS
+Used: True, Ranking: 1, Column name: Revenutype_New Work Sold
+Used: True, Ranking: 1, Column name: Revenutype_Non-revenue
+Used: True, Ranking: 1, Column name: Revenutype_Revenue Impacting Case / Pending Revenue
+Used: True, Ranking: 1, Column name: Revenutype_Revenue Unknown
+Used: True, Ranking: 1, Column name: SalesLocation_asia
+Used: True, Ranking: 1, Column name: SalesLocation_australia
+Used: True, Ranking: 1, Column name: SalesLocation_europe
+Used: True, Ranking: 1, Column name: SalesLocation_northamerica
+Used: True, Ranking: 1, Column name: SalesLocation_southamerica
+Used: True, Ranking: 1, Column name: Source_Fax
+Used: True, Ranking: 1, Column name: Source_Hard Copy
+Used: True, Ranking: 1, Column name: Source_Manual
+Used: True, Ranking: 1, Column name: Source_Soft Copy
+Used: True, Ranking: 1, Column name: Source_Web
+Used: False, Ranking: 102, Column name: Source_eAgreement (Ele)
+Used: False, Ranking: 104, Column name: Source_eAgreement (Phy)
+Used: True, Ranking: 1, Column name: StageName_Ops In
+Used: True, Ranking: 1, Column name: StageName_Ops Out
+Used: True, Ranking: 1, Column name: StageName_Submission
+Used: False, Ranking: 144, Column name: StageName_Triage And Validation
+Used: False, Ranking: 105, Column name: StatusReason_Information Provided
+Used: True, Ranking: 1, Column name: StatusReason_Problem Solved
+Used: True, Ranking: 1, Column name: SubReason_Basic Enterprise Commitment
+Used: True, Ranking: 1, Column name: SubReason_Electronic Order Pend / Reject
+Used: True, Ranking: 1, Column name: SubReason_Future Pricing Only CPS
+Used: True, Ranking: 1, Column name: SubReason_Manual Order Entry
+Used: True, Ranking: 1, Column name: SubReason_Meteaop
+Used: False, Ranking: 59, Column name: SubReason_P&H Electronic Order
+Used: True, Ranking: 1, Column name: SubReason_Tax Exemption Order
+Used: True, Ranking: 1, Column name: SubReason_True Up
+Used: True, Ranking: 1, Column name: SubReason_Zero Usage Order
+Used: False, Ranking: 156, Column name: sourcesystem_Aplquest
+Used: False, Ranking: 158, Column name: sourcesystem_CLT
+Used: False, Ranking: 160, Column name: sourcesystem_Current Revenue
+Used: False, Ranking: 162, Column name: sourcesystem_Moritz Jürgensen
+Used: False, Ranking: 164, Column name: sourcesystem_NEMEC
+Used: False, Ranking: 166, Column name: sourcesystem_NMEC
+Used: False, Ranking: 168, Column name: sourcesystem_Web
+Used: False, Ranking: 170, Column name: sourcesystem_clt
+Used: False, Ranking: 172, Column name: sourcesystem_web
+
+
+train score (k = half features and step = 1): 0.991741710103
+test score: (k = half features and step = 1): -4.11291971115
+
+Using Original Features
