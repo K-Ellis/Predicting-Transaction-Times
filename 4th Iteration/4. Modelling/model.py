@@ -161,15 +161,15 @@ def results(df, alg, classifier, newpath, d, RFR=False):
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
             if y_train_pred[i] < 0:  # Convert all negative predictions to 0
                 y_train_pred[i] = 0
-            if y_train_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
-                y_train_pred[i] = (mean_time + 3*std_time)
+            if y_train_pred[i] > (mean_time + 4*std_time):  # Convert all predictions > 3 std to 3std
+                y_train_pred[i] = (mean_time + 4*std_time)
             if math.isnan(y_train_pred[i]):  # If NaN set to 0
                 y_train_pred[i] = 0
         for i in range(len(y_test_pred)): # Convert high or low predictions to 0 or 3 std
             if y_test_pred[i] < 0:  # Convert all negative predictions to 0
                 y_test_pred[i] = 0
-            if y_test_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
-                y_test_pred[i] = (mean_time + 3*std_time)
+            if y_test_pred[i] > (mean_time + 4*std_time):  # Convert all predictions > 3 std to 3std
+                y_test_pred[i] = (mean_time + 4*std_time)
             if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
             if abs(y_test_pred[i] - testData_y.iloc[i, 0]) <= 3600:  # Within 1 hour
