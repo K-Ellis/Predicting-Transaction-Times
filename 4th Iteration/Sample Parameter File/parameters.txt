@@ -1,4 +1,4 @@
-user: Eoin
+user: Name
 raw_data: UCD_Data_20170623_1.xlsx
 raw_data_location: ../../../Data/
 file_name: _0
