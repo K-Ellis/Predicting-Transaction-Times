@@ -55,9 +55,6 @@ def CVRFE(in_regressor, d, X, y, outfile, newpath):
     #         y_test_pred[i] = 0
 
 
-
-
-
     print("RMSE = " + str(sqrt(mean_squared_error(y, y_pred))))
     print("R2 = " + str(r2_score(y, y_pred)))
 

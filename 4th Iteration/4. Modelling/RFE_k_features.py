@@ -35,43 +35,42 @@ def RFE_k_features(in_regressor, d, X_train, y_train, X_test, y_test, outfile):
             kX_train[X_train.columns[i]] = X_train[X_train.columns[i]]
             kX_test[X_train.columns[i]] = X_test[X_train.columns[i]]
 
-    RFE_features_regr = in_regressor
-    RFE_features_regr.fit(kX_train, y_train.values.ravel())
+    top_features_regr = in_regressor
+    top_features_regr.fit(kX_train, y_train.values.ravel())
 
     if k is None:
-        print("\ntrain score (k=half_features and step=%s): " % step, RFE_features_regr.score(kX_train, y_train))
-        print("test score: (k=half_features and step=%s): " % step, RFE_features_regr.score(kX_test, y_test))
+        print("\ntrain score (k=half_features and step=%s): " % step, top_features_regr.score(kX_train, y_train))
+        print("test score: (k=half_features and step=%s): " % step, top_features_regr.score(kX_test, y_test))
 
-        outfile.write("\n\ntrain score (k=half_features and step=%s): " % step + str(RFE_features_regr.score(kX_train,
+        outfile.write("\n\ntrain score (k=half_features and step=%s): " % step + str(top_features_regr.score(kX_train,
                                                                                                       y_train)))
-        outfile.write("\ntest score: (k=half_features and step=%s): " % step + str(RFE_features_regr.score(kX_test,
+        outfile.write("\ntest score: (k=half_features and step=%s): " % step + str(top_features_regr.score(kX_test,
                                                                                                         y_test)))
-
     else:
-        print("\ntrain score (k=%s_features and step=%s): " % (k, step) + str(RFE_features_regr.score(kX_train,
+        print("\ntrain score (k=%s_features and step=%s): " % (k, step) + str(top_features_regr.score(kX_train,
                                                                                                         y_train)))
-        print("test score: (k=%s_features and step=%s): " % (k, step) + str(RFE_features_regr.score(kX_test, y_test)))
+        print("test score: (k=%s_features and step=%s): " % (k, step) + str(top_features_regr.score(kX_test, y_test)))
 
-        outfile.write("\n\ntrain score (k=%s_features and step=%s): " % (k, step), RFE_features_regr.score(kX_train,
+        outfile.write("\n\ntrain score (k=%s_features and step=%s): " % (k, step), top_features_regr.score(kX_train,
                                                                                                       y_train))
-        outfile.write("\ntest score: (k=%s_features and step=%s): " % (k, step), RFE_features_regr.score(kX_test,
+        outfile.write("\ntest score: (k=%s_features and step=%s): " % (k, step), top_features_regr.score(kX_test,
                                                                                                            y_test))
 
-    if RFE_features_regr.score(kX_test, y_test) > original_features_regr.score(X_test, y_test):
+    if top_features_regr.score(kX_test, y_test) > original_features_regr.score(X_test, y_test):
         print("\n\nUsing RFE features: ")
         print("\tRFE Features Test Score > Original Features Test Score")
-        print("\t%s > %s" % (RFE_features_regr.score(kX_test, y_test), original_features_regr.score(X_test, y_test)))
+        print("\t%s > %s" % (top_features_regr.score(kX_test, y_test), original_features_regr.score(X_test, y_test)))
         out_file.write("\n\nUsing RFE features\n")
         out_file.write("\tRFE Features Test Score > Original Features Test Score\n")
-        out_file.write("\t%s > %s\n" % (RFE_features_regr.score(kX_test, y_test), original_features_regr.score(X_test, y_test)))
-        return RFE_features_regr, kX_train, kX_test
+        out_file.write("\t%s > %s\n" % (top_features_regr.score(kX_test, y_test), original_features_regr.score(X_test, y_test)))
+        return top_features_regr, kX_train, kX_test
     else:
         print("\n\nUsing Original Features: ")
         print("\tRFE Features Test Score < Original Features Test Score")
-        print("\t%s < %s" % (RFE_features_regr.score(kX_test, y_test), original_features_regr.score(X_test, y_test)))
+        print("\t%s < %s" % (top_features_regr.score(kX_test, y_test), original_features_regr.score(X_test, y_test)))
         out_file.write("\n\nUsing Original Features\n")
         out_file.write("\tRFE Features Test Score < Original Features Test Score\n")
-        out_file.write("\t%s < %s\n" % (RFE_features_regr.score(kX_test, y_test), original_features_regr.score(X_test, y_test)))
+        out_file.write("\t%s < %s\n" % (top_features_regr.score(kX_test, y_test), original_features_regr.score(X_test, y_test)))
         return original_features_regr, X_train, X_test
     
 if __name__ == "__main__":

@@ -264,7 +264,7 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Queue: One hot encoding in buckets
     ####################################################################################################################
-    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "E&E", "Xbox", "OpsPM"]
+    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "<VL Broken Communications>", "E&E"]
     # Create a list of 8 unique substrings located in the categorical variables. These will become the new one-hot
     # encoded column names.
     val_list = df.Queue.value_counts().index.tolist()  # List the categorical values in Queue
@@ -278,7 +278,7 @@ def clean_Incident(d, newpath):
     for i in range(len(substr_list)):
         df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Replace the categorical variables in Queue with
         # the substrings
-    extra_queues = ["<VL Broken 1N Communications>", "<VL Broken Communications>", "<WWCS - EMEA Admin>"]
+    extra_queues = ["<VL Broken 1N Communications>", "<WWCS - EMEA Admin>", "Xbox", "OpsPM", "<CLT Duplicates>"]
     for extra in extra_queues:
         df["Queue"] = df["Queue"].replace(extra, "Other")
     df = one_hot_encoding(df, "Queue", out_file)
@@ -337,9 +337,6 @@ def clean_Incident(d, newpath):
     del df["StateCode"]
     del df["Isrevenueimpacting"]
 
-    ####################################################################################################################
-    # Temporary deletions to overcome Queue issue
-    ####################################################################################################################
     del df["ValidCase"]
     del df["BusinessFunction"]
     del df["LineOfBusiness"]
@@ -361,7 +358,11 @@ def clean_Incident(d, newpath):
     # df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     # df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    # One hot encode isSOXcase with isSOXcase and isnotSOXcase. NULLS are set to 0
+    # Important variable with ~6500 Null values in COSMIC 2, therefore can't assume that Null entry's values?
+    
+    # TODO - For Null entries, find the corrosponding ticketnumber in the audithistory sheet. If the ticketnumber exists
+    # there and has gone through each of the stages, then we can assume the isSOXcase Null value should be a 1.
+    # Deleting 6500 rows from incident is quite a lot.
     df["IsSOXCase"].fillna(2, inplace=True)
     df = df[df["IsSOXCase"] != 2]
 

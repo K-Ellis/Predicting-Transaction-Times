@@ -48,13 +48,26 @@ if __name__ == "__main__":  # Run program
             line = line.replace(":", "")
             (key, val) = line.split()
             d[key] = val
-
-    newpath = r"../0. Results/" + d["user"] + "/prepare_dataset/" + time.strftime("%Y.%m.%d/")  # Log file location
+    
+    if d["user"] == "Kieron":
+            newpath = r"../0. Results/" + d["user"] + "/data_understanding/seasonality_study/" + time.strftime("%Y.%m.%d/")
+    else:
+        newpath = r"../0. Results/" + d["user"] + "/prepare_dataset/" + time.strftime("%Y.%m.%d/")  # Log file location
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
-    df = pd.read_csv(d["file_location"] + "vw_Incident" + d["file_name"] + ".csv", encoding='latin-1',
+        
+
+    if d["user"] == "Kieron":
+        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+    else:
+        df = pd.read_csv(d["file_location"] + "vw_Incident" + d["file_name"] + ".csv", encoding='latin-1',
                      low_memory=False)
+
+    df = df[df["Program"] == "Enterprise"]  # Program column: only interested in Enterprise
+    df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
+    df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
+    df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
 
     df = df[["Created_On", "ResolvedDate"]]  # Delete all columns apart from . .
     df["Created_On"] = pd.to_datetime(df["Created_On"])
@@ -86,9 +99,17 @@ if __name__ == "__main__":  # Run program
         plt.ylabel("TimeTaken")
         plt.title(column)
         plt.tight_layout()  # Force everything to fit on figure
-        plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + column + ".png")
-        plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + column + ".pdf")
+        if d["user"] == "Kieron":
+            plt.savefig(newpath + column + ".png")
+            plt.savefig(newpath + "PDFs/" + column + ".pdf")
+        else:
+            plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + column + ".png")
+            plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + column + ".pdf")
         print(column, "plot created")
 
-    df.to_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", index=False)  # export file
-    copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save params
+    if d["user"] == "Kieron":
+        df.to_csv(d["file_location"] + d["output_file_name"] + ".csv", index=False)  # export file
+        copyfile(parameters, newpath + "parameters.txt")  # Save params
+    else:
+        df.to_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", index=False)  # export file
+        copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save params

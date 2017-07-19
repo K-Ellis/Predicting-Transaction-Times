@@ -1,7 +1,0 @@
-Recursive Feature Selection: 
-	 k = None
-	 step = 1
-
-train score (all features): 0.991741710103
-test score (all features): -4.11291971115
-
