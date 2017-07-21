@@ -1,0 +1,41 @@
+Date and time: 20170705-173400
+clean_Incident started
+
+Time Taken column calculated
+Outliers removed > 3 sd from mean of TimeTaken
+
+One hot encoding completed for Queue
+
+Map Priority column to ordinal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 
+Map Complexity column to ordinal variables: Low: 0, Normal: 1, High: 2 
+Map StageName column to ordinal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, Submission: 3, Ops Out: 4 
+
+All NULL Values for "SalesLocation" replaced with most frequent value, United States
+All NULL Values for "ROCName" replaced with most frequent value, AOC
+All NULL Values for "sourcesystem" replaced with most frequent value, CLT
+All NULL Values for "Source" replaced with most frequent value, Web
+All NULL Values for "Revenutype" replaced with most frequent value, Current Revenue
+All NULL Values for "Numberofreactivations" replaced with most frequent value, 1.0
+All NULL Values for "AmountinUSD" replaced with most frequent value, 176425.50710173228
+All NULL Values for "Priority" replaced with most frequent value, 1.0217086834733893
+All NULL Values for "Complexity" replaced with most frequent value, 0.9361290712429754
+All NULL Values for "StageName" replaced with most frequent value, 2.6514342728860063
+
+columns scaled = ['AmountinUSD', 'Priority', 'Complexity', 'StageName']
+
+Continents assigned for CountrySource
+Continents assigned for CountryProcessed
+Continents assigned for SalesLocation
+
+One hot encoding completed for CountrySource
+One hot encoding completed for CountryProcessed
+One hot encoding completed for SalesLocation
+One hot encoding completed for StatusReason
+One hot encoding completed for SubReason
+One hot encoding completed for ROCName
+One hot encoding completed for sourcesystem
+One hot encoding completed for Source
+One hot encoding completed for Revenutype
+
+file saved as ../../../Data/vw_Incident_cleaned_0.csv
+clean_Incident complete

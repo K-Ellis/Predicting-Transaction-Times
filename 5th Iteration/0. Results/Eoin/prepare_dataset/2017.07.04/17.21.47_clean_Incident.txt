@@ -1,0 +1,6 @@
+Date and time: 20170704-172147
+clean_Incident started
+
+user = Eoin
+file opened = vw_Incident.csv
+COSMIC Number = 2

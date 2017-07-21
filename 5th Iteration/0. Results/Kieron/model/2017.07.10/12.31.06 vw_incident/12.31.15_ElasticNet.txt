@@ -1,0 +1,10 @@
+ElasticNet 20170710-123115
+
+ElasticNet Cross Validation: 10
+ElasticNet Train RMSE -> Max: 419257.92, Min: 410539.82, Avg: 413796.99
+ElasticNet Test RMSE -> Max: 421292.65, Min: 394061.64, Avg: 411525.29
+ElasticNet Train R^2 score -> Max: 0.22, Min: 0.21, Avg: 0.21
+ElasticNet Test R^2 score -> Max: 0.23, Min: 0.19, Avg: 0.21
+ElasticNet number test predictions within 1 hour -> Max: 39/5012, Min: 29/5012, Avg: 33.4/5012
+ElasticNet % test predictions within 1 hour: -> Max: 0.78%, Min: 0.58%, Avg: 0.67%
+

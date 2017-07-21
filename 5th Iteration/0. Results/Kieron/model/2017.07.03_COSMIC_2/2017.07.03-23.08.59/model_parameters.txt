@@ -1,0 +1,10 @@
+log_of_y :n
+kernel_ridge :n
+elastic_net :y
+histogram :n
+COSMIC_Number :2
+seed :12345
+linear_regression :y
+Infile :ABT_Incident_HoldDuration_cleaned(3std)
+User :Kieron
+
