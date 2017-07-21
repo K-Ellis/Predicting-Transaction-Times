@@ -9,6 +9,7 @@ Kieron Ellis
 ************************************************************************************************************************
 Working on dataset 2 from Cosmic: UCD_Data_20170623_1.xlsx
 Results will be saved in Iteration > 0. Results > User > prepare_dataset > Date
+If user==Kieron, results will be saved in Iteration > 0. Results > User > data_understanding > seasonality_study > Date
 *********************************************************************************************************************"""
 
 
@@ -48,15 +49,13 @@ if __name__ == "__main__":  # Run program
             line = line.replace(":", "")
             (key, val) = line.split()
             d[key] = val
-    
+
     if d["user"] == "Kieron":
             newpath = r"../0. Results/" + d["user"] + "/data_understanding/seasonality_study/" + time.strftime("%Y.%m.%d/")
     else:
         newpath = r"../0. Results/" + d["user"] + "/prepare_dataset/" + time.strftime("%Y.%m.%d/")  # Log file location
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
-
-        
 
     if d["user"] == "Kieron":
         df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
@@ -74,6 +73,9 @@ if __name__ == "__main__":  # Run program
     df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
     df["TimeTaken"] = (df["ResolvedDate"] - df["Created_On"]).astype('timedelta64[s]')
 
+
+    df["Created_On_Day"] = df["Created_On"].apply(lambda x: x.strftime("%H"))  # Time of the day
+    df["ResolvedDate_Day"] = df["ResolvedDate"].apply(lambda x: x.strftime("%H"))  # Time of the day
     df["Created_On_Week"] = df["Created_On"].apply(lambda x: x.strftime("%w"))  # Day of the week
     df["ResolvedDate_Week"] = df["ResolvedDate"].apply(lambda x: x.strftime("%w"))  # Day of the week
     df["Created_On_Month"] = df["Created_On"].apply(lambda x: x.strftime("%d"))  # Day of the month
@@ -84,8 +86,8 @@ if __name__ == "__main__":  # Run program
     df["ResolvedDate_Year"] = df["ResolvedDate"].apply(lambda x: x.strftime("%j"))  # Day of the year
     # Useful for finding days http://www.pythonforbeginners.com/basics/python-datetime-time-examples
 
-    list = ["Created_On_Week", "ResolvedDate_Week", "Created_On_Month", "ResolvedDate_Month", "Created_On_Qtr",
-            "ResolvedDate_Qtr", "Created_On_Year", "ResolvedDate_Year"]
+    list = ["Created_On_Day", "ResolvedDate_Day", "Created_On_Week", "ResolvedDate_Week", "Created_On_Month",
+            "ResolvedDate_Month", "Created_On_Qtr", "ResolvedDate_Qtr", "Created_On_Year", "ResolvedDate_Year"]
 
     for column in list:
         plt.figure()
@@ -94,13 +96,33 @@ if __name__ == "__main__":  # Run program
             df_temp = df[df[column] == i]
             data_to_plot.append(df_temp["TimeTaken"])
         plt.boxplot(data_to_plot, showfliers=False)
-        plt.xticks([])
-        plt.xlabel(column + " - Day Number")
+        if column == "Created_On_Day" or column == "ResolvedDate_Day":
+            plt.xticks([x+1 for x in range(24)])
+            plt.xlabel(column + " - Time of Day (24 hours)")
+        elif column == "Created_On_Week" or column == "ResolvedDate_Week":
+            days_of_the_week = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+            plt.xticks([x+1 for x in range(len(days_of_the_week))], days_of_the_week)
+            plt.xlabel(column + " - Day of the week")
+        elif column == "Created_On_Month" or column == "ResolvedDate_Month":
+            plt.xticks(rotation="vertical")
+            plt.xlabel(column + " - Day Number")
+        elif column == "Created_On_Qtr" or column == "ResolvedDate_Qtr":
+            every_x_days = [(x+1)*5 for x in range(18)]
+            plt.xticks(every_x_days, every_x_days, rotation="vertical")
+            plt.xlabel(column + " - Day Number")
+        else:
+            every_x_days = [(x + 1) * 30 for x in range(4)]
+            every_x_days.append(140)
+            plt.xticks(every_x_days, every_x_days, rotation="vertical")
+            plt.xlabel(column + " - Day Number")
         plt.ylabel("TimeTaken")
         plt.title(column)
         plt.tight_layout()  # Force everything to fit on figure
+
         if d["user"] == "Kieron":
             plt.savefig(newpath + column + ".png")
+            if not os.path.exists(newpath + "PDFs/"):
+                os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
             plt.savefig(newpath + "PDFs/" + column + ".pdf")
         else:
             plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + column + ".png")
