@@ -1,0 +1,23 @@
+Columns,importances
+HoldDuration,0.4486984573433176
+AmountinUSD,0.24269983783190302
+Days_left_QTR,0.20756006955942857
+Queue_AOC,0.06154184390216164
+Days_left_Month,0.016516856256249435
+IsSignature,0.007144735042308588
+SalesLocation_europe,0.004375980545839298
+Queue_NAOC,0.0038660627375338313
+Source_Soft Copy,0.003254649690649536
+Queue_EOC,0.0014482138866344686
+Revenutype_Future OTRRR without OLS,0.0009465394241989988
+CountryProcessed_northamerica,0.0005799586476141984
+SalesLocation_northamerica,0.0004830840787469461
+Revenutype_Current Revenue,0.00037930369593378786
+StageName,0.00028629989157730065
+ROCName_EOC,0.0001960473735821839
+CountrySource_europe,2.116150421487973e-05
+StatusReason_Problem Solved,8.985881058646323e-07
+CountrySource_australia,0.0
+Complexity,0.0
+SalesLocation_australia,0.0
+SalesLocation_southamerica,0.0

@@ -38,8 +38,8 @@ if __name__ == "__main__":  # Run program
     sheets = ["vw_Incident", "vw_HoldActivity", "vw_AuditHistory", "vw_PackageTriageEntry", "vw_StageTable"]
     for i in range(len(sheets)):  # This generates the csv files
         df = pd.read_excel(d["raw_data_location"] + d["raw_data"], sheetname=i)
-        df.to_csv(d["file_location"] + "/" + sheets[i] + d["file_name"] + ".csv", index=False)
-        out_file.write("Output:" + d["file_location"] + sheets[i] + d["file_name"] + " saved" + "\n")
+        df.to_csv(d["file_location"] + "/" + sheets[i] + d["output_file"] + ".csv", index=False)
+        out_file.write("Output:" + d["file_location"] + sheets[i] + d["output_file"] + " saved" + "\n")
         out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
     out_file.close()
 

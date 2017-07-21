@@ -71,7 +71,7 @@ def RFE_k_features(in_regressor, d, X_train, y_train, X_test, y_test, outfile):
         out_file.write("\n\nUsing Original Features\n")
         out_file.write("\tRFE Features Test Score < Original Features Test Score\n")
         out_file.write("\t%s < %s\n" % (top_features_regr.score(kX_test, y_test), original_features_regr.score(X_test, y_test)))
-        return original_features_regr, X_train, X_test
+        return X_train, X_test
     
 if __name__ == "__main__":
     import pandas as pd
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     out_file_name = newpath + time.strftime("%H.%M.%S") + "_" + "RFE_testing" + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
 
-    regr, X_train, y_train = RFE_k_features(LinearRegression(), d, X_train, y_train, X_test, y_test, out_file)
+    X_train, y_train = RFE_k_features(LinearRegression(), d, X_train, y_train, X_test, y_test, out_file)
 
     out_file.close()
 

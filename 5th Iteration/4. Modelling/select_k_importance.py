@@ -12,9 +12,9 @@ def select_importants(csvfile, thesh):
     return cols_to_be_deleted
 
 # given N columns, keep the top k important columns, return the bottom N-k columns to be deleted
-def select_top_k_importants(csvfile, k):
-    dfimportances = pd.read_csv(csvfile, encoding='latin-1', low_memory=False)
-    dfimportances.sort_values("importances", ascending=False, inplace=True)
+def select_top_k_importants(dfimportances, k):
+    # dfimportances = pd.read_csv(csvfile, encoding='latin-1', low_memory=False)
+    # dfimportances.sort_values("importances", ascending=False, inplace=True)
     top = dfimportances["Columns"].iloc[:k-1].values.tolist()
     bottom = []
     for col in dfimportances["Columns"].values.tolist():

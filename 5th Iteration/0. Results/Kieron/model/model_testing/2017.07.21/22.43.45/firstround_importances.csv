@@ -1,0 +1,46 @@
+Columns,importances
+HoldDuration,0.6070840290702373
+Queue_AOC,0.17589689532877545
+Days_left_QTR,0.16119857762234213
+Days_left_Month,0.015815991561905565
+Revenutype_Current Revenue,0.008169490880994843
+CountryProcessed_northamerica,0.0076665882762740455
+IsSignature,0.005771646247876948
+Revenutype_Future OTRRR without OLS,0.003666421471751445
+SalesLocation_southamerica,0.002468665903090016
+AmountinUSD,0.0024039404189325174
+Complexity,0.0023055436135215926
+CountrySource_australia,0.0012779169642345022
+StageName,0.001074336620940916
+CountrySource_europe,0.0009321455320058439
+Source_Soft Copy,0.0007882253520063349
+Queue_EOC,0.0007437298271068543
+Queue_NAOC,0.0006423973343500961
+StatusReason_Problem Solved,0.0004850564916325027
+ROCName_EOC,0.0003868003457679793
+SalesLocation_northamerica,0.0003580916404950417
+SalesLocation_australia,0.00035197114269701053
+SalesLocation_europe,0.00014888870792585071
+IsGovernment,0.00012062787073132317
+Source_Web,7.209546701606598e-05
+CountrySource_southamerica,6.438052368281505e-05
+CountryProcessed_europe,4.326023121400124e-05
+ROCName_APOC,3.2038469289817585e-05
+SubReason_Zero Usage Order,1.9212267673067605e-05
+SubReason_Meteaop,7.684843222809051e-06
+OLSRevenue,1.7440157063120727e-06
+IsSOXCase,1.0189255562789195e-06
+CountrySource_northamerica,5.709031220779454e-07
+IsMagnumCase,1.6127920637068533e-08
+SubReason_Electronic Order Pend / Reject,0.0
+SubReason_True Up,0.0
+SubReason_Manual Order Entry,0.0
+Queue_LOC,0.0
+Revenutype_Revenue Unknown,0.0
+Revenutype_Non-revenue,0.0
+Revenutype_Future Billing,0.0
+Queue_APOC,0.0
+Priority,0.0
+Numberofreactivations,0.0
+CountryProcessed_southamerica,0.0
+sourcesystem_Moritz Jürgensen,0.0

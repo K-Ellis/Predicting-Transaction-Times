@@ -1,6 +1,0 @@
-Date and time: 20170704-165605
-clean_AuditHistory started
-
-user = Kieron
-file opened = vw_Incident.csv
-COSMIC Number = 2

@@ -1,0 +1,37 @@
+RandomForestRegressor 20170721-224347
+
+RandomForestRegressor: Cross Validation (5 Folds)
+	Train Mean RMSE: 238867.30 (+/-65073.92)
+	Test Mean RMSE: 521073.46 (+/-279639.45)
+	Train Mean R2: 0.89315 (+/-0.04881)
+	Test Mean R2: -0.02209 (+/-0.91902)
+
+	RandomForestRegressor number test predictions within 1 hour -> Max: 3/10, Min: 0/10, Avg: 1.0/10
+	RandomForestRegressor % test predictions within 1 hour: -> Max: 30.0%, Min: 0.0%, Avg: 10.0%
+	RandomForestRegressor number test predictions within 24 hours -> Max: 8/10, Min: 3/10, Avg: 5.6/10
+	RandomForestRegressor % test predictions within 24 hours -> Max: 80.0%, Min: 30.0%, Avg: 56.0%
+
+
+Feature Importances:
+0. "HoldDuration" (0.448698)
+1. "AmountinUSD" (0.242700)
+2. "Days_left_QTR" (0.207560)
+3. "Queue_AOC" (0.061542)
+4. "Days_left_Month" (0.016517)
+5. "IsSignature" (0.007145)
+6. "SalesLocation_europe" (0.004376)
+7. "Queue_NAOC" (0.003866)
+8. "Source_Soft Copy" (0.003255)
+9. "Queue_EOC" (0.001448)
+10. "Revenutype_Future OTRRR without OLS" (0.000947)
+11. "CountryProcessed_northamerica" (0.000580)
+12. "SalesLocation_northamerica" (0.000483)
+13. "Revenutype_Current Revenue" (0.000379)
+14. "StageName" (0.000286)
+15. "ROCName_EOC" (0.000196)
+16. "CountrySource_europe" (0.000021)
+17. "StatusReason_Problem Solved" (0.000001)
+18. "CountrySource_australia" (0.000000)
+19. "Complexity" (0.000000)
+20. "SalesLocation_australia" (0.000000)
+21. "SalesLocation_southamerica" (0.000000)

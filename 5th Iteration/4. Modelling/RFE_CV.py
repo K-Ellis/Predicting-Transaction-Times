@@ -62,6 +62,7 @@ def CVRFE(in_regressor, d, X, y, outfile, newpath):
     plt.figure()
     plt.xlabel("\nNumber of features selected")
     plt.ylabel("Cross validation score")# (nb of correct classifications)")
+    # plt.ylim(-1,1.1)
     plt.plot(range(1, len(regressor.grid_scores_) + 1), regressor.grid_scores_)
     plt.savefig(newpath + "r2_to_number_features.png")
 
@@ -116,9 +117,9 @@ if __name__ == "__main__":
     np.random.seed(int(d["seed"]))  # Set seed
 
     if d["user"] == "Kieron":
-        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+        df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
     else:
-        df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", encoding='latin-1',
+        df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["input_file"] + ".csv", encoding='latin-1',
                          low_memory=False)
 
     if d["resample"] == "y":
@@ -129,6 +130,7 @@ if __name__ == "__main__":
 
 
     X = df.drop("TimeTaken", axis=1)
+    X = X.drop("HoldDuration", axis=1)
     y = df["TimeTaken"]
 
     # Split the dataset in two equal parts
