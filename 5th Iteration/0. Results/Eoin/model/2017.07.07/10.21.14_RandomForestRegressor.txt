@@ -1,0 +1,41 @@
+RandomForestRegressor 20170707-102114
+
+RandomForestRegressor Cross Validation: 5
+RandomForestRegressor Train RMSE -> Max: 196547.78, Min: 191156.46, Avg: 194269.55
+RandomForestRegressor Test RMSE -> Max: 345250.94, Min: 330970.18, Avg: 338809.23
+RandomForestRegressor Train R^2 score -> Max: 0.83, Min: 0.82, Avg: 0.83
+RandomForestRegressor Test R^2 score -> Max: 0.47, Min: 0.44, Avg: 0.46
+RandomForestRegressor number test predictions within 1 hour -> Max: 126/5012, Min: 118/5012, Avg: 122.4/5012
+RandomForestRegressor % test predictions within 1 hour: -> Max: 2.51%, Min: 2.35%, Avg: 2.44%
+
+
+Feature Importances:
+0. "HoldDuration" (0.426679)
+1. "AmountinUSD" (0.186318)
+2. "SubReason_Basic Enterprise Commitment" (0.092128)
+3. "Queue_AOC" (0.030444)
+4. "StageName" (0.027028)
+5. "Complexity" (0.020569)
+6. "Numberofreactivations" (0.020367)
+7. "IsGovernment" (0.015891)
+8. "IsSignature" (0.014584)
+9. "Queue_<VL Broken Communications>" (0.014537)
+10. "SubReason_Future Pricing Only CPS" (0.014179)
+11. "SalesLocation_northamerica" (0.012266)
+12. "StatusReason_Problem Solved" (0.012139)
+13. "OLSRevenue" (0.011363)
+14. "Source_Web" (0.010270)
+15. "Revenutype_Current Revenue" (0.009438)
+16. "ROCName_EOC" (0.009067)
+17. "Revenutype_Non-revenue" (0.008350)
+18. "Revenutype_Future Billing" (0.008246)
+19. "SubReason_Meteaop" (0.007295)
+20. "Priority" (0.006893)
+21. "SubReason_Zero Usage Order" (0.006678)
+22. "SalesLocation_asia" (0.006559)
+23. "CountrySource_asia" (0.006286)
+24. "Queue_NAOC" (0.005490)
+25. "Source_Soft Copy" (0.005434)
+26. "IsSOXCase" (0.004973)
+27. "SubReason_True Up" (0.003408)
+28. "Revenutype_Credit / Rebill" (0.003121)

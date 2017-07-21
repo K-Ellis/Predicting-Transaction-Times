@@ -1,0 +1,70 @@
+Date and time: 20170711-123602
+Number of iterations taken to get good data split: 1
+
+Mean value of Train Y: 375087.76238940994
+Mean value of Test Y: 381818.18216280924
+
+Standard deviation of train Y: 462596.477043
+Standard deviation of test Y: 473945.576595
+Standard deviation of test Y: 473945.576595
+
+Date and time: 20170711-123608
+Number of iterations taken to get good data split: 1
+
+Mean value of Train Y: 377970.96647375776
+Mean value of Test Y: 373170.2956903432
+
+Standard deviation of train Y: 465508.309529
+Standard deviation of test Y: 465333.491628
+Standard deviation of test Y: 465333.491628
+
+Date and time: 20170711-123612
+Number of iterations taken to get good data split: 1
+
+Mean value of Train Y: 375767.9515066853
+Mean value of Test Y: 379778.02194732643
+
+Standard deviation of train Y: 463024.053788
+Standard deviation of test Y: 472714.752625
+Standard deviation of test Y: 472714.752625
+
+Date and time: 20170711-123615
+Number of iterations taken to get good data split: 1
+
+Mean value of Train Y: 376708.01603139756
+Mean value of Test Y: 376958.3910614525
+
+Standard deviation of train Y: 464552.112179
+Standard deviation of test Y: 468209.276927
+Standard deviation of test Y: 468209.276927
+
+Date and time: 20170711-123618
+Number of iterations taken to get good data split: 1
+
+Mean value of Train Y: 376521.7935209206
+Mean value of Test Y: 377516.9471268954
+
+Standard deviation of train Y: 463621.405454
+Standard deviation of test Y: 470967.394026
+Standard deviation of test Y: 470967.394026
+
+Date and time: 20170711-123622
+Number of iterations taken to get good data split: 1
+
+Mean value of Train Y: 377278.3435774629
+Mean value of Test Y: 375247.74980047886
+
+Standard deviation of train Y: 466842.910503
+Standard deviation of test Y: 461321.194325
+Standard deviation of test Y: 461321.194325
+
+Date and time: 20170711-123627
+Number of iterations taken to get good data split: 1
+
+Mean value of Train Y: 378513.0436373312
+Mean value of Test Y: 371544.3886671987
+
+Standard deviation of train Y: 466543.800996
+Standard deviation of test Y: 462191.847907
+Standard deviation of test Y: 462191.847907
+

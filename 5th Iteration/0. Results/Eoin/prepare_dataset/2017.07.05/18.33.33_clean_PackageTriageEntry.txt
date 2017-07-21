@@ -1,0 +1,17 @@
+Date and time: 20170705-183333
+clean_PackageTriageEntry started
+
+min_entries function - min: 3
+
+min_variable_types function - min: 2
+
+drop_NULL - max ratio: 0.99
+
+drop_zeros - max ratio: 0.99
+
+drop_ones - max ratio: 0.99
+
+One hot encoding completed for EntryType
+One hot encoding completed for EntryLevel
+One hot encoding completed for EntryProcess
+clean_PackageTriageEntry completefile saved as ../../../Data/vw_PackageTriageEntry_cleaned_0.csv

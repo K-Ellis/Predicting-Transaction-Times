@@ -1,0 +1,9 @@
+ElasticNet 20170706-152527
+
+ElasticNet Train RMSE: 355460.49184691225
+ElasticNet Test RMSE: 343753.9733203448
+ElasticNet number test predictions within 1 hour: 19 / 2005
+ElasticNet % test predictions within 1 hour: 0.95%
+ElasticNet Train R^2 scoree: 0.418356862808
+ElasticNet Test R^2 score: 0.441323587557
+

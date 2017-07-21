@@ -1,0 +1,357 @@
+Columns,importances
+Reason_3PP - Identify Payment,1.0120410989225737e-07
+Reason_3PP - Other,0.004122923288880559
+Reason_3PP - Payment Status,0.0
+Reason_3PP - Pending Payment,0.0
+Reason_3rd Party Hold,0.0
+Reason_A - Missing information from customer - Confirmation,5.894344396828728e-05
+Reason_A - Missing information from customer - Missing information,5.068139803662483e-05
+Reason_APOC - Waiting for document review,0.0001031080209678389
+Reason_Affiliates Section Error,0.0
+Reason_Agreement  Number Error,0.000798224401246597
+Reason_Agreement - Bill To/Ship To Participant,0.0
+Reason_Agreement - Compliance,1.4877313445394379e-05
+Reason_Agreement - Paperwork Validation,0.0
+Reason_Agreement /Enrollment Number Error,0.00012293730917031553
+Reason_Agreement/Enrollment Number Error,2.442747910079678e-05
+Reason_Agreement/Enrollment Number Issue,0.0011453782236577228
+Reason_Agreement/Enrollment Number/Date Issue,3.237846462656156e-05
+Reason_Agreement/Enrollment Number/Name  Issue,9.323368330150153e-07
+Reason_Amendment - Amendment Description,1.9200732254473903e-05
+Reason_Amendment - Other,0.0007042531426737472
+Reason_Amendment Completion Error,0.000530033027485602
+Reason_Approval - Business - Delegation,0.0
+Reason_Approval - ROC - Exception,0.0
+Reason_Audience Manager  - Approval required for credit & rebill request,0.0004661853952396314
+Reason_Audience Manager  - Policy clarification/Complex Query,0.004604111019292608
+Reason_Audience Manager  - Product related,5.458443483837406e-06
+Reason_Audience Manager  - Query held open on PM Request,8.673220982459804e-06
+Reason_Audience Manager  - Standard Approval,0.00029950414232102587
+Reason_Audience Manager  - System & Tools related,2.8689782493960953e-05
+Reason_Azure OLS - Approval required for credit & rebill request,0.0004070697924380316
+Reason_Azure OLS - Approval required for final fee,0.00010577901647423497
+Reason_Billing Option Error,0.0007191406087434782
+Reason_CP Requested - N/A,1.2095459929920634e-05
+Reason_Cancel Order - Duplication,0.0
+Reason_Cancel Order - N/A,0.0
+Reason_Clarification,1.0480965860614529e-05
+Reason_Clarification Needed,0.010901937284735845
+Reason_Clarification on Price,0.0003075115923881323
+Reason_Collections - Waiting for Amendment Approval,2.466517302097287e-06
+Reason_Collections - Waiting for Credit Approval,2.7979286152468295e-05
+Reason_Compliance - Clarification Needed,0.0002909802020060561
+Reason_Compliance Error,0.00042500962401821927
+Reason_Compliance Issue,0.009213842004012913
+Reason_Contact Details Error,0.00011290569464159457
+Reason_Credit & Collections Issues - Channel Partner on Credit Hold,0.0007303924441854303
+Reason_Credit Check Error,0.0008647633681024836
+Reason_Credit Services,0.0
+Reason_Credit Services - Clarification Needed,0.00022434527825603544
+Reason_Credit Services - Credit Approval,0.003920241297417535
+Reason_Credit Services - Invoice Issue,0.001119753226032542
+Reason_Credit Services - Partner on hold,0.0018742297174606515
+Reason_Credit Services - SAP,0.00016889364616433686
+Reason_Customer/Partner Credit Hold,0.0006741554796235522
+Reason_DD-Waiting on Customer Signature,0.0
+Reason_Document Code Error,0.0003311720079311035
+Reason_Document Description Error,8.61779983600006e-05
+Reason_Duplicate Case - Duplicate case,0.0
+Reason_Duplicate Order,0.000555498521833449
+Reason_E-Agreement Tool - Other,2.0814232425278786e-05
+Reason_EOC - Waiting for document review,1.6458113865189752e-05
+Reason_Electronic Order - Simple,0.00010551299550277397
+Reason_End Customer Contact Details Error,0.0001243641860071346
+Reason_End Customer Signature Block Issue,2.2238986292593667e-05
+Reason_End Customer/Partner Signature Block Issue,3.4731900666525794e-06
+Reason_End of Term Date Error,0.0017224568353293615
+Reason_Enrollment # Error,0.0006893223497844823
+Reason_Field - Clarification Needed,2.6731582327375833e-05
+Reason_Field - DD-Awaiting information from Field,0.0003396235312494176
+Reason_Field - DD-Clarification Needed,0.0010933278676431395
+Reason_Field - DD-Waiting for Paperwork,5.8900625269894694e-05
+Reason_Field - Waiting for Clarification,0.002157790193028476
+Reason_Field Invalid-AMENDMENT (STD/CTM)-Required and Missing - Field,0.0001848605229824849
+Reason_Field Invalid-AMENDMENT(STD/CTM)-Completion Error - Field,0.000825410143993768
+"Reason_Field Invalid-CPS-Pricing, Quantity or Amount Error - Field",6.705641827285437e-05
+Reason_Field Invalid-CPS-SKU Description Error - Field,0.00014908127999743734
+Reason_Field Invalid-Standard Policy Error w/o Empowerment - Field,0.0008813269691919635
+Reason_Field-AMENDMENT(STD/CTM)-Completion Error - Field,0.00035070425523043
+Reason_Field-Amendment-Clarification Needed - Amendment Clarification Needed,0.00013786898820923992
+Reason_Field-CPS-Clarification Needed - CPS Clarification Needed,0.0013667963542781892
+Reason_Field-CPS-Header Error - Field,0.0001079841311248994
+Reason_Field-CPS-Notes Error - Field,0.0001944078199026914
+Reason_Field-CPS-Other Error - Field,0.0008283883721629623
+Reason_Field-MOPETApprovals-Approval Error - Field,0.0004027975023313636
+Reason_Field-MOPETApprovals-Hard/Soft Copy Error - Field,0.0010953739612335328
+Reason_Field-MOPETApprovals-Not Posted - Field,2.303710741412656e-05
+Reason_Field-Other Custom Document Error - Field,0.00011523415255257211
+Reason_Field-Pricing Transparency Form - Missing/Incomplete Document,4.149573214276516e-05
+Reason_Form not submitted pre-submission,1.0680934584521177e-05
+Reason_Forms,0.0
+Reason_Global Program Manager - Policy clarification/Complex Query,0.0004725439348504511
+Reason_Incomplete/ Inaccurate Information,0.003938905364067563
+Reason_Incorrect Document Version,0.0060721438024201315
+Reason_Internal Hold - MOET & Msops Approvers,1.1473906646189037e-06
+Reason_Internal Hold - Ops PM,2.437920426674159e-05
+Reason_Internal Hold - SME,0.0006444324431349325
+Reason_Internal Hold - Team Lead,0.0
+Reason_Internal Hold - Translations,0.0
+Reason_Internal Hold - VL Processing Team,2.7144455238768218e-05
+Reason_MOPET - Other,0.0006478538826109174
+Reason_MSL/EMSL - Incorrect Billing Multiplier,4.83663226191331e-05
+Reason_MSL/EMSL - Incorrect Coverage,4.2239305357817164e-05
+Reason_MSL/EMSL - Other,0.0009471103853243936
+Reason_MSL/EMSL - Split Invoices,0.0
+Reason_Magnum,0.0014518653415194877
+Reason_Missing Documents,6.0681890743381876e-05
+Reason_Missing Final TUP/Update Statement,4.007964892669349e-05
+Reason_Missing or Incorrect Documents,0.0031912463122501272
+Reason_Missing signatures,0.0007164922968677815
+Reason_Missing/Incomplete Document,0.0018971300636461104
+Reason_Need Approval - Other,0.0002884825610132565
+Reason_Need Approval - PO Number,7.399834557516852e-05
+Reason_Need Approval - Signature Form,5.258309841931627e-05
+Reason_Need Document - Agreement,0.00025053140942559484
+Reason_Need Document - Credit Request Form,0.0
+Reason_Need Document - Customer Letter,3.042460177988853e-05
+Reason_Need Document - Missing Physical Invoice,0.0
+Reason_Need Document - Other,0.004473245234438991
+Reason_Need Document - PO,0.0006287924755689978
+Reason_Need Document - Signature Form,0.0003084413689442153
+Reason_Need Info/Clarification/Correction,7.706632841072935e-06
+Reason_Need Info/Clarification/Correction - 2nd Strike,0.0003167507253235429
+Reason_Need Info/Clarification/Correction - 3rd Strike,4.416412618725801e-06
+Reason_Need Info/Clarification/Correction - Adjustment reason,0.0008582848182041273
+Reason_Need Info/Clarification/Correction - Agreement,0.000313871741591637
+Reason_Need Info/Clarification/Correction - Closed - CH Unresolved,5.704317564321637e-07
+Reason_Need Info/Clarification/Correction - Customer request unclear,0.0001644564705731502
+Reason_Need Info/Clarification/Correction - Escalation/Other,3.1654159775319134e-06
+Reason_Need Info/Clarification/Correction - Forms are altered,0.0004421820304205095
+Reason_Need Info/Clarification/Correction - Forms are not visible,2.1509025970953083e-05
+Reason_Need Info/Clarification/Correction - Incomplete Documents,3.944706569340657e-05
+Reason_Need Info/Clarification/Correction - Invoice number,1.3456427712535599e-06
+Reason_Need Info/Clarification/Correction - Missing Enrollment Number,2.576485737116926e-06
+Reason_Need Info/Clarification/Correction - Needs Definition,0.0
+Reason_Need Info/Clarification/Correction - Other,0.0028813165197077105
+Reason_Need Info/Clarification/Correction - PCN,8.517650761153678e-07
+Reason_Need Info/Clarification/Correction - PO Number,3.1549676905979374e-05
+Reason_Need Info/Clarification/Correction - Resolution Confirmation,0.000467623394771933
+Reason_Need Info/Clarification/Correction - Screenshots,0.0
+Reason_Need Info/Clarification/Correction - Signature Form,8.092614083056221e-05
+Reason_Need Info/Clarification/Correction - System Error,0.0
+Reason_OAM - Approval request  (Mainly GRT/RMA),0.0001273384059241705
+Reason_OAM - Information Request,1.0112291516622187e-06
+Reason_OAM - Order related,0.0002479909204856428
+Reason_OAM - Routed for Credit Approval,4.004696422711472e-05
+Reason_OLS Hub - Unknown Query Response,9.212237367485394e-08
+Reason_Offering Error,0.0031362865718228953
+Reason_OpsPM - Policy/Program clarification,0.0
+Reason_OpsPM - Process clarification,0.0
+Reason_Order - Billing Date,1.9674797476072437e-05
+Reason_Order - Billing Option,3.120928452041736e-05
+Reason_Order - Billing Type,0.000242197819392854
+Reason_Order - Compliance not flipped,2.6965892502255444e-05
+Reason_Order - Coverage - Incorrect Usage Date,0.00023738974128131624
+Reason_Order - Coverage - Tier 2,0.00018396633739770085
+Reason_Order - Coverage Period,0.0007337921943947781
+Reason_Order - Credit Hold,1.4185515860831943e-06
+Reason_Order - Duplicate,0.0
+Reason_Order - Incorrect Agreement,1.8279998747685133e-06
+Reason_Order - License Reduction not processed,6.54766875755212e-05
+Reason_Order - License Reduction processed incorrectly,1.240752625684411e-05
+Reason_Order - Other,0.0019361289943489973
+Reason_Order - PO Number,0.00038137695014264143
+Reason_Order - PO Type,7.676148615526771e-05
+Reason_Order - Paperwork Validation,6.611215632230844e-05
+Reason_Order - Pre-requisites Missing,0.0003735914998199444
+Reason_Order - Price,0.0010583965411718925
+Reason_Order - Price - Anniversary order,0.0
+Reason_Order - Price - CPS,1.7652955288470674e-06
+Reason_Order - Price - Price List,0.0
+Reason_Order - Price - Proration,0.0
+Reason_Order - Price/Currency,3.679730864755819e-05
+Reason_Order - Quanity,3.5179058689069986e-06
+Reason_Order - SKU,0.0006983258649407016
+Reason_Order - Usage Country,0.0
+Reason_Order - Usage Date,8.682440722764721e-05
+Reason_Order - Usage Date/Coverage,0.00012667200126952055
+Reason_Order - Wrong Program offering,2.2606969419398655e-07
+Reason_Order ? Bridge SKU Coverage processed incorrectly,2.77133091954465e-06
+Reason_Order ? License Reservation(s) not reconciled,0.0010511545455122817
+Reason_Other,3.243793609871956e-05
+Reason_Other - Agreement,0.00014086586070550218
+Reason_Other - Other,0.00403760802325166
+Reason_Other - Signature Form,0.0005261369632995417
+Reason_Other CPS Completion Error,0.0002685099730215825
+Reason_Other Completion error,0.0014927264328182704
+Reason_Other Enrollment Completion Error,1.916177537128198e-05
+Reason_Other Manual PO completion Error,0.0029760923649480957
+Reason_Other PLT Completion Error,0.0
+Reason_Other PSF Completion Error,0.00010622143625084157
+Reason_Other Signature Form Error,2.065643879791996e-06
+Reason_PO Number Error,0.003634281255704105
+Reason_PO Type Error,0.0009531874281676944
+Reason_Package Triage form - Unable to Close Form,3.067414218290269e-07
+Reason_Part Number/Description Error,0.003406613344690204
+Reason_Partner,4.8503771616704704e-06
+Reason_Partner Business Desk - Approval required for credit & rebill request,4.271591576690022e-05
+Reason_Partner Business Desk - Override Approval Review/Confirmation,0.0
+Reason_Partner Business Desk - Program/Policy Clarification,0.0
+Reason_Partner Risk - Account Query - General,0.0
+Reason_Previous Enrollment Detail Error,0.0
+Reason_Price Error,0.0051432176797986525
+Reason_Price Level or Customer Commitment Error,0.00030451665723287236
+Reason_Pricing,0.001017974183020046
+Reason_Pricing Team - Clarification Needed,0.0005012281408112025
+Reason_Pricing Team - Price verification,1.978764143454907e-05
+Reason_Pricing Team - Replacement sku verification,0.0
+Reason_Product/Price Level Determination Error,0.001885958873996369
+Reason_Proposal ID error,0.0009317489875143339
+Reason_Purchase Order Type Error,0.0002580926016039325
+Reason_Quantity Error,0.002580818865819493
+Reason_Quantity Error v CPS,0.0
+Reason_RO Tool - Billing option,0.0
+Reason_Reason for Manual Order Error,0.0004386849172071505
+Reason_Regional Program Manager - Adjustment Approval,0.001119789031603276
+Reason_Regional Program Manager - Exception Approval,5.737452763285867e-05
+Reason_Regional Program Manager - Exception Request,0.0001367294016565814
+Reason_Regional Program Manager - Manual Order Approval,0.00014583484884507904
+Reason_Regional Program Manager - Order related,1.4391977354997177e-06
+Reason_Rework - Other,1.678710645203821e-05
+Reason_Rework - Rebill / Rework Incorrect,4.4467877032286936e-05
+Reason_SAP - Account Holds,0.0
+Reason_SAP - Other,0.0
+Reason_SKU Description Error,0.0006497883987725794
+Reason_SUB - Approval,3.4176294750374694e-05
+Reason_SUB - Clarification Needed,0.0011123228829996374
+Reason_SUB - Other,0.0008343793203008685
+Reason_Signature,8.900585980318949e-07
+Reason_Signature Block Error,0.0006460259176299003
+Reason_Standard Policy Error w/o Empowerment,0.00151427313858299
+Reason_Subscription Term Error,0.00021392016804245672
+Reason_Subsidiary Invalid - Standard Policy Error w/o Empowerment,6.888851802433219e-06
+Reason_System Issue,0.0
+Reason_Systems - BART issue,3.9770218157417946e-05
+Reason_Systems - Chip Help - Other,5.64546366748088e-07
+Reason_Systems - Docusign - System issues,3.416358884212633e-05
+Reason_Systems - EDI/XML issue,0.0
+Reason_Systems - EOLAS Issue,4.44178753922471e-05
+Reason_Systems - Explore ms - System issues,0.0
+Reason_Systems - Global Sales Support - System issue,5.805215863991619e-06
+Reason_Systems - LIR - Awaiting data insertion into LIR,0.0
+Reason_Systems - MIMOS - System issue,0.00010557130795859685
+Reason_Systems - MOET Issue,0.0
+Reason_Systems - MSL - Backend Correction,0.00015662759104692796
+Reason_Systems - MSL - Contract cannot be activated,0.0009150456640878974
+Reason_Systems - No Access to Tool,0.0
+Reason_Systems - Papervision - System issues,0.0
+Reason_Systems - Partner Quotes issue,1.757069841453595e-05
+Reason_Systems - SAP - Access issue/request,0.0
+Reason_Systems - SAP - Change CP contact info in SAP,3.4623126056916424e-06
+Reason_Systems - SAP - Reports request,0.0
+Reason_Systems - System Issue,0.0064054029215521
+Reason_Systems - Unknown Query Response,0.0
+Reason_Systems - VLCM Issue,0.0001836115088534972
+Reason_Systems - VLSC Issue,3.3995589251037293e-06
+Reason_Systems - eMSL Issue,0.004819184932988407
+Reason_Tax - Clarification Needed,0.001727944300346898
+Reason_Tax - Sales and Use Tax Issue,7.573098398647627e-06
+Reason_Tax - Tax Adjustment,0.0013700114631492923
+Reason_Tax - Tax Credit Approval,6.722935958702343e-06
+Reason_Tax - Waiting for tax exempt form approval,0.0
+Reason_Tier 2 - Tier 2 - Waiting for MSL backend correction,0.0016314474967149195
+Reason_Trade - Trade Status Hold,0.001499334284999314
+Reason_Usage Country Error,0.0003120017241589764
+Reason_Usage Date Error,0.0040772536277558745
+Reason_VLCM - Agreement failed to activate,3.096735566053074e-05
+Reason_WWLP - Verify Fee Calculation,3.759779335933384e-06
+Reason_Waiting for Sub-Signature,7.484213471764552e-06
+Reason_Workbench,0.0015033189311722047
+Reason_X - LIR - Awaiting data insertion into LIR,0.0
+AssignedToGroup_CRMT,1.125596919198451e-06
+AssignedToGroup_Internal,0.004699172367230488
+AssignedToGroup_Microsoft IT,0.00045514923313237686
+AssignedToGroup_Ops. Program Manager,0.0007622260159924743
+AssignedToGroup_Submitter (Contact),0.10832725867555591
+NewValueName_Ops In,0.0018927875047268033
+NewValueName_Ops Out,0.006463701992581169
+NewValueName_Submission,0.0026369074186172823
+NewValueName_Triage And Validation,0.009106608387162339
+OldValueName_Ops In,0.0016567341898139135
+OldValueName_Ops Out,0.0016508822398097797
+OldValueName_Submission,0.008283882483510462
+OldValueName_Triage And Validation,0.012813552148517402
+AmountinUSD,0.21747023810736177
+Complexity,0.008138187526324286
+CountryProcessed_asia,0.003195102030438118
+CountryProcessed_australia,0.00017913084169540394
+CountryProcessed_europe,0.0025179901549771066
+CountryProcessed_northamerica,0.005062800852195244
+CountryProcessed_other,7.003336527707955e-05
+CountryProcessed_southamerica,0.0032434189029093285
+CountrySource_asia,0.005197993727378415
+CountrySource_australia,0.0020263008082564977
+CountrySource_europe,0.0023444416740978167
+CountrySource_northamerica,0.005272688564403791
+CountrySource_other,4.3826165438857814e-05
+CountrySource_southamerica,0.0022261259869066482
+IsGovernment,0.016893142523683572
+IsMagnumCase,0.0018683008569474703
+IsSOXCase,0.001579523630224232
+IsSignature,0.015420634750695359
+Numberofreactivations,0.02440721869680029
+OLSRevenue,0.012275340729107173
+Priority,0.007179353070072192
+Queue_AOC,0.03365918818480349
+Queue_APOC,0.0026905098564457735
+Queue_EOC,0.0044195774807288795
+Queue_LOC,0.002063199843626073
+Queue_NAOC,0.018949670534149754
+ROCName_APOC,0.00305058040014946
+ROCName_EOC,0.005783490370262542
+Revenutype_Credit / Rebill,0.003872679412492007
+Revenutype_Current Revenue,0.012115643448630484
+Revenutype_Disputed Revenue,0.0001483070995246477
+Revenutype_Future Billing,0.009505575498674335
+Revenutype_Future OTRRR with OLS,0.00013526067871357642
+Revenutype_Future OTRRR without OLS,0.00010983641147650831
+Revenutype_New Work Sold,1.5088478521022974e-05
+Revenutype_Non-revenue,0.007825321145080864
+Revenutype_Revenue Impacting Case / Pending Revenue,0.0011275552094907253
+Revenutype_Revenue Unknown,0.0038332825393884995
+SalesLocation_asia,0.005455122938152649
+SalesLocation_australia,0.00177967261164623
+SalesLocation_europe,0.00202745071364851
+SalesLocation_northamerica,0.003095339609725935
+SalesLocation_southamerica,0.002183762664950927
+Source_Fax,2.050690818219151e-05
+Source_Hard Copy,0.0017400544762029826
+Source_Manual,0.0021361684051080234
+Source_Soft Copy,0.005875996710426455
+Source_Web,0.007204791873236722
+Source_eAgreement (Ele),0.0005098920266440447
+Source_eAgreement (Phy),0.004503330702251502
+StageName_Ops In,0.004412448351834394
+StageName_Ops Out,0.009309109115345273
+StageName_Submission,0.008743918653350466
+StageName_Triage And Validation,0.001671736149605822
+StatusReason_Information Provided,9.449333453751544e-05
+StatusReason_Problem Solved,0.01864842895189948
+SubReason_Basic Enterprise Commitment,0.10664304628739675
+SubReason_Electronic Order Pend / Reject,0.0018257733818606522
+SubReason_Future Pricing Only CPS,0.01752220515433336
+SubReason_Manual Order Entry,0.003334628029228642
+SubReason_Meteaop,0.008559297497783407
+SubReason_P&H Electronic Order,0.0008427218086555921
+SubReason_Tax Exemption Order,0.0006207206457147761
+SubReason_True Up,0.005104452589885663
+SubReason_Zero Usage Order,0.00546774352539019
+sourcesystem_Aplquest,5.630035725279297e-05
+sourcesystem_CLT,0.0005148801354704126
+sourcesystem_Current Revenue,4.5115199884731126e-07
+sourcesystem_Moritz Jürgensen,2.7154997000272222e-06
+sourcesystem_NEMEC,0.0
+sourcesystem_NMEC,0.0004674259064520991
+sourcesystem_Web,2.396863420089804e-06
+sourcesystem_clt,0.00039271941330646016
+sourcesystem_web,2.07464498712192e-05

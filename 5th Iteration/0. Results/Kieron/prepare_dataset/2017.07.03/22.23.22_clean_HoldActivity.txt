@@ -1,0 +1,27 @@
+Date and time: 20170703-222322
+clean_HoldActivity started
+
+user = Kieron
+file opened = vw_HoldActivity.csv
+COSMIC Number = 2
+min_entries function - min: 3
+Column deletion: Deleted -> Entry Count: 0
+
+min_variable_types function - min: 2
+Column deletion: Statuscode -> Variable Type Count: 1
+
+drop_NULL - max ratio: 0.99
+Column deletion: HoldSubReason -> Ratio: 0.995509277537
+
+drop_zeros - max ratio: 0.99
+Column deletion: IsThreeStrikeRule -> Ratio: 0.999703908409
+
+drop_ones - max ratio: 0.99
+
+One hot encoding completed for HoldTypeName
+
+One hot encoding completed for Reason
+
+One hot encoding completed for AssignedToGroup
+
+clean_HoldActivity%s completefile saved as vw_HoldActivity_cleaned

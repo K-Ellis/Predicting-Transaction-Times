@@ -1,0 +1,50 @@
+Date and time: 20170712-213640
+Number of iterations taken to get good data split: 109
+
+Mean value of Train Y: 346332.4054054054
+Mean value of Test Y: 335896.8461538461
+
+Standard deviation of train Y: 457326.870367
+Standard deviation of test Y: 434675.849299
+Standard deviation of test Y: 434675.849299
+
+Date and time: 20170712-213641
+Number of iterations taken to get good data split: 74
+
+Mean value of Train Y: 343472.5675675676
+Mean value of Test Y: 344036.3846153846
+
+Standard deviation of train Y: 454919.366079
+Standard deviation of test Y: 441898.487204
+Standard deviation of test Y: 441898.487204
+
+Date and time: 20170712-213641
+Number of iterations taken to get good data split: 109
+
+Mean value of Train Y: 344149.6756756757
+Mean value of Test Y: 342109.23076923075
+
+Standard deviation of train Y: 449931.013771
+Standard deviation of test Y: 456199.679353
+Standard deviation of test Y: 456199.679353
+
+Date and time: 20170712-213642
+Number of iterations taken to get good data split: 73
+
+Mean value of Train Y: 344372.97297297296
+Mean value of Test Y: 341473.6923076923
+
+Standard deviation of train Y: 451447.510367
+Standard deviation of test Y: 451912.042036
+Standard deviation of test Y: 451912.042036
+
+Date and time: 20170712-213642
+Number of iterations taken to get good data split: 64
+
+Mean value of Train Y: 345231.6216216216
+Mean value of Test Y: 339029.8461538461
+
+Standard deviation of train Y: 455995.834877
+Standard deviation of test Y: 438697.148567
+Standard deviation of test Y: 438697.148567
+
