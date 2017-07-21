@@ -1,0 +1,4 @@
+Date and time: 20170704-095408
+clean_Incident started
+
+user = Test

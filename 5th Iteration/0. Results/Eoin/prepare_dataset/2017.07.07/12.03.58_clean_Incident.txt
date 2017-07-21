@@ -1,0 +1,6 @@
+Date and time: 20170707-120358
+clean_Incident started
+
+Time Taken column calculated
+file saved as ../../../Data/vw_Incident_cleaned_season.csv
+clean_Incident complete

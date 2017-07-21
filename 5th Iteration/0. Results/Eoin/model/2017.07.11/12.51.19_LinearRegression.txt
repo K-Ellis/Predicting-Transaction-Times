@@ -1,0 +1,12 @@
+LinearRegression 20170711-125119
+
+LinearRegression Cross Validation: 5
+LinearRegression Train RMSE -> Max: 344830.38, Min: 341117.75, Avg: 342778.3
+LinearRegression Test RMSE -> Max: 348389.63, Min: 337008.19, Avg: 341967.57
+LinearRegression Train R^2 score -> Max: 0.46, Min: 0.46, Avg: 0.46
+LinearRegression Test R^2 score -> Max: 0.47, Min: 0.43, Avg: 0.45
+LinearRegression number test predictions within 1 hour -> Max: 66/5012, Min: 51/5012, Avg: 60.4/5012
+LinearRegression % test predictions within 1 hour: -> Max: 1.32%, Min: 1.02%, Avg: 1.21%
+LinearRegression number test predictions within 24 hours -> Max: 1381/5012, Min: 1299/5012, Avg: 1345.4/5012
+LinearRegression % test predictions within 24 hours -> Max: 27.55%, Min: 25.92%, Avg: 26.84%
+

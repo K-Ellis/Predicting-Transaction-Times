@@ -1,0 +1,10 @@
+RandomForestRegressor 20170706-192041
+
+RandomForestRegressor Cross Validation: 5
+RandomForestRegressor Train RMSE -> Max: 189093.06, Min: 182369.59, Avg: 186186.15
+RandomForestRegressor Test RMSE -> Max: 356207.94, Min: 338678.24, Avg: 345697.39
+RandomForestRegressor Train R^2 score -> Max: 0.85, Min: 0.84, Avg: 0.84
+RandomForestRegressor Test R^2 score -> Max: 0.48, Min: 0.41, Avg: 0.45
+RandomForestRegressor number test predictions within 1 hour -> Max: 136/5012, Min: 117/5012, Avg: 124.0/5012
+RandomForestRegressor % test predictions within 1 hour: -> Max: 2.71%, Min: 2.33%, Avg: 2.47%
+

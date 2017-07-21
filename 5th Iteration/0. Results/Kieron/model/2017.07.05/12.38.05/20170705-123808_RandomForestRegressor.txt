@@ -1,0 +1,42 @@
+RandomForestRegressor 20170705-123808
+
+RandomForestRegressor Number predictions within 1 hour: 30 / 1250
+RandomForestRegressor % predictions within 1 hour: 2.4%
+
+RandomForestRegressor Train RMSE: 171658.0532947438
+RandomForestRegressor Test RMSE: 351698.375297378
+
+RandomForestRegressor Train R^2 scoree: 0.872384274142
+RandomForestRegressor Test R^2 score: 0.456432499898
+
+Feature Importances:
+0. "AmountinUSD" 	 (0.150299)
+1. "Complexity" 	 (0.019695)
+2. "CountryProcessed_northamerica" 	 (0.003973)
+3. "CountrySource_asia" 	 (0.007814)
+4. "CountrySource_northamerica" 	 (0.012044)
+5. "HoldDuration" 	 (0.492851)
+6. "IsGovernment" 	 (0.012803)
+7. "IsSignature" 	 (0.010885)
+8. "Numberofreactivations" 	 (0.018108)
+9. "Priority" 	 (0.006140)
+10. "Queue_AOC" 	 (0.037929)
+11. "Queue_APOC" 	 (0.006008)
+12. "Queue_NAOC" 	 (0.005845)
+13. "ROCName_APOC" 	 (0.004853)
+14. "ROCName_EOC" 	 (0.009781)
+15. "Revenutype_Credit / Rebill" 	 (0.001755)
+16. "Revenutype_Current Revenue" 	 (0.008055)
+17. "Revenutype_Future Billing" 	 (0.009341)
+18. "Revenutype_Non-revenue" 	 (0.008225)
+19. "Revenutype_Revenue Unknown" 	 (0.004200)
+20. "SalesLocation_asia" 	 (0.004873)
+21. "Source_Soft Copy" 	 (0.011013)
+22. "Source_Web" 	 (0.008097)
+23. "StageName" 	 (0.028795)
+24. "StatusReason_Problem Solved" 	 (0.017831)
+25. "SubReason_Basic Enterprise Commitment" 	 (0.061671)
+26. "SubReason_Future Pricing Only CPS" 	 (0.017488)
+27. "SubReason_Meteaop" 	 (0.008830)
+28. "SubReason_Zero Usage Order" 	 (0.005363)
+29. "sourcesystem_clt" 	 (0.005434)
