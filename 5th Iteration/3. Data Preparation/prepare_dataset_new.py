@@ -258,7 +258,38 @@ def clean_Incident(d, newpath):
     if d["resample"] == "y":
         from sklearn.utils import resample
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
+    
+    ####################################################################################################################
+    # Use only cases created in the last 4 business days of the month
+    ####################################################################################################################
+    if d["last_4_BDays"] == "y":
+        from pandas.tseries.offsets import BDay
+        from pandas.tseries.offsets import MonthEnd
+        import datetime
+        df["Created_On_DateTime"] = pd.to_datetime(df["Created_On"])
+        
+        start = pd.datetime(2017, 2, 1)
+        end = pd.datetime(2017, 7, 1)
+        end_of_months = pd.date_range(start, end, freq='BM')
 
+        last_bdayslist = []
+        for end_of_month in end_of_months:
+            last_bdayslist += pd.bdate_range(end_of_month- BDay(3),end_of_month- BDay(0))
+
+        dflast_bdays = pd.DataFrame(last_bdayslist, columns=["Last_4_BDays"])
+
+        # dfincident_trimmed = df.copy()
+
+        dflast_bdays["Last_4_BDays_String"] = dflast_bdays["Last_4_BDays"].map(lambda x: x.strftime('%Y-%m-%d'))
+        df["Created_On_String"] = df["Created_On_DateTime"].map(lambda x: x.strftime('%Y-%m-%d'))
+
+        for date in df["Created_On_String"]:
+            if date not in dflast_bdays["Last_4_BDays_String"].values:
+                df = df[df["Created_On_String"] != date]
+        
+        del df["Created_On_String"]
+        del df["Created_On_DateTime"]
+    
     ####################################################################################################################
     # Date and time - calculate time taken and time remaining before month and Qtr end
     ####################################################################################################################
@@ -267,7 +298,7 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Queue: One hot encoding in buckets
     ####################################################################################################################
-    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "<VL Broken Communications>", "E&E"]
+    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "Broken", "E&E"]
     check_substr_exists = [False for _ in substr_list]
     # Create a list of 8 unique substrings located in the categorical variables. These will become the new one-hot
     # encoded column names.
@@ -284,12 +315,11 @@ def clean_Incident(d, newpath):
         if check_substr_exists[i] == True:
             df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Replace the categorical variables in Queue with
         # the substrings
-    extra_queues = ["<VL Broken 1N Communications>", "<WWCS - EMEA Admin>", "Xbox", "OpsPM", "<CLT Duplicates>"]
+    extra_queues = ["<WWCS - EMEA Admin>", "<3P Xbox AR Operations>", "<VL OpsPM program support>", "<CLT Duplicates>"]
     # combine uncommon queue types
     for extra in extra_queues:
-        if extra in df["Queue"]:
+        if extra in df["Queue"].values:
             df["Queue"] = df["Queue"].replace(extra, "Other")
-
     df = one_hot_encoding(df, "Queue", out_file)
     out_file.write("\n")
 
@@ -323,6 +353,26 @@ def clean_Incident(d, newpath):
 
         # fill the NANs with 0's
         df["HoldDuration"].fillna(0, inplace=True)
+    
+    if d["append_AuditDuration"] == "y":
+        from datetime import timedelta
+        dfaudithistory = pd.read_csv("../../../Data/vw_AuditHistory.csv",encoding='latin-1',low_memory=False)
+        
+        dfaudithistory["Created_On"] = pd.to_datetime(dfaudithistory["Created_On"])
+        
+        dfaudithistory_uniqueticketsonly = pd.DataFrame(dfaudithistory["TicketNumber"].unique(), columns=["TicketNumber"])
+        dfaudithistory_uniqueticketsonly["AuditDuration"] = None
+
+        for ticket in dfaudithistory_uniqueticketsonly["TicketNumber"].tolist():
+            dfaudithistory_uniqueticketsonly.loc[dfaudithistory_uniqueticketsonly["TicketNumber"] == ticket, "AuditDuration"] = \
+            timedelta.total_seconds(dfaudithistory.loc[dfaudithistory["TicketNumber"] == ticket, "Created_On"].max() - \
+                dfaudithistory.loc[dfaudithistory["TicketNumber"] == ticket, "Created_On"].min())   
+
+        # merge new dfduration df with dfincident based on ticket number
+        df = df.merge(dfaudithistory_uniqueticketsonly, how='left', left_on='TicketNumber', right_on='TicketNumber')
+
+        # fill the NANs with 0's
+        df["AuditDuration"].fillna(0, inplace=True)
 
     ####################################################################################################################
     # Domain knowledge processing
@@ -416,6 +466,8 @@ def clean_Incident(d, newpath):
     quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
     if d["append_HoldDuration"] == "y":
         quant_cols.append("HoldDuration")
+    if d["append_AuditDuration"] == "y":
+        quant_cols.append("AuditDuration")
 
     exclude_from_mode_fill = quant_cols
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)

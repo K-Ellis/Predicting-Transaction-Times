@@ -188,6 +188,15 @@ def results(df, alg, regressor, newpath, d, iter_no=None):
     train_r2_std = np.std(train_r_sq)
     test_r2_std = np.std(test_r_sq)
 
+    ave_1hour = np.mean(number_test_1)
+    std_1hour = np.std(number_test_1)
+    pct_ave_1hour = ave_1hour/ len(y_test_pred) * 100
+    pct_std_std_1hour = std_1hour/ len(y_test_pred) * 100
+    ave_24hour = np.mean(number_test_24)
+    std_24hour = np.std(number_test_24)
+    pct_ave_24hour = ave_24hour/ len(y_test_pred) * 100
+    pct_std_std_24hour = std_24hour/ len(y_test_pred) * 100
+    
     out_file.write(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)\n")
 
     out_file.write("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(train_rmse_ave, train_rmse_std))
@@ -195,47 +204,24 @@ def results(df, alg, regressor, newpath, d, iter_no=None):
     out_file.write("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})\n".format(train_r2_ave, train_r2_std))
     out_file.write("\tTest Mean R2: {0:.5f} (+/-{1:.5f})\n".format(test_r2_ave, test_r2_std))
 
-    out_file.write("\n\t" + alg + " number test predictions within 1 hour -> Max: " + str(max(number_test_1)) + "/" +
-                   str(len(y_test_pred)) + ", Min: " + str(min(number_test_1)) + "/" +
-                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_1) / len(number_test_1)) + "/" +
-                   str(len(y_test_pred)) + "\n")
-    out_file.write("\t" + alg + " % test predictions within 1 hour: -> Max: " +
-                   str(round(((max(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
-                   str(round(((min(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
-                   str(round(((sum(number_test_1) / len(number_test_1)) / len(y_test_pred) * 100), 2)) + "%" + "\n")
-    out_file.write("\t" + alg + " number test predictions within 24 hours -> Max: " + str(max(number_test_24)) + "/" +
-                   str(len(y_test_pred)) + ", Min: " + str(min(number_test_24)) + "/" +
-                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_24) / len(number_test_24)) + "/" +
-                   str(len(y_test_pred)) + "\n")
-    out_file.write("\t" + alg + " % test predictions within 24 hours -> Max: " +
-                   str(round(((max(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
-                   str(round(((min(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
-                   str(round(((sum(number_test_24) / len(number_test_24)) / len(y_test_pred) * 100), 2)) + "%" + "\n")
+    out_file.write("\n\n\t{2:s} number test predictions within 1 hour -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_1hour, std_1hour, alg,len(y_test_pred) ))
+    out_file.write("\n\t{2:s} % test predictions within 1 hour: -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg))
+    out_file.write("\n\t{2:s} number test predictions within 24 hours -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_24hour, std_24hour, alg, len(y_test_pred)))
+    out_file.write("\n\t{2:s} % test predictions within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour, alg))
     out_file.write("\n")
 
-    print(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
+    print("\n" + alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
 
     print("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})".format(train_rmse_ave, train_rmse_std))
     print("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})".format(test_rmse_ave, test_rmse_std))
     print("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})".format(train_r2_ave, train_r2_std))
     print("\tTest Mean R2: {0:.5f} (+/-{1:.5f})".format(test_r2_ave, test_r2_std))
-
-    print("\n\t" +alg + " number test predictions within 1 hour -> Max: " + str(max(number_test_1)) + "/" +
-                   str(len(y_test_pred)) + ", Min: " + str(min(number_test_1)) + "/" +
-                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_1) / len(number_test_1)) + "/" +
-                   str(len(y_test_pred)))
-    print("\t" + alg + " % test predictions within 1 hour: -> Max: " +
-                   str(round(((max(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
-                   str(round(((min(number_test_1) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
-                   str(round(((sum(number_test_1) / len(number_test_1)) / len(y_test_pred) * 100), 2)) + "%")
-    print("\t" + alg + " number test predictions within 24 hours -> Max: " + str(max(number_test_24)) + "/" +
-                   str(len(y_test_pred)) + ", Min: " + str(min(number_test_24)) + "/" +
-                   str(len(y_test_pred)) + ", Avg: " + str(sum(number_test_24) / len(number_test_24)) + "/" +
-                   str(len(y_test_pred)))
-    print("\t" + alg + " % test predictions within 24 hours -> Max: " +
-                   str(round(((max(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Min: " +
-                   str(round(((min(number_test_24) / len(y_test_pred)) * 100), 2)) + "%, Avg: " +
-                   str(round(((sum(number_test_24) / len(number_test_24)) / len(y_test_pred) * 100), 2)) + "%\n")
+    
+    print("\n\t{2:s} number test predictions within 1 hour -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_1hour, std_1hour, alg,len(y_test_pred) ))
+    print("\t{2:s} % test predictions within 1 hour: -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg))
+    print("\t{2:s} number test predictions within 24 hours -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_24hour, std_24hour, alg, len(y_test_pred)))
+    print("\t{2:s} % test predictions within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour, alg))
+  
 
     # plot the results for the whole cross validation
     y_train_pred = cross_val_predict(regr, trainData_x, trainData_y, cv=int(d["crossvalidation"]))
@@ -290,7 +276,7 @@ if __name__ == "__main__":  # Run program
             newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] +"/"#time.strftime("%Y.%m.%d/") +
             # \time.strftime("%H.%M.%S/")# Log file location
         else:
-            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"]+ d["specify_subfolder"]+"/" #+
+            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"]+ "/" + d["specify_subfolder"]+"/" #+
             # time.strftime("/%Y.%m.%d/") + \time.strftime("%H.%M.%S/")  # Log file location
 
     else:

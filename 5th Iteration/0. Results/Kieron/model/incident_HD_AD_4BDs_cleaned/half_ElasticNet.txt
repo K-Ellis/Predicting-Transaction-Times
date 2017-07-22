@@ -1,0 +1,14 @@
+ElasticNet 20170722-233739
+
+ElasticNet: Cross Validation (10 Folds)
+	Train Mean RMSE: 302694.88 (+/-1366.27)
+	Test Mean RMSE: 306068.75 (+/-12755.58)
+	Train Mean R2: 0.63088 (+/-0.00402)
+	Test Mean R2: 0.62014 (+/-0.02639)
+
+
+	ElasticNet number test predictions within 1 hour -> Mean: 8.9/467 (+/- 2.5)
+	ElasticNet % test predictions within 1 hour: -> Mean: 1.91% (+/- 0.55%)
+	ElasticNet number test predictions within 24 hours -> Mean: 178.6/467 (+/- 11.9)
+	ElasticNet % test predictions within 24 hours -> Mean: 38.24% (+/- 2.55%)
+
