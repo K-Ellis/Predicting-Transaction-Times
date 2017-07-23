@@ -26,7 +26,8 @@ from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error, r2_score
 from math import sqrt
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.neural_network import MLPRegressor
 from shutil import copyfile  # Used to copy parameters file to directory
 from select_k_importance import trim_df, select_top_k_importants
 from grid_search import grid_search_CV
@@ -108,7 +109,7 @@ def plot(x, y, alg, data, newpath, iter_no=None):
         plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + alg + "_" + data + ".pdf")
 
 
-def results(df, alg, regressor, newpath, d, iter_no=None):
+def results(df, alg, in_regressor, newpath, d, iter_no=None):
     if d["user"] == "Kieron":
         if iter_no is None:
             out_file_name = newpath + alg + ".txt"  # Log file name
@@ -140,7 +141,7 @@ def results(df, alg, regressor, newpath, d, iter_no=None):
         testData_y = y.iloc[test_indices]
 
         # Train the model, and evaluate it
-        regr = regressor
+        regr = in_regressor
         regr.fit(trainData_x, trainData_y.values.ravel())
 
         # Get predictions
@@ -342,41 +343,55 @@ if __name__ == "__main__":  # Run program
             })
             alg_names.append("xgboost")
         if d["RandomForestRegressor"] == "y":
-            regressors.append(RandomForestRegressor())
+            regressors.append(RandomForestRegressor(n_estimators=int(d["n_estimators"])))
             parameters_to_tune.append({
-                "n_estimators": [100, 250, 500, 1000],
+                # "n_estimators": [100, 250, 500, 1000],
                 "criterion": ["mse", "mae"],
                 "max_features": [1, 0.1, "auto", "sqrt", "log2", None],
                 "max_depth": [None, 10, 25, 50]})
             alg_names.append("RandomForestRegressor")
 
-        for regressor, alg_name, params in zip(regressors, alg_names, parameters_to_tune):
-            grid_search_CV(regressor, alg_name, params, newpath, d, X, y)
+        for reg, alg_name, params in zip(regressors, alg_names, parameters_to_tune):
+            grid_search_CV(reg, alg_name, params, newpath, d, X, y)
 
     else:
         if d["LinearRegression"] == "y":
-            classifier = LinearRegression()
-            results(df, "LinearRegression", classifier, newpath, d)
+            regressor = LinearRegression()
+            results(df, "LinearRegression", regressor, newpath, d)
+
         if d["ElasticNet"] == "y":
-            classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
-            results(df, "ElasticNet", classifier, newpath, d)
+            regressor = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
+            results(df, "ElasticNet", regressor, newpath, d)
+
         if d["KernelRidge"] == "y":
-            classifier = KernelRidge(alpha=0.1)
-            results(df, "KernelRidge", classifier, newpath, d)
+            regressor = KernelRidge(alpha=0.1)
+            results(df, "KernelRidge", regressor, newpath, d)
+
+        if d["MLPRegressor"] == "y":
+            regressor = MLPRegressor(hidden_layer_sizes=(50,25,10,5,3), random_state=int(d["seed"]),
+                                     max_iter=2000)#,
+            # early_stopping=True)
+            results(df, "MLPRegressor", regressor, newpath, d)
+
+        if d["GradientBoostingRegressor"] == "y":
+            regressor = GradientBoostingRegressor(random_state=int(d["seed"]))
+            results(df, "GradientBoostingRegressor", regressor, newpath, d)
+
         if d["xgboost"] == "y":
             import xgboost as xgb
             params = {
                 'max_depth': 5,
                 'n_estimators': 50,
                 'objective': 'reg:linear'}
-            classifier = xgb.XGBRegressor(**params)
-            results(df, "xgboost", classifier, newpath, d)
+            regressor = xgb.XGBRegressor(**params)
+            results(df, "xgboost", regressor, newpath, d)
+
         if d["RandomForestRegressor"] == "y":
-            classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
+            regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
             if d["rerun_with_top_importances"] == "n":
-                results(df, "RandomForestRegressor", classifier, newpath, d)
+                results(df, "RandomForestRegressor", regressor, newpath, d)
             else:
-                dfimportances = results(df, "RandomForestRegressor", classifier, newpath, d)
+                dfimportances = results(df, "RandomForestRegressor", regressor, newpath, d)
 
                 if d["top_k_features"] == "half":
                     k = round(len(dfimportances["Columns"])/2)+1
@@ -395,23 +410,27 @@ if __name__ == "__main__":  # Run program
                 print("Bottom", len(cols_to_be_deleted), "Columns to be deleted = ", cols_to_be_deleted, "\n")
 
                 if d["LinearRegression"] == "y":
-                    classifier = LinearRegression()
-                    results(df, "LinearRegression", classifier, newpath, d, "second")
+                    regressor = LinearRegression()
+                    results(df, "LinearRegression", regressor, newpath, d, "second")
+
                 if d["ElasticNet"] == "y":
-                    classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
-                    results(df, "ElasticNet", classifier, newpath, d, "second")
+                    regressor = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
+                    results(df, "ElasticNet", regressor, newpath, d, "second")
+
                 if d["KernelRidge"] == "y":
-                    classifier = KernelRidge(alpha=0.1)
-                    results(df, "KernelRidge", classifier, newpath, d, "second")
+                    regressor = KernelRidge(alpha=0.1)
+                    results(df, "KernelRidge", regressor, newpath, d, "second")
+
                 if d["xgboost"] == "y":
                     params = {
                         'max_depth': 5,
                         'n_estimators': 50,
                         'objective': 'reg:linear'}
-                    classifier = xgb.XGBRegressor(**params)
-                    results(df, "xgboost", classifier, newpath, d, "second")
-                classifier = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
-                results(df, "RandomForestRegressor", classifier, newpath, d, "second")
+                    regressor = xgb.XGBRegressor(**params)
+                    results(df, "xgboost", regressor, newpath, d, "second")
+
+                regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
+                results(df, "RandomForestRegressor", regressor, newpath, d, "second")
 
     if d["user"] == "Kieron":
         copyfile(parameters, newpath + "parameters.txt")  # Save parameters

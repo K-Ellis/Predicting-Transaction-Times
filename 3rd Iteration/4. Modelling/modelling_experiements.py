@@ -116,7 +116,7 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y, scaler):
 def elastic_net(trainData_x, trainData_y, testData_x, testData_y):  # Elastic Net
     classifier = ElasticNet()
     classifier = classifier.fit(trainData_x, trainData_y)
-    # print(classifier.coef_)
+    # print(regressor.coef_)
     y_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
     results(testData_y, y_pred, trainData_y, y_train_pred, "ElasticNet")

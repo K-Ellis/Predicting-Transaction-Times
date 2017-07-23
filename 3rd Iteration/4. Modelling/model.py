@@ -137,7 +137,7 @@ def linear_regression(trainData_x, trainData_y, testData_x, testData_y, COSMIC_n
 def elastic_net(trainData_x, trainData_y, testData_x, testData_y, COSMIC_num):  # Elastic Net
     classifier = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
     classifier = classifier.fit(trainData_x, trainData_y)
-    # print(classifier.coef_)
+    # print(regressor.coef_)
     y_pred = classifier.predict(testData_x)
     y_train_pred = classifier.predict(trainData_x)
     results(testData_y, y_pred, trainData_y, y_train_pred, "ElasticNet", COSMIC_num)

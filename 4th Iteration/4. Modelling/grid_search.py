@@ -74,7 +74,7 @@ if d["KernelRidge"] == "y":
                               "gamma": np.logspace(-2, 2, 5)})
     alg_names.append("KernelRidge")
 # if d["xgboost"] == "y":
-# 	regressors.append(GridSearchCV(xgboost())
+# 	in_regressors.append(GridSearchCV(xgboost())
 # 	alg_names.append("xgboost")
 if d["RandomForestRegressor"] == "y":
     regressors.append(RandomForestRegressor())

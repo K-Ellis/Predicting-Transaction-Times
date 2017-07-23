@@ -4,7 +4,7 @@ iteration_number: 5
 raw_data_location: ../../../Data/
 file_location: ../../../Data/
 ########### ################
-specify_subfolder: n
+specify_subfolder: GradientBoostingRegressor
 input_file: incident_HD_AD_cleaned
 output_file: incident_HD_AD_4BDs_cleaned
 ########### ################

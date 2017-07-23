@@ -1,0 +1,14 @@
+GradientBoostingRegressor 20170723-125254
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean RMSE: 45898.44 (+/-5243.64)
+	Test Mean RMSE: 280923.90 (+/-101494.90)
+	Train Mean R2: 0.99078 (+/-0.00324)
+	Test Mean R2: 0.42445 (+/-0.38510)
+
+
+	GradientBoostingRegressor number test predictions within 1 hour -> Mean: 0.7/10 (+/- 0.6)
+	GradientBoostingRegressor % test predictions within 1 hour: -> Mean: 7.00% (+/- 6.40%)
+	GradientBoostingRegressor number test predictions within 24 hours -> Mean: 4.7/10 (+/- 1.5)
+	GradientBoostingRegressor % test predictions within 24 hours -> Mean: 47.00% (+/- 14.87%)
+

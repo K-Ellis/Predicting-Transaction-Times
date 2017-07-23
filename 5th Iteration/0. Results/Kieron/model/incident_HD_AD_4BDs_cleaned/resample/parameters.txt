@@ -4,8 +4,8 @@ iteration_number: 5
 raw_data_location: ../../../Data/
 file_location: ../../../Data/
 ########### ################
-specify_subfolder: n
-input_file: incident_HD_AD_cleaned
+specify_subfolder: GradientBoostingRegressor
+input_file: incident_HD_AD_4BDs_cleaned
 output_file: incident_HD_AD_4BDs_cleaned
 ########### ################
 delete_ticketNumber: y
@@ -22,7 +22,7 @@ LinearRegression: n
 ElasticNet: n
 KernelRidge: n
 MLPRegressor: y
-GradientBoostingRegressor: n
+GradientBoostingRegressor: y
 xgboost: n
 RandomForestRegressor: n
 n_estimators: 50
@@ -34,7 +34,7 @@ export_importances_csv: y
 grid_search: n
 grid_search_RMSE: n
 ########### ################
-resample: n
+resample: y
 n_samples: 100
 ########### ################
 log_of_y: n

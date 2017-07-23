@@ -1,9 +1,9 @@
 from sklearn.model_selection import GridSearchCV
 
-def grid_search_CV(regressor, alg_name, parameters_to_tune, newpath, d, X, y):
+def grid_search_CV(input_regressor, alg_name, parameters_to_tune, newpath, d, X, y):
     print("# Tuning %s hyper-parameters for RMSE:\n" % (alg_name))  # , score))
     if d["grid_search_RMSE"] == "y":
-        regr = GridSearchCV(regressor, parameters_to_tune, cv=int(d["crossvalidation"]), scoring="neg_mean_squared_error")
+        regr = GridSearchCV(input_regressor, parameters_to_tune, cv=int(d["crossvalidation"]), scoring="neg_mean_squared_error")
         regr.fit(X, y.values.ravel())
 
         print("Best parameters found for minimizing RMSE:")
@@ -30,7 +30,7 @@ def grid_search_CV(regressor, alg_name, parameters_to_tune, newpath, d, X, y):
                 f.write("\t%0.1f (+/- %0.1f) for %r\n" % (mean, std * 2, params))
                 print("\t%0.1f (+/- %0.1f) for %r" % (mean, std * 2, params))
     else:
-        regr = GridSearchCV(regressor, parameters_to_tune, cv=int(d["crossvalidation"]), scoring=None)
+        regr = GridSearchCV(input_regressor, parameters_to_tune, cv=int(d["crossvalidation"]), scoring=None)
         regr.fit(X, y.values.ravel())
 
         print("Best parameters found for maximising R2:")
@@ -119,18 +119,18 @@ if __name__ == "__main__":
     # X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=int(d["seed"]))
 
 
-    regressors = []
+    in_regressors = []
     alg_names = []
     parameters_to_tune = []
 
     if d["LinearRegression"] == "y":
-        regressors.append(LinearRegression())
+        in_regressors.append(LinearRegression())
         parameters_to_tune.append({
             "fit_intercept":[True, False],
             "normalize":[True, False]})
         alg_names.append("LinearRegression")
     if d["ElasticNet"] == "y":
-        regressors.append(ElasticNet())
+        in_regressors.append(ElasticNet())
         parameters_to_tune.append({
             # "alpha":[0.0001, 0.001, 0.01, 0.1, 1.0, 10, 100], # get convergence warning for small alphas
             "alpha": [0.01, 0.01, 0.1, 1.0, 10, 100],
@@ -141,15 +141,15 @@ if __name__ == "__main__":
         })
         alg_names.append("ElasticNet")
     if d["KernelRidge"] == "y":
-        regressors.append(KernelRidge(kernel='rbf', gamma=0.1))
+        in_regressors.append(KernelRidge(kernel='rbf', gamma=0.1))
         parameters_to_tune.append({"alpha": [1e0, 0.1, 1e-2, 1e-3],
                                   "gamma": np.logspace(-2, 2, 5)})
         alg_names.append("KernelRidge")
     # if d["xgboost"] == "y":
-    # 	regressors.append(GridSearchCV(xgboost())
+    # 	in_regressors.append(GridSearchCV(xgboost())
     # 	alg_names.append("xgboost")
     if d["RandomForestRegressor"] == "y":
-        regressors.append(RandomForestRegressor())
+        in_regressors.append(RandomForestRegressor())
         parameters_to_tune.append({
             "n_estimators":[100, 250, 500, 1000],
             "criterion":["mse", "mae"],
@@ -158,11 +158,11 @@ if __name__ == "__main__":
         alg_names.append("RandomForestRegressor")
 
 
-    for regressor, alg_name, params in zip(regressors, alg_names, parameters_to_tune):
-        grid_search_CV(regressor, alg_name,params, newpath, d, X, y)
+    for in_regressor, alg_name, params in zip(in_regressors, alg_names, parameters_to_tune):
+        grid_search_CV(in_regressor, alg_name, params, newpath, d, X, y)
 
 
-        # def grid_search_CV(regressor, alg_name, parameters_to_tune, newpath, d, X, y):
+        # def grid_search_CV(in_regressor, alg_name, parameters_to_tune, newpath, d, X, y):
 
 
     if d["user"] == "Kieron":
