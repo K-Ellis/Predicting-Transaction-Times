@@ -1,0 +1,9 @@
+Best parameters found for maximising R2:
+	{'min_weight_fraction_leaf': 0.0}
+	Train: 0.95588 (+/- 0.00430)
+	Test: 0.75570 (+/- 0.10491)
+
+Grid R2 scores on development set:
+	0.75570 (+/-0.10491) for {'min_weight_fraction_leaf': 0.0}
+	0.18988 (+/-0.08155) for {'min_weight_fraction_leaf': 0.25}
+	0.02656 (+/-0.08476) for {'min_weight_fraction_leaf': 0.5}

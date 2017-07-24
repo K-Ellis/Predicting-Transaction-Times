@@ -64,13 +64,14 @@ def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres, exclude):
     return dfcs
 
 
-def time_taken(df, out_file, start, finish):  # replace start & finish with one new column, "TimeTaken"
+def time_taken(df, out_file, start, finish, d):  # replace start & finish with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
     df2 = pd.DataFrame()  # create new dataframe, df2, to store answer  # todo - no need for df2
     df2["TimeTaken"] = (df[finish] - df[start]).astype('timedelta64[s]')
     # del df[start]  # Removed so we can include time to month and qtr end
-    del df[finish]
+    if d["delete_created_resolved"] == "y":
+        del df[finish]
     df = pd.concat([df2, df], axis=1)
     out_file.write("\nTime Taken column calculated" + "\n")
     mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
@@ -81,7 +82,8 @@ def time_taken(df, out_file, start, finish):  # replace start & finish with one 
     df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
     out_file.write("Day of month calculated" + "\n")
     df["Days_left_QTR"] = df["Created_On"].apply(lambda x: int(days_left_in_quarter(x)))  # Day of the Qtr
-    del df["Created_On"]
+    if d["delete_created_resolved"] == "y":
+        del df["Created_On"]
     out_file.write("Day of quarter calculated" + "\n\n")
     return df
 
@@ -293,7 +295,7 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Date and time - calculate time taken and time remaining before month and Qtr end
     ####################################################################################################################
-    df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable and filter outliers
+    df = time_taken(df, out_file, "Created_On", "ResolvedDate", d)  # Create Time Variable and filter outliers
 
     ####################################################################################################################
     # Queue: One hot encoding in buckets

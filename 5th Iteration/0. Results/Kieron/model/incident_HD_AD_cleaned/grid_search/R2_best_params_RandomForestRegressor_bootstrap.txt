@@ -1,0 +1,8 @@
+Best parameters found for maximising R2:
+	{'bootstrap': True}
+	Train: 0.95588 (+/- 0.00430)
+	Test: 0.75570 (+/- 0.10491)
+
+Grid R2 scores on development set:
+	0.75570 (+/-0.10491) for {'bootstrap': True}
+	0.58600 (+/-0.16410) for {'bootstrap': False}

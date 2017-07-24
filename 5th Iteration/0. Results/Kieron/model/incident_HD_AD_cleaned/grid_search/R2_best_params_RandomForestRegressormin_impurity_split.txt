@@ -1,0 +1,9 @@
+Best parameters found for maximising R2:
+	{'min_impurity_split': 1e-05}
+	Train: 0.95588 (+/- 0.00430)
+	Test: 0.75570 (+/- 0.10491)
+
+Grid R2 scores on development set:
+	0.75570 (+/-0.10491) for {'min_impurity_split': 1e-05}
+	0.75570 (+/-0.10491) for {'min_impurity_split': 1e-07}
+	0.75570 (+/-0.10491) for {'min_impurity_split': 1e-09}
