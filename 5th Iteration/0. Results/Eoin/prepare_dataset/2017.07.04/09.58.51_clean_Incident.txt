@@ -1,6 +1,0 @@
-Date and time: 20170704-095851
-clean_Incident started
-
-user = Test
-file opened = vw_Incident.csv
-COSMIC Number = 2

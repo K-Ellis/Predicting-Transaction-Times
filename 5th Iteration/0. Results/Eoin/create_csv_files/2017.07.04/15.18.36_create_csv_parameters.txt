@@ -1,5 +1,0 @@
-user: Eoin
-raw_data: UCD_Data_20170623_1.xlsx
-raw_data_location: ../../../Data/
-outfile_name: _0
-outfile_location: ../../../Data/

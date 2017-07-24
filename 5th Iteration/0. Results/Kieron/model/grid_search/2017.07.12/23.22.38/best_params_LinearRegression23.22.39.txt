@@ -1,2 +1,0 @@
-{'fit_intercept': 'True', 'normalize': 'True'}
-Train: 0.99002 (+/- 0.01726)Test: -246.38047 (+/- 469.37261)-246.38047 (+/-469.37261) for {'fit_intercept': 'True', 'normalize': 'True'}-246.38047 (+/-469.37261) for {'fit_intercept': 'True', 'normalize': 'False'}-246.38047 (+/-469.37261) for {'fit_intercept': 'False', 'normalize': 'True'}-246.38047 (+/-469.37261) for {'fit_intercept': 'False', 'normalize': 'False'}

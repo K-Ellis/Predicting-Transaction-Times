@@ -1,3 +1,0 @@
-LinearRegression 20170615-181817
-LinearRegression RMSE: 1.0071288290754562e+16
-LinearRegression Test R^2 score: -3.60818486384e+20
