@@ -157,7 +157,7 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
             if y_train_pred[i] < 0:  # Convert all negative predictions to 0
                 y_train_pred[i] = 0
             if y_train_pred[i] > (mean_time + 4*std_time):  # Convert all predictions > 3 std to 3std
-                y_train_pred[i] = (mean_time + 4*std_time)
+                y_train_pred[i] = (mean_time + 4*std_time) # todo - is 4 a typo here?
             if math.isnan(y_train_pred[i]):  # If NaN set to 0
                 y_train_pred[i] = 0
         for i in range(len(y_test_pred)): # Convert high or low predictions to 0 or 3 std
@@ -357,11 +357,11 @@ if __name__ == "__main__":  # Run program
 
     else:
         if d["LinearRegression"] == "y":
-            regressor = LinearRegression(fit_intercept=False, normalize=True)
+            regressor = LinearRegression()
             results(df, "LinearRegression", regressor, newpath, d)
 
         if d["ElasticNet"] == "y":
-            regressor = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
+            regressor = ElasticNet(l1_ratio=1, max_iter=100000)
             results(df, "ElasticNet", regressor, newpath, d)
 
         if d["KernelRidge"] == "y":
@@ -388,7 +388,7 @@ if __name__ == "__main__":  # Run program
             results(df, "xgboost", regressor, newpath, d)
 
         if d["RandomForestRegressor"] == "y":
-            regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
+            regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
             if d["rerun_with_top_importances"] == "n":
                 results(df, "RandomForestRegressor", regressor, newpath, d)
             else:
@@ -415,7 +415,7 @@ if __name__ == "__main__":  # Run program
                     results(df, "LinearRegression", regressor, newpath, d, "second")
 
                 if d["ElasticNet"] == "y":
-                    regressor = ElasticNet(alpha=0.01, l1_ratio=0.9, max_iter=100000)
+                    regressor = ElasticNet(l1_ratio=1, max_iter=100000)
                     results(df, "ElasticNet", regressor, newpath, d, "second")
 
                 if d["KernelRidge"] == "y":
@@ -430,7 +430,7 @@ if __name__ == "__main__":  # Run program
                     regressor = xgb.XGBRegressor(**params)
                     results(df, "xgboost", regressor, newpath, d, "second")
 
-                regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]))
+                regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
                 results(df, "RandomForestRegressor", regressor, newpath, d, "second")
 
     if d["user"] == "Kieron":
