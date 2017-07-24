@@ -357,7 +357,7 @@ if __name__ == "__main__":  # Run program
 
     else:
         if d["LinearRegression"] == "y":
-            regressor = LinearRegression()
+            regressor = LinearRegression(fit_intercept=False, normalize=True)
             results(df, "LinearRegression", regressor, newpath, d)
 
         if d["ElasticNet"] == "y":
