@@ -251,10 +251,44 @@ def clean_Incident(d, newpath):
     out_file.write("clean_Incident started" + "\n")
 
     if d["user"] == "Kieron":
-        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+        df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
     else:
-        df = pd.read_csv(d["file_location"] + "vw_Incident" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
-        # todo - don't write my name in code. Use your own or better yet - find a way to make it work without names
+        df = pd.read_csv(d["file_location"] + "vw_Incident" + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
+
+    if d["resample"] == "y":
+        from sklearn.utils import resample
+        df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
+
+    ####################################################################################################################
+    # Use only cases created in the last 4 business days of the month
+    ####################################################################################################################
+    if d["last_4_BDays"] == "y":
+        from pandas.tseries.offsets import BDay
+        from pandas.tseries.offsets import MonthEnd
+        import datetime
+        df["Created_On_DateTime"] = pd.to_datetime(df["Created_On"])
+
+        start = pd.datetime(2017, 2, 1)  # todo some day in the future - avoid hardcoding dates
+        end = pd.datetime(2017, 7, 1)
+        end_of_months = pd.date_range(start, end, freq='BM')
+
+        last_bdayslist = []
+        for end_of_month in end_of_months:
+            last_bdayslist += pd.bdate_range(end_of_month- BDay(3),end_of_month- BDay(0))
+
+        dflast_bdays = pd.DataFrame(last_bdayslist, columns=["Last_4_BDays"])
+
+        # dfincident_trimmed = df.copy()
+
+        dflast_bdays["Last_4_BDays_String"] = dflast_bdays["Last_4_BDays"].map(lambda x: x.strftime('%Y-%m-%d'))
+        df["Created_On_String"] = df["Created_On_DateTime"].map(lambda x: x.strftime('%Y-%m-%d'))
+
+        for date in df["Created_On_String"]:
+            if date not in dflast_bdays["Last_4_BDays_String"].values:
+                df = df[df["Created_On_String"] != date]
+
+        del df["Created_On_String"]
+        del df["Created_On_DateTime"]
 
     ####################################################################################################################
     # Date and time - calculate time taken and time remaining before month and Qtr end
@@ -264,7 +298,8 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Queue: One hot encoding in buckets
     ####################################################################################################################
-    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "<VL Broken Communications>", "E&E"]
+    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "Broken", "E&E"]
+    check_substr_exists = [False for _ in substr_list]
     # Create a list of 8 unique substrings located in the categorical variables. These will become the new one-hot
     # encoded column names.
     val_list = df.Queue.value_counts().index.tolist()  # List the categorical values in Queue
@@ -275,12 +310,16 @@ def clean_Incident(d, newpath):
                 # variable with a nonsense value and append the variable name to cat_list
                 val_list[j] = "n"
                 cat_list[i].append(val)
+                check_substr_exists[i] = True
     for i in range(len(substr_list)):
-        df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Replace the categorical variables in Queue with
+        if check_substr_exists[i] == True:
+            df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Replace the categorical variables in Queue with
         # the substrings
-    extra_queues = ["<VL Broken 1N Communications>", "<WWCS - EMEA Admin>", "Xbox", "OpsPM", "<CLT Duplicates>"]
+    extra_queues = ["<WWCS - EMEA Admin>", "<3P Xbox AR Operations>", "<VL OpsPM program support>", "<CLT Duplicates>"]
+    # combine uncommon queue types
     for extra in extra_queues:
-        df["Queue"] = df["Queue"].replace(extra, "Other")
+        if extra in df["Queue"].values:
+            df["Queue"] = df["Queue"].replace(extra, "Other")
     df = one_hot_encoding(df, "Queue", out_file)
     out_file.write("\n")
 
@@ -291,6 +330,59 @@ def clean_Incident(d, newpath):
     df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
     df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
     df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
+
+    ####################################################################################################################
+    # Combine based on ticket numbers
+    ####################################################################################################################
+    if d["append_HoldDuration"] == "y":
+
+        if d["user"] == "Kieron":
+            dfholdactivity = pd.read_csv("../../../Data/vw_HoldActivity.csv", encoding='latin-1',low_memory=False)
+        else:
+            dfholdactivity = pd.read_csv(d["file_location"] + "vw_HoldActivity" + d["input_file"] + ".csv",
+                                         encoding='latin-1', low_memory=False)
+
+        # Create a new df with the unique Ticket numbers and 0 for hold durations
+        dfduration = pd.DataFrame(dfholdactivity["TicketNumber"].unique(), columns=["TicketNumber"])
+        dfduration["HoldDuration"] = 0
+
+        uniques = dfholdactivity["TicketNumber"].unique()
+        # For each of the unique ticket numbers in holdactivity: sum the hold durations and store them next to the equivalent
+        #  ticket in the new dfduration df
+        for ticket in uniques:
+            duration = dfholdactivity.loc[dfholdactivity["TicketNumber"] == ticket, 'HoldDuration'].sum()
+            dfduration.loc[dfduration["TicketNumber"] == ticket, "HoldDuration"] = duration
+
+        # merge new dfduration df with dfincident based on ticket number
+        df = df.merge(dfduration, how='left', left_on='TicketNumber', right_on='TicketNumber')
+
+        # fill the NANs with 0's
+        df["HoldDuration"].fillna(0, inplace=True)
+
+    if d["append_AuditDuration"] == "y":
+        from datetime import timedelta
+
+        if d["user"] == "Kieron":
+            dfaudithistory = pd.read_csv("../../../Data/vw_AuditHistory.csv", encoding='latin-1',low_memory=False)
+        else:
+            dfaudithistory = pd.read_csv(d["file_location"] + "vw_AuditHistory" + d["input_file"] + ".csv",
+                                         encoding='latin-1', low_memory=False)
+
+        dfaudithistory["Created_On"] = pd.to_datetime(dfaudithistory["Created_On"])
+
+        dfaudithistory_uniqueticketsonly = pd.DataFrame(dfaudithistory["TicketNumber"].unique(), columns=["TicketNumber"])
+        dfaudithistory_uniqueticketsonly["AuditDuration"] = None
+
+        for ticket in dfaudithistory_uniqueticketsonly["TicketNumber"].tolist():
+            dfaudithistory_uniqueticketsonly.loc[dfaudithistory_uniqueticketsonly["TicketNumber"] == ticket, "AuditDuration"] = \
+            timedelta.total_seconds(dfaudithistory.loc[dfaudithistory["TicketNumber"] == ticket, "Created_On"].max() - \
+                dfaudithistory.loc[dfaudithistory["TicketNumber"] == ticket, "Created_On"].min())
+
+        # merge new dfduration df with dfincident based on ticket number
+        df = df.merge(dfaudithistory_uniqueticketsonly, how='left', left_on='TicketNumber', right_on='TicketNumber')
+
+        # fill the NANs with 0's
+        df["AuditDuration"].fillna(0, inplace=True)
 
     ####################################################################################################################
     # Domain knowledge processing
@@ -359,7 +451,7 @@ def clean_Incident(d, newpath):
     # df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
     # Important variable with ~6500 Null values in COSMIC 2, therefore can't assume that Null entry's values?
-    
+
     # TODO - For Null entries, find the corrosponding ticketnumber in the audithistory sheet. If the ticketnumber exists
     # there and has gone through each of the stages, then we can assume the isSOXcase Null value should be a 1.
     # Deleting 6500 rows from incident is quite a lot.
@@ -381,10 +473,11 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Fill Categorical and numerical nulls. And Scale numerical variables.
     ####################################################################################################################
-    if "HoldDuration" in d["file_name"]:
-        quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName", "HoldDuration"]
-    else:
-        quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
+    quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
+    if d["append_HoldDuration"] == "y":
+        quant_cols.append("HoldDuration")
+    if d["append_AuditDuration"] == "y":
+        quant_cols.append("AuditDuration")
 
     exclude_from_mode_fill = quant_cols
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
@@ -440,11 +533,11 @@ def clean_Incident(d, newpath):
     df = pd.concat([y, df], axis=1)
 
     if d["user"] == "Kieron":
-        df.to_csv(d["file_location"] + d["output_file_name"] + ".csv", index=False)  # export file
-        out_file.write("file saved as " + d["file_location"] + d["output_file_name"] + ".csv" + "\n")
+        df.to_csv(d["file_location"] + d["output_file"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + d["output_file"] + ".csv" + "\n")
     else:
-        df.to_csv(d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv", index=False)  # export file
-        out_file.write("file saved as " + d["file_location"] + "vw_Incident_cleaned" + d["file_name"] + ".csv" + "\n")
+        df.to_csv(d["file_location"] + "vw_Incident_cleaned" + d["output_file"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + "vw_Incident_cleaned" + d["output_file"] + ".csv" + "\n")
 
     out_file.write("clean_Incident complete")
     out_file.close()
@@ -459,9 +552,9 @@ def clean_AuditHistory(d, newpath):
     out_file.write("Date and time: " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("clean_AuditHistory started" + "\n\n")
     if d["user"] == "Kieron":
-        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+        df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
     else:
-        df = pd.read_csv(d["file_location"] + "vw_AuditHistory" + d["file_name"] + ".csv", encoding='latin-1',
+        df = pd.read_csv(d["file_location"] + "vw_AuditHistory" + d["input_file"] + ".csv", encoding='latin-1',
                          low_memory=False)
 
     # Create Time Variable
@@ -479,7 +572,7 @@ def clean_AuditHistory(d, newpath):
     df = drop_zeros(df, out_file)  # Remove columns where there is a proportion of 0 values greater than tol
     df = drop_ones(df, out_file)  # Remove columns where there is a proportion of 1 values greater than tol
 
-    dfstageid = pd.read_csv(d["file_location"] + "vw_StageTable" + d["file_name"] + ".csv", encoding='latin-1', low_memory=False)
+    dfstageid = pd.read_csv(d["file_location"] + "vw_StageTable" + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
 
     # replace NewValue and OldValue with their respective StageNames from the StageID table
     dfstageid["StageId"] = dfstageid["StageId"].str.lower()  # upper case only in stage ID table
@@ -498,11 +591,11 @@ def clean_AuditHistory(d, newpath):
         df = one_hot_encoding(df, col, out_file)
 
     if d["user"] == "Kieron":
-        df.to_csv(d["file_location"] + d["output_file_name"] + ".csv", index=False)  # export file
-        out_file.write("file saved as " + d["file_location"] + d["output_file_name"] + ".csv" + "\n")
+        df.to_csv(d["file_location"] + d["output_file"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + d["output_file"] + ".csv" + "\n")
     else:
-        df.to_csv(d["file_location"] + "vw_AuditHistory_cleaned" + d["file_name"] + ".csv", index=False)  # export file
-        out_file.write("file saved as " + d["file_location"] + "vw_AuditHistory_cleaned" + d["file_name"] + ".csv" + "\n")
+        df.to_csv(d["file_location"] + "vw_AuditHistory_cleaned" + d["output_file"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + "vw_AuditHistory_cleaned" + d["output_file"] + ".csv" + "\n")
 
     out_file.write("clean_AuditHistory complete")
     out_file.close()
@@ -519,10 +612,10 @@ def clean_HoldActivity(d, newpath):
     out_file.write("clean_HoldActivity started" + "\n\n")
 
     if d["user"] == "Kieron":
-        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1',
+        df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1',
                          low_memory=False)
     else:
-        df = pd.read_csv(d["file_location"] + "vw_HoldActivity" + d["file_name"] + ".csv", encoding='latin-1',
+        df = pd.read_csv(d["file_location"] + "vw_HoldActivity" + d["input_file"] + ".csv", encoding='latin-1',
                          low_memory=False)
 
     # Domain knowledge processing
@@ -556,11 +649,11 @@ def clean_HoldActivity(d, newpath):
     # del df["ParentCase"]
 
     if d["user"] == "Kieron":
-        df.to_csv(d["file_location"] + d["output_file_name"] + ".csv", index=False)  # export file
-        out_file.write("file saved as " + d["file_location"] + d["output_file_name"] + ".csv" + "\n")
+        df.to_csv(d["file_location"] + d["output_file"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + d["output_file"] + ".csv" + "\n")
     else:
-        df.to_csv(d["file_location"] + "vw_HoldActivity_cleaned" + d["file_name"] + ".csv", index=False)  # export file
-        out_file.write("file saved as " + d["file_location"] + "vw_HoldActivity_cleaned" + d["file_name"] + ".csv" + "\n")
+        df.to_csv(d["file_location"] + "vw_HoldActivity_cleaned" + d["output_file"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + "vw_HoldActivity_cleaned" + d["output_file"] + ".csv" + "\n")
 
     out_file.write("clean_HoldActivity complete")
     out_file.close()
@@ -577,10 +670,10 @@ def clean_PackageTriageEntry(d, newpath):
     out_file.write("clean_PackageTriageEntry started" + "\n\n")
 
     if d["user"] == "Kieron":
-        df = pd.read_csv(d["file_location"] + d["file_name"] + ".csv", encoding='latin-1',
+        df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1',
                          low_memory=False)
     else:
-        df = pd.read_csv(d["file_location"] + "vw_PackageTriageEntry" + d["file_name"] + ".csv", encoding='latin-1',
+        df = pd.read_csv(d["file_location"] + "vw_PackageTriageEntry" + d["input_file"] + ".csv", encoding='latin-1',
                          low_memory=False)
 
     # Create Time Variable
@@ -608,12 +701,12 @@ def clean_PackageTriageEntry(d, newpath):
     # df = fill_nulls(df, "EntryProcess", out_file)  # Fill in NULL values with 0s
 
     if d["user"] == "Kieron":
-        df.to_csv(d["file_location"] + d["output_file_name"] + ".csv", index=False)  # export file
-        out_file.write("file saved as " + d["file_location"] + d["output_file_name"] + ".csv" + "\n")
+        df.to_csv(d["file_location"] + d["output_file"] + ".csv", index=False)  # export file
+        out_file.write("file saved as " + d["file_location"] + d["output_file"] + ".csv" + "\n")
     else:
-        df.to_csv(d["file_location"] + "vw_PackageTriageEntry_cleaned" + d["file_name"] + ".csv", index=False)  # export file
+        df.to_csv(d["file_location"] + "vw_PackageTriageEntry_cleaned" + d["output_file"] + ".csv", index=False)  # export file
         out_file.write(
-            "file saved as " + d["file_location"] + "vw_PackageTriageEntry_cleaned" + d["file_name"] + ".csv" + "\n")
+            "file saved as " + d["file_location"] + "vw_PackageTriageEntry_cleaned" + d["output_file"] + ".csv" + "\n")
 
     out_file.write("clean_PackageTriageEntry complete")
     out_file.close()
@@ -632,6 +725,7 @@ if __name__ == "__main__":  # Run program
             line = line.replace(":", "")
             (key, val) = line.split()
             d[key] = val
+            # print(key)
 
     newpath = r"../0. Results/" + d["user"] + "/prepare_dataset/" + time.strftime("%Y.%m.%d/")  # Log file location
     if not os.path.exists(newpath):
