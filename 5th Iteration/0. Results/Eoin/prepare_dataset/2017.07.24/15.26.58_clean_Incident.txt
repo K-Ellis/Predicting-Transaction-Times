@@ -1,0 +1,10 @@
+Date and time: 20170724-152658
+clean_Incident started
+
+Time Taken column calculated
+Outliers removed > 3 sd from mean of TimeTaken
+Day of month calculated
+Day of quarter calculated
+
+One hot encoding completed for Queue
+
