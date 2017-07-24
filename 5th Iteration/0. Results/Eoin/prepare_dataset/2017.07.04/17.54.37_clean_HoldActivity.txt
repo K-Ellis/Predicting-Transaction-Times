@@ -1,4 +1,0 @@
-Date and time: 20170704-175437
-clean_HoldActivity started
-
-user = Eoin

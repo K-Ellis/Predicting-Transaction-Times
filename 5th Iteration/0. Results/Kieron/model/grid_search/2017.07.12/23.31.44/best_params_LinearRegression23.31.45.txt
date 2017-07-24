@@ -1,2 +1,0 @@
-{'normalize': False, 'fit_intercept': True}
-Train: -1312223238.03035 (+/- 2467771571.32288)Test: -19917101439485.18359 (+/- 52563272818784.84375)-21250928881117.55078 (+/-51916467871222.88281) for {'normalize': True, 'fit_intercept': True}-19917101439485.18359 (+/-52563272818784.84375) for {'normalize': False, 'fit_intercept': True}-25360753554421.16016 (+/-66369422009734.09375) for {'normalize': True, 'fit_intercept': False}-25360753554421.16016 (+/-66369422009734.09375) for {'normalize': False, 'fit_intercept': False}
