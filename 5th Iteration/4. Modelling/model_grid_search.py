@@ -318,7 +318,7 @@ if __name__ == "__main__":  # Run program
                 "normalize": [True, False]})
             alg_names.append("LinearRegression")
         if d["ElasticNet"] == "y":
-            regressors.append(ElasticNet())
+            regressors.append(ElasticNet(max_iter=100000))
             parameters_to_tune.append({
                 # "alpha":[0.0001, 0.001, 0.01, 0.1, 1.0, 10, 100], # get convergence warning for small alphas
                 "alpha": [0.1, 1.0, 10, 100],
