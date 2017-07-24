@@ -1,8 +1,9 @@
 from sklearn.model_selection import GridSearchCV
 
 def grid_search_CV(input_regressor, alg_name, parameters_to_tune, newpath, d, X, y):
-    print("# Tuning %s hyper-parameters for RMSE:\n" % (alg_name))  # , score))
+    
     if d["grid_search_RMSE"] == "y":
+        print("# Tuning %s hyper-parameters for RMSE:\n" % (alg_name))  # , score))
         regr = GridSearchCV(input_regressor, parameters_to_tune, cv=int(d["crossvalidation"]), scoring="neg_mean_squared_error")
         regr.fit(X, y.values.ravel())
 
@@ -16,7 +17,7 @@ def grid_search_CV(input_regressor, alg_name, parameters_to_tune, newpath, d, X,
         print("\n\t Train RMSE: %0.1f (+/- %0.1f)" % (best_train, best_train_std * 2))
         print("\t Test RMSE: %0.1f (+/- %0.1f)" % (best_test, best_test_std * 2))
 
-        with open(newpath + "RMSE_best_params_%s" % alg_name, "w") as f:
+        with open(newpath + "RMSE_best_params_%s.txt" % alg_name, "w") as f:
             f.write("Best parameters found for maximising RMSE:\n")
             f.write("\t" + str(regr.best_params_) + "\n")
             f.write("\tTrain: %0.1f (+/- %0.1f)\n" % (best_train, best_train_std * 2))
@@ -30,6 +31,7 @@ def grid_search_CV(input_regressor, alg_name, parameters_to_tune, newpath, d, X,
                 f.write("\t%0.1f (+/- %0.1f) for %r\n" % (mean, std * 2, params))
                 print("\t%0.1f (+/- %0.1f) for %r" % (mean, std * 2, params))
     else:
+        print("# Tuning %s hyper-parameters for R2:\n" % (alg_name))
         regr = GridSearchCV(input_regressor, parameters_to_tune, cv=int(d["crossvalidation"]), scoring=None)
         regr.fit(X, y.values.ravel())
 
@@ -43,7 +45,7 @@ def grid_search_CV(input_regressor, alg_name, parameters_to_tune, newpath, d, X,
         print("\n\t R2 Train: %0.5f (+/- %0.05f)" % (best_train, best_train_std * 2))
         print("\t R2 Test: %0.5f (+/- %0.05f)" % (best_test, best_test_std * 2))
 
-        with open(newpath + "R2_best_params_%s" % alg_name, "w") as f:
+        with open(newpath + "R2_best_params_%s.txt" % alg_name, "w") as f:
             f.write("Best parameters found for maximising R2:\n")
             f.write("\t" + str(regr.best_params_) + "\n")
             f.write("\tTrain: %0.5f (+/- %0.05f)\n" % (best_train, best_train_std * 2))
@@ -72,7 +74,7 @@ if __name__ == "__main__":
     from read_parameter_file import get_parameters
     # from xgboost import xgboost
 
-    parameters = "../../../Data/parameters.txt"	 # Parameters file
+    parameters = "../../../Data/parameters.txt"  # Parameters file
     d = get_parameters(parameters)
 
 
@@ -101,7 +103,7 @@ if __name__ == "__main__":
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
-    np.random.seed(int(d["seed"]))	# Set seed
+    np.random.seed(int(d["seed"]))  # Set seed
 
     if d["user"] == "Kieron":
         df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
@@ -146,8 +148,8 @@ if __name__ == "__main__":
                                   "gamma": np.logspace(-2, 2, 5)})
         alg_names.append("KernelRidge")
     # if d["xgboost"] == "y":
-    # 	in_regressors.append(GridSearchCV(xgboost())
-    # 	alg_names.append("xgboost")
+    #   in_regressors.append(GridSearchCV(xgboost())
+    #   alg_names.append("xgboost")
     if d["RandomForestRegressor"] == "y":
         in_regressors.append(RandomForestRegressor())
         parameters_to_tune.append({

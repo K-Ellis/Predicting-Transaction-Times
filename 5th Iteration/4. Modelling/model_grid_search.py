@@ -321,9 +321,9 @@ if __name__ == "__main__":  # Run program
             regressors.append(ElasticNet())
             parameters_to_tune.append({
                 # "alpha":[0.0001, 0.001, 0.01, 0.1, 1.0, 10, 100], # get convergence warning for small alphas
-                "alpha": [0.01, 0.01, 0.1, 1.0, 10, 100],
+                "alpha": [0.1, 1.0, 10, 100],
                 "l1_ratio": [.1, .5, .7, .9, .95, .99, 1],
-                "max_iter": [10000, 100000],
+                # "max_iter": [100000],
                 # "tol": [0.00001, 0.0001],
                 # "warm_start":[True, False]}
             })
@@ -346,9 +346,10 @@ if __name__ == "__main__":  # Run program
             regressors.append(RandomForestRegressor(n_estimators=int(d["n_estimators"])))
             parameters_to_tune.append({
                 # "n_estimators": [100, 250, 500, 1000],
-                "criterion": ["mse", "mae"],
+                # "criterion": ["mse", "mae"],
                 "max_features": [1, 0.1, "auto", "sqrt", "log2", None],
-                "max_depth": [None, 10, 25, 50]})
+                "max_depth": [None, 10, 25, 50]
+                })
             alg_names.append("RandomForestRegressor")
 
         for reg, alg_name, params in zip(regressors, alg_names, parameters_to_tune):
