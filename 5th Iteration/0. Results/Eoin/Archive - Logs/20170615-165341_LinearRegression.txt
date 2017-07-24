@@ -1,3 +1,0 @@
-LinearRegression20170615-165341
-LinearRegressionrmse:9614789066357460.0
-LinearRegressionR^2 score:-3.28850303136e+20

@@ -1,4 +1,0 @@
-KernelRidge 20170705-175935
-
-KernelRidge Number predictions within 1 hour: 0 / 5012
-KernelRidge % predictions within 1 hour: 0.0%

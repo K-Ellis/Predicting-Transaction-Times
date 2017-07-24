@@ -1,6 +1,0 @@
-Date and time: 20170711-112313
-clean_Incident started
-
-Time Taken column calculated
-Outliers removed > 3 sd from mean of TimeTaken
-

@@ -1,6 +1,0 @@
-Date and time: 20170704-143155
-vw_Incident saved
-vw_HoldActivity saved
-vw_AuditHistory
-vw_PackageTriageEntry saved
-vw_StageTable saved

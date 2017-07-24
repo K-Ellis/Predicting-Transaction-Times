@@ -1,8 +1,0 @@
-Date and time: 20170706-121128
-Number of iterations taken to get good data split: 74
-
-Mean value of Train Y: 343472.5675675676
-Mean value of Test Y: 344036.3846153846
-
-Standard deviation of train Y: 454919.366079
-Standard deviation of test Y: 441898.487204
