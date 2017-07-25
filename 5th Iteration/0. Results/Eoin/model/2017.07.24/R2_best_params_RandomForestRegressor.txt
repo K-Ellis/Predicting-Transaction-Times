@@ -1,0 +1,30 @@
+Best parameters found for maximising R2:
+	{'max_depth': 50, 'max_features': None}
+	Train: 0.95113 (+/- 0.00602)
+	Test: 0.72796 (+/- 0.16421)
+
+Grid R2 scores on development set:
+	0.58010 (+/-0.19332) for {'max_depth': None, 'max_features': 1}
+	0.65967 (+/-0.13914) for {'max_depth': None, 'max_features': 0.1}
+	0.72648 (+/-0.14792) for {'max_depth': None, 'max_features': 'auto'}
+	0.68686 (+/-0.15407) for {'max_depth': None, 'max_features': 'sqrt'}
+	0.66649 (+/-0.13957) for {'max_depth': None, 'max_features': 'log2'}
+	0.72722 (+/-0.16126) for {'max_depth': None, 'max_features': None}
+	0.40144 (+/-0.10585) for {'max_depth': 10, 'max_features': 1}
+	0.59556 (+/-0.15886) for {'max_depth': 10, 'max_features': 0.1}
+	0.72104 (+/-0.14280) for {'max_depth': 10, 'max_features': 'auto'}
+	0.63865 (+/-0.15486) for {'max_depth': 10, 'max_features': 'sqrt'}
+	0.60860 (+/-0.13340) for {'max_depth': 10, 'max_features': 'log2'}
+	0.71844 (+/-0.14859) for {'max_depth': 10, 'max_features': None}
+	0.58551 (+/-0.16126) for {'max_depth': 25, 'max_features': 1}
+	0.67492 (+/-0.14673) for {'max_depth': 25, 'max_features': 0.1}
+	0.72403 (+/-0.14204) for {'max_depth': 25, 'max_features': 'auto'}
+	0.69558 (+/-0.12573) for {'max_depth': 25, 'max_features': 'sqrt'}
+	0.65503 (+/-0.15146) for {'max_depth': 25, 'max_features': 'log2'}
+	0.72313 (+/-0.15129) for {'max_depth': 25, 'max_features': None}
+	0.58110 (+/-0.14891) for {'max_depth': 50, 'max_features': 1}
+	0.66278 (+/-0.17729) for {'max_depth': 50, 'max_features': 0.1}
+	0.72602 (+/-0.14411) for {'max_depth': 50, 'max_features': 'auto'}
+	0.68587 (+/-0.13418) for {'max_depth': 50, 'max_features': 'sqrt'}
+	0.66721 (+/-0.13637) for {'max_depth': 50, 'max_features': 'log2'}
+	0.72796 (+/-0.16421) for {'max_depth': 50, 'max_features': None}

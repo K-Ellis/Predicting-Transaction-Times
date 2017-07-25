@@ -1,0 +1,14 @@
+MLPRegressor 20170724-172413
+
+MLPRegressor: Cross Validation (10 Folds)
+	Train Mean RMSE: 279135.78 (+/-4857.91)
+	Test Mean RMSE: 288438.45 (+/-15058.45)
+	Train Mean R2: 0.68599 (+/-0.01186)
+	Test Mean R2: 0.66295 (+/-0.02386)
+
+
+	MLPRegressor number test predictions within 1 hour -> Mean: 11.2/467 (+/- 4.1)
+	MLPRegressor % test predictions within 1 hour: -> Mean: 2.40% (+/- 0.87%)
+	MLPRegressor number test predictions within 24 hours -> Mean: 214.0/467 (+/- 17.0)
+	MLPRegressor % test predictions within 24 hours -> Mean: 45.82% (+/- 3.64%)
+
