@@ -1,0 +1,89 @@
+Columns,importances
+Concurrent_open_cases,0.6408587023277029
+Days_left_QTR,0.21745648599593811
+AuditDuration,0.09448091943302782
+Days_left_Month,0.038604203768602054
+HoldDuration,0.002490890056769659
+AmountinUSD,0.0008652096526233319
+HoldTypeName_Customer,0.0003105066236519468
+HoldTypeName_3rd Party,0.00028270708740285263
+IsSignature,0.0002799657571880795
+AssignedToGroup_Submitter (Contact),0.0002503147629074581
+SubReason_Basic Enterprise Commitment,0.00024625483259073556
+StageName,0.00024036057397553099
+CountryProcessed_northamerica,0.00022912400808563973
+Queue_NAOC,0.00021958730581915137
+Complexity,0.0002187377844564592
+StatusReason_Problem Solved,0.0002005775455127466
+HoldCount,0.00017480719532993416
+SubReason_Meteaop,0.00014430298292624765
+CountrySource_northamerica,0.0001048706422311915
+OLSRevenue,0.00010057097489363988
+Source_Soft Copy,9.78480134513014e-05
+Revenutype_Current Revenue,9.507179007077741e-05
+Source_Web,9.226981150164234e-05
+SubReason_Future Pricing Only CPS,9.045432780214319e-05
+SalesLocation_northamerica,8.650827889040845e-05
+IsGovernment,8.32061446260407e-05
+Revenutype_Future Billing,7.938224050466137e-05
+SubReason_Manual Order Entry,7.463709197293378e-05
+Queue_APOC,6.830465001054725e-05
+CountryProcessed_asia,6.79815644315805e-05
+SubReason_Zero Usage Order,6.604068164286152e-05
+Revenutype_Non-revenue,6.541882694340542e-05
+AssignedToGroup_Internal,6.497280474815611e-05
+Source_eAgreement (Phy),6.414330206026649e-05
+ROCName_APOC,6.171864823535927e-05
+Queue_EOC,6.066449443024419e-05
+CountryProcessed_europe,5.973563228471082e-05
+Revenutype_Credit / Rebill,5.846210967525426e-05
+SalesLocation_europe,5.8024765231552575e-05
+ROCName_EOC,5.7923918188556174e-05
+SubReason_True Up,5.6991070315748636e-05
+SalesLocation_asia,5.577887896826626e-05
+CountrySource_europe,5.1429969065712575e-05
+Revenutype_Revenue Unknown,5.074645703089089e-05
+CountrySource_asia,4.8370313855381774e-05
+CountrySource_australia,4.725116040949237e-05
+CountrySource_southamerica,4.352109892936639e-05
+Source_Hard Copy,4.032375732998835e-05
+Priority,3.999417640213423e-05
+SalesLocation_australia,3.8341699897941806e-05
+SalesLocation_southamerica,3.8110225249966214e-05
+CountryProcessed_southamerica,3.749028149288068e-05
+Numberofreactivations,3.6666579885051704e-05
+HoldTypeName_Internal,3.507853101607025e-05
+IsMagnumCase,3.0492071359086143e-05
+IsSOXCase,2.7454050012980457e-05
+AssignedToGroup_Ops. Program Manager,2.569813130877881e-05
+Source_Manual,1.6192851008854054e-05
+Queue_LOC,1.6011756619041616e-05
+SubReason_Electronic Order Pend / Reject,1.037349818579087e-05
+CountryProcessed_australia,7.409666582162018e-06
+Revenutype_Future OTRRR with OLS,7.229034195149154e-06
+SubReason_Tax Exemption Order,5.889282460657446e-06
+StatusReason_Information Provided,4.154672647027573e-06
+AssignedToGroup_Microsoft IT,3.097851366498911e-06
+Queue_E&E,2.900477729278645e-06
+Source_eAgreement (Ele),2.050235948944841e-06
+sourcesystem_NMEC,2.039412508528808e-06
+Revenutype_Future OTRRR without OLS,1.9070965993970469e-06
+Queue_Broken,1.5188907495269455e-06
+CountrySource_other,1.2164070587918935e-06
+Revenutype_Revenue Impacting Case / Pending Revenue,8.431228025177735e-07
+sourcesystem_CLT,5.522572404268163e-07
+CountryProcessed_other,2.6065068028879157e-07
+Revenutype_New Work Sold,2.1757537162218136e-07
+sourcesystem_Aplquest,1.4303798393806414e-07
+AssignedToGroup_CRMT,1.1626794762801144e-07
+AssignedToGroup_BPO,1.1087955863606251e-07
+Revenutype_Disputed Revenue,9.228290105124158e-08
+SubReason_P&H Electronic Order,5.3612726649722826e-08
+sourcesystem_clt,6.062169099382363e-09
+Source_Fax,2.9133020858190006e-09
+sourcesystem_web,1.4993819370549632e-09
+sourcesystem_Moritz Jürgensen,1.1231448336558704e-09
+sourcesystem_NEMEC,5.974133633305525e-10
+sourcesystem_Current Revenue,1.2284869867839107e-10
+Queue_Other,0.0
+sourcesystem_Web,0.0
