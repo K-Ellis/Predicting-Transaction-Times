@@ -267,9 +267,9 @@ def clean_Incident(d, newpath):
     if d["workload"] == "y":
         df["Concurrent_open_cases"] = 0  # Add number of cases that were open at the same time
         for i in range(len(df)):
-            df_temp = df[df.Created_On < df.iloc[i]["Created_On"]]
-            df_temp = df_temp[df_temp.ResolvedDate > df.iloc[i]["ResolvedDate"]]  # todo current date in real program
-            df.loc[i, "Concurrent_open_cases"] = len(df_temp)
+            # todo current date in real program
+            df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
+                df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
 
     ####################################################################################################################
     # Use only cases created in the last 4 business days of the month
@@ -310,30 +310,31 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Queue: One hot encoding in buckets
     ####################################################################################################################
-    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "Broken", "E&E"]
-    check_substr_exists = [False for _ in substr_list]
-    # Create a list of 8 unique substrings located in the categorical variables. These will become the new one-hot
-    # encoded column names.
-    val_list = df.Queue.value_counts().index.tolist()  # List the categorical values in Queue
-    cat_list = [[] for _ in substr_list]  # Create a list of 8 lists (the same size as substr_list)
-    for i, substr in enumerate(substr_list):
-        for j, val in enumerate(val_list):
-            if substr in val:  # If one of the 8 substrings is located in a categorical variable, overwrite the
-                # variable with a nonsense value and append the variable name to cat_list
-                val_list[j] = "n"
-                cat_list[i].append(val)
-                check_substr_exists[i] = True
-    for i in range(len(substr_list)):
-        if check_substr_exists[i] == True:
-            df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Replace the categorical variables in Queue with
-        # the substrings
-    extra_queues = ["<WWCS - EMEA Admin>", "<3P Xbox AR Operations>", "<VL OpsPM program support>", "<CLT Duplicates>"]
-    # combine uncommon queue types
-    for extra in extra_queues:
-        if extra in df["Queue"].values:
-            df["Queue"] = df["Queue"].replace(extra, "Other")
-    df = one_hot_encoding(df, "Queue", out_file)
-    out_file.write("\n")
+    if d["minimum_data"] != "y":
+        substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "Broken", "E&E"]
+        check_substr_exists = [False for _ in substr_list]
+        # Create a list of 8 unique substrings located in the categorical variables. These will become the new one-hot
+        # encoded column names.
+        val_list = df.Queue.value_counts().index.tolist()  # List the categorical values in Queue
+        cat_list = [[] for _ in substr_list]  # Create a list of 8 lists (the same size as substr_list)
+        for i, substr in enumerate(substr_list):
+            for j, val in enumerate(val_list):
+                if substr in val:  # If one of the 8 substrings is located in a categorical variable, overwrite the
+                    # variable with a nonsense value and append the variable name to cat_list
+                    val_list[j] = "n"
+                    cat_list[i].append(val)
+                    check_substr_exists[i] = True
+        for i in range(len(substr_list)):
+            if check_substr_exists[i] == True:
+                df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Replace the categorical variables in Queue with
+            # the substrings
+        extra_queues = ["<WWCS - EMEA Admin>", "<3P Xbox AR Operations>", "<VL OpsPM program support>", "<CLT Duplicates>"]
+        # combine uncommon queue types
+        for extra in extra_queues:
+            if extra in df["Queue"].values:
+                df["Queue"] = df["Queue"].replace(extra, "Other")
+        df = one_hot_encoding(df, "Queue", out_file)
+        out_file.write("\n")
 
     ####################################################################################################################
     # Filtering for the data MS want
@@ -346,82 +347,83 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Combine based on ticket numbers
     ####################################################################################################################
+    if d["minimum_data"] != "y":
 
-    if d["append_HoldDuration"] == "y" or d["append_AuditDuration"] == "y":
-        df["TicketNumber"] = [x.lstrip('5-') for x in df["TicketNumber"]]
-        df["TicketNumber"] = df["TicketNumber"].astype(int)
+        if d["append_HoldDuration"] == "y" or d["append_AuditDuration"] == "y":
+            df["TicketNumber"] = [x.lstrip('5-') for x in df["TicketNumber"]]
+            df["TicketNumber"] = df["TicketNumber"].astype(int)
 
-    if d["append_HoldDuration"] == "y":
+        if d["append_HoldDuration"] == "y":
 
-        if d["user"] == "Kieron":
-            dfholdactivity = pd.read_csv("../../../Data/vw_HoldActivity.csv", encoding='latin-1',low_memory=False)
-        else:
-            dfholdactivity = pd.read_csv(d["file_location"] + "vw_HoldActivity" + d["input_file"] + ".csv",
-                                         encoding='latin-1', low_memory=False)
+            if d["user"] == "Kieron":
+                dfholdactivity = pd.read_csv("../../../Data/vw_HoldActivity.csv", encoding='latin-1',low_memory=False)
+            else:
+                dfholdactivity = pd.read_csv(d["file_location"] + "vw_HoldActivity" + d["input_file"] + ".csv",
+                                             encoding='latin-1', low_memory=False)
 
-        dfholdactivity["TicketNumber"] = [x.lstrip('5-') for x in dfholdactivity["TicketNumber"]]
-        dfholdactivity["TicketNumber"] = dfholdactivity["TicketNumber"].astype(int)
+            dfholdactivity["TicketNumber"] = [x.lstrip('5-') for x in dfholdactivity["TicketNumber"]]
+            dfholdactivity["TicketNumber"] = dfholdactivity["TicketNumber"].astype(int)
 
-        columns = ["TicketNumber", "HoldDuration", "HoldTypeName", "AssignedToGroup"]
-        for col in dfholdactivity:
-            if col not in columns:
-                del dfholdactivity[col]
+            columns = ["TicketNumber", "HoldDuration", "HoldTypeName", "AssignedToGroup"]
+            for col in dfholdactivity:
+                if col not in columns:
+                    del dfholdactivity[col]
 
-        dfdummies = pd.get_dummies(data=dfholdactivity, columns=["HoldTypeName", "AssignedToGroup"])
-        dfdummies["HoldCount"] = 1
+            dfdummies = pd.get_dummies(data=dfholdactivity, columns=["HoldTypeName", "AssignedToGroup"])
+            dfdummies["HoldCount"] = 1
 
-        unique_tickets = pd.DataFrame(dfholdactivity["TicketNumber"].unique().tolist(), columns=["TicketNumber"])
+            unique_tickets = pd.DataFrame(dfholdactivity["TicketNumber"].unique().tolist(), columns=["TicketNumber"])
 
-        columns_to_count = ["HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
-                            "AssignedToGroup_BPO", "AssignedToGroup_CRMT", "AssignedToGroup_Internal",
-                            "AssignedToGroup_Microsoft IT", "AssignedToGroup_Ops. Program Manager",
-                            "AssignedToGroup_Submitter (Contact)", "HoldCount"]
-        for col in columns_to_count:
-            unique_tickets[col] = 0
+            columns_to_count = ["HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
+                                "AssignedToGroup_BPO", "AssignedToGroup_CRMT", "AssignedToGroup_Internal",
+                                "AssignedToGroup_Microsoft IT", "AssignedToGroup_Ops. Program Manager",
+                                "AssignedToGroup_Submitter (Contact)", "HoldCount"]
+            for col in columns_to_count:
+                unique_tickets[col] = 0
 
-        for i, row in unique_tickets.iterrows():
-            ticket = row["TicketNumber"]
-            summed = dfdummies[dfdummies["TicketNumber"] == ticket].sum()
+            for i, row in unique_tickets.iterrows():
+                ticket = row["TicketNumber"]
+                summed = dfdummies[dfdummies["TicketNumber"] == ticket].sum()
 
-            summed = summed.to_frame().T
+                summed = summed.to_frame().T
 
-            for j in range(len(summed.columns) - 1):
-                j += 1
-                unique_tickets.iloc[i, j] += summed.iloc[0, j]
-        # merge new dfduration df with dfincident based on ticket number
-        df = df.merge(right=unique_tickets, how="left", on="TicketNumber")
+                for j in range(len(summed.columns) - 1):
+                    j += 1
+                    unique_tickets.iloc[i, j] += summed.iloc[0, j]
+            # merge new dfduration df with dfincident based on ticket number
+            df = df.merge(right=unique_tickets, how="left", on="TicketNumber")
 
-        # fill the NANs with 0's
-        for col in columns_to_count:
-            df[col].fillna(0, inplace=True)
+            # fill the NANs with 0's
+            for col in columns_to_count:
+                df[col].fillna(0, inplace=True)
 
-    if d["append_AuditDuration"] == "y":
-        from datetime import timedelta
+        if d["append_AuditDuration"] == "y":
+            from datetime import timedelta
 
-        if d["user"] == "Kieron":
-            dfaudithistory = pd.read_csv("../../../Data/vw_AuditHistory.csv", encoding='latin-1',low_memory=False)
-        else:
-            dfaudithistory = pd.read_csv(d["file_location"] + "vw_AuditHistory" + d["input_file"] + ".csv",
-                                         encoding='latin-1', low_memory=False)
+            if d["user"] == "Kieron":
+                dfaudithistory = pd.read_csv("../../../Data/vw_AuditHistory.csv", encoding='latin-1',low_memory=False)
+            else:
+                dfaudithistory = pd.read_csv(d["file_location"] + "vw_AuditHistory" + d["input_file"] + ".csv",
+                                             encoding='latin-1', low_memory=False)
 
-        dfaudithistory["TicketNumber"] = [x.lstrip('5-') for x in dfaudithistory["TicketNumber"]]
-        dfaudithistory["TicketNumber"] = dfaudithistory["TicketNumber"].astype(int)
+            dfaudithistory["TicketNumber"] = [x.lstrip('5-') for x in dfaudithistory["TicketNumber"]]
+            dfaudithistory["TicketNumber"] = dfaudithistory["TicketNumber"].astype(int)
 
-        dfaudithistory["Created_On"] = pd.to_datetime(dfaudithistory["Created_On"])
+            dfaudithistory["Created_On"] = pd.to_datetime(dfaudithistory["Created_On"])
 
-        dfaudithistory_uniqueticketsonly = pd.DataFrame(dfaudithistory["TicketNumber"].unique(), columns=["TicketNumber"])
-        dfaudithistory_uniqueticketsonly["AuditDuration"] = None
+            dfaudithistory_uniqueticketsonly = pd.DataFrame(dfaudithistory["TicketNumber"].unique(), columns=["TicketNumber"])
+            dfaudithistory_uniqueticketsonly["AuditDuration"] = None
 
-        for ticket in dfaudithistory_uniqueticketsonly["TicketNumber"].tolist():
-            dfaudithistory_uniqueticketsonly.loc[dfaudithistory_uniqueticketsonly["TicketNumber"] == ticket, "AuditDuration"] = \
-            timedelta.total_seconds(dfaudithistory.loc[dfaudithistory["TicketNumber"] == ticket, "Created_On"].max() - \
-                dfaudithistory.loc[dfaudithistory["TicketNumber"] == ticket, "Created_On"].min())
+            for ticket in dfaudithistory_uniqueticketsonly["TicketNumber"].tolist():
+                dfaudithistory_uniqueticketsonly.loc[dfaudithistory_uniqueticketsonly["TicketNumber"] == ticket, "AuditDuration"] = \
+                timedelta.total_seconds(dfaudithistory.loc[dfaudithistory["TicketNumber"] == ticket, "Created_On"].max() - \
+                    dfaudithistory.loc[dfaudithistory["TicketNumber"] == ticket, "Created_On"].min())
 
-        # merge new dfduration df with dfincident based on ticket number
-        df = df.merge(dfaudithistory_uniqueticketsonly, how='left', left_on='TicketNumber', right_on='TicketNumber')
+            # merge new dfduration df with dfincident based on ticket number
+            df = df.merge(dfaudithistory_uniqueticketsonly, how='left', left_on='TicketNumber', right_on='TicketNumber')
 
-        # fill the NANs with 0's
-        df["AuditDuration"].fillna(0, inplace=True)
+            # fill the NANs with 0's
+            df["AuditDuration"].fillna(0, inplace=True)
 
     ####################################################################################################################
     # Domain knowledge processing
@@ -494,58 +496,63 @@ def clean_Incident(d, newpath):
     # TODO - For Null entries, find the corrosponding ticketnumber in the audithistory sheet. If the ticketnumber exists
     # there and has gone through each of the stages, then we can assume the isSOXcase Null value should be a 1.
     # Deleting 6500 rows from incident is quite a lot.
-    df["IsSOXCase"].fillna(2, inplace=True)
-    df = df[df["IsSOXCase"] != 2]
+    if d["minimum_data"] != "y":
+        df["IsSOXCase"].fillna(2, inplace=True)
+        df = df[df["IsSOXCase"] != 2]
 
     ####################################################################################################################
     # Priority, Complexity, StageName - ordinal variable mapping
     ####################################################################################################################
-    df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
-    out_file.write("Map Priority column to ordinal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 \n")
-    df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
-    out_file.write("Map Complexity column to ordinal variables: Low: 0, Normal: 1, High: 2 \n")
-    df["StageName"] = df["StageName"].map({"Ops In": 0, "Triage And Validation": 1, "Data Entry": 2, "Submission": 3,
-                                           "Ops Out": 4})
-    out_file.write("Map StageName column to ordinal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, "
-                   "Submission: 3, Ops Out: 4 \n\n")
+    if d["minimum_data"] != "y":
+        df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
+        out_file.write("Map Priority column to ordinal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 \n")
+        df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
+        out_file.write("Map Complexity column to ordinal variables: Low: 0, Normal: 1, High: 2 \n")
+        df["StageName"] = df["StageName"].map({"Ops In": 0, "Triage And Validation": 1, "Data Entry": 2, "Submission": 3,
+                                               "Ops Out": 4})
+        out_file.write("Map StageName column to ordinal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, "
+                       "Submission: 3, Ops Out: 4 \n\n")
 
     ####################################################################################################################
     # Fill Categorical and numerical nulls. And Scale numerical variables.
     ####################################################################################################################
-    quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
-    if d["append_HoldDuration"] == "y":
-        quant_cols.append("HoldDuration")
-    if d["append_AuditDuration"] == "y":
-        quant_cols.append("AuditDuration")
-    if d["workload"] == "y":
-        quant_cols.append("Concurrent_open_cases")
+    if d["minimum_data"] != "y":
+        quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
+        if d["append_HoldDuration"] == "y":
+            quant_cols.append("HoldDuration")
+        if d["append_AuditDuration"] == "y":
+            quant_cols.append("AuditDuration")
+        if d["workload"] == "y":
+            quant_cols.append("Concurrent_open_cases")
 
-    exclude_from_mode_fill = quant_cols
-    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
-    fill_nulls_dfcs(df, dfcs, "mode", out_file)
-    fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean", out_file)
-    out_file.write("\n")
-    df = scale_quant_cols(df, quant_cols, out_file)
+        exclude_from_mode_fill = quant_cols
+        dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
+        fill_nulls_dfcs(df, dfcs, "mode", out_file)
+        fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean", out_file)
+        out_file.write("\n")
+        df = scale_quant_cols(df, quant_cols, out_file)
 
-    df.IsSOXCase = df.IsSOXCase.astype(int)
-    df.Numberofreactivations = df.Numberofreactivations.astype(int)
+        df.IsSOXCase = df.IsSOXCase.astype(int)
+        df.Numberofreactivations = df.Numberofreactivations.astype(int)
 
     ####################################################################################################################
     # Transform countries into continents and then one hot encode
     ####################################################################################################################
-    df["CountrySource"] = transform_country(df["CountrySource"], out_file, column="CountrySource")
-    df["CountryProcessed"] = transform_country(df["CountryProcessed"], out_file, column="CountryProcessed")
-    df["SalesLocation"] = transform_country(df["SalesLocation"], out_file, column="SalesLocation")
-    out_file.write("\n")
+    if d["minimum_data"] != "y":
+        df["CountrySource"] = transform_country(df["CountrySource"], out_file, column="CountrySource")
+        df["CountryProcessed"] = transform_country(df["CountryProcessed"], out_file, column="CountryProcessed")
+        df["SalesLocation"] = transform_country(df["SalesLocation"], out_file, column="SalesLocation")
+        out_file.write("\n")
 
     ####################################################################################################################
     # One-hot encode categorical variables
     ####################################################################################################################
-    cat_vars_to_one_hot = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason",
-                           "ROCName", "sourcesystem", "Source", "Revenutype"]
-    for var in cat_vars_to_one_hot:
-        df = one_hot_encoding(df, var, out_file)
-    out_file.write("\n")
+    if d["minimum_data"] != "y":
+        cat_vars_to_one_hot = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason",
+                               "ROCName", "sourcesystem", "Source", "Revenutype"]
+        for var in cat_vars_to_one_hot:
+            df = one_hot_encoding(df, var, out_file)
+        out_file.write("\n")
 
     # TODO - have a closer look at SubReason, sourcesystem, Source, Workbench, Revenutype
         #  can we reduce the number of one-hot columns?
@@ -566,6 +573,10 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Export final df
     ####################################################################################################################
+    minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR"]
+    for col in df.columns:
+        if col not in minimum:
+            del df[col]
     # df.dropna(inplace=True)
 
     # Sort columns alphabetically and put TimeTaken first
