@@ -1,0 +1,17 @@
+RandomForestRegressor 20170725-175747
+
+RandomForestRegressor Cross Validation: 10
+RandomForestRegressor Train RMSE -> Max: 63739.8, Min: 59680.21, Avg: 62191.44
+RandomForestRegressor Test RMSE -> Max: 86980.4, Min: 72800.52, Avg: 77357.64
+RandomForestRegressor Train R^2 score -> Max: 0.99, Min: 0.98, Avg: 0.98
+RandomForestRegressor Test R^2 score -> Max: 0.98, Min: 0.97, Avg: 0.98
+RandomForestRegressor number test predictions within 1 hour -> Max: 1542/6011, Min: 1450/6011, Avg: 1494.1/6011
+RandomForestRegressor % test predictions within 1 hour: -> Max: 25.65%, Min: 24.12%, Avg: 24.86%
+RandomForestRegressor number test predictions within 24 hours -> Max: 5615/6011, Min: 5545/6011, Avg: 5571.7/6011
+RandomForestRegressor % test predictions within 24 hours -> Max: 93.41%, Min: 92.25%, Avg: 92.69%
+
+
+Feature Importances:
+0. "Concurrent_open_cases" (0.643977)
+1. "Days_left_QTR" (0.271820)
+2. "Days_left_Month" (0.084203)
