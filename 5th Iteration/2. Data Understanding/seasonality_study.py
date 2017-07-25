@@ -124,6 +124,7 @@ if __name__ == "__main__":  # Run program
             every_x_days = [(x + 1) * 30 for x in range(4)]
             every_x_days.append(140)
             plt.xticks(every_x_days, every_x_days, rotation="vertical")
+            plt.ylim(0, 2500000)
             plt.xlabel(column + " - Day Number")
         plt.ylabel("TimeTaken")
         plt.title(column)
@@ -140,7 +141,7 @@ if __name__ == "__main__":  # Run program
         print(column, "plot created")
 
     if d["user"] == "Kieron":
-        df.to_csv(d["file_location"] + d["output_file"] + ".csv", index=False)  # export file
+        df.to_csv(d["file_location"] + "seasonality_study.csv", index=False)  # export file
         copyfile(parameters, newpath + "parameters.txt")  # Save params
     else:
         df.to_csv(d["file_location"] + "vw_Incident_cleaned" + d["output_file"] + ".csv", index=False)  # export
