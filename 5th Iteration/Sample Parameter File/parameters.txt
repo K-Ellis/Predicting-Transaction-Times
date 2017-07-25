@@ -35,3 +35,4 @@ GradientBoostingRegressor: n
 MLPRegressor: n
 workload: y
 delete_created_resolved: y
+minimum_data: y
