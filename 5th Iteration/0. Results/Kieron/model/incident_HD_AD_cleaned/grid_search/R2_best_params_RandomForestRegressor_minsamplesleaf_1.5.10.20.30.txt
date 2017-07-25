@@ -1,0 +1,11 @@
+Best parameters found for maximising R2:
+	{'min_samples_leaf': 1}
+	Train: 0.95588 (+/- 0.00430)
+	Test: 0.75570 (+/- 0.10491)
+
+Grid R2 scores on development set:
+	0.75570 (+/-0.10491) for {'min_samples_leaf': 1}
+	0.75017 (+/-0.08582) for {'min_samples_leaf': 5}
+	0.73378 (+/-0.08938) for {'min_samples_leaf': 10}
+	0.71533 (+/-0.08956) for {'min_samples_leaf': 20}
+	0.70354 (+/-0.09402) for {'min_samples_leaf': 30}

@@ -1,0 +1,9 @@
+Best parameters found for maximising R2:
+	{'max_leaf_nodes': None}
+	Train: 0.95588 (+/- 0.00430)
+	Test: 0.75570 (+/- 0.10491)
+
+Grid R2 scores on development set:
+	0.75570 (+/-0.10491) for {'max_leaf_nodes': None}
+	0.72046 (+/-0.10906) for {'max_leaf_nodes': 100}
+	0.69685 (+/-0.12168) for {'max_leaf_nodes': 50}

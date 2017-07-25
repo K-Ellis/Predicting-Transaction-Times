@@ -63,10 +63,21 @@ if __name__ == "__main__":  # Run program
         df = pd.read_csv(d["file_location"] + "vw_Incident" + d["input_file"] + ".csv", encoding='latin-1',
                      low_memory=False)
 
-    df = df[df["Program"] == "Enterprise"]  # Program column: only interested in Enterprise
-    df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
-    df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
-    df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
+    col = "Program"
+    if col in df.columns:
+        df = df[df["Program"] == "Enterprise"]  # Program column: only interested in Enterprise
+
+    col = "LanguageName"
+    if col in df.columns:
+        df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
+
+    col = "StatusReason"
+    if col in df.columns:
+        df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
+
+    col = "ValidCase"
+    if col in df.columns:
+        df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
 
     df = df[["Created_On", "ResolvedDate"]]  # Delete all columns apart from . .
     df["Created_On"] = pd.to_datetime(df["Created_On"])

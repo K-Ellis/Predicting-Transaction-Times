@@ -1,0 +1,10 @@
+Best parameters found for maximising R2:
+	{'max_depth': 25}
+	Train: 0.95571 (+/- 0.00396)
+	Test: 0.75675 (+/- 0.10534)
+
+Grid R2 scores on development set:
+	0.75511 (+/-0.10759) for {'max_depth': None}
+	0.70346 (+/-0.12085) for {'max_depth': 10}
+	0.75675 (+/-0.10534) for {'max_depth': 25}
+	0.75485 (+/-0.10639) for {'max_depth': 50}

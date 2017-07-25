@@ -64,13 +64,14 @@ def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres, exclude):
     return dfcs
 
 
-def time_taken(df, out_file, start, finish):  # replace start & finish with one new column, "TimeTaken"
+def time_taken(df, out_file, start, finish, d):  # replace start & finish with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
     df2 = pd.DataFrame()  # create new dataframe, df2, to store answer  # todo - no need for df2
     df2["TimeTaken"] = (df[finish] - df[start]).astype('timedelta64[s]')
     # del df[start]  # Removed so we can include time to month and qtr end
-    del df[finish]
+    if d["delete_created_resolved"] == "y":
+        del df[finish]
     df = pd.concat([df2, df], axis=1)
     out_file.write("\nTime Taken column calculated" + "\n")
     mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
@@ -81,7 +82,8 @@ def time_taken(df, out_file, start, finish):  # replace start & finish with one 
     df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
     out_file.write("Day of month calculated" + "\n")
     df["Days_left_QTR"] = df["Created_On"].apply(lambda x: int(days_left_in_quarter(x)))  # Day of the Qtr
-    del df["Created_On"]
+    if d["delete_created_resolved"] == "y":
+        del df["Created_On"]
     out_file.write("Day of quarter calculated" + "\n\n")
     return df
 
@@ -293,7 +295,7 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Date and time - calculate time taken and time remaining before month and Qtr end
     ####################################################################################################################
-    df = time_taken(df, out_file, "Created_On", "ResolvedDate")  # Create Time Variable and filter outliers
+    df = time_taken(df, out_file, "Created_On", "ResolvedDate", d)  # Create Time Variable and filter outliers
 
     ####################################################################################################################
     # Queue: One hot encoding in buckets
@@ -334,6 +336,11 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Combine based on ticket numbers
     ####################################################################################################################
+
+    if d["append_HoldDuration"] == "y" or d["append_AuditDuration"] == "y":
+        df["TicketNumber"] = [x.lstrip('5-') for x in df["TicketNumber"]]
+        df["TicketNumber"] = df["TicketNumber"].astype(int)
+
     if d["append_HoldDuration"] == "y":
 
         if d["user"] == "Kieron":
@@ -342,22 +349,41 @@ def clean_Incident(d, newpath):
             dfholdactivity = pd.read_csv(d["file_location"] + "vw_HoldActivity" + d["input_file"] + ".csv",
                                          encoding='latin-1', low_memory=False)
 
-        # Create a new df with the unique Ticket numbers and 0 for hold durations
-        dfduration = pd.DataFrame(dfholdactivity["TicketNumber"].unique(), columns=["TicketNumber"])
-        dfduration["HoldDuration"] = 0
+        dfholdactivity["TicketNumber"] = [x.lstrip('5-') for x in dfholdactivity["TicketNumber"]]
+        dfholdactivity["TicketNumber"] = dfholdactivity["TicketNumber"].astype(int)
 
-        uniques = dfholdactivity["TicketNumber"].unique()
-        # For each of the unique ticket numbers in holdactivity: sum the hold durations and store them next to the equivalent
-        #  ticket in the new dfduration df
-        for ticket in uniques:
-            duration = dfholdactivity.loc[dfholdactivity["TicketNumber"] == ticket, 'HoldDuration'].sum()
-            dfduration.loc[dfduration["TicketNumber"] == ticket, "HoldDuration"] = duration
+        columns = ["TicketNumber", "HoldDuration", "HoldTypeName", "AssignedToGroup"]
+        for col in dfholdactivity:
+            if col not in columns:
+                del dfholdactivity[col]
 
+        dfdummies = pd.get_dummies(data=dfholdactivity, columns=["HoldTypeName", "AssignedToGroup"])
+        dfdummies["HoldCount"] = 1
+
+        unique_tickets = pd.DataFrame(dfholdactivity["TicketNumber"].unique().tolist(), columns=["TicketNumber"])
+
+        columns_to_count = ["HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
+                            "AssignedToGroup_BPO", "AssignedToGroup_CRMT", "AssignedToGroup_Internal",
+                            "AssignedToGroup_Microsoft IT", "AssignedToGroup_Ops. Program Manager",
+                            "AssignedToGroup_Submitter (Contact)", "HoldCount"]
+        for col in columns_to_count:
+            unique_tickets[col] = 0
+
+        for i, row in unique_tickets.iterrows():
+            ticket = row["TicketNumber"]
+            summed = dfdummies[dfdummies["TicketNumber"] == ticket].sum()
+
+            summed = summed.to_frame().T
+
+            for j in range(len(summed.columns) - 1):
+                j += 1
+                unique_tickets.iloc[i, j] += summed.iloc[0, j]
         # merge new dfduration df with dfincident based on ticket number
-        df = df.merge(dfduration, how='left', left_on='TicketNumber', right_on='TicketNumber')
+        df = df.merge(right=unique_tickets, how="left", on="TicketNumber")
 
         # fill the NANs with 0's
-        df["HoldDuration"].fillna(0, inplace=True)
+        for col in columns_to_count:
+            df[col].fillna(0, inplace=True)
 
     if d["append_AuditDuration"] == "y":
         from datetime import timedelta
@@ -367,6 +393,9 @@ def clean_Incident(d, newpath):
         else:
             dfaudithistory = pd.read_csv(d["file_location"] + "vw_AuditHistory" + d["input_file"] + ".csv",
                                          encoding='latin-1', low_memory=False)
+
+        dfaudithistory["TicketNumber"] = [x.lstrip('5-') for x in dfaudithistory["TicketNumber"]]
+        dfaudithistory["TicketNumber"] = dfaudithistory["TicketNumber"].astype(int)
 
         dfaudithistory["Created_On"] = pd.to_datetime(dfaudithistory["Created_On"])
 

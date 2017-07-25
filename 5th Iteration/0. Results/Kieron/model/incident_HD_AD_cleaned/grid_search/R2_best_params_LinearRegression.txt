@@ -1,0 +1,10 @@
+Best parameters found for maximising R2:
+	{'fit_intercept': False, 'normalize': True}
+	Train: 0.57510 (+/- 0.01305)
+	Test: 0.53699 (+/- 0.11642)
+
+Grid R2 scores on development set:
+	-446607769745975232.00000 (+/-2679258866172066816.00000) for {'fit_intercept': True, 'normalize': True}
+	0.53699 (+/-0.11642) for {'fit_intercept': True, 'normalize': False}
+	0.53699 (+/-0.11642) for {'fit_intercept': False, 'normalize': True}
+	0.53699 (+/-0.11642) for {'fit_intercept': False, 'normalize': False}

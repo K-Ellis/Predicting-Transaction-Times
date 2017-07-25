@@ -1,0 +1,12 @@
+Best parameters found for maximising R2:
+	{'max_features': None}
+	Train: 0.95894 (+/- 0.00406)
+	Test: 0.75561 (+/- 0.10534)
+
+Grid R2 scores on development set:
+	0.66007 (+/-0.10548) for {'max_features': 1}
+	0.72133 (+/-0.11106) for {'max_features': 0.1}
+	0.75544 (+/-0.10672) for {'max_features': 'auto'}
+	0.72804 (+/-0.11018) for {'max_features': 'sqrt'}
+	0.70769 (+/-0.11218) for {'max_features': 'log2'}
+	0.75561 (+/-0.10534) for {'max_features': None}

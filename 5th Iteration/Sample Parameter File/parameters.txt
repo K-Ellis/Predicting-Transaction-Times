@@ -27,5 +27,7 @@ rerun_with_top_importances: n
 top_k_features: 50
 export_importances_csv: n
 append_HoldDuration: y
+append_AuditDuration
+last_4_BDays
 grid_search: y
 grid_search_RMSE: n
