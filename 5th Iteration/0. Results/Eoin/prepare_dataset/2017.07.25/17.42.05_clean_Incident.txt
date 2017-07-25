@@ -1,0 +1,10 @@
+Date and time: 20170725-174205
+clean_Incident started
+
+Time Taken column calculated
+Outliers removed > 3 sd from mean of TimeTaken
+Day of month calculated
+Day of quarter calculated
+
+file saved as ../../../Data/vw_Incident_cleaned_25_7_3.csv
+clean_Incident complete
