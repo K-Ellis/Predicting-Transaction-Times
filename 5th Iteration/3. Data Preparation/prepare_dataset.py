@@ -262,6 +262,16 @@ def clean_Incident(d, newpath):
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
 
     ####################################################################################################################
+    # Generate workload variables
+    ####################################################################################################################
+    if d["workload"] == "y":
+        df["Concurrent_open_cases"] = 0  # Add number of cases that were open at the same time
+        for i in range(len(df)):
+            df_temp = df[df.Created_On < df.iloc[i]["Created_On"]]
+            df_temp = df_temp[df_temp.ResolvedDate > df.iloc[i]["ResolvedDate"]]  # todo current date in real program
+            df.loc[i, "Concurrent_open_cases"] = len(df_temp)
+
+    ####################################################################################################################
     # Use only cases created in the last 4 business days of the month
     ####################################################################################################################
     if d["last_4_BDays"] == "y":
@@ -507,6 +517,8 @@ def clean_Incident(d, newpath):
         quant_cols.append("HoldDuration")
     if d["append_AuditDuration"] == "y":
         quant_cols.append("AuditDuration")
+    if d["workload"] == "y":
+        quant_cols.append("Concurrent_open_cases")
 
     exclude_from_mode_fill = quant_cols
     dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
