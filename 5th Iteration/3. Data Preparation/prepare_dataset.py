@@ -311,6 +311,15 @@ def clean_Incident(d, newpath):
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
 
     ####################################################################################################################
+    # Filtering for the data MS want
+    ####################################################################################################################
+    df = df[df["Program"] == "Enterprise"]  # Program column: only interested in Enterprise
+    df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
+    df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
+    df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
+    df.dropna(subset=["ResolvedDate"], inplace=True)  # Remove any cases with no resolved date
+
+    ####################################################################################################################
     # Use only cases created in the last 4 business days of the month
     ####################################################################################################################
     if d["last_4_BDays"] == "y":
@@ -384,14 +393,6 @@ def clean_Incident(d, newpath):
                 df["Queue"] = df["Queue"].replace(extra, "Other")
         df = one_hot_encoding(df, "Queue", out_file)
         out_file.write("\n")
-
-    ####################################################################################################################
-    # Filtering for the data MS want
-    ####################################################################################################################
-    df = df[df["Program"] == "Enterprise"]  # Program column: only interested in Enterprise
-    df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
-    df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
-    df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
 
     ####################################################################################################################
     # Combine based on ticket numbers
@@ -530,6 +531,7 @@ def clean_Incident(d, newpath):
     del df["LanguageName"]
     del df["IsAudited"]
     del df["SubSubReason"]
+    del df["Unnamed: 69"]
 
     ####################################################################################################################
     # Data mining processing - where there is not enough meaningful information.
@@ -569,7 +571,7 @@ def clean_Incident(d, newpath):
         quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName", "Seconds_left_month"]
         if d["append_HoldDuration"] == "y":
             quant_cols.append("HoldDuration")
-        if d["append_AuditDuration"] == "y
+        if d["append_AuditDuration"] == "y":
             quant_cols.append("AuditDuration")
         if d["workload"] == "y":
             quant_cols.append("Concurrent_open_cases")
@@ -835,11 +837,11 @@ if __name__ == "__main__":  # Run program
 
     if d["clean_Incident"] == "y":
         clean_Incident(d, newpath)
-    if d["clean_AuditHistory"] == "y":
-        clean_AuditHistory(d, newpath)
-    if d["clean_HoldActivity"] == "y":
-        clean_HoldActivity(d, newpath)
-    if d["clean_PackageTriageEntry"] == "y":
-        clean_PackageTriageEntry(d, newpath)
+    #if d["clean_AuditHistory"] == "y":
+    #    clean_AuditHistory(d, newpath)
+    #if d["clean_HoldActivity"] == "y":
+    #    clean_HoldActivity(d, newpath)
+    #if d["clean_PackageTriageEntry"] == "y":
+    #    clean_PackageTriageEntry(d, newpath)
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save params
