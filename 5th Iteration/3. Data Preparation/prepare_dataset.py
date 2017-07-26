@@ -64,6 +64,50 @@ def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres, exclude):
     return dfcs
 
 
+def custom_month_end(date):  # custom month end
+    wkday, days_in_month = monthrange(date.year, date.month)
+    lastBDay = days_in_month - max(((wkday + days_in_month - 1) % 7) - 4, 0)
+    m = 0
+    d = 31
+    increment_day = False
+    if date.day == days_in_month and date.day == lastBDay:
+        m = 1
+        d = 1
+        increment_day = False
+    elif date.day > lastBDay + 1:
+        m = 1
+        d = 31
+        increment_day = True
+    elif date.day > lastBDay and date.hour >= 8:
+        m = 1
+        d = 31
+        increment_day = True
+    elif date.day == 1 and date.hour < 8:
+        d = 1
+        increment_day = False
+    elif lastBDay == days_in_month:
+        increment_day = False
+        m = 1
+        d = 1
+
+    date += pd.DateOffset(months=m, day=d)
+
+    if date.weekday() > 4:
+        date -= pd.offsets.BDay()
+        date += pd.offsets.Day()
+    elif increment_day == True:
+        date += pd.offsets.Day()
+    return date.normalize() + pd.DateOffset(hours=8)
+
+
+def seconds_left_in_month(date):
+    cutoff = custom_month_end(date)
+    seconds_left = (cutoff-date).seconds
+    days_left = (cutoff-date).days
+    total_seconds_left = seconds_left + days_left*24*60*60
+    return total_seconds_left
+
+
 def time_taken(df, out_file, start, finish, d):  # replace start & finish with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
@@ -79,8 +123,13 @@ def time_taken(df, out_file, start, finish, d):  # replace start & finish with o
     df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
     # df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
     out_file.write("Outliers removed > 3 sd from mean of TimeTaken" + "\n")
-    df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
-    out_file.write("Day of month calculated" + "\n")
+
+    # df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
+    # out_file.write("Day of month calculated" + "\n")
+    df["Seconds_left_month"] = df["Created_On"].apply(lambda x: int(seconds_left_in_month(x)))  # seconds left to
+    # month end
+    out_file.write("seconds to month end calculated" + "\n")
+
     df["Days_left_QTR"] = df["Created_On"].apply(lambda x: int(days_left_in_quarter(x)))  # Day of the Qtr
     if d["delete_created_resolved"] == "y":
         del df["Created_On"]
@@ -262,16 +311,6 @@ def clean_Incident(d, newpath):
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
 
     ####################################################################################################################
-    # Generate workload variables
-    ####################################################################################################################
-    if d["workload"] == "y":
-        df["Concurrent_open_cases"] = 0  # Add number of cases that were open at the same time
-        for i in range(len(df)):
-            # todo current date in real program
-            df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
-                df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
-
-    ####################################################################################################################
     # Use only cases created in the last 4 business days of the month
     ####################################################################################################################
     if d["last_4_BDays"] == "y":
@@ -301,6 +340,16 @@ def clean_Incident(d, newpath):
 
         del df["Created_On_String"]
         del df["Created_On_DateTime"]
+
+    ####################################################################################################################
+    # Generate workload variables
+    ####################################################################################################################
+    if d["workload"] == "y":
+        df["Concurrent_open_cases"] = 0  # Add number of cases that were open at the same time
+        for i in range(len(df)):
+            # todo current date in real program
+            df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
+                df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
 
     ####################################################################################################################
     # Date and time - calculate time taken and time remaining before month and Qtr end
@@ -517,10 +566,10 @@ def clean_Incident(d, newpath):
     # Fill Categorical and numerical nulls. And Scale numerical variables.
     ####################################################################################################################
     if d["minimum_data"] != "y":
-        quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
+        quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName", "Seconds_left_month"]
         if d["append_HoldDuration"] == "y":
             quant_cols.append("HoldDuration")
-        if d["append_AuditDuration"] == "y":
+        if d["append_AuditDuration"] == "y
             quant_cols.append("AuditDuration")
         if d["workload"] == "y":
             quant_cols.append("Concurrent_open_cases")
@@ -573,11 +622,12 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Export final df
     ####################################################################################################################
-    minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR"]
-    for col in df.columns:
-        if col not in minimum:
-            del df[col]
-    # df.dropna(inplace=True)
+    if d["minimum_data"] == "y":
+        minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", "Seconds_left_month"]
+        for col in df.columns:
+            if col not in minimum:
+                del df[col]
+        # df.dropna(inplace=True)
 
     # Sort columns alphabetically and put TimeTaken first
     df = df.reindex_axis(sorted(df.columns), axis=1)
