@@ -79,6 +79,13 @@ def get_last_bdays_qtr():
         last_bdays_offset.append(last_bday + pd.DateOffset(days=1,hours=8))
     last_bdays_offset = [start_date] + last_bdays_offset
     return last_bdays_offset
+    
+def return_end_of_year():
+    last_bdays = []
+    last_bdays.append(pd.datetime(2017, 1, 1))
+    last_bdays.append(pd.datetime(2017, 7, 1, 8))
+    last_bdays.append(pd.datetime(2018, 6, 30, 8))
+    return last_bdays
 
 def get_seconds_left(date, last_bdays_offset):
     for i in range(len(last_bdays_offset)):       
@@ -113,8 +120,12 @@ def time_taken(df, out_file, start, finish, d):  # replace start & finish with o
     
     last_bdays_qtr = get_last_bdays_qtr()
     df["Seconds_left_Qtr"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, last_bdays_qtr)))  # Day of the Qtr
-  
+    
     df["Next_Qtr_minus_days_into_current_Qtr"] = df["Created_On"].apply(lambda x: int(next_Qtr_minus_days_into_current_Qtr(x)))  # Day of the Qtr
+    
+    end_of_year_dates = return_end_of_year()
+    df["Seconds_left_EndYear"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, end_of_year_dates)))  # Day of the Qtr
+    
     if d["delete_created_resolved"] == "y":
         del df["Created_On"]
     out_file.write("Day of quarter calculated" + "\n\n")
@@ -606,7 +617,8 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Export final df
     ####################################################################################################################
-    minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", "Seconds_left_month", "Seconds_left_Qtr", "Next_Qtr_minus_days_into_current_Qtr"]
+    minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", 
+    "Seconds_left_month", "Seconds_left_Qtr", "Next_Qtr_minus_days_into_current_Qtr", "Seconds_left_EndYear"]
     for col in df.columns:
         if col not in minimum:
             del df[col]
