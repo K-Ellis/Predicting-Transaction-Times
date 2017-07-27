@@ -64,49 +64,29 @@ def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres, exclude):
     return dfcs
 
 
-# custom month end
-def custom_month_end(date):
-    wkday, days_in_month = monthrange(date.year, date.month)
-    lastBDay = days_in_month - max(((wkday + days_in_month - 1) % 7) - 4, 0)
-    m = 0
-    d = 31
-    increment_day = False
-    if date.day == days_in_month and date.day == lastBDay:
-        m = 1
-        d = 1
-        increment_day = False
-    elif date.day > lastBDay + 1:
-        m = 1
-        d = 31
-        increment_day = True
-    elif date.day > lastBDay and date.hour >= 8:
-        m = 1
-        d = 31
-        increment_day = True
-    elif date.day == 1 and date.hour < 8:
-        d = 1
-        increment_day = False
-    elif lastBDay == days_in_month:
-        increment_day = False
-        m = 1
-        d = 1
+def get_last_bdays_months():
+    last_bdays = pd.date_range("2017.01.01", periods=11, freq='BM')
+    last_bdays_offset = []
+    for last_bday in last_bdays:
+        last_bdays_offset.append(last_bday + pd.DateOffset(days=1,hours=8))
+    return last_bdays_offset
 
-    date += pd.DateOffset(months=m, day=d)
+def get_last_bdays_qtr():
+    start_date = pd.datetime(2017, 1, 1) 
+    last_bdays = pd.date_range(start_date, periods=3, freq='Q')
+    last_bdays_offset = []
+    for last_bday in last_bdays:
+        last_bdays_offset.append(last_bday + pd.DateOffset(days=1,hours=8))
+    last_bdays_offset = [start_date] + last_bdays_offset
+    return last_bdays_offset
 
-    if date.weekday() > 4:
-        date -= pd.offsets.BDay()
-        date += pd.offsets.Day()
-    elif increment_day == True:
-        date += pd.offsets.Day()
-    return date.normalize() + pd.DateOffset(hours=8)
-
-def seconds_left_in_month(date):
-    cutoff = custom_month_end(date)
-    seconds_left = (cutoff-date).seconds
-    days_left = (cutoff-date).days
-    total_seconds_left = seconds_left + days_left*24*60*60
-    return total_seconds_left
-
+def get_seconds_left(date, last_bdays_offset):
+    for i in range(len(last_bdays_offset)):       
+        if date >= last_bdays_offset[i] and date <last_bdays_offset[i+1]:
+            seconds_left = (last_bdays_offset[i+1] - date).seconds
+            days_left = (last_bdays_offset[i+1] - date).days
+            total_seconds_left = seconds_left + days_left*24*60*60        
+            return total_seconds_left
 
 def time_taken(df, out_file, start, finish, d):  # replace start & finish with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
@@ -126,11 +106,14 @@ def time_taken(df, out_file, start, finish, d):  # replace start & finish with o
 
     # df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
     # out_file.write("Day of month calculated" + "\n")
-    df["Seconds_left_month"] = df["Created_On"].apply(lambda x: int(seconds_left_in_month(x)))  # seconds left to
+    last_bdays_months = get_last_bdays_months()
+    df["Seconds_left_month"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, last_bdays_months)))  # seconds left to
     # month end
     out_file.write("seconds to month end calculated" + "\n")
-
-    df["Days_left_QTR"] = df["Created_On"].apply(lambda x: int(days_left_in_quarter(x)))  # Day of the Qtr
+    
+    last_bdays_qtr = get_last_bdays_qtr()
+    df["Seconds_left_Qtr"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, last_bdays_qtr)))  # Day of the Qtr
+    df["Next_Qtr_minus_days_into_current_Qtr"] = df["Created_On"].apply(lambda x: int(days_left_in_quarter(x)))  # Day of the Qtr
     if d["delete_created_resolved"] == "y":
         del df["Created_On"]
     out_file.write("Day of quarter calculated" + "\n\n")
@@ -264,7 +247,7 @@ def scale_quant_cols(df, quant_cols, out_file):  # Scale quantitative variables
     return df
 
 
-def days_left_in_quarter(date):
+def next_Qtr_minus_days_into_current_Qtr(date):
     # Function found on stack overflow
     # https://stackoverflow.com/questions/37471704/how-do-i-get-the-correspondent-day-of-the-quarter-from-a-date-field
     q2 = (datetime.datetime.strptime("4/1/{0:4d}".format(date.year), "%m/%d/%Y")).timetuple().tm_yday
@@ -283,8 +266,8 @@ def days_left_in_quarter(date):
         return q5 - (cur_day - q4 + 1)
 
 
-def days_left_in_month(date):
-    return int(monthrange(date.year, date.month)[1]) - int(date.strftime("%d"))
+# def days_left_in_month(date):
+    # return int(monthrange(date.year, date.month)[1]) - int(date.strftime("%d"))
 
 
 """*********************************************************************************************************************
@@ -622,7 +605,7 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Export final df
     ####################################################################################################################
-    minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", "Seconds_left_month"]
+    minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", "Seconds_left_month", "Seconds_left_QTR", "Next_Qtr_minus_days_into_current_Qtr"]
     for col in df.columns:
         if col not in minimum:
             del df[col]

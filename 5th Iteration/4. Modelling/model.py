@@ -24,7 +24,7 @@ import math
 from sklearn.model_selection import KFold, cross_val_predict #, cross_val_score, train_test_split
 from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from math import sqrt
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.neural_network import MLPRegressor
@@ -130,6 +130,8 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     test_rmse = []
     train_r_sq = []
     test_r_sq = []
+    train_mae = []
+    test_mae = []
     number_test_1 = []  # Tracking predictions within 1 hour
     number_test_24 = []  # Tracking predictions within 24 hours
 
@@ -178,16 +180,23 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         test_rmse.append(sqrt(mean_squared_error(testData_y, y_test_pred)))
         train_r_sq.append(r2_score(trainData_y, y_train_pred))
         test_r_sq.append(r2_score(testData_y, y_test_pred))
+        train_mae.append(mean_absolute_error(trainData_y, y_train_pred))
+        test_mae.append(mean_absolute_error(testData_y, y_test_pred))
+
 
     train_rmse_ave = np.mean(train_rmse)
     test_rmse_ave = np.mean(test_rmse)
     train_r2_ave = np.mean(train_r_sq)
     test_r2_ave = np.mean(test_r_sq)
+    train_mae_ave = np.mean(train_mae)
+    test_mae_ave = np.mean(test_mae)
 
     train_rmse_std = np.std(train_rmse)
     test_rmse_std = np.std(test_rmse)
     train_r2_std = np.std(train_r_sq)
     test_r2_std = np.std(test_r_sq)
+    train_mae_std = np.std(train_mae)
+    test_mae_std = np.std(test_mae)
 
     ave_1hour = np.mean(number_test_1)
     std_1hour = np.std(number_test_1)
@@ -204,6 +213,8 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     out_file.write("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(test_rmse_ave, test_rmse_std))
     out_file.write("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})\n".format(train_r2_ave, train_r2_std))
     out_file.write("\tTest Mean R2: {0:.5f} (+/-{1:.5f})\n".format(test_r2_ave, test_r2_std))
+    out_file.write("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(train_mae_ave, train_mae_std))
+    out_file.write("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(test_mae_ave, test_mae_std))
 
     out_file.write("\n\n\t{2:s} number test predictions within 1 hour -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_1hour, std_1hour, alg,len(y_test_pred) ))
     out_file.write("\n\t{2:s} % test predictions within 1 hour: -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg))
@@ -217,6 +228,8 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     print("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})".format(test_rmse_ave, test_rmse_std))
     print("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})".format(train_r2_ave, train_r2_std))
     print("\tTest Mean R2: {0:.5f} (+/-{1:.5f})".format(test_r2_ave, test_r2_std))
+    print("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})".format(train_mae_ave, train_mae_std))
+    print("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})".format(test_mae_ave, test_mae_std))
     
     print("\n\t{2:s} number test predictions within 1 hour -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_1hour, std_1hour, alg,len(y_test_pred) ))
     print("\t{2:s} % test predictions within 1 hour: -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg))

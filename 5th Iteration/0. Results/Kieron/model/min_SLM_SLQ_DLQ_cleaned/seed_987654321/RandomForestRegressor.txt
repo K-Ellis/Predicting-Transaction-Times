@@ -1,0 +1,20 @@
+RandomForestRegressor 20170727-180459
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean RMSE: 16528.81 (+/-198.78)
+	Test Mean RMSE: 33343.23 (+/-4467.20)
+	Train Mean R2: 0.99887 (+/-0.00003)
+	Test Mean R2: 0.99535 (+/-0.00113)
+
+
+	RandomForestRegressor number test predictions within 1 hour -> Mean: 1069.5/2404 (+/- 27.8)
+	RandomForestRegressor % test predictions within 1 hour: -> Mean: 44.49% (+/- 1.16%)
+	RandomForestRegressor number test predictions within 24 hours -> Mean: 2352.7/2404 (+/- 7.5)
+	RandomForestRegressor % test predictions within 24 hours -> Mean: 97.87% (+/- 0.31%)
+
+
+Feature Importances:
+0. "Concurrent_open_cases" (0.639320)
+1. "Days_left_QTR" (0.194721)
+2. "Seconds_left_QTR" (0.093166)
+3. "Seconds_left_month" (0.072793)
