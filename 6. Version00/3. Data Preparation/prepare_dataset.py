@@ -13,6 +13,7 @@ Kieron Ellis
 import pandas as pd
 import time
 import datetime
+import numpy as np
 from calendar import monthrange
 from sklearn.utils import resample
 from sklearn import preprocessing
@@ -76,14 +77,6 @@ def custom_month_end(date):  # custom month end
     elif increment_day == True:
         date += pd.offsets.Day()
     return date.normalize() + pd.DateOffset(hours=8)
-
-
-def seconds_left_in_month(date):
-    cutoff = custom_month_end(date)
-    seconds_left = (cutoff-date).seconds
-    days_left = (cutoff-date).days
-    total_seconds_left = seconds_left + days_left*24*60*60
-    return total_seconds_left
 
 
 def time_taken(df):  # replace start & finish with one new column, "TimeTaken"
@@ -176,6 +169,14 @@ def days_left_in_month(date):
     return int(monthrange(date.year, date.month)[1]) - int(date.strftime("%d"))
 
 
+def seconds_left_in_month(date):
+    cutoff = custom_month_end(date)
+    seconds_left = (cutoff-date).seconds
+    days_left = (cutoff-date).days
+    total_seconds_left = seconds_left + days_left*24*60*60
+    return total_seconds_left
+
+
 def deletions(df):
     ####################################################################################################################
     # Domain knowledge processing
@@ -259,6 +260,20 @@ def clean_data(d):
     print("Filtering Program/Language/Status/Valid, dataframe shape:", df.shape)
 
     ####################################################################################################################
+    # Date and time - calculate time taken
+    ####################################################################################################################
+    df = time_taken(df)  # Create Time Variable
+
+    ####################################################################################################################
+    # Filtering todo add in parameters
+    ####################################################################################################################
+    if d["Concurrent_open_cases"] == "y":
+        mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
+        std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
+        df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
+        df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
+
+    ####################################################################################################################
     # Generate Concurrent_open_cases variable
     ####################################################################################################################
     if d["Concurrent_open_cases"] == "y":
@@ -269,20 +284,17 @@ def clean_data(d):
         print("Concurrent_open_cases added")
 
     ####################################################################################################################
-    # Date and time - calculate time taken and time remaining before month and Qtr end
+    # Time remaining before month and Qtr end
     ####################################################################################################################
-    df = time_taken(df)  # Create Time Variable
-
     if d["Days_left_Month"] == "y":
         df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
         print("Days_left_Month added")
     if d["Days_left_QTR"] == "y":
         df["Days_left_QTR"] = df["Created_On"].apply(lambda x: int(days_left_in_quarter(x)))  # Day of the Qtr
         print("Days_left_QTR added")
-    if d["Seconds_left_month"] == "y":
-        df["Seconds_left_month"] = df["Created_On"].apply(
-            lambda x: int(seconds_left_in_month(x)))  # seconds to month end
-        print("Seconds_left_month added")
+    if d["Seconds_left_Month"] == "y":
+        df["Seconds_left_Month"] = df["Created_On"].apply(lambda x: int(seconds_left_in_month(x)))  # s to month end
+        print("Seconds_left_Month added")
 
     ####################################################################################################################
     # Combine based on ticket numbers
@@ -323,7 +335,6 @@ def clean_data(d):
 
         for col in columns_to_count:  # fill the NANs with 0's
             df[col].fillna(0, inplace=True)
-
     if d["append_AuditDuration"] == "y":
         dfaudithistory = pd.read_csv("../../../Data/vw_AuditHistory.csv", encoding='latin-1', low_memory=False)
         dfaudithistory["TicketNumber"] = [x.lstrip('5-') for x in dfaudithistory["TicketNumber"]]
@@ -351,18 +362,7 @@ def clean_data(d):
     ####################################################################################################################
     if d["del_Unnamed"] == "y":
         del df["Unnamed: 69"]
-    if d["delete_created_resolved"] == "y":
-        del df["Created_On"]
-        del df["ResolvedDate"]
     df = deletions(df)  # Use deletions function to clear lots of columns  #todo only keep ones we want instead
-
-    ####################################################################################################################
-    # Filtering todo add in parameters
-    ####################################################################################################################
-    # mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
-    # std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
-    # df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
-    # df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
 
     ####################################################################################################################
     # IsSox case transformation to filter na's
@@ -370,7 +370,6 @@ def clean_data(d):
     df["IsSOXCase"].fillna(2, inplace=True)
     df.IsSOXCase = df.IsSOXCase.astype(int)
     df = df[df["IsSOXCase"] != 2]
-
     df["Numberofreactivations"].fillna(0, inplace=True)
     df.Numberofreactivations = df.Numberofreactivations.astype(int)  # Also convert to ints
 
@@ -381,32 +380,6 @@ def clean_data(d):
     df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
     df["StageName"] = df["StageName"].map({"Ops In": 0, "Triage And Validation": 1, "Data Entry": 2, "Submission": 3,
                                            "Ops Out": 4})
-
-    ####################################################################################################################
-    # Fill Categorical and numerical nulls. Scale numerical variables.
-    ####################################################################################################################
-    quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]  # todo confirm seconds
-    if d["append_HoldDuration"] == "y":
-        quant_cols.append("HoldDuration")
-    if d["append_AuditDuration"] == "y":
-        quant_cols.append("AuditDuration")
-    if d["Concurrent_open_cases"] == "y":
-        quant_cols.append("Concurrent_open_cases")
-    if d["Days_left_Month"] == "y":
-        quant_cols.append("Days_left_Month")
-    if d["Days_left_QTR"] == "y":
-        quant_cols.append("Days_left_QTR")
-    if d["Seconds_left_month"] == "y":
-        quant_cols.append("Seconds_left_month")
-
-    exclude_from_mode_fill = quant_cols
-    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
-    fill_nulls_dfcs(df, dfcs, "mode")
-    fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean")
-    print("fill_nulls_dfcs done")
-
-    df = scale_quant_cols(df, quant_cols)
-    print("scale_quant_cols done")
 
     ####################################################################################################################
     # Transform countries into continents
@@ -445,6 +418,32 @@ def clean_data(d):
             df["Queue"] = df["Queue"].replace(extra, "Other")
 
     ####################################################################################################################
+    # Fill Categorical and numerical nulls. Scale numerical variables.
+    ####################################################################################################################
+    quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]  # todo confirm seconds
+    if d["append_HoldDuration"] == "y":
+        quant_cols.append("HoldDuration")
+    if d["append_AuditDuration"] == "y":
+        quant_cols.append("AuditDuration")
+    if d["Concurrent_open_cases"] == "y":
+        quant_cols.append("Concurrent_open_cases")
+    if d["Days_left_Month"] == "y":
+        quant_cols.append("Days_left_Month")
+    if d["Days_left_QTR"] == "y":
+        quant_cols.append("Days_left_QTR")
+    if d["Seconds_left_Month"] == "y":
+        quant_cols.append("Seconds_left_Month")
+
+    exclude_from_mode_fill = quant_cols
+    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
+    fill_nulls_dfcs(df, dfcs, "mode")
+    fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean")
+    print("fill_nulls_dfcs done")
+
+    df = scale_quant_cols(df, quant_cols)
+    print("scale_quant_cols done")
+
+    ####################################################################################################################
     # One-hot encode categorical variables
     ####################################################################################################################
     cat_vars_to_one_hot = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason",
@@ -458,12 +457,19 @@ def clean_data(d):
     # If we only want minimum data
     ####################################################################################################################
     if d["minimum_data"] == "y":
-        minimum = ["TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", "Seconds_left_month"]
+        minimum = ["TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", "Seconds_left_Month"]
         # todo - include seconds to qtr/month
         for col in df.columns:
             if col not in minimum:
                 del df[col]
         print("Minimum data only - all other columns deleted")
+
+    ####################################################################################################################
+    # If we want to keep created and resolved
+    ####################################################################################################################
+    if d["delete_created_resolved"] == "y":
+        del df["Created_On"]
+        del df["ResolvedDate"]
 
     ####################################################################################################################
     # Sort columns alphabetically and put TimeTaken first, export file
