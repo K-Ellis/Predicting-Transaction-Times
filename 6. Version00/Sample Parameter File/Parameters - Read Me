@@ -1,0 +1,2 @@
+Save parameters file in the following location compared to python code:
+"../../../Data/parameters.txt"
