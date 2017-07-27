@@ -109,6 +109,8 @@ def seconds_left_in_month(date):
 
 
 def time_taken(df, out_file, start, finish, d):  # replace start & finish with one new column, "TimeTaken"
+    print(df.head)
+    print("1", len(df))
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
     df2 = pd.DataFrame()  # create new dataframe, df2, to store answer  # todo - no need for df2
@@ -116,23 +118,29 @@ def time_taken(df, out_file, start, finish, d):  # replace start & finish with o
     # del df[start]  # Removed so we can include time to month and qtr end
     if d["delete_created_resolved"] == "y":
         del df[finish]
+    print("2", len(df))
     df = pd.concat([df2, df], axis=1)
     out_file.write("\nTime Taken column calculated" + "\n")
     mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
     std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
-    df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
+    print("mean_time", mean_time)
+    print("std_time", std_time)
+    print("3", len(df))
+    # df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from
+    print("4", len(df))
     # df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
     out_file.write("Outliers removed > 3 sd from mean of TimeTaken" + "\n")
 
     # df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
     # out_file.write("Day of month calculated" + "\n")
-    df["Seconds_left_month"] = df["Created_On"].apply(lambda x: int(seconds_left_in_month(x)))  # seconds left to
+    # df["Seconds_left_month"] = df["Created_On"].apply(lambda x: int(seconds_left_in_month(x)))  # seconds left to
     # month end
-    out_file.write("seconds to month end calculated" + "\n")
+    # out_file.write("seconds to month end calculated" + "\n")
 
     df["Days_left_QTR"] = df["Created_On"].apply(lambda x: int(days_left_in_quarter(x)))  # Day of the Qtr
     if d["delete_created_resolved"] == "y":
         del df["Created_On"]
+    print("5", len(df))
     out_file.write("Day of quarter calculated" + "\n\n")
     return df
 
@@ -310,7 +318,17 @@ def clean_Incident(d, newpath):
         from sklearn.utils import resample
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
 
-    # df = df.dropna(subset=["ResolvedDate"])  # Remove any cases with no resolved date
+    print("Read in df:", len(df))
+
+    ####################################################################################################################
+    # Filtering for the data MS want
+    ####################################################################################################################
+    df = df[df["Program"] == "Enterprise"]  # Program column: only interested in Enterprise
+    df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
+    df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
+    df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
+    df.dropna(subset=["ResolvedDate"], inplace=True)  # Remove any cases with no resolved date
+    print("Filtering:", len(df))
 
     ####################################################################################################################
     # Use only cases created in the last 4 business days of the month
@@ -342,21 +360,25 @@ def clean_Incident(d, newpath):
 
         del df["Created_On_String"]
         del df["Created_On_DateTime"]
+    print("Last 4 days:", len(df))
 
     ####################################################################################################################
     # Generate workload variables
     ####################################################################################################################
     if d["workload"] == "y":
-        df["Concurrent_open_cases"] = 0  # Add number of cases that were open at the same time
+        # df["Concurrent_open_cases"] = 0  # Add number of cases that were open at the same time
         for i in range(len(df)):
             # todo current date in real program
-            df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
-                df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
+            df_temp = df[df.Created_On < df.iloc[i]["Created_On"]]
+            df_temp = df_temp[df_temp.ResolvedDate > df.iloc[i]["ResolvedDate"]]  # todo current date in real program
+            df.loc[i, "Concurrent_open_cases"] = len(df_temp)
+    print("Concurrent_open_cases:", len(df))
 
     ####################################################################################################################
     # Date and time - calculate time taken and time remaining before month and Qtr end
     ####################################################################################################################
     df = time_taken(df, out_file, "Created_On", "ResolvedDate", d)  # Create Time Variable and filter outliers
+    print("Timetaken:", len(df))
 
     ####################################################################################################################
     # Queue: One hot encoding in buckets
@@ -386,14 +408,7 @@ def clean_Incident(d, newpath):
                 df["Queue"] = df["Queue"].replace(extra, "Other")
         df = one_hot_encoding(df, "Queue", out_file)
         out_file.write("\n")
-
-    ####################################################################################################################
-    # Filtering for the data MS want
-    ####################################################################################################################
-    df = df[df["Program"] == "Enterprise"]  # Program column: only interested in Enterprise
-    df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
-    df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
-    df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
+        print("One hot buckets:", len(df))
 
     ####################################################################################################################
     # Combine based on ticket numbers
@@ -447,6 +462,7 @@ def clean_Incident(d, newpath):
             # fill the NANs with 0's
             for col in columns_to_count:
                 df[col].fillna(0, inplace=True)
+            print("append_HoldDuration:", len(df))
 
         if d["append_AuditDuration"] == "y":
             from datetime import timedelta
@@ -475,6 +491,7 @@ def clean_Incident(d, newpath):
 
             # fill the NANs with 0's
             df["AuditDuration"].fillna(0, inplace=True)
+            print("append_AuditDuration:", len(df))
 
     ####################################################################################################################
     # Domain knowledge processing
@@ -532,9 +549,8 @@ def clean_Incident(d, newpath):
     del df["LanguageName"]
     del df["IsAudited"]
     del df["SubSubReason"]
-
-    if d["del_Unnamed"] == "y":
-        del df["Unnamed: 69"]
+    # del df["Unnamed: 69"]
+    print("del multiple cols:", len(df))
 
     ####################################################################################################################
     # Data mining processing - where there is not enough meaningful information.
@@ -553,6 +569,7 @@ def clean_Incident(d, newpath):
     if d["minimum_data"] != "y":
         df["IsSOXCase"].fillna(2, inplace=True)
         df = df[df["IsSOXCase"] != 2]
+        print("IsSOXCase:", len(df))
 
     ####################################################################################################################
     # Priority, Complexity, StageName - ordinal variable mapping
@@ -566,11 +583,11 @@ def clean_Incident(d, newpath):
                                                "Ops Out": 4})
         out_file.write("Map StageName column to ordinal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, "
                        "Submission: 3, Ops Out: 4 \n\n")
+        print("Mappings:", len(df))
 
     ####################################################################################################################
     # Fill Categorical and numerical nulls. And Scale numerical variables.
     ####################################################################################################################
-    print(len(df))
     if d["minimum_data"] != "y":
         quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName", "Seconds_left_month"]
         if d["append_HoldDuration"] == "y":
@@ -582,14 +599,14 @@ def clean_Incident(d, newpath):
 
         exclude_from_mode_fill = quant_cols
         dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
-        print(len(df))
         fill_nulls_dfcs(df, dfcs, "mode", out_file)
         fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean", out_file)
         out_file.write("\n")
-        df = scale_quant_cols(df, quant_cols, out_file)
+        # df = scale_quant_cols(df, quant_cols, out_file)
 
         df.IsSOXCase = df.IsSOXCase.astype(int)
         df.Numberofreactivations = df.Numberofreactivations.astype(int)
+        print("Quant cols:", len(df))
 
     ####################################################################################################################
     # Transform countries into continents and then one hot encode
@@ -599,6 +616,7 @@ def clean_Incident(d, newpath):
         df["CountryProcessed"] = transform_country(df["CountryProcessed"], out_file, column="CountryProcessed")
         df["SalesLocation"] = transform_country(df["SalesLocation"], out_file, column="SalesLocation")
         out_file.write("\n")
+        print("Transform countries:", len(df))
 
     ####################################################################################################################
     # One-hot encode categorical variables
@@ -609,6 +627,7 @@ def clean_Incident(d, newpath):
         for var in cat_vars_to_one_hot:
             df = one_hot_encoding(df, var, out_file)
         out_file.write("\n")
+        print("One hot:", len(df))
 
     # TODO - have a closer look at SubReason, sourcesystem, Source, Workbench, Revenutype
         #  can we reduce the number of one-hot columns?
@@ -635,6 +654,7 @@ def clean_Incident(d, newpath):
             if col not in minimum:
                 del df[col]
         # df.dropna(inplace=True)
+        print("Minimum data:", len(df))
 
     # Sort columns alphabetically and put TimeTaken first
     df = df.reindex_axis(sorted(df.columns), axis=1)
@@ -842,11 +862,11 @@ if __name__ == "__main__":  # Run program
 
     if d["clean_Incident"] == "y":
         clean_Incident(d, newpath)
-    # if d["clean_AuditHistory"] == "y":
+    #if d["clean_AuditHistory"] == "y":
     #    clean_AuditHistory(d, newpath)
-    # if d["clean_HoldActivity"] == "y":
-    #     clean_HoldActivity(d, newpath)
-    # if d["clean_PackageTriageEntry"] == "y":
-    #     clean_PackageTriageEntry(d, newpath)
+    #if d["clean_HoldActivity"] == "y":
+    #    clean_HoldActivity(d, newpath)
+    #if d["clean_PackageTriageEntry"] == "y":
+    #    clean_PackageTriageEntry(d, newpath)
 
     copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save params

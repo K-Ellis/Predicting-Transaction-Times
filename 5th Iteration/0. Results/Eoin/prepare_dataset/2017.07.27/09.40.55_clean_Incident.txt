@@ -1,0 +1,34 @@
+Date and time: 20170727-094055
+clean_Incident started
+
+Time Taken column calculated
+Outliers removed > 3 sd from mean of TimeTaken
+Day of quarter calculated
+
+One hot encoding completed for Queue
+
+Map Priority column to ordinal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 
+Map Complexity column to ordinal variables: Low: 0, Normal: 1, High: 2 
+Map StageName column to ordinal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, Submission: 3, Ops Out: 4 
+
+All NULL Values for "AmountinUSD" replaced with most frequent value, nan
+All NULL Values for "Priority" replaced with most frequent value, nan
+All NULL Values for "Complexity" replaced with most frequent value, nan
+All NULL Values for "StageName" replaced with most frequent value, nan
+
+Continents assigned for CountrySource
+Continents assigned for CountryProcessed
+Continents assigned for SalesLocation
+
+One hot encoding completed for CountrySource
+One hot encoding completed for CountryProcessed
+One hot encoding completed for SalesLocation
+One hot encoding completed for StatusReason
+One hot encoding completed for SubReason
+One hot encoding completed for ROCName
+One hot encoding completed for sourcesystem
+One hot encoding completed for Source
+One hot encoding completed for Revenutype
+
+file saved as ../../../Data/vw_Incident_cleaned_27_7.csv
+clean_Incident complete
