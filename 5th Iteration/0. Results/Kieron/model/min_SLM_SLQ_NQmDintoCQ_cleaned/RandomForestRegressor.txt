@@ -1,21 +1,22 @@
-RandomForestRegressor 20170727-190429
+RandomForestRegressor 20170727-204027
 
 RandomForestRegressor: Cross Validation (10 Folds)
-	Train Mean RMSE: 16644.07 (+/-243.22)
-	Test Mean RMSE: 33185.12 (+/-2914.73)
+	Train Mean RMSE: 16589.91 (+/-290.38)
+	Test Mean RMSE: 32933.65 (+/-2999.38)
 	Train Mean R2: 0.99886 (+/-0.00004)
-	Test Mean R2: 0.99542 (+/-0.00078)
-	Train Mean MAE: 5445.72 (+/-30.51)
-	Test Mean MAE: 13127.14 (+/-468.50)
+	Test Mean R2: 0.99549 (+/-0.00081)
+	Train Mean MAE: 5332.07 (+/-39.52)
+	Test Mean MAE: 12827.76 (+/-515.03)
 
 
-	RandomForestRegressor number test predictions within 1 hour -> Mean: 1051.7/2404 (+/- 13.1)
-	RandomForestRegressor % test predictions within 1 hour: -> Mean: 43.75% (+/- 0.55%)
-	RandomForestRegressor number test predictions within 24 hours -> Mean: 2351.7/2404 (+/- 5.4)
-	RandomForestRegressor % test predictions within 24 hours -> Mean: 97.82% (+/- 0.23%)
+	RandomForestRegressor number test predictions within 1 hour -> Mean: 1068.5/2404 (+/- 17.2)
+	RandomForestRegressor % test predictions within 1 hour: -> Mean: 44.45% (+/- 0.71%)
+	RandomForestRegressor number test predictions within 24 hours -> Mean: 2354.4/2404 (+/- 6.3)
+	RandomForestRegressor % test predictions within 24 hours -> Mean: 97.94% (+/- 0.26%)
 
 
 Feature Importances:
-0. "Concurrent_open_cases" (0.641029)
-1. "Next_Qtr_minus_days_into_current_Qtr" (0.259034)
-2. "Seconds_left_month" (0.099938)
+0. "Concurrent_open_cases" (0.641475)
+1. "Next_Qtr_minus_days_into_current_Qtr" (0.183623)
+2. "Seconds_left_Qtr" (0.100839)
+3. "Seconds_left_month" (0.074062)
