@@ -113,7 +113,7 @@ def time_taken(df, out_file, start, finish, d):  # replace start & finish with o
     
     last_bdays_qtr = get_last_bdays_qtr()
     df["Seconds_left_Qtr"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, last_bdays_qtr)))  # Day of the Qtr
-    df["Next_Qtr_minus_days_into_current_Qtr"] = df["Created_On"].apply(lambda x: int(days_left_in_quarter(x)))  # Day of the Qtr
+    df["Next_Qtr_minus_days_into_current_Qtr"] = df["Created_On"].apply(lambda x: int(next_Qtr_minus_days_into_current_Qtr(x)))  # Day of the Qtr
     if d["delete_created_resolved"] == "y":
         del df["Created_On"]
     out_file.write("Day of quarter calculated" + "\n\n")
