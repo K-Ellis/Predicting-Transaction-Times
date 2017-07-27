@@ -113,6 +113,7 @@ def time_taken(df, out_file, start, finish, d):  # replace start & finish with o
     
     last_bdays_qtr = get_last_bdays_qtr()
     df["Seconds_left_Qtr"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, last_bdays_qtr)))  # Day of the Qtr
+  
     df["Next_Qtr_minus_days_into_current_Qtr"] = df["Created_On"].apply(lambda x: int(next_Qtr_minus_days_into_current_Qtr(x)))  # Day of the Qtr
     if d["delete_created_resolved"] == "y":
         del df["Created_On"]
@@ -338,7 +339,7 @@ def clean_Incident(d, newpath):
     # Date and time - calculate time taken and time remaining before month and Qtr end
     ####################################################################################################################
     df = time_taken(df, out_file, "Created_On", "ResolvedDate", d)  # Create Time Variable and filter outliers
-
+    
     ####################################################################################################################
     # Queue: One hot encoding in buckets
     ####################################################################################################################
@@ -605,7 +606,7 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Export final df
     ####################################################################################################################
-    minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", "Seconds_left_month", "Seconds_left_QTR", "Next_Qtr_minus_days_into_current_Qtr"]
+    minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", "Seconds_left_month", "Seconds_left_Qtr", "Next_Qtr_minus_days_into_current_Qtr"]
     for col in df.columns:
         if col not in minimum:
             del df[col]
