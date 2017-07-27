@@ -207,8 +207,8 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     pct_ave_24hour = ave_24hour/ len(y_test_pred) * 100
     pct_std_std_24hour = std_24hour/ len(y_test_pred) * 100
     
+    out_file.write("Input file name %s:\n" % d["input_file"])
     out_file.write(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)\n")
-
     out_file.write("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(train_rmse_ave, train_rmse_std))
     out_file.write("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(test_rmse_ave, test_rmse_std))
     out_file.write("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})\n".format(train_r2_ave, train_r2_std))
@@ -222,7 +222,7 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     out_file.write("\n\t{2:s} % test predictions within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour, alg))
     out_file.write("\n")
 
-    print("\n" + alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
+    print(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
 
     print("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})".format(train_rmse_ave, train_rmse_std))
     print("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})".format(test_rmse_ave, test_rmse_std))
@@ -237,13 +237,17 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     print("\t{2:s} % test predictions within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour, alg))
   
 
+    print("\n..getting final predictions..")
     # plot the results for the whole cross validation
     y_train_pred = cross_val_predict(regr, trainData_x, trainData_y, cv=int(d["crossvalidation"]))
     y_test_pred = cross_val_predict(regr, testData_x, testData_y, cv=int(d["crossvalidation"]))
+    print("..plotting..")
     plot(trainData_y, y_train_pred, alg, "Train", newpath, iter_no)
     plot(testData_y, y_test_pred, alg, "Test", newpath, iter_no)
+    
 
     if alg == "RandomForestRegressor":
+        print("..Calculating importances..\n")
         importances = regr.feature_importances_
         print("Top 10 Feature Importances:")
         dfimportances = pd.DataFrame(data=trainData_x.columns, columns=["Columns"])
@@ -267,7 +271,7 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         if d["rerun_with_top_importances"] == "y":
             out_file.close()
             return dfimportances
-
+    print("..finished with alg: %s..\n" % alg)
     out_file.close()
 
 
@@ -317,7 +321,9 @@ if __name__ == "__main__":  # Run program
     if d["resample"] == "y":
         from sklearn.utils import resample
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
-
+    
+    print("Input file name: %s\n" % d["input_file"])
+    
     if d["grid_search"] == "y":
         X = df.drop("TimeTaken", axis=1)
         y = df["TimeTaken"]

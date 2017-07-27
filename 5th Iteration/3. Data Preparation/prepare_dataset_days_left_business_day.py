@@ -21,6 +21,7 @@ from calendar import monthrange
 import os  # Used to create folders
 from sklearn import preprocessing
 from shutil import copyfile  # Used to copy parameters file to directory
+from pandas.tseries.offsets import BDay
 
 parameters = "../../../Data/parameters.txt"  # Parameters file
 
@@ -95,6 +96,60 @@ def get_seconds_left(date, last_bdays_offset):
             total_seconds_left = seconds_left + days_left*24*60*60        
             return total_seconds_left
 
+            
+# def get_last_bdays_months():
+    # last_bdays = pd.date_range("2017.01.01", periods=11, freq='BM')
+    # last_bdays_offset = []
+    # for last_bday in last_bdays:
+        # last_bdays_offset.append(last_bday + pd.DateOffset(days=1,hours=8))
+    # return last_bdays_offset
+
+def get_cutoffs(last_bdays):
+    start_of_the_year = pd.datetime(2017,1,1)
+    last_bdays_offset = [start_of_the_year]
+    for last_bday in last_bdays:
+        end_fourth_last = (last_bday - BDay(1) - BDay(1) - BDay(1) - BDay(1)).normalize() +pd.DateOffset(hours=17)
+        last_bdays_offset.append(end_fourth_last)
+        end_third_last = (last_bday - BDay(1) - BDay(1) - BDay(1)).normalize() +pd.DateOffset(hours=23)
+        last_bdays_offset.append(end_third_last)
+        end_second_last = (last_bday - BDay(1) - BDay(1)).normalize() +pd.DateOffset(hours=23)
+        last_bdays_offset.append(end_second_last)
+        last_bdays_offset.append(last_bday)
+    return last_bdays_offset
+
+
+def get_seconds_until_end_of_day(date, cutoffs):
+    for i in range(len(cutoffs)):    
+        if date >= cutoffs[i] and date < cutoffs[i+1]:
+            hour = cutoffs[i+1].hour
+            minute = cutoffs[i+1].minute
+            second = cutoffs[i+1].second
+            cutoff_in_seconds = hour*60*60 + minute*60 + second
+
+            hour = date.hour
+            minute = date.minute
+            second = date.second
+            date_in_seconds = hour*60*60 + minute*60 + second
+         
+            if date.weekday() < 4:
+                if cutoffs[i+1].time() > date.time():
+                    return cutoff_in_seconds - date_in_seconds
+                elif (date + pd.DateOffset(days=1)).weekday() <4:
+                    return cutoff_in_seconds + 24*60*60 - date_in_seconds
+                else:
+                    return cutoff_in_seconds + (24*60*60)*3 - date_in_seconds
+            else:
+                if date.date() == cutoffs[i+1].date():
+                    if cutoffs[i+1].hour == 23:
+                        return cutoff_in_seconds - date_in_seconds
+                    else:
+                        return cutoff_in_seconds +24*60*60 - date_in_seconds
+                else:
+                    if date.weekday() == 5:
+                        return (24*60*60)*2 - date_in_seconds + cutoff_in_seconds
+                    else:
+                        return (24*60*60) - date_in_seconds + cutoff_in_seconds
+
 def time_taken(df, out_file, start, finish, d):  # replace start & finish with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
@@ -125,6 +180,10 @@ def time_taken(df, out_file, start, finish, d):  # replace start & finish with o
     
     end_of_year_dates = return_end_of_year()
     df["Seconds_left_EndYear"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, end_of_year_dates)))  # Day of the Qtr
+    
+    # last_bdays_months = get_last_bdays_months()
+    cutoffs = get_cutoffs(last_bdays_months)
+    df["Seconds_end_of_day"] = df["Created_On"].apply(lambda x: int(get_seconds_until_end_of_day(x, cutoffs)))  # Day of the Qtr
     
     if d["delete_created_resolved"] == "y":
         del df["Created_On"]
@@ -618,7 +677,7 @@ def clean_Incident(d, newpath):
     # Export final df
     ####################################################################################################################
     minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", 
-    "Seconds_left_month", "Seconds_left_Qtr", "Next_Qtr_minus_days_into_current_Qtr", "Seconds_left_EndYear"]
+    "Seconds_left_month", "Seconds_left_Qtr", "Next_Qtr_minus_days_into_current_Qtr", "Seconds_left_EndYear", "Seconds_end_of_day"]
     for col in df.columns:
         if col not in minimum:
             del df[col]
