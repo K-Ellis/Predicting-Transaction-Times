@@ -1,0 +1,19 @@
+Date and time: 20170726-182121
+clean_Incident started
+
+Time Taken column calculated
+Outliers removed > 3 sd from mean of TimeTaken
+seconds to month end calculated
+Day of quarter calculated
+
+One hot encoding completed for Queue
+
+Map Priority column to ordinal variables: Low: 0, Normal: 1, High: 2, Immediate: 3 
+Map Complexity column to ordinal variables: Low: 0, Normal: 1, High: 2 
+Map StageName column to ordinal variables: Ops In: 0, Triage And Validation: 1, Data Entry: 2, Submission: 3, Ops Out: 4 
+
+All NULL Values for "AmountinUSD" replaced with most frequent value, nan
+All NULL Values for "Priority" replaced with most frequent value, nan
+All NULL Values for "Complexity" replaced with most frequent value, nan
+All NULL Values for "StageName" replaced with most frequent value, nan
+

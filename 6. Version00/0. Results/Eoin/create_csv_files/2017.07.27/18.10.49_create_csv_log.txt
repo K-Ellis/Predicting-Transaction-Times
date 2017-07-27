@@ -1,0 +1,17 @@
+Date and time: 20170727-181049
+
+Output:../../../Data/vw_Incidentcleaned_test2 saved
+Date and time: 20170727-181159
+
+Output:../../../Data/vw_HoldActivitycleaned_test2 saved
+Date and time: 20170727-181306
+
+Output:../../../Data/vw_AuditHistorycleaned_test2 saved
+Date and time: 20170727-181416
+
+Output:../../../Data/vw_PackageTriageEntrycleaned_test2 saved
+Date and time: 20170727-181521
+
+Output:../../../Data/vw_StageTablecleaned_test2 saved
+Date and time: 20170727-181624
+
