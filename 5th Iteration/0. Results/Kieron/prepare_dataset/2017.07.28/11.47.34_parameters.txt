@@ -5,8 +5,8 @@ raw_data_location: ../../../Data/
 file_location: ../../../Data/
 ########### ################
 specify_subfolder: n
-input_file: min_SLM_SLQ_NQmDintoCQ_SLY_SLD_cleaned
-output_file: min_SLM_SLQ_NQmDintoCQ_SLY_SLD_cleaned_created_resolved
+input_file: vw_Incident
+output_file: min_SLM_SLQ_NQmDintoCQ_SLY_SLD_cleaned
 ########### ################
 resample: n
 n_samples: 100
@@ -19,7 +19,7 @@ append_AuditDuration: n
 last_4_BDays: n
 workload: y
 minimum_data: y
-delete_created_resolved: n
+delete_created_resolved: y
 clean_Incident: y
 clean_AuditHistory: n
 clean_HoldActivity: n
@@ -45,7 +45,7 @@ grid_search: n
 grid_search_RMSE: n
 ########### ################
 log_of_y: n
-seed: 1234
+seed: 99999999
 histogram: n
 step: y
 notes: This_is_a_note
