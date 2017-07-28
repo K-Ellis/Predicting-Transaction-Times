@@ -233,8 +233,8 @@ def clean_data(d):
             df_temp = df[df.Created_On < df.iloc[i]["Created_On"]]
             df_temp = df_temp[df_temp.ResolvedDate > df.iloc[i]["ResolvedDate"]]
             df.loc[i, "Concurrent_open_cases"] = len(df_temp)
-        df["TimeTaken"].fillna("del", inplace=True)
-        df = df[df["TimeTaken"] != "del"]
+        df["TimeTaken"].fillna(0, inplace=True)
+        df = df[df["TimeTaken"] != 0]
         print("Concurrent_open_cases added:", df.shape)
 
     ####################################################################################################################
@@ -378,8 +378,8 @@ def clean_data(d):
     fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean")
     print("fill_nulls_dfcs done:", df.shape)
 
-    df = scale_quant_cols(df, quant_cols)
-    print("scale_quant_cols done:", df.shape)
+    # df = scale_quant_cols(df, quant_cols)
+    # print("scale_quant_cols done:", df.shape)
 
     ####################################################################################################################
     # One-hot encode categorical variables
