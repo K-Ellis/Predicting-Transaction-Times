@@ -7,8 +7,7 @@ Data modelling program
 Eoin Carroll
 Kieron Ellis
 *******************************************************************************
-Working on dataset 2 from Cosmic: UCD_Data_20170623_1.xlsx
-Results will be saved in Iteration > 0. Results > User > prepare_dataset > Date
+Results will be saved in Iteration > 0. Results > User > model > Date
 ****************************************************************************"""
 
 """****************************************************************************
@@ -29,10 +28,8 @@ from math import sqrt
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.neural_network import MLPRegressor
 from shutil import copyfile  # Used to copy parameters file to directory
-from select_k_importance import trim_df, select_top_k_importants
-from grid_search import grid_search_CV
-
-parameters = "../../../Data/parameters.txt"  # Parameters file
+# from select_k_importance import trim_df, select_top_k_importants  # todo
+# from grid_search import grid_search_CV # todo
 
 
 def histogram(df, column, newpath):  # Create histogram of preprocessed data
@@ -259,6 +256,7 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
 
 
 if __name__ == "__main__":  # Run program
+    parameters = "../../../Data/parameters.txt"  # Parameters file
     d = {}
     with open(parameters, "r") as f:
         for line in f:
@@ -287,12 +285,7 @@ if __name__ == "__main__":  # Run program
 
     np.random.seed(int(d["seed"]))  # Set seed
 
-    if d["user"] == "Kieron":
-        df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
-        # If you insist on hardcoding something in a program, keep my name out of it
-    else:
-        df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["input_file"] + ".csv", encoding='latin-1',
-                     low_memory=False)
+    df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
 
     if d["histogram"] == "y":
         histogram(df, "TimeTaken", newpath)  # Save histogram plots of TimeTaken
