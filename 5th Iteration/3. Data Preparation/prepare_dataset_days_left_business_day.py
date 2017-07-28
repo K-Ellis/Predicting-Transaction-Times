@@ -173,7 +173,10 @@ def time_taken(df, out_file, start, finish, d):  # replace start & finish with o
     df[start] = pd.to_datetime(df[start])
     df[finish] = pd.to_datetime(df[finish])
     df2 = pd.DataFrame()  # create new dataframe, df2, to store answer  # todo - no need for df2
+    
     df2["TimeTaken"] = (df[finish] - df[start]).astype('timedelta64[s]')
+    
+    
     # del df[start]  # Removed so we can include time to month and qtr end
     if d["delete_created_resolved"] == "y":
         del df[finish]
@@ -195,7 +198,7 @@ def time_taken(df, out_file, start, finish, d):  # replace start & finish with o
     last_bdays_qtr = get_last_bdays_qtr()
     df["Seconds_left_Qtr"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, last_bdays_qtr)))  # Day of the Qtr
     
-    df["Next_Qtr_minus_days_into_current_Qtr"] = df["Created_On"].apply(lambda x: int(next_Qtr_minus_days_into_current_Qtr(x)))  # Day of the Qtr
+    # df["Next_Qtr_minus_days_into_current_Qtr"] = df["Created_On"].apply(lambda x: int(next_Qtr_minus_days_into_current_Qtr(x)))  # Day of the Qtr
     
     end_of_year_dates = return_end_of_year()
     df["Seconds_left_EndYear"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, end_of_year_dates)))  # Day of the Qtr
@@ -363,6 +366,19 @@ def next_Qtr_minus_days_into_current_Qtr(date):
 # def days_left_in_month(date):
     # return int(monthrange(date.year, date.month)[1]) - int(date.strftime("%d"))
 
+    
+def get_rolling_stats(df, window):
+    df.sort_values(by="Created_On", inplace=True)
+
+    df["rolling_mean"] = df["TimeTaken"].rolling(window=window).mean()
+    df["rolling_median"] = df["TimeTaken"].rolling(window=window).median()
+    df["rolling_std"] = df["TimeTaken"].rolling(window=window).std()
+    # df["rolling_sum"] = df["TimeTaken"].rolling(window=window).sum()
+    # df["rolling_max"] = df["TimeTaken"].rolling(window=window).max()
+    # df["rolling_min"] = df["TimeTaken"].rolling(window=window).min()
+
+    df.dropna(subset=["rolling_mean"], inplace=True)
+    return df
 
 """*********************************************************************************************************************
 Excel Sheet functions
@@ -423,15 +439,35 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     if d["workload"] == "y":
         df["Concurrent_open_cases"] = 0  # Add number of cases that were open at the same time
+        df["Cases_created_4_hours"] = 0 
+        df["Cases_resolved_4_hours"] = 0 
+        
+        df["Created_On"] = pd.to_datetime(df["Created_On"])
+        df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
         for i in range(len(df)):
             # todo current date in real program
             df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
                 df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
+                
+            df.loc[i, "Cases_created_4_hours_of_created"] = len(df[(df.Created_On <= df.iloc[i]["Created_On"]) & 
+            (df.Created_On >= df.iloc[i]["Created_On"]-pd.DateOffset(hours=4))])
+                
+            df.loc[i, "Cases_resolved_4_hours_of_created"] = len(df[(df.ResolvedDate <= df.iloc[i]["Created_On"]) & 
+            (df.ResolvedDate >= df.iloc[i]["Created_On"]-pd.DateOffset(hours=4))])
+                
 
     ####################################################################################################################
     # Date and time - calculate time taken and time remaining before month and Qtr end
     ####################################################################################################################
     df = time_taken(df, out_file, "Created_On", "ResolvedDate", d)  # Create Time Variable and filter outliers
+
+    ####################################################################################################################
+    # Rolling Average/Mean, Median and Std.
+    ####################################################################################################################
+    # rolling_window = 10
+    # df = get_rolling_stats(df, rolling_window)
+    # del df["Created_On"]
+    # del df["ResolvedDate"]
     
     ####################################################################################################################
     # Queue: One hot encoding in buckets
@@ -699,10 +735,11 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Export final df
     ####################################################################################################################
-    if d["minimum_data"] != "y":
+    if d["minimum_data"] == "y":
         minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", 
         "Seconds_left_month", "Seconds_left_Qtr", "Next_Qtr_minus_days_into_current_Qtr", "Seconds_left_EndYear", 
-        "Seconds_end_of_day", "Created_On", "ResolvedDate", "Created_on_weekend"]
+        "Seconds_end_of_day", "Created_On", "ResolvedDate", "Created_on_weekend", "rolling_mean", "rolling_median", "rolling_std",
+        "Cases_created_4_hours_of_created", "Cases_resolved_4_hours_of_created"]
         for col in df.columns:
             if col not in minimum:
                 del df[col]

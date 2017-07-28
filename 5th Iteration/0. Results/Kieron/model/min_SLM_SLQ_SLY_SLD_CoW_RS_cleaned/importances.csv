@@ -1,0 +1,10 @@
+Columns,importances
+Concurrent_open_cases,0.6204308468326711
+rolling_std,0.17117542526441207
+Seconds_left_EndYear,0.115274290350217
+rolling_median,0.03007132753260814
+Seconds_left_Qtr,0.027324349000230338
+Seconds_left_month,0.02488844857960034
+rolling_mean,0.007170824083560087
+Seconds_end_of_day,0.0026851423967155113
+Created_on_weekend,0.00097934595998517

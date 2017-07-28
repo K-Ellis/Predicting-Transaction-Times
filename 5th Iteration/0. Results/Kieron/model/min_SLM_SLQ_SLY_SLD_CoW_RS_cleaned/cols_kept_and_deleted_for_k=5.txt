@@ -1,0 +1,4 @@
+cols deleted = 
+['Seconds_left_Qtr', 'Seconds_left_month', 'rolling_mean', 'Seconds_end_of_day', 'Created_on_weekend']
+cols kept = 
+['TimeTaken', 'Concurrent_open_cases', 'Seconds_left_EndYear', 'rolling_median', 'rolling_std']

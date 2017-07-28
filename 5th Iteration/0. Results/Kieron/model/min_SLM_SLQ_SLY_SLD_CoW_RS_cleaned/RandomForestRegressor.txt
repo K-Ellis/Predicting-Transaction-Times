@@ -1,0 +1,28 @@
+RandomForestRegressor 20170728-180251
+
+Input file name min_SLM_SLQ_SLY_SLD_CoW_RS_cleaned:
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean RMSE: 20416.95 (+/-339.64)
+	Test Mean RMSE: 47448.32 (+/-10984.63)
+	Train Mean R2: 0.99828 (+/-0.00006)
+	Test Mean R2: 0.99029 (+/-0.00506)
+	Train Mean MAE: 8485.83 (+/-80.53)
+	Test Mean MAE: 21154.04 (+/-1554.92)
+
+
+	RandomForestRegressor number test predictions within 1 hour -> Mean: 755.8/2403 (+/- 16.5)
+	RandomForestRegressor % test predictions within 1 hour: -> Mean: 31.45% (+/- 0.69%)
+	RandomForestRegressor number test predictions within 24 hours -> Mean: 2289.0/2403 (+/- 15.1)
+	RandomForestRegressor % test predictions within 24 hours -> Mean: 95.26% (+/- 0.63%)
+
+
+Feature Importances:
+0. "Concurrent_open_cases" (0.620431)
+1. "rolling_std" (0.171175)
+2. "Seconds_left_EndYear" (0.115274)
+3. "rolling_median" (0.030071)
+4. "Seconds_left_Qtr" (0.027324)
+5. "Seconds_left_month" (0.024888)
+6. "rolling_mean" (0.007171)
+7. "Seconds_end_of_day" (0.002685)
+8. "Created_on_weekend" (0.000979)

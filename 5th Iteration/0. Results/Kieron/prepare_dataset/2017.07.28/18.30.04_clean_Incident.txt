@@ -1,0 +1,10 @@
+Date and time: 20170728-183004
+clean_Incident started
+
+Time Taken column calculated
+Outliers removed > 3 sd from mean of TimeTaken
+seconds to month end calculated
+Day of quarter calculated
+
+file saved as ../../../Data/min_SLM_SLQ_SLY_SLD_CoW_CC4_CR4_cleaned.csv
+clean_Incident complete
