@@ -7,7 +7,8 @@ Data modelling program
 Eoin Carroll
 Kieron Ellis
 *******************************************************************************
-Results will be saved in Iteration > 0. Results > User > model > Date
+Working on dataset 2 from Cosmic: UCD_Data_20170623_1.xlsx
+Results will be saved in Iteration > 0. Results > User > prepare_dataset > Date
 ****************************************************************************"""
 
 """****************************************************************************
@@ -23,13 +24,14 @@ import math
 from sklearn.model_selection import KFold, cross_val_predict #, cross_val_score, train_test_split
 from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from math import sqrt
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.neural_network import MLPRegressor
 from shutil import copyfile  # Used to copy parameters file to directory
-# from select_k_importance import trim_df, select_top_k_importants  # todo
-# from grid_search import grid_search_CV # todo
+from select_k_importance import trim_df, select_top_k_importants
+
+parameters = "../../../Data/parameters.txt"  # Parameters file
 
 
 def histogram(df, column, newpath):  # Create histogram of preprocessed data
@@ -127,7 +129,11 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     test_rmse = []
     train_r_sq = []
     test_r_sq = []
+    train_mae = []
+    test_mae = []
     number_test_1 = []  # Tracking predictions within 1 hour
+    number_test_4 = []  # Tracking predictions within 4 hour
+    number_test_8 = []  # Tracking predictions within 8 hour
     number_test_24 = []  # Tracking predictions within 24 hours
 
     for train_indices, test_indices in kf.split(X, y):
@@ -146,9 +152,10 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         y_test_pred = regr.predict(testData_x)
 
         number_close_1 = 0  # Use to track number of close estimations within 1 hour
+        number_close_4 = 0  # Use to track number of close estimations within 1 hour
+        number_close_8 = 0  # Use to track number of close estimations within 1 hour
         number_close_24 = 0  # Use to track number of close estimations within 24 hours
-        mean_time = np.mean(trainData_y)#sum(trainData_y["TimeTaken"].tolist()) / len(trainData_y["TimeTaken"].tolist())  #
-        # Calculate mean of predictions
+        mean_time = np.mean(trainData_y)  # Calculate mean of predictions
         std_time = np.std(trainData_y)  # Calculate standard deviation of predictions
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
             if y_train_pred[i] < 0:  # Convert all negative predictions to 0
@@ -166,70 +173,113 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
                 y_test_pred[i] = 0
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600:  # Within 1 hour
                 number_close_1 += 1
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 4*60*60:  # Within 4 hours
+                number_close_4 += 1
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 8*60*60:  # Within 8 hours
+                number_close_8 += 1
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*24:  # Within 24 hours
                 number_close_24 += 1
         number_test_1.append(number_close_1)
+        number_test_4.append(number_close_4)
+        number_test_8.append(number_close_8)
         number_test_24.append(number_close_24)
 
         train_rmse.append(sqrt(mean_squared_error(trainData_y, y_train_pred)))
         test_rmse.append(sqrt(mean_squared_error(testData_y, y_test_pred)))
         train_r_sq.append(r2_score(trainData_y, y_train_pred))
         test_r_sq.append(r2_score(testData_y, y_test_pred))
+        train_mae.append(mean_absolute_error(trainData_y, y_train_pred))
+        test_mae.append(mean_absolute_error(testData_y, y_test_pred))
+
 
     train_rmse_ave = np.mean(train_rmse)
     test_rmse_ave = np.mean(test_rmse)
     train_r2_ave = np.mean(train_r_sq)
     test_r2_ave = np.mean(test_r_sq)
+    train_mae_ave = np.mean(train_mae)
+    test_mae_ave = np.mean(test_mae)
 
     train_rmse_std = np.std(train_rmse)
     test_rmse_std = np.std(test_rmse)
     train_r2_std = np.std(train_r_sq)
     test_r2_std = np.std(test_r_sq)
+    train_mae_std = np.std(train_mae)
+    test_mae_std = np.std(test_mae)
 
+    
     ave_1hour = np.mean(number_test_1)
     std_1hour = np.std(number_test_1)
     pct_ave_1hour = ave_1hour/ len(y_test_pred) * 100
     pct_std_std_1hour = std_1hour/ len(y_test_pred) * 100
+
+    ave_4hour = np.mean(number_test_4)
+    std_4hour = np.std(number_test_4)
+    pct_ave_4hour = ave_4hour/ len(y_test_pred) * 100
+    pct_std_std_4hour = std_4hour/ len(y_test_pred) * 100
+    
+    ave_8hour = np.mean(number_test_8)
+    std_8hour = np.std(number_test_8)
+    pct_ave_8hour = ave_8hour/ len(y_test_pred) * 100
+    pct_std_std_8hour = std_8hour/ len(y_test_pred) * 100
+    
     ave_24hour = np.mean(number_test_24)
     std_24hour = np.std(number_test_24)
     pct_ave_24hour = ave_24hour/ len(y_test_pred) * 100
     pct_std_std_24hour = std_24hour/ len(y_test_pred) * 100
     
+    out_file.write("Input file name %s:\n" % d["input_file"])
     out_file.write(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)\n")
-
     out_file.write("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(train_rmse_ave, train_rmse_std))
     out_file.write("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(test_rmse_ave, test_rmse_std))
     out_file.write("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})\n".format(train_r2_ave, train_r2_std))
     out_file.write("\tTest Mean R2: {0:.5f} (+/-{1:.5f})\n".format(test_r2_ave, test_r2_std))
+    out_file.write("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(train_mae_ave, train_mae_std))
+    out_file.write("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(test_mae_ave, test_mae_std))
 
-    out_file.write("\n\n\t{2:s} number test predictions within 1 hour -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_1hour, std_1hour, alg,len(y_test_pred) ))
-    out_file.write("\n\t{2:s} % test predictions within 1 hour: -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg))
-    out_file.write("\n\t{2:s} number test predictions within 24 hours -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_24hour, std_24hour, alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour, alg))
+    out_file.write("\n\n\t{2:s} % test predictions with error within 1 hour   -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg))
+    out_file.write("\n\t{2:s} % test predictions with error within 4 hours  -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_4hour, pct_std_std_4hour, alg))
+    out_file.write("\n\t{2:s} % test predictions with error within 8 hours  -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_8hour, pct_std_std_8hour, alg))
+    out_file.write("\n\t{2:s} % test predictions with error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour,alg))
+    out_file.write("\n\t{2:s} number test predictions with error within 1 hour   -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_1hour, std_1hour, alg,len(y_test_pred) ))
+    out_file.write("\n\t{2:s} number test predictions with error within 4 hours  -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_4hour, std_4hour, alg,len(y_test_pred) ))
+    out_file.write("\n\t{2:s} number test predictions with error within 8 hours  -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_8hour, std_8hour, alg,len(y_test_pred) ))
+    out_file.write("\n\t{2:s} number test predictions with error within 24 hours -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_24hour, std_24hour, alg, len(y_test_pred)))
+     
     out_file.write("\n")
 
-    print("\n" + alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
+    print(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
 
     print("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})".format(train_rmse_ave, train_rmse_std))
     print("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})".format(test_rmse_ave, test_rmse_std))
     print("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})".format(train_r2_ave, train_r2_std))
     print("\tTest Mean R2: {0:.5f} (+/-{1:.5f})".format(test_r2_ave, test_r2_std))
+    print("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})".format(train_mae_ave, train_mae_std))
+    print("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})".format(test_mae_ave, test_mae_std))
     
-    print("\n\t{2:s} number test predictions within 1 hour -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_1hour, std_1hour, alg,len(y_test_pred) ))
-    print("\t{2:s} % test predictions within 1 hour: -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg))
-    print("\t{2:s} number test predictions within 24 hours -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_24hour, std_24hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour, alg))
-  
+    print("\n\t{2:s} % test predictions with error within 1 hour   -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg))
+    print("\t{2:s} % test predictions with error within 4 hours  -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_4hour, pct_std_std_4hour, alg))
+    print("\t{2:s} % test predictions with error within 8 hours  -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_8hour, pct_std_std_8hour, alg))
+    print("\t{2:s} % test predictions with error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour, alg))
+    
+    print("\t{2:s} number test predictions with error within 1 hour   -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_1hour, std_1hour, alg,len(y_test_pred) ))
+    print("\t{2:s} number test predictions with error within 4 hours  -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_4hour, std_4hour, alg,len(y_test_pred) ))
+    print("\t{2:s} number test predictions with error within 8 hours  -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_8hour, std_8hour, alg,len(y_test_pred) ))
+    print("\t{2:s} number test predictions with error within 24 hours -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_24hour, std_24hour, alg, len(y_test_pred)))
+    
 
+    print("\n..getting final predictions..")
     # plot the results for the whole cross validation
     y_train_pred = cross_val_predict(regr, trainData_x, trainData_y, cv=int(d["crossvalidation"]))
     y_test_pred = cross_val_predict(regr, testData_x, testData_y, cv=int(d["crossvalidation"]))
+    print("..plotting..")
     plot(trainData_y, y_train_pred, alg, "Train", newpath, iter_no)
     plot(testData_y, y_test_pred, alg, "Test", newpath, iter_no)
+    
 
     if alg == "RandomForestRegressor":
+        print("..Calculating importances..\n")
         importances = regr.feature_importances_
-        print("Top 10 Feature Importances:")
+        print("Most Important Features:")
         dfimportances = pd.DataFrame(data=trainData_x.columns, columns=["Columns"])
         dfimportances["importances"] = importances
 
@@ -251,12 +301,11 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         if d["rerun_with_top_importances"] == "y":
             out_file.close()
             return dfimportances
-
+    print("..finished with alg: %s..\n" % alg)
     out_file.close()
 
 
 if __name__ == "__main__":  # Run program
-    parameters = "../../../Data/parameters.txt"  # Parameters file
     d = {}
     with open(parameters, "r") as f:
         for line in f:
@@ -266,18 +315,11 @@ if __name__ == "__main__":  # Run program
 
     if d["user"] == "Kieron":
         if d["resample"] == "y":
-            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] + "/resample/"  # time.strftime(
-            # "%Y.%m.%d/") +
-            # \time.strftime("%H.%M.%S/")# Log file location
-        elif d["grid_search"] == "y":
-            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] + "/grid_search/"  # time.strftime(
+            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] + "/resample/" 
         elif d["specify_subfolder"] == "n":
-            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] +"/"#time.strftime("%Y.%m.%d/") +
-            # \time.strftime("%H.%M.%S/")# Log file location
+            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] +"/"
         else:
-            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"]+ "/" + d["specify_subfolder"]+"/" #+
-            # time.strftime("/%Y.%m.%d/") + \time.strftime("%H.%M.%S/")  # Log file location
-
+            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"]+ "/" + d["specify_subfolder"]+"/"
     else:
         newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/")  # Log file location
     if not os.path.exists(newpath):
@@ -285,146 +327,108 @@ if __name__ == "__main__":  # Run program
 
     np.random.seed(int(d["seed"]))  # Set seed
 
-    df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
+    if d["user"] == "Kieron":
+        df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
+    else:
+        df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["input_file"] + ".csv", encoding='latin-1',
+                     low_memory=False)
 
+    print("Input file name: %s\n" % d["input_file"])
+    
     if d["histogram"] == "y":
         histogram(df, "TimeTaken", newpath)  # Save histogram plots of TimeTaken
 
     if d["log_of_y"] == "y":  # Take log of y values
         print("Y has been transformed by log . . . change parameter file to remove this feature\n")
         df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
-
+    
     if d["resample"] == "y":
         from sklearn.utils import resample
+        print("..resampling")
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
+    
+    ####################################################################################################################
+    # Modelling
+    ####################################################################################################################
+    if d["LinearRegression"] == "y":
+        regressor = LinearRegression()
+        results(df, "LinearRegression", regressor, newpath, d)
 
-    if d["grid_search"] == "y":
-        X = df.drop("TimeTaken", axis=1)
-        y = df["TimeTaken"]
-        regressors = []
-        alg_names = []
-        parameters_to_tune = []
-        if d["LinearRegression"] == "y":
-            regressors.append(LinearRegression())
-            parameters_to_tune.append({
-                "fit_intercept": [True, False],
-                "normalize": [True, False]})
-            alg_names.append("LinearRegression")
-        if d["ElasticNet"] == "y":
-            regressors.append(ElasticNet(max_iter=100000))
-            parameters_to_tune.append({
-                # "alpha":[0.0001, 0.001, 0.01, 0.1, 1.0, 10, 100], # get convergence warning for small alphas
-                "alpha": [0.1, 1.0, 10, 100],
-                "l1_ratio": [.1, .5, .7, .9, .95, .99, 1],
-                # "max_iter": [100000],
-                # "tol": [0.00001, 0.0001],
-                # "warm_start":[True, False]}
-            })
-            alg_names.append("ElasticNet")
-        if d["KernelRidge"] == "y":
-            regressors.append(KernelRidge(kernel='rbf', gamma=0.1))
-            parameters_to_tune.append({"alpha": [1e0, 0.1, 1e-2, 1e-3],
-                                       "gamma": np.logspace(-2, 2, 5)})
-            alg_names.append("KernelRidge")
-        if d["xgboost"] == "y":
-            import xgboost as xgb
-            regressors.append(xgb.XGBRegressor())
-            parameters_to_tune.append({
+    if d["ElasticNet"] == "y":
+        regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
+        results(df, "ElasticNet", regressor, newpath, d)
+
+    if d["KernelRidge"] == "y":
+        regressor = KernelRidge(alpha=0.1)
+        results(df, "KernelRidge", regressor, newpath, d)
+
+    if d["MLPRegressor"] == "y":
+        regressor = MLPRegressor(hidden_layer_sizes=(50,25,10,5,3), random_state=int(d["seed"]),
+                                 max_iter=2000)#,
+        # early_stopping=True)
+        results(df, "MLPRegressor", regressor, newpath, d)
+
+    if d["GradientBoostingRegressor"] == "y":
+        regressor = GradientBoostingRegressor(random_state=int(d["seed"]))
+        results(df, "GradientBoostingRegressor", regressor, newpath, d)
+
+    if d["xgboost"] == "y":
+        import xgboost as xgb
+        params = {
             'max_depth': 5,
             'n_estimators': 50,
-            'objective': 'reg:linear'
-            })
-            alg_names.append("xgboost")
-        if d["RandomForestRegressor"] == "y":
-            regressors.append(RandomForestRegressor(n_estimators=int(d["n_estimators"])))
-            parameters_to_tune.append({
-                # "n_estimators": [100, 250, 500, 1000],
-                # "criterion": ["mse", "mae"],
-                "max_features": [1, 0.1, "auto", "sqrt", "log2", None],
-                "max_depth": [None, 10, 25, 50]
-                })
-            alg_names.append("RandomForestRegressor")
+            'objective': 'reg:linear'}
+        regressor = xgb.XGBRegressor(**params)
+        results(df, "xgboost", regressor, newpath, d)
 
-        for reg, alg_name, params in zip(regressors, alg_names, parameters_to_tune):
-            grid_search_CV(reg, alg_name, params, newpath, d, X, y)
+    if d["RandomForestRegressor"] == "y":
+        regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
+        if d["rerun_with_top_importances"] == "n":
+            results(df, "RandomForestRegressor", regressor, newpath, d)
+        else:
+            dfimportances = results(df, "RandomForestRegressor", regressor, newpath, d)
 
-    else:
-        if d["LinearRegression"] == "y":
-            regressor = LinearRegression()
-            results(df, "LinearRegression", regressor, newpath, d)
-
-        if d["ElasticNet"] == "y":
-            regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
-            results(df, "ElasticNet", regressor, newpath, d)
-
-        if d["KernelRidge"] == "y":
-            regressor = KernelRidge(alpha=0.1)
-            results(df, "KernelRidge", regressor, newpath, d)
-
-        if d["MLPRegressor"] == "y":
-            regressor = MLPRegressor(hidden_layer_sizes=(50,25,10,5,3), random_state=int(d["seed"]),
-                                     max_iter=2000)#,
-            # early_stopping=True)
-            results(df, "MLPRegressor", regressor, newpath, d)
-
-        if d["GradientBoostingRegressor"] == "y":
-            regressor = GradientBoostingRegressor(random_state=int(d["seed"]))
-            results(df, "GradientBoostingRegressor", regressor, newpath, d)
-
-        if d["xgboost"] == "y":
-            import xgboost as xgb
-            params = {
-                'max_depth': 5,
-                'n_estimators': 50,
-                'objective': 'reg:linear'}
-            regressor = xgb.XGBRegressor(**params)
-            results(df, "xgboost", regressor, newpath, d)
-
-        if d["RandomForestRegressor"] == "y":
-            regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
-            if d["rerun_with_top_importances"] == "n":
-                results(df, "RandomForestRegressor", regressor, newpath, d)
+            if d["top_k_features"] == "half":
+                k = round(len(dfimportances["Columns"])/2)+1
             else:
-                dfimportances = results(df, "RandomForestRegressor", regressor, newpath, d)
+                k = int(d["top_k_features"])
 
-                if d["top_k_features"] == "half":
-                    k = round(len(dfimportances["Columns"])/2)+1
-                else:
-                    k = int(d["top_k_features"])
+            cols_to_be_deleted = select_top_k_importants(dfimportances, k) # keep top k important features
+            df = trim_df(df, cols_to_be_deleted)
 
-                cols_to_be_deleted = select_top_k_importants(dfimportances, k) # keep top k
-                df = trim_df(df, cols_to_be_deleted)
+            with open(newpath + "cols_kept_and_deleted_for_k=%s.txt" % d["top_k_features"], "w") as f:
+                f.write("cols deleted = \n")
+                f.write(str(cols_to_be_deleted))
+                f.write("\ncols kept = \n")
+                f.write(str(df.columns.tolist()))
+            print("Top", len(df.columns), "Columns = ", df.columns.tolist())
+            print("Bottom", len(cols_to_be_deleted), "Columns to be deleted = ", cols_to_be_deleted, "\n")
+            
+            ############################################################################################################
+            # Rerunning Model with top k features
+            ############################################################################################################
+            if d["LinearRegression"] == "y":
+                regressor = LinearRegression()
+                results(df, "LinearRegression", regressor, newpath, d, "second")
 
-                with open(newpath + "cols_kept_and_deleted_for_k=%s.txt" % d["top_k_features"], "w") as f:
-                    f.write("cols deleted = \n")
-                    f.write(str(cols_to_be_deleted))
-                    f.write("\ncols kept = \n")
-                    f.write(str(df.columns.tolist()))
-                print("Top", len(df.columns), "Columns = ", df.columns.tolist())
-                print("Bottom", len(cols_to_be_deleted), "Columns to be deleted = ", cols_to_be_deleted, "\n")
+            if d["ElasticNet"] == "y":
+                regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
+                results(df, "ElasticNet", regressor, newpath, d, "second")
 
-                if d["LinearRegression"] == "y":
-                    regressor = LinearRegression()
-                    results(df, "LinearRegression", regressor, newpath, d, "second")
+            if d["KernelRidge"] == "y":
+                regressor = KernelRidge(alpha=0.1)
+                results(df, "KernelRidge", regressor, newpath, d, "second")
 
-                if d["ElasticNet"] == "y":
-                    regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
-                    results(df, "ElasticNet", regressor, newpath, d, "second")
+            if d["xgboost"] == "y":
+                params = {
+                    'max_depth': 5,
+                    'n_estimators': 50,
+                    'objective': 'reg:linear'}
+                regressor = xgb.XGBRegressor(**params)
+                results(df, "xgboost", regressor, newpath, d, "second")
 
-                if d["KernelRidge"] == "y":
-                    regressor = KernelRidge(alpha=0.1)
-                    results(df, "KernelRidge", regressor, newpath, d, "second")
-
-                if d["xgboost"] == "y":
-                    params = {
-                        'max_depth': 5,
-                        'n_estimators': 50,
-                        'objective': 'reg:linear'}
-                    regressor = xgb.XGBRegressor(**params)
-                    results(df, "xgboost", regressor, newpath, d, "second")
-
-                regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
-                results(df, "RandomForestRegressor", regressor, newpath, d, "second")
+            regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
+            results(df, "RandomForestRegressor", regressor, newpath, d, "second")
 
     if d["user"] == "Kieron":
         copyfile(parameters, newpath + "parameters.txt")  # Save parameters

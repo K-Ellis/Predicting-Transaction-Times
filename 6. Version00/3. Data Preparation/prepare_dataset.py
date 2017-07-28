@@ -13,52 +13,15 @@ import pandas as pd
 import time
 import datetime
 import numpy as np
-from calendar import monthrange
 from sklearn.utils import resample
 from sklearn import preprocessing
 from shutil import copyfile  # Used to copy parameters file to directory
-
+from pandas.tseries.offsets import BDay
 
 def fill_nulls_dfcs(df, dfcs, fill_value): # Fill in Nulls given a set of dataframe columns
     for dfc in dfcs:
         if fill_value == "mode": df[dfc].fillna(df[dfc].mode()[0], inplace=True)
         if fill_value == "mean": df[dfc].fillna(df[dfc].mean(), inplace=True)
-
-
-def custom_month_end(date):  # custom month end
-    wkday, days_in_month = monthrange(date.year, date.month)
-    lastBDay = days_in_month - max(((wkday + days_in_month - 1) % 7) - 4, 0)
-    m = 0
-    d = 31
-    increment_day = False
-    if date.day == days_in_month and date.day == lastBDay:
-        m = 1
-        d = 1
-        increment_day = False
-    elif date.day > lastBDay + 1:
-        m = 1
-        d = 31
-        increment_day = True
-    elif date.day > lastBDay and date.hour >= 8:
-        m = 1
-        d = 31
-        increment_day = True
-    elif date.day == 1 and date.hour < 8:
-        d = 1
-        increment_day = False
-    elif lastBDay == days_in_month:
-        increment_day = False
-        m = 1
-        d = 1
-
-    date += pd.DateOffset(months=m, day=d)
-
-    if date.weekday() > 4:
-        date -= pd.offsets.BDay()
-        date += pd.offsets.Day()
-    elif increment_day == True:
-        date += pd.offsets.Day()
-    return date.normalize() + pd.DateOffset(hours=8)
 
 
 def time_taken(df):  # replace start & finish with one new column, "TimeTaken"
@@ -119,58 +82,156 @@ def scale_quant_cols(df, quant_cols):  # Scale quantitative variables
     return df
 
 
-def days_left_in_quarter(date):
-    # Function found on stack overflow
-    # https://stackoverflow.com/questions/37471704/how-do-i-get-the-correspondent-day-of-the-quarter-from-a-date-field
-    q2 = (datetime.datetime.strptime("4/1/{0:4d}".format(date.year), "%m/%d/%Y")).timetuple().tm_yday
-    q3 = (datetime.datetime.strptime("7/1/{0:4d}".format(date.year), "%m/%d/%Y")).timetuple().tm_yday
-    q4 = (datetime.datetime.strptime("10/1/{0:4d}".format(date.year), "%m/%d/%Y")).timetuple().tm_yday
-    q5 = (datetime.datetime.strptime("12/31/{0:4d}".format(date.year), "%m/%d/%Y")).timetuple().tm_yday + 1  # 1st Jan
-
-    cur_day = date.timetuple().tm_yday
-    if (date.month < 4):
-        return q2 - (cur_day)
-    elif (date.month < 7):
-        return q3 - (cur_day - q2 + 1)
-    elif (date.month < 10):
-        return q4 - (cur_day - q3 + 1)
-    else:
-        return q5 - (cur_day - q4 + 1)
-
-
-def days_left_in_month(date):
-    return int(monthrange(date.year, date.month)[1]) - int(date.strftime("%d"))
-
-
-def seconds_left_in_month(date):
-    cutoff = custom_month_end(date)
-    seconds_left = (cutoff-date).seconds
-    days_left = (cutoff-date).days
-    total_seconds_left = seconds_left + days_left*24*60*60
-    return total_seconds_left
-
-
 def deletions(df, d):  # Delete all columns apart from those listed
     keepers = ["TimeTaken", "Created_On", "ResolvedDate", "IsSOXCase", "Numberofreactivations", "Priority",
                "Complexity", "StageName", "CountrySource", "CountryProcessed", "SalesLocation", "Queue",
-               "AmountinUSD", "Priority", "Complexity", "StageName", "StatusReason", "SubReason", "ROCName",
+               "AmountinUSD", "Complexity", "StageName", "StatusReason", "SubReason", "ROCName",
                "sourcesystem", "Source", "Revenutype"]
+               
     if d["Concurrent_open_cases"] == "y": keepers.append("Concurrent_open_cases")
-    if d["Days_left_Month"] == "y": keepers.append("Days_left_Month")  # todo include new vars
-    if d["Days_left_QTR"] == "y": keepers.append("Days_left_QTR")
+    if d["Cases_created_within_past_4_hours"] == "y": keepers.append("Cases_created_within_past_4_hours")
+    if d["Cases_resolved_within_past_4_hours"] == "y": keepers.append("Cases_resolved_within_past_4_hours")
+
+    if d["Seconds_left_Day"] == "y": keepers.append("Seconds_left_Day")
     if d["Seconds_left_Month"] == "y": keepers.append("Seconds_left_Month")
+    if d["Seconds_left_Qtr"] == "y": keepers.append("Seconds_left_Qtr")
+    if d["Seconds_left_Year"] == "y": keepers.append("Seconds_left_Year")
+    
+    if d["Created_on_Weekend"] == "y": keepers.append("Created_on_Weekend")
+    
+    if d["Rolling_Mean"] == "y": keepers.append("Rolling_Mean")
+    if d["Rolling_Median"] == "y": keepers.append("Rolling_Median")
+    if d["Rolling_Std"] == "y": keepers.append("Rolling_Std")
+    
+    # New variables created using Created_On and ResolvedDate:
+    # "Concurrent_open_cases", "Cases_created_within_past_4_hours", "Cases_resolved_within_past_4_hours", 
+    # "Seconds_left_Day", "Seconds_left_Month", "Seconds_left_Qtr", "Seconds_left_Year", "Created_on_Weekend", 
+    # "Rolling_Mean", "Rolling_Median", "Rolling_Std"
+    
     if d["append_HoldDuration"] == "y":
         for col in ["HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
                     "AssignedToGroup_BPO", "AssignedToGroup_CRMT"]:
             keepers.append(col)
     if d["append_AuditDuration"] == "y": keepers.append("AuditDuration")
+    
     for col in df.columns:
         if col not in keepers: del df[col]
     print("Deletions:", df.shape)
 
     return df
 
+def get_last_bdays_months():
+    last_bdays = pd.date_range("2017.01.01", periods=11, freq='BM')
+    last_bdays_offset = []
+    for last_bday in last_bdays:
+        last_bdays_offset.append(last_bday + pd.DateOffset(days=1,hours=8))
+    return last_bdays_offset
 
+
+def get_last_bdays_qtr():
+    start_date = pd.datetime(2017, 1, 1) 
+    last_bdays = pd.date_range(start_date, periods=3, freq='Q')
+    last_bdays_offset = []
+    for last_bday in last_bdays:
+        last_bdays_offset.append(last_bday + pd.DateOffset(days=1,hours=8))
+    last_bdays_offset = [start_date] + last_bdays_offset
+    return last_bdays_offset
+    
+
+def return_end_of_year():
+    last_bdays = []
+    last_bdays.append(pd.datetime(2017, 1, 1))
+    last_bdays.append(pd.datetime(2017, 7, 1, 8))
+    last_bdays.append(pd.datetime(2018, 6, 30, 8))
+    return last_bdays
+
+    
+def get_seconds_left(date, last_bdays_offset):
+    for i in range(len(last_bdays_offset)):       
+        if date >= last_bdays_offset[i] and date <last_bdays_offset[i+1]:
+            seconds_left = (last_bdays_offset[i+1] - date).seconds
+            days_left = (last_bdays_offset[i+1] - date).days
+            total_seconds_left = seconds_left + days_left*24*60*60        
+            return total_seconds_left
+       
+       
+def get_daily_cutoffs(last_bdays):
+    start_of_the_year = pd.datetime(2017,1,1)
+    last_bdays_offset = [start_of_the_year]
+    for last_bday in last_bdays:
+        end_fourth_last = (last_bday - BDay(1) - BDay(1) - BDay(1) - BDay(1)).normalize() +pd.DateOffset(hours=17)
+        last_bdays_offset.append(end_fourth_last)
+        end_third_last = (last_bday - BDay(1) - BDay(1) - BDay(1)).normalize() +pd.DateOffset(hours=23)
+        last_bdays_offset.append(end_third_last)
+        end_second_last = (last_bday - BDay(1) - BDay(1)).normalize() +pd.DateOffset(hours=23)
+        last_bdays_offset.append(end_second_last)
+        last_bdays_offset.append(last_bday)
+    return last_bdays_offset
+
+    
+def get_seconds_until_end_of_day(date, cutoffs):
+    for i in range(len(cutoffs)):    
+        if date >= cutoffs[i] and date < cutoffs[i+1]:
+            hour = cutoffs[i+1].hour
+            minute = cutoffs[i+1].minute
+            second = cutoffs[i+1].second
+            cutoff_in_seconds = hour*60*60 + minute*60 + second
+
+            hour = date.hour
+            minute = date.minute
+            second = date.second
+            date_in_seconds = hour*60*60 + minute*60 + second
+         
+            if date.weekday() < 5:
+                if cutoffs[i+1].time() > date.time():
+                    return cutoff_in_seconds - date_in_seconds
+                elif (date + pd.DateOffset(days=1)).weekday() <5:
+                    return cutoff_in_seconds + 24*60*60 - date_in_seconds
+                else:
+                    return cutoff_in_seconds + (24*60*60)*3 - date_in_seconds
+            else:
+                if date.date() == cutoffs[i+1].date():
+                    if cutoffs[i+1].hour == 23:
+                        return cutoff_in_seconds - date_in_seconds
+                    else:
+                        return cutoff_in_seconds +24*60*60 - date_in_seconds
+                else:
+                    if date.weekday() == 5:
+                        return (24*60*60)*2 - date_in_seconds + cutoff_in_seconds
+                    else:
+                        return (24*60*60) - date_in_seconds + cutoff_in_seconds
+
+def get_last_bdays_months_just_date():
+    last_bdays = pd.date_range("2017.01.01", periods=11, freq='BM')
+    last_bdays_offset = []
+    for last_bday in last_bdays:
+        last_bdays_offset.append((last_bday + pd.DateOffset(days=1,hours=8)).date())
+    return last_bdays_offset
+    
+
+def created_on_weekend(date, last_bdays):
+    day_of_the_week = date.weekday()
+    if day_of_the_week == 0 or day_of_the_week == 6:
+        # but have to check if the date is the day after last business day of the month!
+        if date.date in last_bdays and date.time()<8:
+            return 0
+        else:
+            return 1
+    else:
+        return 0
+
+def get_rolling_stats(df, window):
+    dfcopy = df.copy()
+    dfcopy.sort_values(by="Created_On", inplace=True)
+
+    dfcopy["Rolling_Mean"] = dfcopy["TimeTaken"].rolling(window=window).mean()
+    dfcopy["Rolling_Median"] = dfcopy["TimeTaken"].rolling(window=window).median()
+    dfcopy["Rolling_Std"] = dfcopy["TimeTaken"].rolling(window=window).std()
+
+    dfcopy.dropna(subset=["Rolling_Mean"], inplace=True)
+    return dfcopy
+    
+    
 def clean_data(d):
     df = pd.read_csv(d["file_location"] + d["prepare_input_file"] + ".csv", encoding='latin-1', low_memory=False)
     print("Data read in:", df.shape)
@@ -227,30 +288,96 @@ def clean_data(d):
         print("Remove Outliers:", df.shape)
 
     ####################################################################################################################
-    # Generate Concurrent_open_cases variable
+    # Generate Concurrent_open_cases variable.  
     ####################################################################################################################
     if d["Concurrent_open_cases"] == "y":
         df["Concurrent_open_cases"] = 0  # Add number of cases that were open at the same time
         for i in range(len(df)):
-            df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
-                df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
+            if d["Concurrent_open_cases"] == "y":
+                df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
+                                                                        df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
         df["TimeTaken"].fillna(0, inplace=True)
         df = df[df["TimeTaken"] != 0]
         print("Concurrent_open_cases added:", df.shape)
+        
+    ####################################################################################################################    
+    # Generate Cases_created_within_past_4_hours and/or Cases_resolved_within_past_4_hours variables.      
+    ####################################################################################################################
+    if d["Cases_created_within_past_4_hours"] == "y" or d["Cases_resolved_within_past_4_hours"] == "y":
+        hours_to_search = 4
+        if d["Cases_created_within_past_4_hours"] == "y":
+            df["Cases_created_within_past_4_hours"] = 0 
+            
+        if d["Cases_resolved_within_past_4_hours"] == "y":        
+            df["Cases_resolved_within_past_4_hours"] = 0 
+            
+        for i in range(len(df)):    
+            if d["Cases_created_within_past_4_hours"] == "y":
+                df.loc[i, "Cases_created_within_past_4_hours"] = len(df[(df.Created_On <= df.iloc[i]["Created_On"]) & 
+                                    (df.Created_On >= df.iloc[i]["Created_On"]-pd.DateOffset(hours=hours_to_search))])
+            
+            if d["Cases_resolved_within_past_4_hours"] == "y":    
+                df.loc[i, "Cases_resolved_within_past_4_hours"] = len(df[(df.ResolvedDate <= df.iloc[i]["Created_On"]) & 
+                                    (df.ResolvedDate >= df.iloc[i]["Created_On"]-pd.DateOffset(hours=hours_to_search))])
+        
+        if d["Cases_created_within_past_4_hours"] == "y":
+            print("Cases_created_within_past_4_hours added:", df.shape)
+        
+        if d["Cases_resolved_within_past_4_hours"] == "y": 
+            print("Cases_created_within_past_4_hours added:", df.shape)
+            
 
     ####################################################################################################################
-    # Time remaining before month and Qtr end  # todo include new vars for seconds
+    # Time remaining before Day, Month, Qtr and Year end. 
     ####################################################################################################################
-    if d["Days_left_Month"] == "y":
-        df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
-        print("Days_left_Month added:", df.shape)
-    if d["Days_left_QTR"] == "y":
-        df["Days_left_QTR"] = df["Created_On"].apply(lambda x: int(days_left_in_quarter(x)))  # Day of the Qtr
-        print("Days_left_QTR added:", df.shape)
+    
+    if d["Seconds_left_Day"] == "y":
+        last_bdays_months = get_last_bdays_months()
+        daily_cutoffs = get_daily_cutoffs(last_bdays_months)
+        df["Seconds_left_Day"] = df["Created_On"].apply(lambda x: int(get_seconds_until_end_of_day(x, daily_cutoffs)))  # Day of the Qtr
+        print("Seconds_left_Day added:", df.shape)
+        
     if d["Seconds_left_Month"] == "y":
-        df["Seconds_left_Month"] = df["Created_On"].apply(lambda x: int(seconds_left_in_month(x)))  # s to month end
+        last_bdays_months = get_last_bdays_months()
+        df["Seconds_left_Month"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, last_bdays_months)))  
         print("Seconds_left_Month added:", df.shape)
-
+    
+    if d["Seconds_left_Qtr"] == "y":
+        last_bdays_qtr = get_last_bdays_qtr()
+        df["Seconds_left_Qtr"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, last_bdays_qtr)))  
+        print("Seconds_left_Qtr added:", df.shape)
+    
+    if d["Seconds_left_Year"] == "y":
+        end_of_year_dates = return_end_of_year()
+        df["Seconds_left_Year"] = df["Created_On"].apply(lambda x: int(get_seconds_left(x, end_of_year_dates)))
+        print("Seconds_left_Year added:", df.shape)
+        
+    if d["Created_on_Weekend"] == "y":
+        last_bdays = get_last_bdays_months_just_date()
+        df["Created_on_Weekend"] = df["Created_On"].apply(lambda x: int(created_on_weekend(x, last_bdays)))
+        print("Created_on_Weekend added:", df.shape)
+        
+    ####################################################################################################################
+    # Rolling stats
+    ####################################################################################################################
+    
+    if d["Rolling_Mean"] == "y" or d["Rolling_Median"] == "y" or d["Rolling_Std"] == "y":
+        window = 10
+        df = get_rolling_stats(df, window)  # ..Don't want to do this for each of them, because it deletes the first 9 
+                                                                                                # entries each time.
+        print("All Rolling Stats added:", df.shape)
+        
+        if d["Rolling_Mean"] != "y":
+            del df["Rolling_Mean"]
+            
+        if d["Rolling_Median"] != "y":
+            del df["Rolling_Median"]
+            
+        if d["Rolling_Std"] != "y":
+            del df["Rolling_Std"]
+        
+        print("Specified Rolling Stats kept:", df.shape)
+   
     ####################################################################################################################
     # Combine based on ticket numbers  # todo giving 0s
     ####################################################################################################################
@@ -359,6 +486,7 @@ def clean_data(d):
     for extra in extra_queues:
         if extra in df["Queue"].values:
             df["Queue"] = df["Queue"].replace(extra, "Other")
+    print("Queue transformation:", df.shape)
 
     ####################################################################################################################
     # Fill Categorical and numerical nulls. Scale numerical variables.
@@ -366,21 +494,96 @@ def clean_data(d):
     quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
     if d["append_HoldDuration"] == "y": quant_cols.append("HoldDuration")
     if d["append_AuditDuration"] == "y":  quant_cols.append("AuditDuration")
+    
     if d["Concurrent_open_cases"] == "y": quant_cols.append("Concurrent_open_cases")
-    if d["Days_left_Month"] == "y": quant_cols.append("Days_left_Month")  # todo include new vars for seconds
-    if d["Days_left_QTR"] == "y": quant_cols.append("Days_left_QTR")  # todo include new vars for seconds
-    if d["Seconds_left_Month"] == "y": quant_cols.append("Seconds_left_Month")  # todo include new vars for seconds
-
-    dfcs = []
+    if d["Cases_created_within_past_4_hours"] == "y": quant_cols.append("Cases_created_within_past_4_hours")  
+    if d["Cases_resolved_within_past_4_hours"] == "y": quant_cols.append("Cases_resolved_within_past_4_hours")
+        
+    if d["Seconds_left_Day"] == "y": quant_cols.append("Seconds_left_Day")  
+    if d["Seconds_left_Month"] == "y": quant_cols.append("Seconds_left_Month")  
+    if d["Seconds_left_Qtr"] == "y": quant_cols.append("Seconds_left_Qtr")  
+    if d["Seconds_left_Year"] == "y": quant_cols.append("Seconds_left_Year")  
+    
+    if d["Rolling_Mean"] == "y": quant_cols.append("Rolling_Mean")  
+    if d["Rolling_Median"] == "y": quant_cols.append("Rolling_Median")  
+    if d["Rolling_Std"] == "y": quant_cols.append("Rolling_Std")  
+    
+    categorical_cols = []
     for col in list(df):
         if col not in quant_cols:
-            dfcs.append(col)
-    fill_nulls_dfcs(df, dfcs, "mode")
-    fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean")
+            categorical_cols.append(col)
+    fill_nulls_dfcs(df, categorical_cols, "mode")
+    fill_nulls_dfcs(df, quant_cols, "mean")
+    # fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean")
     print("fill_nulls_dfcs done:", df.shape)
 
     # df = scale_quant_cols(df, quant_cols)
     # print("scale_quant_cols done:", df.shape)
+        
+    ####################################################################################################################
+    # If we only want mandatory data
+    ####################################################################################################################
+    if d["mandatory_data"] == "y":
+        minimum = ["TimeTaken", "Created_On", "ResolvedDate"]
+        mandatory = ["Queue", "ROCName", "CountrySource", "CountryProcessed", "SalesLocation"]        
+        minimum+=mandatory
+        
+        if d["append_HoldDuration"] == "y": minimum.append("HoldDuration")
+        if d["append_AuditDuration"] == "y": minimum.append("AuditDuration")
+            
+        if d["Concurrent_open_cases"] == "y": minimum.append("Concurrent_open_cases")
+        if d["Cases_created_within_past_4_hours"] == "y": minimum.append("Cases_created_within_past_4_hours")
+        if d["Cases_resolved_within_past_4_hours"] == "y": minimum.append("Cases_resolved_within_past_4_hours")
+        
+        if d["Seconds_left_Day"] == "y": minimum.append("Seconds_left_Day")
+        if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
+        if d["Seconds_left_Qtr"] == "y": minimum.append("Seconds_left_Qtr")
+        if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
+                    
+        if d["Created_on_Weekend"] == "y": minimum.append("Created_on_Weekend")                
+                   
+        if d["Rolling_Mean"] == "y": minimum.append("Rolling_Mean")
+        if d["Rolling_Median"] == "y": minimum.append("Rolling_Median")
+        if d["Rolling_Std"] == "y": minimum.append("Rolling_Std")
+    
+        if d["keep_created_resolved"] == "y":
+            minimum.append("Created_On")
+            minimum.append("ResolvedDate")
+    
+        for col in df.columns:
+            if col not in minimum: del df[col]
+        print("mandatory_data data only - all other columns deleted", df.shape)   
+        
+    ####################################################################################################################
+    # If we only want minimum data
+    ####################################################################################################################
+    if d["minimum_data"] == "y":
+        minimum = ["TimeTaken", "Created_On", "ResolvedDate"]
+        if d["append_HoldDuration"] == "y": minimum.append("HoldDuration")
+        if d["append_AuditDuration"] == "y": minimum.append("AuditDuration")
+            
+        if d["Concurrent_open_cases"] == "y": minimum.append("Concurrent_open_cases")
+        if d["Cases_created_within_past_4_hours"] == "y": minimum.append("Cases_created_within_past_4_hours")
+        if d["Cases_resolved_within_past_4_hours"] == "y": minimum.append("Cases_resolved_within_past_4_hours")
+        
+        if d["Seconds_left_Day"] == "y": minimum.append("Seconds_left_Day")
+        if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
+        if d["Seconds_left_Qtr"] == "y": minimum.append("Seconds_left_Qtr")
+        if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
+                    
+        if d["Created_on_Weekend"] == "y": minimum.append("Created_on_Weekend")                
+                   
+        if d["Rolling_Mean"] == "y": minimum.append("Rolling_Mean")
+        if d["Rolling_Median"] == "y": minimum.append("Rolling_Median")
+        if d["Rolling_Std"] == "y": minimum.append("Rolling_Std")
+    
+        if d["keep_created_resolved"] == "y":
+            minimum.append("Created_On")
+            minimum.append("ResolvedDate")
+    
+        for col in df.columns:
+            if col not in minimum: del df[col]
+        print("Minimum data only - all other columns deleted", df.shape)
 
     ####################################################################################################################
     # One-hot encode categorical variables
@@ -388,27 +591,11 @@ def clean_data(d):
     cat_vars_to_one_hot = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason",
                            "ROCName", "sourcesystem", "Source", "Revenutype", "Queue"]
     for var in cat_vars_to_one_hot:
-        df = pd.concat([df, pd.get_dummies(df[var], prefix=var, drop_first=True)], axis=1)
-        del df[var]
-    print("One hot encoding complete:", df.shape)
-
-    ####################################################################################################################
-    # If we only want minimum data
-    ####################################################################################################################
-    if d["minimum_data"] == "y":
-        minimum = ["TimeTaken", "Created_On", "ResolvedDate"]
-        # todo add if and then queue, roc name, 3 country vars
-        if d["append_HoldDuration"] == "y": minimum.append("HoldDuration")
-        if d["append_AuditDuration"] == "y": minimum.append("AuditDuration")
-        if d["Concurrent_open_cases"] == "y": minimum.append("Concurrent_open_cases")
-        if d["Days_left_Month"] == "y": minimum.append("Days_left_Month")
-        if d["Days_left_QTR"] == "y": minimum.append("Days_left_QTR")
-        if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
-        # todo include new vars for seconds
-        for col in df.columns:
-            if col not in minimum: del df[col]
-        print("Minimum data only - all other columns deleted", df.shape)
-
+        if var in df.columns:
+            df = pd.concat([df, pd.get_dummies(df[var], prefix=var, drop_first=False)], axis=1)
+            del df[var]
+    print("One hot encoding complete:", df.shape)        
+        
     ####################################################################################################################
     # If we want to keep created and resolved
     ####################################################################################################################
@@ -434,8 +621,15 @@ if __name__ == "__main__":  # Run program
             line = line.replace(":", "")
             (key, val) = line.split()
             d[key] = val
-
     clean_data(d)  # Carry out pre-processing
     if d["save_parameters"] == "y":
         copyfile(parameters, "../../../Data/Parameters/" + time.strftime("%Y.%m.%d.%H.%M.%S") + "_parameters.txt")
     print("Cleaned file saved as " + d["file_location"] + d["prepare_output_file"] + ".csv")
+    
+    if d["beep"] == "y":
+        import winsound
+        Freq = 400 # Set Frequency To 2500 Hertz
+        Dur = 1000 # Set Duration To 1000 ms == 1 second
+        winsound.Beep(Freq,Dur)
+        Freq = 300 # Set Frequency To 2500 Hertz
+        winsound.Beep(Freq,Dur)
