@@ -25,21 +25,6 @@ def fill_nulls_dfcs(df, dfcs, fill_value): # Fill in Nulls given a set of datafr
         if fill_value == "mean": df[dfc].fillna(df[dfc].mean(), inplace=True)
 
 
-def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres, exclude):
-    dfcs = []  # DataFrameColumns
-    if min_thres is None and max_thres is None:  # if there is no min and max threshold
-        for col in df.columns:
-            if col not in exclude:
-                if df[col].isnull().sum() > 0:  # if the column has Null entries append it to dfcs
-                    dfcs.append(col)
-    else:  # if the col has nulls within a given range, append it to dfcs
-        for col in df.columns:
-            if col not in exclude:
-                if df[col].isnull().sum() > min_thres and df[col].isnull().sum() < max_thres:
-                    dfcs.append(col)
-    return dfcs
-
-
 def custom_month_end(date):  # custom month end
     wkday, days_in_month = monthrange(date.year, date.month)
     lastBDay = days_in_month - max(((wkday + days_in_month - 1) % 7) - 4, 0)
@@ -176,7 +161,10 @@ def deletions(df, d):  # Delete all columns apart from those listed
     if d["Days_left_Month"] == "y": keepers.append("Days_left_Month")  # todo include new vars
     if d["Days_left_QTR"] == "y": keepers.append("Days_left_QTR")
     if d["Seconds_left_Month"] == "y": keepers.append("Seconds_left_Month")
-    if d["append_HoldDuration"] == "y": keepers.append("HoldDuration")
+    if d["append_HoldDuration"] == "y":
+        for col in ["HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
+                    "AssignedToGroup_BPO", "AssignedToGroup_CRMT"]:
+            keepers.append(col)
     if d["append_AuditDuration"] == "y": keepers.append("AuditDuration")
     for col in df.columns:
         if col not in keepers: del df[col]
@@ -250,7 +238,7 @@ def clean_data(d):
         print("Concurrent_open_cases added:", df.shape)
 
     ####################################################################################################################
-    # Time remaining before month and Qtr end
+    # Time remaining before month and Qtr end  # todo include new vars
     ####################################################################################################################
     if d["Days_left_Month"] == "y":
         df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
@@ -261,7 +249,6 @@ def clean_data(d):
     if d["Seconds_left_Month"] == "y":
         df["Seconds_left_Month"] = df["Created_On"].apply(lambda x: int(seconds_left_in_month(x)))  # s to month end
         print("Seconds_left_Month added:", df.shape)
-        # todo include new vars
 
     ####################################################################################################################
     # Combine based on ticket numbers
@@ -375,17 +362,18 @@ def clean_data(d):
     ####################################################################################################################
     # Fill Categorical and numerical nulls. Scale numerical variables.
     ####################################################################################################################
-    quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]  # todo confirm seconds in a number of places
+    quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
     if d["append_HoldDuration"] == "y": quant_cols.append("HoldDuration")
     if d["append_AuditDuration"] == "y":  quant_cols.append("AuditDuration")
     if d["Concurrent_open_cases"] == "y": quant_cols.append("Concurrent_open_cases")
-    if d["Days_left_Month"] == "y": quant_cols.append("Days_left_Month")
-    if d["Days_left_QTR"] == "y": quant_cols.append("Days_left_QTR")
-    if d["Seconds_left_Month"] == "y": quant_cols.append("Seconds_left_Month")
-    # todo include new vars
+    if d["Days_left_Month"] == "y": quant_cols.append("Days_left_Month")  # todo include new vars
+    if d["Days_left_QTR"] == "y": quant_cols.append("Days_left_QTR")  # todo include new vars
+    if d["Seconds_left_Month"] == "y": quant_cols.append("Seconds_left_Month")  # todo include new vars
 
-    exclude_from_mode_fill = quant_cols
-    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
+    dfcs = []
+    for col in list(df):
+        if col not in quant_cols:
+            dfcs.append(col)
     fill_nulls_dfcs(df, dfcs, "mode")
     fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean")
     print("fill_nulls_dfcs done:", df.shape)
