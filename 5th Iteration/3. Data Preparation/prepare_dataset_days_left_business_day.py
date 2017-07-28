@@ -149,6 +149,25 @@ def get_seconds_until_end_of_day(date, cutoffs):
                         return (24*60*60)*2 - date_in_seconds + cutoff_in_seconds
                     else:
                         return (24*60*60) - date_in_seconds + cutoff_in_seconds
+                        
+def get_last_bdays_months_just_date():
+    last_bdays = pd.date_range("2017.01.01", periods=11, freq='BM')
+    last_bdays_offset = []
+    for last_bday in last_bdays:
+        last_bdays_offset.append((last_bday + pd.DateOffset(days=1,hours=8)).date())
+    return last_bdays_offset
+
+def created_on_weekend(date, last_bdays):
+    day_of_the_week = date.weekday()
+    if day_of_the_week == 0 or day_of_the_week == 6:
+        # but have to check if the date is the day after last business day of the month!
+        if date.date in last_bdays and date.time()<8:
+            return 0
+        else:
+            return 1
+    else:
+        return 0
+
 
 def time_taken(df, out_file, start, finish, d):  # replace start & finish with one new column, "TimeTaken"
     df[start] = pd.to_datetime(df[start])
@@ -184,6 +203,10 @@ def time_taken(df, out_file, start, finish, d):  # replace start & finish with o
     # last_bdays_months = get_last_bdays_months()
     cutoffs = get_cutoffs(last_bdays_months)
     df["Seconds_end_of_day"] = df["Created_On"].apply(lambda x: int(get_seconds_until_end_of_day(x, cutoffs)))  # Day of the Qtr
+    
+    last_bdays = get_last_bdays_months_just_date()
+    df["Created_On"] = pd.to_datetime(df["Created_On"])
+    df["Created_on_weekend"] = df["Created_On"].apply(lambda x: int(created_on_weekend(x, last_bdays)))
     
     if d["delete_created_resolved"] == "y":
         del df["Created_On"]
@@ -679,7 +702,7 @@ def clean_Incident(d, newpath):
     if d["minimum_data"] != "y":
         minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", 
         "Seconds_left_month", "Seconds_left_Qtr", "Next_Qtr_minus_days_into_current_Qtr", "Seconds_left_EndYear", 
-        "Seconds_end_of_day", "Created_On", "ResolvedDate"]
+        "Seconds_end_of_day", "Created_On", "ResolvedDate", "Created_on_weekend"]
         for col in df.columns:
             if col not in minimum:
                 del df[col]
