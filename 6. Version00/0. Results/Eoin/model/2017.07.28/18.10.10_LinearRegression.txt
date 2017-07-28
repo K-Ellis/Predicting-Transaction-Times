@@ -1,0 +1,14 @@
+LinearRegression 20170728-181010
+
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean RMSE: 561601.26 (+/-2880.95)
+	Test Mean RMSE: 564202.04 (+/-25920.05)
+	Train Mean R2: 0.21802 (+/-0.00277)
+	Test Mean R2: 0.20923 (+/-0.02531)
+
+
+	LinearRegression number test predictions within 1 hour -> Mean: 18.0/2031 (+/- 4.0)
+	LinearRegression % test predictions within 1 hour: -> Mean: 0.89% (+/- 0.20%)
+	LinearRegression number test predictions within 24 hours -> Mean: 416.5/2031 (+/- 12.9)
+	LinearRegression % test predictions within 24 hours -> Mean: 20.51% (+/- 0.63%)
+

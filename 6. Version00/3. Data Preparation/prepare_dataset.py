@@ -2,14 +2,13 @@
 UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
 ************************************************************************************************************************
 Data pre-processing program
-Version 00
+Version 00 - Program for experiments after last iteration
 ************************************************************************************************************************
 Eoin Carroll
 Kieron Ellis
 *********************************************************************************************************************"""
 
 
-# Import libraries
 import pandas as pd
 import time
 import datetime
@@ -22,25 +21,8 @@ from shutil import copyfile  # Used to copy parameters file to directory
 
 def fill_nulls_dfcs(df, dfcs, fill_value): # Fill in Nulls given a set of dataframe columns
     for dfc in dfcs:
-        if fill_value == "mode":
-            df[dfc].fillna(df[dfc].mode()[0], inplace=True)
-        if fill_value == "mean":
-            df[dfc].fillna(df[dfc].mean(), inplace=True)
-
-
-def find_dfcs_with_nulls_in_threshold(df, min_thres, max_thres, exclude):
-    dfcs = []  # DataFrameColumns
-    if min_thres is None and max_thres is None:  # if there is no min and max threshold
-        for col in df.columns:
-            if col not in exclude:
-                if df[col].isnull().sum() > 0:  # if the column has Null entries append it to dfcs
-                    dfcs.append(col)
-    else:  # if the col has nulls within a given range, append it to dfcs
-        for col in df.columns:
-            if col not in exclude:
-                if df[col].isnull().sum() > min_thres and df[col].isnull().sum() < max_thres:
-                    dfcs.append(col)
-    return dfcs
+        if fill_value == "mode": df[dfc].fillna(df[dfc].mode()[0], inplace=True)
+        if fill_value == "mean": df[dfc].fillna(df[dfc].mean(), inplace=True)
 
 
 def custom_month_end(date):  # custom month end
@@ -80,8 +62,6 @@ def custom_month_end(date):  # custom month end
 
 
 def time_taken(df):  # replace start & finish with one new column, "TimeTaken"
-    df["Created_On"] = pd.to_datetime(df["Created_On"])
-    df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
     df2 = pd.DataFrame()  # create new dataframe, df2, to store answer  # todo - no need for df2
     df2["TimeTaken"] = (df["ResolvedDate"] - df["Created_On"]).astype('timedelta64[s]')
     df = pd.concat([df2, df], axis=1)
@@ -116,20 +96,13 @@ def transform_country(dfc):  # Convert country into continents
                     "Venezuela"]
     pd.options.mode.chained_assignment = None  # default='warn' . . . . this disables an overwriting warning
     for i in range(len(dfc)):
-        if dfc.iloc[i] in africa:
-            dfc.iloc[i] = "africa"
-        elif dfc.iloc[i] in asia:
-            dfc.iloc[i] = "asia"
-        elif dfc.iloc[i] in australia:
-            dfc.iloc[i] = "australia"
-        elif dfc.iloc[i] in europe:
-            dfc.iloc[i] = "europe"
-        elif dfc.iloc[i] in northamerica:
-            dfc.iloc[i] = "northamerica"
-        elif dfc.iloc[i] in southamerica:
-            dfc.iloc[i] = "southamerica"
-        else:
-            dfc.iloc[i] = "other"
+        if dfc.iloc[i] in africa: dfc.iloc[i] = "africa"
+        elif dfc.iloc[i] in asia: dfc.iloc[i] = "asia"
+        elif dfc.iloc[i] in australia: dfc.iloc[i] = "australia"
+        elif dfc.iloc[i] in europe: dfc.iloc[i] = "europe"
+        elif dfc.iloc[i] in northamerica: dfc.iloc[i] = "northamerica"
+        elif dfc.iloc[i] in southamerica: dfc.iloc[i] = "southamerica"
+        else: dfc.iloc[i] = "other"
     return dfc
 
 
@@ -177,39 +150,30 @@ def seconds_left_in_month(date):
     return total_seconds_left
 
 
-def deletions(df, d):
+def deletions(df, d):  # Delete all columns apart from those listed
     keepers = ["TimeTaken", "Created_On", "ResolvedDate", "IsSOXCase", "Numberofreactivations", "Priority",
                "Complexity", "StageName", "CountrySource", "CountryProcessed", "SalesLocation", "Queue",
                "AmountinUSD", "Priority", "Complexity", "StageName", "StatusReason", "SubReason", "ROCName",
                "sourcesystem", "Source", "Revenutype"]
-    if d["Concurrent_open_cases"] == "y":
-        keepers.append("Concurrent_open_cases")
-    if d["Days_left_Month"] == "y":
-        keepers.append("Days_left_Month")
-    if d["Days_left_QTR"] == "y":
-        keepers.append("Days_left_QTR")
-    if d["Seconds_left_Month"] == "y":
-        keepers.append("Seconds_left_Month")
+    if d["Concurrent_open_cases"] == "y": keepers.append("Concurrent_open_cases")
+    if d["Days_left_Month"] == "y": keepers.append("Days_left_Month")  # todo include new vars
+    if d["Days_left_QTR"] == "y": keepers.append("Days_left_QTR")
+    if d["Seconds_left_Month"] == "y": keepers.append("Seconds_left_Month")
     if d["append_HoldDuration"] == "y":
-        keepers.append("HoldDuration")
-    if d["append_AuditDuration"] == "y":
-        keepers.append("AuditDuration")
-
+        for col in ["HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
+                    "AssignedToGroup_BPO", "AssignedToGroup_CRMT"]:
+            keepers.append(col)
+    if d["append_AuditDuration"] == "y": keepers.append("AuditDuration")
     for col in df.columns:
-        if col not in keepers:
-            del df[col]
+        if col not in keepers: del df[col]
     print("Deletions:", df.shape)
 
     return df
 
 
 def clean_data(d):
-    df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
+    df = pd.read_csv(d["file_location"] + d["prepare_input_file"] + ".csv", encoding='latin-1', low_memory=False)
     print("Data read in:", df.shape)
-
-    if d["resample"] == "y":  # Resample option - select a smaller sample from dataset
-        df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
-        print("Dataset resampled:", df.shape)
 
     ####################################################################################################################
     # Filtering for the data MS want
@@ -224,6 +188,28 @@ def clean_data(d):
     df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
     print("Filtering Program/Language/Status/Valid:", df.shape)
 
+    # Change to datetime
+    df["Created_On"] = pd.to_datetime(df["Created_On"])
+    df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
+
+    ####################################################################################################################
+    # IsSox case transformation to filter na's
+    ####################################################################################################################
+    df["IsSOXCase"].fillna(2, inplace=True)
+    df.IsSOXCase = df.IsSOXCase.astype(int)
+    df = df[df["IsSOXCase"] != 2]
+    df["Numberofreactivations"].fillna(0, inplace=True)
+    df.Numberofreactivations = df.Numberofreactivations.astype(int)  # Also convert to ints
+    print("ISO and Reactivations done:", df.shape)
+
+    ####################################################################################################################
+    # Resample option
+    ####################################################################################################################
+    if d["resample"] == "y":  # Resample option - select a smaller sample from dataset
+        df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
+        df = df.reset_index(drop=True)
+        print("Dataset resampled:", df.shape)
+
     ####################################################################################################################
     # Date and time - calculate time taken
     ####################################################################################################################
@@ -237,6 +223,8 @@ def clean_data(d):
         std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
         df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
         df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
+        df = df.reset_index(drop=True)
+        print("Remove Outliers:", df.shape)
 
     ####################################################################################################################
     # Generate Concurrent_open_cases variable
@@ -246,10 +234,12 @@ def clean_data(d):
         for i in range(len(df)):
             df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
                 df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
+        df["TimeTaken"].fillna(0, inplace=True)
+        df = df[df["TimeTaken"] != 0]
         print("Concurrent_open_cases added:", df.shape)
 
     ####################################################################################################################
-    # Time remaining before month and Qtr end
+    # Time remaining before month and Qtr end  # todo include new vars for seconds
     ####################################################################################################################
     if d["Days_left_Month"] == "y":
         df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
@@ -262,7 +252,7 @@ def clean_data(d):
         print("Seconds_left_Month added:", df.shape)
 
     ####################################################################################################################
-    # Combine based on ticket numbers
+    # Combine based on ticket numbers  # todo giving 0s
     ####################################################################################################################
     if d["append_HoldDuration"] == "y":
         dfholdactivity = pd.read_csv("../../../Data/vw_HoldActivity.csv", encoding='latin-1', low_memory=False)
@@ -270,8 +260,7 @@ def clean_data(d):
         dfholdactivity["TicketNumber"] = dfholdactivity["TicketNumber"].astype(int)
         columns = ["TicketNumber", "HoldDuration", "HoldTypeName", "AssignedToGroup"]
         for col in dfholdactivity:
-            if col not in columns:
-                del dfholdactivity[col]
+            if col not in columns: del dfholdactivity[col]
 
         dfdummies = pd.get_dummies(data=dfholdactivity, columns=["HoldTypeName", "AssignedToGroup"])
         dfdummies["HoldCount"] = 1
@@ -301,6 +290,7 @@ def clean_data(d):
         for col in columns_to_count:  # fill the NANs with 0's
             df[col].fillna(0, inplace=True)
         print("append_HoldDuration added:", df.shape)
+
     if d["append_AuditDuration"] == "y":
         dfaudithistory = pd.read_csv("../../../Data/vw_AuditHistory.csv", encoding='latin-1', low_memory=False)
         dfaudithistory["TicketNumber"] = [x.lstrip('5-') for x in dfaudithistory["TicketNumber"]]
@@ -326,16 +316,6 @@ def clean_data(d):
     # Deletions
     ####################################################################################################################
     df = deletions(df, d)
-
-    ####################################################################################################################
-    # IsSox case transformation to filter na's
-    ####################################################################################################################
-    df["IsSOXCase"].fillna(2, inplace=True)
-    df.IsSOXCase = df.IsSOXCase.astype(int)
-    df = df[df["IsSOXCase"] != 2]
-    df["Numberofreactivations"].fillna(0, inplace=True)
-    df.Numberofreactivations = df.Numberofreactivations.astype(int)  # Also convert to ints
-    print("ISO and Reactivations done:", df.shape)
 
     ####################################################################################################################
     # Ordinal variable mapping. Priority, Complexity, StageName
@@ -372,9 +352,7 @@ def clean_data(d):
                 check_substr_exists[i] = True
     for i in range(len(substr_list)):
         if check_substr_exists[i] == True:
-            df.Queue = df.Queue.replace(cat_list[i],
-                                        substr_list[i])  # Replace the categorical variables in Queue with
-            # the substrings
+            df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Rplace categorical vars in Queue with substrings
     extra_queues = ["<WWCS - EMEA Admin>", "<3P Xbox AR Operations>", "<VL OpsPM program support>",
                     "<CLT Duplicates>"]
     # combine uncommon queue types
@@ -385,22 +363,24 @@ def clean_data(d):
     ####################################################################################################################
     # Fill Categorical and numerical nulls. Scale numerical variables.
     ####################################################################################################################
-    quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]  # todo confirm seconds
+    quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
     if d["append_HoldDuration"] == "y": quant_cols.append("HoldDuration")
     if d["append_AuditDuration"] == "y":  quant_cols.append("AuditDuration")
     if d["Concurrent_open_cases"] == "y": quant_cols.append("Concurrent_open_cases")
-    if d["Days_left_Month"] == "y": quant_cols.append("Days_left_Month")
-    if d["Days_left_QTR"] == "y": quant_cols.append("Days_left_QTR")
-    if d["Seconds_left_Month"] == "y": quant_cols.append("Seconds_left_Month")
+    if d["Days_left_Month"] == "y": quant_cols.append("Days_left_Month")  # todo include new vars for seconds
+    if d["Days_left_QTR"] == "y": quant_cols.append("Days_left_QTR")  # todo include new vars for seconds
+    if d["Seconds_left_Month"] == "y": quant_cols.append("Seconds_left_Month")  # todo include new vars for seconds
 
-    exclude_from_mode_fill = quant_cols
-    dfcs = find_dfcs_with_nulls_in_threshold(df, None, None, exclude_from_mode_fill)
+    dfcs = []
+    for col in list(df):
+        if col not in quant_cols:
+            dfcs.append(col)
     fill_nulls_dfcs(df, dfcs, "mode")
     fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean")
     print("fill_nulls_dfcs done:", df.shape)
 
-    df = scale_quant_cols(df, quant_cols)
-    print("scale_quant_cols done:", df.shape)
+    # df = scale_quant_cols(df, quant_cols)
+    # print("scale_quant_cols done:", df.shape)
 
     ####################################################################################################################
     # One-hot encode categorical variables
@@ -417,27 +397,22 @@ def clean_data(d):
     ####################################################################################################################
     if d["minimum_data"] == "y":
         minimum = ["TimeTaken", "Created_On", "ResolvedDate"]
-        if d["append_HoldDuration"] == "y":
-            minimum.append("HoldDuration")
-        if d["append_AuditDuration"] == "y":
-            minimum.append("AuditDuration")
-        if d["Concurrent_open_cases"] == "y":
-            minimum.append("Concurrent_open_cases")
-        if d["Days_left_Month"] == "y":
-            minimum.append("Days_left_Month")
-        if d["Days_left_QTR"] == "y":
-            minimum.append("Days_left_QTR")
-        if d["Seconds_left_Month"] == "y":
-            minimum.append("Seconds_left_Month")
+        # todo add if and then queue, roc name, 3 country vars
+        if d["append_HoldDuration"] == "y": minimum.append("HoldDuration")
+        if d["append_AuditDuration"] == "y": minimum.append("AuditDuration")
+        if d["Concurrent_open_cases"] == "y": minimum.append("Concurrent_open_cases")
+        if d["Days_left_Month"] == "y": minimum.append("Days_left_Month")
+        if d["Days_left_QTR"] == "y": minimum.append("Days_left_QTR")
+        if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
+        # todo include new vars for seconds
         for col in df.columns:
-            if col not in minimum:
-                del df[col]
+            if col not in minimum: del df[col]
         print("Minimum data only - all other columns deleted", df.shape)
 
     ####################################################################################################################
     # If we want to keep created and resolved
     ####################################################################################################################
-    if d["delete_created_resolved"] == "y":
+    if d["keep_created_resolved"] == "n":
         del df["Created_On"]
         del df["ResolvedDate"]
     print("delete_created_resolved:", df.shape)
@@ -447,7 +422,7 @@ def clean_data(d):
     ####################################################################################################################
     df = df.reindex_axis(sorted(df.columns), axis=1)
     df = pd.concat([df.pop("TimeTaken"), df], axis=1)
-    df.to_csv(d["file_location"] + d["output_file"] + ".csv", index=False)  # export file
+    df.to_csv(d["file_location"] + d["prepare_output_file"] + ".csv", index=False)  # export file
 
 
 if __name__ == "__main__":  # Run program
@@ -461,5 +436,6 @@ if __name__ == "__main__":  # Run program
             d[key] = val
 
     clean_data(d)  # Carry out pre-processing
-    copyfile(parameters, "../../../Data/Parameters/" + time.strftime("%Y.%m.%d.%H.%M.%S") + "_parameters.txt")
-    print("Cleaned file saved as " + d["file_location"] + d["output_file"] + ".csv")
+    if d["save_parameters"] == "y":
+        copyfile(parameters, "../../../Data/Parameters/" + time.strftime("%Y.%m.%d.%H.%M.%S") + "_parameters.txt")
+    print("Cleaned file saved as " + d["file_location"] + d["prepare_output_file"] + ".csv")

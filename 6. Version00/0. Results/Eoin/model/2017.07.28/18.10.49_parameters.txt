@@ -1,9 +1,9 @@
-user: Name
+user: Eoin
 raw_data: UCD_Data_20170623_1.xlsx
 raw_data_location: ../../../Data/
 prepare_input_file: vw_Incident
-prepare_output_file: vw_Incident_cleaned_28_7
-input_file: vw_Incident_cleaned_28_7
+prepare_output_file: vw_Incident_cleaned_28_7_2
+input_file: vw_Incident_cleaned_28_7_2
 file_location: ../../../Data/
 iteration: Version00
 notes: TestingVersion00
@@ -29,7 +29,7 @@ n_estimators: 10
 log_of_y: n
 crossvalidation: 10
 LinearRegression: y
-ElasticNet: y
+ElasticNet: n
 KernelRidge: n
 RandomForestRegressor: y
 MLPRegressor: n
