@@ -1,9 +1,8 @@
-user: Name
+user: Eoin
 raw_data: UCD_Data_20170623_1.xlsx
 raw_data_location: ../../../Data/
-prepare_input_file: vw_Incident
-prepare_output_file: vw_Incident_cleaned_28_7
 input_file: vw_Incident_cleaned_28_7
+output_file: vw_Incident_cleaned_28_7
 file_location: ../../../Data/
 iteration: Version00
 notes: TestingVersion00
