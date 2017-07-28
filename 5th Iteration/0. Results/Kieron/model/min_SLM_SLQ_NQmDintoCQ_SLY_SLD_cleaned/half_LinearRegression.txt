@@ -1,0 +1,17 @@
+LinearRegression 20170728-115238
+
+Input file name min_SLM_SLQ_NQmDintoCQ_SLY_SLD_cleaned:
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean RMSE: 329218.62 (+/-696.16)
+	Test Mean RMSE: 329209.29 (+/-6774.48)
+	Train Mean R2: 0.55313 (+/-0.00098)
+	Test Mean R2: 0.55281 (+/-0.00757)
+	Train Mean MAE: 217151.34 (+/-392.13)
+	Test Mean MAE: 217173.52 (+/-3460.95)
+
+
+	LinearRegression number test predictions within 1 hour -> Mean: 57.6/2404 (+/- 7.2)
+	LinearRegression % test predictions within 1 hour: -> Mean: 2.40% (+/- 0.30%)
+	LinearRegression number test predictions within 24 hours -> Mean: 925.8/2404 (+/- 14.3)
+	LinearRegression % test predictions within 24 hours -> Mean: 38.51% (+/- 0.59%)
+

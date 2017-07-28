@@ -1,0 +1,4 @@
+cols deleted = 
+['Seconds_left_month', 'Seconds_left_Qtr', 'Seconds_end_of_day']
+cols kept = 
+['TimeTaken', 'Concurrent_open_cases', 'Next_Qtr_minus_days_into_current_Qtr', 'Seconds_left_EndYear']
