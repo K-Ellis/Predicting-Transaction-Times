@@ -131,10 +131,10 @@ def get_seconds_until_end_of_day(date, cutoffs):
             second = date.second
             date_in_seconds = hour*60*60 + minute*60 + second
          
-            if date.weekday() < 4:
+            if date.weekday() < 5:
                 if cutoffs[i+1].time() > date.time():
                     return cutoff_in_seconds - date_in_seconds
-                elif (date + pd.DateOffset(days=1)).weekday() <4:
+                elif (date + pd.DateOffset(days=1)).weekday() <5:
                     return cutoff_in_seconds + 24*60*60 - date_in_seconds
                 else:
                     return cutoff_in_seconds + (24*60*60)*3 - date_in_seconds
@@ -676,11 +676,13 @@ def clean_Incident(d, newpath):
     ####################################################################################################################
     # Export final df
     ####################################################################################################################
-    minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", 
-    "Seconds_left_month", "Seconds_left_Qtr", "Next_Qtr_minus_days_into_current_Qtr", "Seconds_left_EndYear", "Seconds_end_of_day"]
-    for col in df.columns:
-        if col not in minimum:
-            del df[col]
+    if d["minimum_data"] != "y":
+        minimum = ["TicketNumber", "TimeTaken", "Concurrent_open_cases", "Days_left_Month", "Days_left_QTR", 
+        "Seconds_left_month", "Seconds_left_Qtr", "Next_Qtr_minus_days_into_current_Qtr", "Seconds_left_EndYear", 
+        "Seconds_end_of_day", "Created_On", "ResolvedDate"]
+        for col in df.columns:
+            if col not in minimum:
+                del df[col]
     # df.dropna(inplace=True)
 
     # Sort columns alphabetically and put TimeTaken first
