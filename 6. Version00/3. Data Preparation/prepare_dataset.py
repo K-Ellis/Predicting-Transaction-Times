@@ -62,8 +62,6 @@ def custom_month_end(date):  # custom month end
 
 
 def time_taken(df):  # replace start & finish with one new column, "TimeTaken"
-    df["Created_On"] = pd.to_datetime(df["Created_On"])
-    df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
     df2 = pd.DataFrame()  # create new dataframe, df2, to store answer  # todo - no need for df2
     df2["TimeTaken"] = (df["ResolvedDate"] - df["Created_On"]).astype('timedelta64[s]')
     df = pd.concat([df2, df], axis=1)
@@ -174,7 +172,7 @@ def deletions(df, d):  # Delete all columns apart from those listed
 
 
 def clean_data(d):
-    df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
+    df = pd.read_csv(d["file_location"] + d["prepare_input_file"] + ".csv", encoding='latin-1', low_memory=False)
     print("Data read in:", df.shape)
 
     ####################################################################################################################
@@ -189,6 +187,10 @@ def clean_data(d):
     df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
     df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
     print("Filtering Program/Language/Status/Valid:", df.shape)
+
+    # Change to datetime
+    df["Created_On"] = pd.to_datetime(df["Created_On"])
+    df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
 
     ####################################################################################################################
     # IsSox case transformation to filter na's
@@ -230,15 +232,14 @@ def clean_data(d):
     if d["Concurrent_open_cases"] == "y":
         df["Concurrent_open_cases"] = 0  # Add number of cases that were open at the same time
         for i in range(len(df)):
-            df_temp = df[df.Created_On < df.iloc[i]["Created_On"]]
-            df_temp = df_temp[df_temp.ResolvedDate > df.iloc[i]["ResolvedDate"]]
-            df.loc[i, "Concurrent_open_cases"] = len(df_temp)
+            df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
+                df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
         df["TimeTaken"].fillna(0, inplace=True)
         df = df[df["TimeTaken"] != 0]
         print("Concurrent_open_cases added:", df.shape)
 
     ####################################################################################################################
-    # Time remaining before month and Qtr end  # todo include new vars
+    # Time remaining before month and Qtr end  # todo include new vars for seconds
     ####################################################################################################################
     if d["Days_left_Month"] == "y":
         df["Days_left_Month"] = df["Created_On"].apply(lambda x: int(days_left_in_month(x)))  # Day of the month
@@ -251,7 +252,7 @@ def clean_data(d):
         print("Seconds_left_Month added:", df.shape)
 
     ####################################################################################################################
-    # Combine based on ticket numbers
+    # Combine based on ticket numbers  # todo giving 0s
     ####################################################################################################################
     if d["append_HoldDuration"] == "y":
         dfholdactivity = pd.read_csv("../../../Data/vw_HoldActivity.csv", encoding='latin-1', low_memory=False)
@@ -366,9 +367,9 @@ def clean_data(d):
     if d["append_HoldDuration"] == "y": quant_cols.append("HoldDuration")
     if d["append_AuditDuration"] == "y":  quant_cols.append("AuditDuration")
     if d["Concurrent_open_cases"] == "y": quant_cols.append("Concurrent_open_cases")
-    if d["Days_left_Month"] == "y": quant_cols.append("Days_left_Month")  # todo include new vars
-    if d["Days_left_QTR"] == "y": quant_cols.append("Days_left_QTR")  # todo include new vars
-    if d["Seconds_left_Month"] == "y": quant_cols.append("Seconds_left_Month")  # todo include new vars
+    if d["Days_left_Month"] == "y": quant_cols.append("Days_left_Month")  # todo include new vars for seconds
+    if d["Days_left_QTR"] == "y": quant_cols.append("Days_left_QTR")  # todo include new vars for seconds
+    if d["Seconds_left_Month"] == "y": quant_cols.append("Seconds_left_Month")  # todo include new vars for seconds
 
     dfcs = []
     for col in list(df):
@@ -395,14 +396,15 @@ def clean_data(d):
     # If we only want minimum data
     ####################################################################################################################
     if d["minimum_data"] == "y":
-        minimum = ["TimeTaken", "Created_On", "ResolvedDate"]  # todo add queue, roc name, 3 country vars
+        minimum = ["TimeTaken", "Created_On", "ResolvedDate"]
+        # todo add if and then queue, roc name, 3 country vars
         if d["append_HoldDuration"] == "y": minimum.append("HoldDuration")
         if d["append_AuditDuration"] == "y": minimum.append("AuditDuration")
         if d["Concurrent_open_cases"] == "y": minimum.append("Concurrent_open_cases")
         if d["Days_left_Month"] == "y": minimum.append("Days_left_Month")
         if d["Days_left_QTR"] == "y": minimum.append("Days_left_QTR")
         if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
-        # todo include new vars
+        # todo include new vars for seconds
         for col in df.columns:
             if col not in minimum: del df[col]
         print("Minimum data only - all other columns deleted", df.shape)
@@ -420,7 +422,7 @@ def clean_data(d):
     ####################################################################################################################
     df = df.reindex_axis(sorted(df.columns), axis=1)
     df = pd.concat([df.pop("TimeTaken"), df], axis=1)
-    df.to_csv(d["file_location"] + d["output_file"] + ".csv", index=False)  # export file
+    df.to_csv(d["file_location"] + d["prepare_output_file"] + ".csv", index=False)  # export file
 
 
 if __name__ == "__main__":  # Run program
@@ -436,4 +438,4 @@ if __name__ == "__main__":  # Run program
     clean_data(d)  # Carry out pre-processing
     if d["save_parameters"] == "y":
         copyfile(parameters, "../../../Data/Parameters/" + time.strftime("%Y.%m.%d.%H.%M.%S") + "_parameters.txt")
-    print("Cleaned file saved as " + d["file_location"] + d["output_file"] + ".csv")
+    print("Cleaned file saved as " + d["file_location"] + d["prepare_output_file"] + ".csv")
