@@ -1,4 +1,4 @@
-LinearRegression 20170729-140604
+LinearRegression 20170729-141654
 
 Input file name min_COC_SLM_SLQ_SLY_SLD_CoW_cleaned:
 LinearRegression: Cross Validation (10 Folds)
@@ -10,9 +10,9 @@ LinearRegression: Cross Validation (10 Folds)
 	Test Mean MAE: 205822.07 (+/-4494.07)
 
 
-	LinearRegression % test predictions error within 1 hour -> Mean: 2.68% of 2404 (+/- 0.26%)
-	LinearRegression % test predictions error within 4 hours -> Mean: 10.21% of 2404 (+/- 0.47%)
-	LinearRegression % test predictions error within 8 hours -> Mean: 18.94% of 2404 (+/- 0.69%)
-	LinearRegression % test predictions error within 16 hours -> Mean: 31.10% of 2404 (+/- 0.91%)
-	LinearRegression % test predictions error within 24 hours -> Mean: 40.86% of 2404 (+/- 0.94%)
+	LinearRegression % test predictions error within 1 hour -> Mean: 0.27% (+/- 0.03%) of 24042
+	LinearRegression % test predictions error within 4 hours -> Mean: 1.02% (+/- 0.05%) of 24042
+	LinearRegression % test predictions error within 8 hours -> Mean: 1.89% (+/- 0.07%) of 24042
+	LinearRegression % test predictions error within 16 hours -> Mean: 3.11% (+/- 0.09%) of 24042
+	LinearRegression % test predictions error within 24 hours -> Mean: 4.09% (+/- 0.09%) of 24042
 

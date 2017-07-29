@@ -143,7 +143,8 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     # df["Predicted_TimeTaken"] = -1  # assign a nonsense value
     
     for train_indices, test_indices in kf.split(X, y):
-        print(train_indices, test_indices)
+        print(train_indices[0:5])
+        print(test_indices[0:5])
         # Get the dataset; this is the way to access values in a pandas DataFrame
         trainData_x = X.iloc[train_indices]
         trainData_y = y.iloc[train_indices]
@@ -201,10 +202,6 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         test_r_sq.append(r2_score(testData_y, y_test_pred))
         train_mae.append(mean_absolute_error(trainData_y, y_train_pred))
         test_mae.append(mean_absolute_error(testData_y, y_test_pred))
-        
-        print("%s Test R2: %.4f" % (alg, r2_score(testData_y, y_test_pred)))
-    print("Test R2 Scores: ", test_r_sq)
-    print("Test R2 Scores: ", np.mean(test_r_sq))
 
     train_rmse_ave = np.mean(train_rmse)
     test_rmse_ave = np.mean(test_rmse)
@@ -222,28 +219,28 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     
     ave_1hour = np.mean(number_test_1)
     std_1hour = np.std(number_test_1)
-    pct_ave_1hour = ave_1hour/ len(y_test_pred) * 100
-    pct_std_std_1hour = std_1hour/ len(y_test_pred) * 100
+    pct_ave_1hour = ave_1hour/ len(y) * 100
+    pct_std_std_1hour = std_1hour/ len(y) * 100
 
     ave_4hour = np.mean(number_test_4)
     std_4hour = np.std(number_test_4)
-    pct_ave_4hour = ave_4hour/ len(y_test_pred) * 100
-    pct_std_std_4hour = std_4hour/ len(y_test_pred) * 100
+    pct_ave_4hour = ave_4hour/ len(y) * 100
+    pct_std_std_4hour = std_4hour/ len(y) * 100
     
     ave_8hour = np.mean(number_test_8)
     std_8hour = np.std(number_test_8)
-    pct_ave_8hour = ave_8hour/ len(y_test_pred) * 100
-    pct_std_std_8hour = std_8hour/ len(y_test_pred) * 100
+    pct_ave_8hour = ave_8hour/ len(y) * 100
+    pct_std_std_8hour = std_8hour/ len(y) * 100
     
     ave_16hour = np.mean(number_test_16)
     std_16hour = np.std(number_test_16)
-    pct_ave_16hour = ave_16hour/ len(y_test_pred) * 100
-    pct_std_std_16hour = std_16hour/ len(y_test_pred) * 100
+    pct_ave_16hour = ave_16hour/ len(y) * 100
+    pct_std_std_16hour = std_16hour/ len(y) * 100
     
     ave_24hour = np.mean(number_test_24)
     std_24hour = np.std(number_test_24)
-    pct_ave_24hour = ave_24hour/ len(y_test_pred) * 100
-    pct_std_std_24hour = std_24hour/ len(y_test_pred) * 100
+    pct_ave_24hour = ave_24hour/ len(y) * 100
+    pct_std_std_24hour = std_24hour/ len(y) * 100
     
     out_file.write("Input file name %s:\n" % d["input_file"])
     out_file.write(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)\n")
@@ -254,11 +251,11 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     out_file.write("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(train_mae_ave, train_mae_std))
     out_file.write("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(test_mae_ave, test_mae_std))
 
-    out_file.write("\n\n\t{2:s} % test predictions error within 1 hour -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_4hour, pct_std_std_4hour, alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_8hour, pct_std_std_8hour, alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_16hour, pct_std_std_16hour, alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour,alg, len(y_test_pred)))
+    out_file.write("\n\n\t{2:s} % test predictions error within 1 hour -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_1hour, pct_std_std_1hour, alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_4hour, pct_std_std_4hour, alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_8hour, pct_std_std_8hour, alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_16hour, pct_std_std_16hour, alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}\n".format(pct_ave_24hour, pct_std_std_24hour,alg, len(y)))
      
     out_file.write("\n")
 
@@ -271,11 +268,11 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     print("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})".format(train_mae_ave, train_mae_std))
     print("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})".format(test_mae_ave, test_mae_std))
     
-    print("\n\t{2:s} % test predictions within 1 hour -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_4hour, pct_std_std_4hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_8hour, pct_std_std_8hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_16hour, pct_std_std_16hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour, alg, len(y_test_pred)))
+    print("\n\t{2:s} % test predictions within 1 hour -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_1hour, pct_std_std_1hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_4hour, pct_std_std_4hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_8hour, pct_std_std_8hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_16hour, pct_std_std_16hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}\n".format(pct_ave_24hour, pct_std_std_24hour, alg, len(y)))
    
    
     print("..creating concatonated cross validated predictions for plotting..")
