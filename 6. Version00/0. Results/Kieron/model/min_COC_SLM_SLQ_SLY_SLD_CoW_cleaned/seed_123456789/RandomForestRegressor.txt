@@ -1,4 +1,4 @@
-RandomForestRegressor 20170729-135545
+RandomForestRegressor 20170729-141853
 
 Input file name min_COC_SLM_SLQ_SLY_SLD_CoW_cleaned:
 RandomForestRegressor: Cross Validation (10 Folds)
@@ -10,17 +10,12 @@ RandomForestRegressor: Cross Validation (10 Folds)
 	Test Mean MAE: 18539.39 (+/-1530.90)
 
 
-	RandomForestRegressor % test predictions error within 1 hour -> Mean: 42.90%/2404 (+/- 0.65%)
-	RandomForestRegressor % test predictions error within 4 hours -> Mean: 76.58%/2404 (+/- 0.96%)
-	RandomForestRegressor % test predictions error within 8 hours -> Mean: 87.87%/2404 (+/- 0.59%)
-	RandomForestRegressor % test predictions error within 16 hours -> Mean: 94.49%/2404 (+/- 0.33%)
-	RandomForestRegressor % test predictions error within 24 hours -> Mean: 96.64%/2404 (+/- 0.23%)
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 4.29% (+/- 0.07%) of 24042
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 7.66% (+/- 0.10%) of 24042
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 8.79% (+/- 0.06%) of 24042
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 9.45% (+/- 0.03%) of 24042
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 9.66% (+/- 0.02%) of 24042
 
-	RandomForestRegressor number test predictions error within 1 hour -> Mean: 1031.4/2404 (+/- 15.7)
-	RandomForestRegressor number test predictions error within 4 hours -> Mean: 1841.0/2404 (+/- 23.1)
-	RandomForestRegressor number test predictions error within 8 hours -> Mean: 2112.3/2404 (+/- 14.2)
-	RandomForestRegressor number test predictions error within 16 hours -> Mean: 2271.6/2404 (+/- 8.0)
-	RandomForestRegressor number test predictions error within 24 hours -> Mean: 2323.2/2404 (+/- 5.5)
 
 Feature Importances:
 0. "Concurrent_open_cases" (0.663048)

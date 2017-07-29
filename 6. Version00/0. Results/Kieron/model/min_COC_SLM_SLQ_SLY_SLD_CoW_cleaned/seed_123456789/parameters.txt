@@ -38,7 +38,7 @@ KernelRidge: n
 MLPRegressor: n
 GradientBoostingRegressor: n
 xgboost: n
-RandomForestRegressor: n
+RandomForestRegressor: y
 n_estimators: 50
 ########### ################
 rerun_with_top_importances: n
