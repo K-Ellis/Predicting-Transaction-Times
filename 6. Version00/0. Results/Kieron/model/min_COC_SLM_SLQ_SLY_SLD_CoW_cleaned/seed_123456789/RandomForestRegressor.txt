@@ -1,0 +1,31 @@
+RandomForestRegressor 20170729-135545
+
+Input file name min_COC_SLM_SLQ_SLY_SLD_CoW_cleaned:
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean RMSE: 56725.24 (+/-908.70)
+	Test Mean RMSE: 61963.32 (+/-8203.97)
+	Train Mean R2: 0.98673 (+/-0.00037)
+	Test Mean R2: 0.98399 (+/-0.00371)
+	Train Mean MAE: 11254.84 (+/-176.17)
+	Test Mean MAE: 18539.39 (+/-1530.90)
+
+
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 42.90%/2404 (+/- 0.65%)
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 76.58%/2404 (+/- 0.96%)
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 87.87%/2404 (+/- 0.59%)
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 94.49%/2404 (+/- 0.33%)
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 96.64%/2404 (+/- 0.23%)
+
+	RandomForestRegressor number test predictions error within 1 hour -> Mean: 1031.4/2404 (+/- 15.7)
+	RandomForestRegressor number test predictions error within 4 hours -> Mean: 1841.0/2404 (+/- 23.1)
+	RandomForestRegressor number test predictions error within 8 hours -> Mean: 2112.3/2404 (+/- 14.2)
+	RandomForestRegressor number test predictions error within 16 hours -> Mean: 2271.6/2404 (+/- 8.0)
+	RandomForestRegressor number test predictions error within 24 hours -> Mean: 2323.2/2404 (+/- 5.5)
+
+Feature Importances:
+0. "Concurrent_open_cases" (0.663048)
+1. "Seconds_left_EndYear" (0.238329)
+2. "Seconds_left_month" (0.060921)
+3. "Seconds_left_Qtr" (0.033316)
+4. "Seconds_end_of_day" (0.002914)
+5. "Created_on_weekend" (0.001470)

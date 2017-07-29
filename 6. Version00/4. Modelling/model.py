@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 import time
 import os  # Used to create folders
 import math
-from sklearn.model_selection import KFold, cross_val_predict #, cross_val_score, train_test_split
+from sklearn.model_selection import KFold, cross_val_predict#, cross_val_score, train_test_split
 from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
@@ -134,9 +134,16 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     number_test_1 = []  # Tracking predictions within 1 hour
     number_test_4 = []  # Tracking predictions within 4 hour
     number_test_8 = []  # Tracking predictions within 8 hour
+    number_test_16 = []  # Tracking predictions within 16 hour
     number_test_24 = []  # Tracking predictions within 24 hours
 
+    mean_time = np.mean(y)  # Calculate mean of predictions
+    std_time = np.std(y)  # Calculate standard deviation of predictions
+    
+    # df["Predicted_TimeTaken"] = -1  # assign a nonsense value
+    
     for train_indices, test_indices in kf.split(X, y):
+        print(train_indices, test_indices)
         # Get the dataset; this is the way to access values in a pandas DataFrame
         trainData_x = X.iloc[train_indices]
         trainData_y = y.iloc[train_indices]
@@ -152,23 +159,23 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         y_test_pred = regr.predict(testData_x)
 
         number_close_1 = 0  # Use to track number of close estimations within 1 hour
-        number_close_4 = 0  # Use to track number of close estimations within 1 hour
-        number_close_8 = 0  # Use to track number of close estimations within 1 hour
+        number_close_4 = 0  # Use to track number of close estimations within 4 hour
+        number_close_8 = 0  # Use to track number of close estimations within 8 hour
+        number_close_16 = 0  # Use to track number of close estimations within 16 hour
         number_close_24 = 0  # Use to track number of close estimations within 24 hours
-        mean_time = np.mean(trainData_y)  # Calculate mean of predictions
-        std_time = np.std(trainData_y)  # Calculate standard deviation of predictions
+        
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
             if y_train_pred[i] < 0:  # Convert all negative predictions to 0
                 y_train_pred[i] = 0
-            if y_train_pred[i] > (mean_time + 4*std_time):  # Convert all predictions > 3 std to 3std
-                y_train_pred[i] = (mean_time + 4*std_time) # todo - is 4 a typo here?
+            if y_train_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
+                y_train_pred[i] = (mean_time + 3*std_time) 
             if math.isnan(y_train_pred[i]):  # If NaN set to 0
                 y_train_pred[i] = 0
         for i in range(len(y_test_pred)): # Convert high or low predictions to 0 or 3 std
             if y_test_pred[i] < 0:  # Convert all negative predictions to 0
                 y_test_pred[i] = 0
-            if y_test_pred[i] > (mean_time + 4*std_time):  # Convert all predictions > 3 std to 3std
-                y_test_pred[i] = (mean_time + 4*std_time)
+            if y_test_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
+                y_test_pred[i] = (mean_time + 3*std_time)
             if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600:  # Within 1 hour
@@ -177,11 +184,15 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
                 number_close_4 += 1
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 8*60*60:  # Within 8 hours
                 number_close_8 += 1
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 16*60*60:  # Within 16 hours
+                number_close_16 += 1
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*24:  # Within 24 hours
                 number_close_24 += 1
+                
         number_test_1.append(number_close_1)
         number_test_4.append(number_close_4)
         number_test_8.append(number_close_8)
+        number_test_16.append(number_close_16)
         number_test_24.append(number_close_24)
 
         train_rmse.append(sqrt(mean_squared_error(trainData_y, y_train_pred)))
@@ -190,7 +201,10 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         test_r_sq.append(r2_score(testData_y, y_test_pred))
         train_mae.append(mean_absolute_error(trainData_y, y_train_pred))
         test_mae.append(mean_absolute_error(testData_y, y_test_pred))
-
+        
+        print("%s Test R2: %.4f" % (alg, r2_score(testData_y, y_test_pred)))
+    print("Test R2 Scores: ", test_r_sq)
+    print("Test R2 Scores: ", np.mean(test_r_sq))
 
     train_rmse_ave = np.mean(train_rmse)
     test_rmse_ave = np.mean(test_rmse)
@@ -205,7 +219,6 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     test_r2_std = np.std(test_r_sq)
     train_mae_std = np.std(train_mae)
     test_mae_std = np.std(test_mae)
-
     
     ave_1hour = np.mean(number_test_1)
     std_1hour = np.std(number_test_1)
@@ -222,6 +235,11 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     pct_ave_8hour = ave_8hour/ len(y_test_pred) * 100
     pct_std_std_8hour = std_8hour/ len(y_test_pred) * 100
     
+    ave_16hour = np.mean(number_test_16)
+    std_16hour = np.std(number_test_16)
+    pct_ave_16hour = ave_16hour/ len(y_test_pred) * 100
+    pct_std_std_16hour = std_16hour/ len(y_test_pred) * 100
+    
     ave_24hour = np.mean(number_test_24)
     std_24hour = np.std(number_test_24)
     pct_ave_24hour = ave_24hour/ len(y_test_pred) * 100
@@ -236,14 +254,11 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     out_file.write("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(train_mae_ave, train_mae_std))
     out_file.write("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(test_mae_ave, test_mae_std))
 
-    out_file.write("\n\n\t{2:s} % test predictions with error within 1 hour   -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg))
-    out_file.write("\n\t{2:s} % test predictions with error within 4 hours  -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_4hour, pct_std_std_4hour, alg))
-    out_file.write("\n\t{2:s} % test predictions with error within 8 hours  -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_8hour, pct_std_std_8hour, alg))
-    out_file.write("\n\t{2:s} % test predictions with error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour,alg))
-    out_file.write("\n\t{2:s} number test predictions with error within 1 hour   -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_1hour, std_1hour, alg,len(y_test_pred) ))
-    out_file.write("\n\t{2:s} number test predictions with error within 4 hours  -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_4hour, std_4hour, alg,len(y_test_pred) ))
-    out_file.write("\n\t{2:s} number test predictions with error within 8 hours  -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_8hour, std_8hour, alg,len(y_test_pred) ))
-    out_file.write("\n\t{2:s} number test predictions with error within 24 hours -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_24hour, std_24hour, alg, len(y_test_pred)))
+    out_file.write("\n\n\t{2:s} % test predictions error within 1 hour -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg, len(y_test_pred)))
+    out_file.write("\n\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_4hour, pct_std_std_4hour, alg, len(y_test_pred)))
+    out_file.write("\n\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_8hour, pct_std_std_8hour, alg, len(y_test_pred)))
+    out_file.write("\n\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_16hour, pct_std_std_16hour, alg, len(y_test_pred)))
+    out_file.write("\n\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour,alg, len(y_test_pred)))
      
     out_file.write("\n")
 
@@ -256,31 +271,30 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     print("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})".format(train_mae_ave, train_mae_std))
     print("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})".format(test_mae_ave, test_mae_std))
     
-    print("\n\t{2:s} % test predictions with error within 1 hour   -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg))
-    print("\t{2:s} % test predictions with error within 4 hours  -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_4hour, pct_std_std_4hour, alg))
-    print("\t{2:s} % test predictions with error within 8 hours  -> Mean: {0:.2f}% (+/- {1:.2f}%)".format(pct_ave_8hour, pct_std_std_8hour, alg))
-    print("\t{2:s} % test predictions with error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour, alg))
+    print("\n\t{2:s} % test predictions within 1 hour -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_1hour, pct_std_std_1hour, alg, len(y_test_pred)))
+    print("\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_4hour, pct_std_std_4hour, alg, len(y_test_pred)))
+    print("\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_8hour, pct_std_std_8hour, alg, len(y_test_pred)))
+    print("\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)".format(pct_ave_16hour, pct_std_std_16hour, alg, len(y_test_pred)))
+    print("\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% of {3:d} (+/- {1:.2f}%)\n".format(pct_ave_24hour, pct_std_std_24hour, alg, len(y_test_pred)))
+   
+   
+    print("..creating concatonated cross validated predictions for plotting..")
+    # create concatonated results for the whole cross validation
+    y_pred = cross_val_predict(regr, X, y, cv=int(d["crossvalidation"]))
+    # Final Concatonated Scores
+    print("\tFinal Concatonated Test Scores:")
+    print("\t\tPlottingTest RMSE %.1f" % sqrt(mean_squared_error(y, y_pred)))
+    print("\t\tPlotting Test R2 %.4f" % r2_score(y, y_pred))
+    print("\t\tPlotting Test MAE %.1f" % mean_absolute_error(y, y_pred))
     
-    print("\t{2:s} number test predictions with error within 1 hour   -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_1hour, std_1hour, alg,len(y_test_pred) ))
-    print("\t{2:s} number test predictions with error within 4 hours  -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_4hour, std_4hour, alg,len(y_test_pred) ))
-    print("\t{2:s} number test predictions with error within 8 hours  -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_8hour, std_8hour, alg,len(y_test_pred) ))
-    print("\t{2:s} number test predictions with error within 24 hours -> Mean: {0:.1f}/{3:d} (+/- {1:.1f})".format(ave_24hour, std_24hour, alg, len(y_test_pred)))
-    
-
-    print("\n..getting final predictions..")
-    # plot the results for the whole cross validation
-    y_train_pred = cross_val_predict(regr, trainData_x, trainData_y, cv=int(d["crossvalidation"]))
-    y_test_pred = cross_val_predict(regr, testData_x, testData_y, cv=int(d["crossvalidation"]))
     print("..plotting..")
-    plot(trainData_y, y_train_pred, alg, "Train", newpath, iter_no)
-    plot(testData_y, y_test_pred, alg, "Test", newpath, iter_no)
-    
+    plot(y, y_pred, alg, "Test", newpath, iter_no)
 
     if alg == "RandomForestRegressor":
         print("..Calculating importances..\n")
         importances = regr.feature_importances_
         print("Most Important Features:")
-        dfimportances = pd.DataFrame(data=trainData_x.columns, columns=["Columns"])
+        dfimportances = pd.DataFrame(data=X.columns, columns=["Columns"])
         dfimportances["importances"] = importances
 
         dfimportances = dfimportances.sort_values("importances", ascending=False)
