@@ -1,0 +1,24 @@
+RandomForestRegressor 20170729-153556
+
+Input file name GCO_min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_RS:
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean RMSE: 170042.61 (+/-1702.19)
+	Test Mean RMSE: 434055.26 (+/-10863.25)
+	Train Mean R2: 0.83872 (+/-0.00407)
+	Test Mean R2: -0.05435 (+/-0.05009)
+	Train Mean MAE: 119064.98 (+/-1335.49)
+	Test Mean MAE: 302890.36 (+/-8840.21)
+
+
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 0.12% (+/- 0.05%) of 4594
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 0.40% (+/- 0.07%) of 4594
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 0.80% (+/- 0.09%) of 4594
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 1.56% (+/- 0.16%) of 4594
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 2.35% (+/- 0.21%) of 4594
+
+
+Feature Importances:
+0. "Rolling_Mean" (0.385933)
+1. "Rolling_Std" (0.243036)
+2. "Seconds_left_Day" (0.195161)
+3. "Rolling_Median" (0.175870)

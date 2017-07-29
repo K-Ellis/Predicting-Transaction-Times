@@ -231,6 +231,31 @@ def get_rolling_stats(df, window):
     dfcopy.dropna(subset=["Rolling_Mean"], inplace=True)
     return dfcopy
     
+
+def get_GCO_start_cutoffs(end_cutoffs):
+    start_cutoffs = []
+    for cutoff in end_cutoffs:
+        if cutoff.weekday()==6:
+            # take away 5 bdays
+            start_cutoff = cutoff - BDay(5)
+            start_cutoffs.append(start_cutoff)
+        else:
+            # take away 4 bdays
+            start_cutoff = cutoff - BDay(4)
+            start_cutoffs.append(start_cutoff)
+    return start_cutoffs
+
+    
+def get_GCO_df(date, start_cutoffs, end_cutoffs):
+    date_in_GCO = False
+    for i in range(len(start_cutoffs)):
+        if date >= start_cutoffs[i] and date <= end_cutoffs[i]:
+            date_in_GCO = True
+    if date_in_GCO:
+        return date
+    else:
+        return None    
+
     
 def clean_data(d):
     df = pd.read_csv(d["file_location"] + d["prepare_input_file"] + ".csv", encoding='latin-1', low_memory=False)
@@ -270,7 +295,7 @@ def clean_data(d):
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
         df = df.reset_index(drop=True)
         print("Dataset resampled:", df.shape)
-
+   
     ####################################################################################################################
     # Date and time - calculate time taken
     ####################################################################################################################
@@ -288,6 +313,17 @@ def clean_data(d):
         print("Remove Outliers:", df.shape)
 
     ####################################################################################################################
+    # Last 4 Business Days Only
+    ####################################################################################################################    
+    if d["last_4_BDays"] == "y":
+        end_cutoffs  = get_last_bdays_months()
+        start_cutoffs = get_GCO_start_cutoffs(end_cutoffs)
+
+        df["Created_On"] = df["Created_On"].apply(lambda x: get_GCO_df(x, start_cutoffs, end_cutoffs))
+        df.dropna(subset=["Created_On"], inplace=True)
+        print("last_4_BDays done:", df.shape)
+        
+    ####################################################################################################################
     # Generate Concurrent_open_cases variable.  
     ####################################################################################################################
     if d["Concurrent_open_cases"] == "y":
@@ -296,8 +332,7 @@ def clean_data(d):
             if d["Concurrent_open_cases"] == "y":
                 df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
                                                                         df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
-        df["TimeTaken"].fillna(0, inplace=True)
-        df = df[df["TimeTaken"] != 0]
+        df.dropna(subset=["TimeTaken"], inplace=True)
         print("Concurrent_open_cases added:", df.shape)
         
     ####################################################################################################################    
@@ -321,9 +356,11 @@ def clean_data(d):
                                     (df.ResolvedDate >= df.iloc[i]["Created_On"]-pd.DateOffset(hours=hours_to_search))])
         
         if d["Cases_created_within_past_4_hours"] == "y":
+            df.dropna(subset=["TimeTaken"], inplace=True)
             print("Cases_created_within_past_4_hours added:", df.shape)
         
         if d["Cases_resolved_within_past_4_hours"] == "y": 
+            df.dropna(subset=["TimeTaken"], inplace=True)
             print("Cases_created_within_past_4_hours added:", df.shape)
             
 
