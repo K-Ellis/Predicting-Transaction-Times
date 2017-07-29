@@ -294,14 +294,12 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     pct_ave_96hour = ave_96hour/ len(y_test_pred) * 100
     pct_std_std_96hour = std_96hour/ len(y_test_pred) * 100    
     
-    # todo - output R2 first
-    
     out_file.write("Input file name %s:\n" % d["input_file"])
     out_file.write(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)\n")
-    out_file.write("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(train_rmse_ave, train_rmse_std))
-    out_file.write("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(test_rmse_ave, test_rmse_std))
     out_file.write("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})\n".format(train_r2_ave, train_r2_std))
     out_file.write("\tTest Mean R2: {0:.5f} (+/-{1:.5f})\n".format(test_r2_ave, test_r2_std))
+    out_file.write("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(train_rmse_ave, train_rmse_std))
+    out_file.write("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(test_rmse_ave, test_rmse_std))
     out_file.write("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(train_mae_ave, train_mae_std))
     out_file.write("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(test_mae_ave, test_mae_std))
 
@@ -315,14 +313,11 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     out_file.write("\n\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}\n".format(pct_ave_96hour, pct_std_std_96hour,alg, len(y_test_pred)))    
     out_file.write("\n")
     
-    
-
     print(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
-
-    print("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})".format(train_rmse_ave, train_rmse_std))
-    print("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})".format(test_rmse_ave, test_rmse_std))
     print("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})".format(train_r2_ave, train_r2_std))
     print("\tTest Mean R2: {0:.5f} (+/-{1:.5f})".format(test_r2_ave, test_r2_std))
+    print("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})".format(train_rmse_ave, train_rmse_std))
+    print("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})".format(test_rmse_ave, test_rmse_std))
     print("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})".format(train_mae_ave, train_mae_std))
     print("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})".format(test_mae_ave, test_mae_std))
     
