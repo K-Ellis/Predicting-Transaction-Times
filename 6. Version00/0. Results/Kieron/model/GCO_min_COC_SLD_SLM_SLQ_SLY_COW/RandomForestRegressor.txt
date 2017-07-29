@@ -1,4 +1,4 @@
-RandomForestRegressor 20170729-153208
+RandomForestRegressor 20170729-173126
 
 Input file name GCO_min_COC_SLD_SLM_SLQ_SLY_COW:
 RandomForestRegressor: Cross Validation (10 Folds)
@@ -10,11 +10,14 @@ RandomForestRegressor: Cross Validation (10 Folds)
 	Test Mean MAE: 323207.71 (+/-11007.72)
 
 
-	RandomForestRegressor % test predictions error within 1 hour -> Mean: 0.09% (+/- 0.03%) of 4603
-	RandomForestRegressor % test predictions error within 4 hours -> Mean: 0.36% (+/- 0.06%) of 4603
-	RandomForestRegressor % test predictions error within 8 hours -> Mean: 0.76% (+/- 0.09%) of 4603
-	RandomForestRegressor % test predictions error within 16 hours -> Mean: 1.62% (+/- 0.14%) of 4603
-	RandomForestRegressor % test predictions error within 24 hours -> Mean: 2.38% (+/- 0.17%) of 4603
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 0.87% (+/- 0.29%) of 460
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 3.57% (+/- 0.65%) of 460
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 7.65% (+/- 0.87%) of 460
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 16.22% (+/- 1.43%) of 460
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 23.85% (+/- 1.73%) of 460
+	RandomForestRegressor % test predictions error within 48 hours -> Mean: 41.52% (+/- 1.56%) of 460
+	RandomForestRegressor % test predictions error within 72 hours -> Mean: 56.61% (+/- 2.49%) of 460
+	RandomForestRegressor % test predictions error within 96 hours -> Mean: 67.61% (+/- 1.86%) of 460
 
 
 Feature Importances:

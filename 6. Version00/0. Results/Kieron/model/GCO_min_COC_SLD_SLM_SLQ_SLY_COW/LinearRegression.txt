@@ -1,4 +1,4 @@
-LinearRegression 20170729-153207
+LinearRegression 20170729-173124
 
 Input file name GCO_min_COC_SLD_SLM_SLQ_SLY_COW:
 LinearRegression: Cross Validation (10 Folds)
@@ -10,9 +10,12 @@ LinearRegression: Cross Validation (10 Folds)
 	Test Mean MAE: 310932.02 (+/-11508.53)
 
 
-	LinearRegression % test predictions error within 1 hour -> Mean: 0.06% (+/- 0.04%) of 4603
-	LinearRegression % test predictions error within 4 hours -> Mean: 0.27% (+/- 0.08%) of 4603
-	LinearRegression % test predictions error within 8 hours -> Mean: 0.50% (+/- 0.09%) of 4603
-	LinearRegression % test predictions error within 16 hours -> Mean: 1.01% (+/- 0.03%) of 4603
-	LinearRegression % test predictions error within 24 hours -> Mean: 1.38% (+/- 0.09%) of 4603
+	LinearRegression % test predictions error within 1 hour -> Mean: 0.59% (+/- 0.35%) of 460
+	LinearRegression % test predictions error within 4 hours -> Mean: 2.70% (+/- 0.77%) of 460
+	LinearRegression % test predictions error within 8 hours -> Mean: 5.04% (+/- 0.94%) of 460
+	LinearRegression % test predictions error within 16 hours -> Mean: 10.13% (+/- 0.34%) of 460
+	LinearRegression % test predictions error within 24 hours -> Mean: 13.85% (+/- 0.94%) of 460
+	LinearRegression % test predictions error within 48 hours -> Mean: 31.76% (+/- 1.84%) of 460
+	LinearRegression % test predictions error within 72 hours -> Mean: 50.54% (+/- 2.05%) of 460
+	LinearRegression % test predictions error within 96 hours -> Mean: 70.43% (+/- 1.89%) of 460
 

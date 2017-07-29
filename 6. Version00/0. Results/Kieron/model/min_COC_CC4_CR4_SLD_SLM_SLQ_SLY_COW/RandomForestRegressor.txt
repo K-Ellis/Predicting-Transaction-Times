@@ -1,31 +1,32 @@
-RandomForestRegressor 20170729-172230
+RandomForestRegressor 20170729-180519
 
 Input file name min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW:
 RandomForestRegressor: Cross Validation (10 Folds)
-	Train Mean RMSE: 37943.78 (+/-337.80)
-	Test Mean RMSE: 43853.28 (+/-2760.86)
-	Train Mean R2: 0.99132 (+/-0.00011)
-	Test Mean R2: 0.98840 (+/-0.00095)
-	Train Mean MAE: 9592.35 (+/-96.84)
-	Test Mean MAE: 16548.65 (+/-849.58)
+	Train Mean RMSE: 38300.36 (+/-324.12)
+	Test Mean RMSE: 45820.68 (+/-3021.90)
+	Train Mean R2: 0.99116 (+/-0.00011)
+	Test Mean R2: 0.98733 (+/-0.00114)
+	Train Mean MAE: 10329.78 (+/-87.01)
+	Test Mean MAE: 18503.75 (+/-1022.13)
 
 
-	RandomForestRegressor % test predictions error within 1 hour -> Mean: 42.28% (+/- 0.98%) of 1975
-	RandomForestRegressor % test predictions error within 4 hours -> Mean: 76.85% (+/- 0.90%) of 1975
-	RandomForestRegressor % test predictions error within 8 hours -> Mean: 87.81% (+/- 0.66%) of 1975
-	RandomForestRegressor % test predictions error within 16 hours -> Mean: 94.15% (+/- 0.57%) of 1975
-	RandomForestRegressor % test predictions error within 24 hours -> Mean: 96.39% (+/- 0.46%) of 1975
-	RandomForestRegressor % test predictions error within 48 hours -> Mean: 98.50% (+/- 0.36%) of 1975
-	RandomForestRegressor % test predictions error within 72 hours -> Mean: 99.25% (+/- 0.17%) of 1975
-	RandomForestRegressor % test predictions error within 96 hours -> Mean: 99.75% (+/- 0.08%) of 1975
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 38.56% (+/- 1.00%) of 1975
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 72.96% (+/- 0.92%) of 1975
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 85.26% (+/- 0.94%) of 1975
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 93.05% (+/- 0.56%) of 1975
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 95.79% (+/- 0.60%) of 1975
+	RandomForestRegressor % test predictions error within 48 hours -> Mean: 98.42% (+/- 0.38%) of 1975
+	RandomForestRegressor % test predictions error within 72 hours -> Mean: 99.23% (+/- 0.17%) of 1975
+	RandomForestRegressor % test predictions error within 96 hours -> Mean: 99.74% (+/- 0.07%) of 1975
 
 
 Feature Importances:
-0. "Concurrent_open_cases" (0.795973)
-1. "Seconds_left_Year" (0.119384)
-2. "Seconds_left_Qtr" (0.049228)
-3. "Seconds_left_Month" (0.025437)
-4. "Seconds_left_Day" (0.004967)
-5. "Created_on_Weekend" (0.002051)
-6. "Cases_created_within_past_4_hours" (0.001607)
-7. "Cases_resolved_within_past_4_hours" (0.001353)
+0. "Predicted_TimeTaken_LinearRegression" (0.743812)
+1. "Concurrent_open_cases" (0.137478)
+2. "Seconds_left_Year" (0.058857)
+3. "Seconds_left_Qtr" (0.035998)
+4. "Seconds_left_Month" (0.017516)
+5. "Seconds_left_Day" (0.002547)
+6. "Cases_resolved_within_past_4_hours" (0.001700)
+7. "Cases_created_within_past_4_hours" (0.001564)
+8. "Created_on_Weekend" (0.000528)

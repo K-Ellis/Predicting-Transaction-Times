@@ -89,8 +89,8 @@ def deletions(df, d):  # Delete all columns apart from those listed
                "sourcesystem", "Source", "Revenutype"]
                
     if d["Concurrent_open_cases"] == "y": keepers.append("Concurrent_open_cases")
-    if d["Cases_created_within_past_4_hours"] == "y": keepers.append("Cases_created_within_past_4_hours")
-    if d["Cases_resolved_within_past_4_hours"] == "y": keepers.append("Cases_resolved_within_past_4_hours")
+    if d["Cases_created_within_past_8_hours"] == "y": keepers.append("Cases_created_within_past_8_hours")
+    if d["Cases_resolved_within_past_8_hours"] == "y": keepers.append("Cases_resolved_within_past_8_hours")
 
     if d["Seconds_left_Day"] == "y": keepers.append("Seconds_left_Day")
     if d["Seconds_left_Month"] == "y": keepers.append("Seconds_left_Month")
@@ -104,7 +104,7 @@ def deletions(df, d):  # Delete all columns apart from those listed
     if d["Rolling_Std"] == "y": keepers.append("Rolling_Std")
     
     # New variables created using Created_On and ResolvedDate:
-    # "Concurrent_open_cases", "Cases_created_within_past_4_hours", "Cases_resolved_within_past_4_hours", 
+    # "Concurrent_open_cases", "Cases_created_within_past_8_hours", "Cases_resolved_within_past_8_hours", 
     # "Seconds_left_Day", "Seconds_left_Month", "Seconds_left_Qtr", "Seconds_left_Year", "Created_on_Weekend", 
     # "Rolling_Mean", "Rolling_Median", "Rolling_Std"
     
@@ -336,32 +336,32 @@ def clean_data(d):
         print("Concurrent_open_cases added:", df.shape)
         
     ####################################################################################################################    
-    # Generate Cases_created_within_past_4_hours and/or Cases_resolved_within_past_4_hours variables.      
+    # Generate Cases_created_within_past_8_hours and/or Cases_resolved_within_past_8_hours variables.      
     ####################################################################################################################
-    if d["Cases_created_within_past_4_hours"] == "y" or d["Cases_resolved_within_past_4_hours"] == "y":
-        hours_to_search = 4
-        if d["Cases_created_within_past_4_hours"] == "y":
-            df["Cases_created_within_past_4_hours"] = 0 
+    if d["Cases_created_within_past_8_hours"] == "y" or d["Cases_resolved_within_past_8_hours"] == "y":
+        hours_to_search = 8
+        if d["Cases_created_within_past_8_hours"] == "y":
+            df["Cases_created_within_past_8_hours"] = 0 
             
-        if d["Cases_resolved_within_past_4_hours"] == "y":        
-            df["Cases_resolved_within_past_4_hours"] = 0 
+        if d["Cases_resolved_within_past_8_hours"] == "y":        
+            df["Cases_resolved_within_past_8_hours"] = 0 
             
         for i in range(len(df)):    
-            if d["Cases_created_within_past_4_hours"] == "y":
-                df.loc[i, "Cases_created_within_past_4_hours"] = len(df[(df.Created_On <= df.iloc[i]["Created_On"]) & 
+            if d["Cases_created_within_past_8_hours"] == "y":
+                df.loc[i, "Cases_created_within_past_8_hours"] = len(df[(df.Created_On <= df.iloc[i]["Created_On"]) & 
                                     (df.Created_On >= df.iloc[i]["Created_On"]-pd.DateOffset(hours=hours_to_search))])
             
-            if d["Cases_resolved_within_past_4_hours"] == "y":    
-                df.loc[i, "Cases_resolved_within_past_4_hours"] = len(df[(df.ResolvedDate <= df.iloc[i]["Created_On"]) & 
+            if d["Cases_resolved_within_past_8_hours"] == "y":    
+                df.loc[i, "Cases_resolved_within_past_8_hours"] = len(df[(df.ResolvedDate <= df.iloc[i]["Created_On"]) & 
                                     (df.ResolvedDate >= df.iloc[i]["Created_On"]-pd.DateOffset(hours=hours_to_search))])
         
-        if d["Cases_created_within_past_4_hours"] == "y":
+        if d["Cases_created_within_past_8_hours"] == "y":
             df.dropna(subset=["TimeTaken"], inplace=True)
-            print("Cases_created_within_past_4_hours added:", df.shape)
+            print("Cases_created_within_past_8_hours added:", df.shape)
         
-        if d["Cases_resolved_within_past_4_hours"] == "y": 
+        if d["Cases_resolved_within_past_8_hours"] == "y": 
             df.dropna(subset=["TimeTaken"], inplace=True)
-            print("Cases_created_within_past_4_hours added:", df.shape)
+            print("Cases_resolved_within_past_8_hours added:", df.shape)
             
 
     ####################################################################################################################
@@ -533,8 +533,8 @@ def clean_data(d):
     if d["append_AuditDuration"] == "y":  quant_cols.append("AuditDuration")
     
     if d["Concurrent_open_cases"] == "y": quant_cols.append("Concurrent_open_cases")
-    if d["Cases_created_within_past_4_hours"] == "y": quant_cols.append("Cases_created_within_past_4_hours")  
-    if d["Cases_resolved_within_past_4_hours"] == "y": quant_cols.append("Cases_resolved_within_past_4_hours")
+    if d["Cases_created_within_past_8_hours"] == "y": quant_cols.append("Cases_created_within_past_8_hours")  
+    if d["Cases_resolved_within_past_8_hours"] == "y": quant_cols.append("Cases_resolved_within_past_8_hours")
         
     if d["Seconds_left_Day"] == "y": quant_cols.append("Seconds_left_Day")  
     if d["Seconds_left_Month"] == "y": quant_cols.append("Seconds_left_Month")  
@@ -569,8 +569,8 @@ def clean_data(d):
         if d["append_AuditDuration"] == "y": minimum.append("AuditDuration")
             
         if d["Concurrent_open_cases"] == "y": minimum.append("Concurrent_open_cases")
-        if d["Cases_created_within_past_4_hours"] == "y": minimum.append("Cases_created_within_past_4_hours")
-        if d["Cases_resolved_within_past_4_hours"] == "y": minimum.append("Cases_resolved_within_past_4_hours")
+        if d["Cases_created_within_past_8_hours"] == "y": minimum.append("Cases_created_within_past_8_hours")
+        if d["Cases_resolved_within_past_8_hours"] == "y": minimum.append("Cases_resolved_within_past_8_hours")
         
         if d["Seconds_left_Day"] == "y": minimum.append("Seconds_left_Day")
         if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
@@ -600,8 +600,8 @@ def clean_data(d):
         if d["append_AuditDuration"] == "y": minimum.append("AuditDuration")
             
         if d["Concurrent_open_cases"] == "y": minimum.append("Concurrent_open_cases")
-        if d["Cases_created_within_past_4_hours"] == "y": minimum.append("Cases_created_within_past_4_hours")
-        if d["Cases_resolved_within_past_4_hours"] == "y": minimum.append("Cases_resolved_within_past_4_hours")
+        if d["Cases_created_within_past_8_hours"] == "y": minimum.append("Cases_created_within_past_8_hours")
+        if d["Cases_resolved_within_past_8_hours"] == "y": minimum.append("Cases_resolved_within_past_8_hours")
         
         if d["Seconds_left_Day"] == "y": minimum.append("Seconds_left_Day")
         if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")

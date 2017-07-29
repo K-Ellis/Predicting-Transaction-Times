@@ -118,8 +118,12 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         out_file_name = newpath + time.strftime("%H.%M.%S") + "_" + alg + ".txt"  # Log file name
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
-
+        
     X = df.drop("TimeTaken", axis=1)
+    if "Created_On" in df.columns:
+        X = X.drop("Created_On", axis=1)
+    if "ResolvedDate" in df.columns:
+        X = X.drop("ResolvedDate", axis=1)
     y = df["TimeTaken"]
 
     numFolds = int(d["crossvalidation"])
@@ -132,9 +136,11 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     train_mae = []
     test_mae = []
     
+    # todo
     # adjusted R2
     # F-test?
     # explained_variance_score
+    # median_absolute_error
     
     number_test_1 = []  # Tracking predictions within 1 hour
     number_test_4 = []  # Tracking predictions within 4 hour
@@ -145,17 +151,15 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     number_test_72 = []  # Tracking predictions within 24 hours
     number_test_96 = []  # Tracking predictions within 24 hours
     
-
     mean_time = np.mean(y)  # Calculate mean of predictions
     std_time = np.std(y)  # Calculate standard deviation of predictions
+    max_time = 2000000
     
-    # df["Predicted_TimeTaken"] = -1  # assign a nonsense value
-    # todo - add predictions to df
+    df["TimeTaken_%s" % alg] = -1  # assign a nonsense value
+    
     # todo - plot RMSE against day, month, qtr, year
-    
+
     for train_indices, test_indices in kf.split(X, y):
-        # print(train_indices[0:5])
-        # print(test_indices[0:5])
         # Get the dataset; this is the way to access values in a pandas DataFrame
         trainData_x = X.iloc[train_indices]
         trainData_y = y.iloc[train_indices]
@@ -182,15 +186,24 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
             if y_train_pred[i] < 0:  # Convert all negative predictions to 0
                 y_train_pred[i] = 0
-            if y_train_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
-                y_train_pred[i] = (mean_time + 3*std_time) 
+                
+            if y_train_pred[i] > max_time:  # Convert all predictions > 2M to 2M
+                y_train_pred[i] = max_time  
+                
+            
             if math.isnan(y_train_pred[i]):  # If NaN set to 0
                 y_train_pred[i] = 0
+        
         for i in range(len(y_test_pred)): # Convert high or low predictions to 0 or 3 std
             if y_test_pred[i] < 0:  # Convert all negative predictions to 0
                 y_test_pred[i] = 0
-            if y_test_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
-                y_test_pred[i] = (mean_time + 3*std_time)
+                # neg_sum+=1
+                
+            # if y_test_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
+                # y_test_pred[i] = (mean_time + 3*std_time)
+            if y_test_pred[i] > max_time:  # Convert all predictions > max_time to max_time
+                y_test_pred[i] = max_time
+                
             if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600:  # Within 1 hour
@@ -209,6 +222,7 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
                 number_close_72 += 1
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*96:  # Within 96 hours
                 number_close_96 += 1
+        df.loc[test_indices, "TimeTaken_%s"%alg] = y_test_pred
         
         number_test_1.append(number_close_1)
         number_test_4.append(number_close_4)
@@ -225,7 +239,6 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         test_r_sq.append(r2_score(testData_y, y_test_pred))
         train_mae.append(mean_absolute_error(trainData_y, y_train_pred))
         test_mae.append(mean_absolute_error(testData_y, y_test_pred))
-
 
     train_rmse_ave = np.mean(train_rmse)
     test_rmse_ave = np.mean(test_rmse)
@@ -281,6 +294,7 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     pct_ave_96hour = ave_96hour/ len(y_test_pred) * 100
     pct_std_std_96hour = std_96hour/ len(y_test_pred) * 100    
     
+    # todo - output R2 first
     
     out_file.write("Input file name %s:\n" % d["input_file"])
     out_file.write(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)\n")
@@ -300,6 +314,8 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     out_file.write("\n\t{2:s} % test predictions error within 72 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_72hour, pct_std_std_72hour,alg, len(y_test_pred)))
     out_file.write("\n\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}\n".format(pct_ave_96hour, pct_std_std_96hour,alg, len(y_test_pred)))    
     out_file.write("\n")
+    
+    
 
     print(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
 
@@ -319,13 +335,19 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     print("\t{2:s} % test predictions error within 72 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_72hour, pct_std_std_72hour, alg, len(y_test_pred)))
     print("\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}\n".format(pct_ave_96hour, pct_std_std_96hour, alg, len(y_test_pred)))
    
+   # todo write message
+    print("TimeTaken stats")
+    print(mean_time)
+    print(std_time)
+    print(mean_time + 3*std_time)
+   
    
     print("..creating concatonated cross validated predictions for plotting..")
     # create concatonated results for the whole cross validation
     y_pred = cross_val_predict(regr, X, y, cv=int(d["crossvalidation"]))
     # Final Concatonated Scores
     print("\tFinal Concatonated Test Scores:")
-    print("\t\tPlottingTest RMSE %.1f" % sqrt(mean_squared_error(y, y_pred)))
+    print("\t\tPlotting Test RMSE %.1f" % sqrt(mean_squared_error(y, y_pred)))
     print("\t\tPlotting Test R2 %.4f" % r2_score(y, y_pred))
     print("\t\tPlotting Test MAE %.1f" % mean_absolute_error(y, y_pred))
     
@@ -486,10 +508,11 @@ if __name__ == "__main__":  # Run program
             regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
             results(df, "RandomForestRegressor", regressor, newpath, d, "second")
 
-    if d["user"] == "Kieron":
-        copyfile(parameters, newpath + "parameters.txt")  # Save parameters
-    else:
-        copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters
+    
+    copyfile(parameters, newpath + "parameters.txt")  # Save parameters
+    
+    df.to_csv(d["file_location"] + d["input_file"] + "_predictions.csv", index=False)  # export file
+    
     if d["beep"] == "y":
         import winsound
         Freq = 400 # Set Frequency To 2500 Hertz

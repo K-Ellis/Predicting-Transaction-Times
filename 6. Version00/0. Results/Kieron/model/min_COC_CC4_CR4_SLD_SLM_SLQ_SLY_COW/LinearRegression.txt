@@ -1,4 +1,4 @@
-LinearRegression 20170729-172224
+LinearRegression 20170729-180513
 
 Input file name min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW:
 LinearRegression: Cross Validation (10 Folds)
