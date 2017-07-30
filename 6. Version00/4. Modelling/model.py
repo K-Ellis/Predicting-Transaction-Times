@@ -37,6 +37,14 @@ import datetime
 
 parameters = "../../../Data/parameters.txt"  # Parameters file
 
+def return_new_top_k_df(in_df, dfimportances, k):
+    df = in_df.copy()
+    top = dfimportances["Columns"].iloc[:k].values.tolist()
+    top.append("TimeTaken")
+    if "Created_On" in df.columns:
+        top.append("Created_On")
+        top.append("ResolvedDate")
+    return df[top]
 
 def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.figure()  # Plot all data
@@ -247,7 +255,7 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
 
 def plot_errors_main(df, alg, data, newpath, alg_initials):
     # import seaborn as sns
-    df = get_extra_cols(df, alg)
+    df = get_extra_cols(df, alg, d)
     error_names = ["R2", "RMSE", "MAE"]
     y_labels = ["R2 score", "RMSE (Hours)", "MAE (Hours)"]
     
@@ -300,22 +308,17 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
 def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
-    # todo - create a new folder for each alg's results
-
     algpath = newpath + alg_initials + "/"
     if not os.path.exists(algpath):
         os.makedirs(algpath)  # Make folder for storing results if it does not exist
 
-
-
     out_file_name = algpath + alg + ".txt"  # Log file name
 
-    
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
-        
-    X = df.drop("TimeTaken", axis=1)
 
+    X = df.drop("TimeTaken", axis=1)
+    # delete columns from X that aren't being used
     keepers = ["IsSOXCase", "Numberofreactivations", "Priority",
                "Complexity", "StageName", "CountrySource", "CountryProcessed", "SalesLocation", "Queue",
                "AmountinUSD", "Complexity", "StageName", "StatusReason", "SubReason", "ROCName",
@@ -326,18 +329,18 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     "HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
     "AssignedToGroup_BPO", "AssignedToGroup_CRMT",
     "AuditDuration"]
-
     for col in X.columns:
         if col not in keepers:
             del X[col]
-        
-    print("Features used:")
+
+    # output the features being used
+    if alg_counter == 1:
+        print("Features used:")
     out_file.write("\nFeatures used:")
     for i, col in enumerate(X.columns):
-        print("\t%s - %s" % (i+1, col))
+        if alg_counter == 1:
+            print("\t%s - %s" % (i+1, col))
         out_file.write("\n\t%s - %s" % (i+1, col))
-
-    # todo remove other TimeTaken_alg's variables
     
     y = df["TimeTaken"]
 
@@ -370,20 +373,17 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     ####################################################################################################################
     numFolds = int(d["crossvalidation"])
     kf = KFold(n_splits=numFolds, shuffle=True, random_state=int(d["seed"]))
-
+    # todo - more metrics
+    # adjusted R2
+    # F-test?
+    # explained_variance_score
+    # median_absolute_error
     train_rmse = []
     test_rmse = []
     train_r_sq = []
     test_r_sq = []
     train_mae = []
     test_mae = []
-    
-    # todo - more metrics
-    # adjusted R2
-    # F-test?
-    # explained_variance_score
-    # median_absolute_error
-    
     percent_within_1 = []  # Tracking predictions within 1 hour
     percent_within_4 = []  # Tracking predictions within 4 hour
     percent_within_8 = []  # Tracking predictions within 8 hour
@@ -394,11 +394,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     percent_within_96 = []  # Tracking predictions within 24 hours
 
     max_time = 2000000
-
-
     df["TimeTaken_%s" % alg] = -1000000  # assign a random value
-    
-    # todo - plot RMSE against day, month, qtr, year
 
     for train_indices, test_indices in kf.split(X, y):
         # Get the dataset; this is the way to access values in a pandas DataFrame
@@ -455,7 +451,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*96:  # Within 96 hours
                 number_close_96 += 1
 
-
+        #  append the predictions for this fold to df
         df.loc[test_indices, "TimeTaken_%s"%alg] = y_test_pred
         
         percent_within_1.append(number_close_1/len(y_test_pred))
@@ -585,36 +581,26 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
         pct_ave_72hour, pct_std_std_72hour, alg, len(y)))
     print("\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10\n".format(
         pct_ave_96hour, pct_std_std_96hour, alg, len(y)))
-   
-    # print("..creating concatonated cross validated predictions for plotting..")
-    # # create concatonated results for the whole cross validation
-    # y_pred = cross_val_predict(regr, X, y, cv=int(d["crossvalidation"]))
-    # # Final Concatonated Scores
-    # print("\tFinal Concatonated Test Scores:")
-    # print("\t\tPlotting Test RMSE %.1f" % sqrt(mean_squared_error(y, y_pred)))
-    # print("\t\tPlotting Test R2 %.4f" % r2_score(y, y_pred))
-    # print("\t\tPlotting Test MAE %.1f" % mean_absolute_error(y, y_pred))
 
     ####################################################################################################################
     # Plotting
     ####################################################################################################################
     if d["plotting"] == "y":
         print("..plotting..")
+
         plot_errors_main(df, alg, "Test", algpath, alg_initials)
         
         # x = "TimeTaken"
         # y = "TimeTaken_%s"%alg
         # in_data = pd.DataFrame([trainData_y, y_train_pred], x, y)
         # plot(x, y, in_data, alg, "Train", algpath)
-        
         # plot(trainData_x,y_train_pred, alg, "Train", algpath)
-        # todo - Is there a way to plot the train predictions with cross validation..?
+        # todo - Is there a way to plot the train predictions with cross validation..? Maybe just for the last fold?
         
         # x = "TimeTaken"
         # y = "TimeTaken_%s"%alg
         # in_data = pd.DataFrame(df[[x,y]], columns=[x, y])
         # plot(x,y, in_data, alg, "Test", algpath)
-
         plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "Test", algpath, alg_initials)
 
     ####################################################################################################################
@@ -623,7 +609,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     if alg == "RandomForestRegressor":
         print("..Calculating importances..\n")
         importances = regr.feature_importances_
-        print("Most Important Features:")
+
         dfimportances = pd.DataFrame(data=X.columns, columns=["Columns"])
         dfimportances["importances"] = importances
 
@@ -631,14 +617,16 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
         if d["export_importances_csv"] == "y":
             dfimportances.to_csv(algpath + "importances.csv", index=False)
 
-        print(dfimportances[:10], "\n")
+        print("Feature Importances:")
         out_file.write("\nFeature Importances:\n")
         for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances["importances"].values.tolist())):
-            out_file.write("%d. \"%s\" (%f)\n" % (i, col, importance))
+            out_file.write("\t%d. \"%s\" (%f)\n" % (i+1, col, importance))
+            print("\t%d. \"%s\" (%f)" % (i+1, col, importance))
 
-        # if d["rerun_with_top_importances"] == "y":
         out_file.close()
-        return dfimportances
+        if d["export_df_with_top_k_csv"] == "y":
+            df_top = return_new_top_k_df(df, dfimportances, int(d["top_k_features"]))
+            df_top.to_csv("../../../Data/%s_%s_top_%s.csv" % (d["input_file"], alg_initials, d["top_k_features"]), index=False)
     print("..finished with alg: %s..\n" % alg)
     out_file.close()
 
@@ -651,11 +639,13 @@ if __name__ == "__main__":  # Run program
             (key, val) = line.split()
             d[key] = val
 
-
+    # if resample is selected then all results are put in a resample folder
     if d["resample"] == "y":
-        newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] + "/resample/" 
+        newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] + "/resample/"
+    # if no subfolder is specified then the reults are put into a folder called after the input file
     elif d["specify_subfolder"] == "n":
         newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] +"/"
+    # if a subfolder is specified then all results are put there
     else:
         newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"]+ "/" + d["specify_subfolder"]+"/"
     if not os.path.exists(newpath):
@@ -673,16 +663,18 @@ if __name__ == "__main__":  # Run program
     if d["log_of_y"] == "y":  # Take log of y values
         print("Y has been transformed by log . . . change parameter file to remove this feature\n")
         df["TimeTaken"] = df["TimeTaken"].apply(lambda x: math.log(x))
-    
+    # todo - transform predicted values back into seconds
+
     if d["resample"] == "y":
         from sklearn.utils import resample
         print("..resampling")
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
         df = df.reset_index(drop=True)
+
     ####################################################################################################################
     # Modelling
-    ####################################################################################################################
-    alg_counter = 0
+    ###################################################################################################################
+    alg_counter = 0  # used so the simple stats, etc. aren't printed for each algorithm used
     if d["LinearRegression"] == "y":
         alg_counter+=1
         regressor = LinearRegression()
@@ -701,8 +693,7 @@ if __name__ == "__main__":  # Run program
     if d["MLPRegressor"] == "y":
         alg_counter+=1
         regressor = MLPRegressor(hidden_layer_sizes=(50,25,10,5,3), random_state=int(d["seed"]),
-                                 max_iter=2000)#,
-        # early_stopping=True)
+                                 max_iter=2000) # early_stopping=True)
         results(df, "MLPRegressor", regressor, newpath, d, alg_counter, "MLP")
 
     if d["GradientBoostingRegressor"] == "y":
@@ -722,56 +713,9 @@ if __name__ == "__main__":  # Run program
 
     if d["RandomForestRegressor"] == "y":
         alg_counter+=1
-        regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
-        # if d["rerun_with_top_importances"] == "n":
-        #     results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
-        # else:
-        dfimportances = results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
-
-        # todo - output df with only top k features (plus timetaken, created and resolved)
-
-            # if d["top_k_features"] == "half":
-            #     k = round(len(dfimportances["Columns"])/2)+1
-            # else:
-            #     k = int(d["top_k_features"])
-            #
-            # cols_to_be_deleted = select_top_k_importants(dfimportances, k) # keep top k important features
-            # df = trim_df(df, cols_to_be_deleted)
-            #
-            # with open(newpath + "cols_kept_and_deleted_for_k=%s.txt" % d["top_k_features"], "w") as f:
-            #     f.write("cols deleted = \n")
-            #     f.write(str(cols_to_be_deleted))
-            #     f.write("\ncols kept = \n")
-            #     f.write(str(df.columns.tolist()))
-            # print("Top", len(df.columns), "Columns = ", df.columns.tolist())
-            # print("Bottom", len(cols_to_be_deleted), "Columns to be deleted = ", cols_to_be_deleted, "\n")
-            #
-            # ############################################################################################################
-            # # Rerunning Model with top k features
-            # ############################################################################################################
-            # if d["LinearRegression"] == "y":
-            #     regressor = LinearRegression()
-            #     results(df, "LinearRegression", regressor, newpath, d, alg_counter, "LR", "second")
-            #
-            # if d["ElasticNet"] == "y":
-            #     regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
-            #     results(df, "ElasticNet", regressor, newpath, d,alg_counter, "EN", "second")
-            #
-            # if d["KernelRidge"] == "y":
-            #     regressor = KernelRidge(alpha=0.1)
-            #     results(df, "KernelRidge", regressor, newpath, d,alg_counter, "KR", "second")
-            #
-            # if d["xgboost"] == "y":
-            #     params = {
-            #         'max_depth': 5,
-            #         'n_estimators': 50,
-            #         'objective': 'reg:linear'}
-            #     regressor = xgb.XGBRegressor(**params)
-            #     results(df, "xgboost", regressor, newpath, d,alg_counter, "XGB", "second")
-            #
-            # regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
-            # results(df, "RandomForestRegressor", regressor, newpath, d,alg_counter, "RFR", "second")
-
+        regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]),
+                                          max_depth=25, n_jobs=-1)
+        results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
     
     copyfile(parameters, newpath + "parameters.txt")  # Save parameters
 
