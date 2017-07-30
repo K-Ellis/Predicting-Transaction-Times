@@ -44,9 +44,9 @@ xgboost: n
 RandomForestRegressor: y
 n_estimators: 5
 ########### ################
-rerun_with_top_importances: n
+rerun_with_top_importances: y
 top_k_features: 5
-export_importances_csv: n
+export_importances_csv: y
 ########### ################
 grid_search: n
 grid_search_RMSE: n
@@ -54,6 +54,7 @@ grid_search_RMSE: n
 log_of_y: n
 histogram: y
 plotting: y
+output_predictions_csv: y
 ########### ################
 ########### ################
 user: Kieron

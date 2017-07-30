@@ -1,0 +1,4 @@
+cols deleted = 
+['Seconds_left_Day', 'Cases_created_within_past_8_hours', 'Cases_resolved_within_past_8_hours', 'Created_on_Weekend']
+cols kept = 
+['TimeTaken', 'Concurrent_open_cases', 'Created_On', 'ResolvedDate', 'Seconds_left_Month', 'Seconds_left_Qtr', 'Seconds_left_Year']

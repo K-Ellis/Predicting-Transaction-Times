@@ -1,17 +1,25 @@
-RandomForestRegressor 20170730-173829
+RandomForestRegressor 20170730-183001
 
 
-['Cases_created_within_past_8_hours', 'Cases_resolved_within_past_8_hours', 'Concurrent_open_cases', 'Created_on_Weekend', 'Seconds_left_Day', 'Seconds_left_Month', 'Seconds_left_Qtr', 'Seconds_left_Year']
-
+Features used:
+	1 - Cases_created_within_past_8_hours
+	2 - Cases_resolved_within_past_8_hours
+	3 - Concurrent_open_cases
+	4 - Created_on_Weekend
+	5 - Seconds_left_Day
+	6 - Seconds_left_Month
+	7 - Seconds_left_Qtr
+	8 - Seconds_left_Year
 
 Simple TimeTaken stats
 	mean_time = 349178.1586618756
 	std_time = 407388.8162615632
-
 	mean_time_test_r2 = 0.0
 	mean_time_test_rmse = 407388.8162615634
 	mean_time_test_mae = 303121.332656
+
 Input file name min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R:
+
 RandomForestRegressor: Cross Validation (10 Folds)
 	Train Mean R2: 0.99859 (+/-0.00007)
 	Test Mean R2: 0.99406 (+/-0.00081)
