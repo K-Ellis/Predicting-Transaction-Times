@@ -1,5 +1,7 @@
-LinearRegression 20170730-134759
+LinearRegression 20170730-173801
 
+
+['Cases_created_within_past_8_hours', 'Cases_resolved_within_past_8_hours', 'Concurrent_open_cases', 'Created_on_Weekend', 'Seconds_left_Day', 'Seconds_left_Month', 'Seconds_left_Qtr', 'Seconds_left_Year']
 
 
 Simple TimeTaken stats
@@ -19,12 +21,12 @@ LinearRegression: Cross Validation (10 Folds)
 	Test Mean MAE: 148486.97 (+/-3473.34)
 
 
-	LinearRegression % test predictions error within 1 hour -> Mean: 3.04% (+/- 0.29%) of 1975
-	LinearRegression % test predictions error within 4 hours -> Mean: 11.85% (+/- 0.70%) of 1975
-	LinearRegression % test predictions error within 8 hours -> Mean: 21.34% (+/- 0.85%) of 1975
-	LinearRegression % test predictions error within 16 hours -> Mean: 34.58% (+/- 0.90%) of 1975
-	LinearRegression % test predictions error within 24 hours -> Mean: 46.21% (+/- 1.16%) of 1975
-	LinearRegression % test predictions error within 48 hours -> Mean: 69.53% (+/- 0.97%) of 1975
-	LinearRegression % test predictions error within 72 hours -> Mean: 83.09% (+/- 0.87%) of 1975
-	LinearRegression % test predictions error within 96 hours -> Mean: 90.98% (+/- 0.35%) of 1975
+	LinearRegression % test predictions error within 1 hour -> Mean: 3.04% (+/- 0.29%) of 19759/10
+	LinearRegression % test predictions error within 4 hours -> Mean: 11.85% (+/- 0.70%) of 19759/10
+	LinearRegression % test predictions error within 8 hours -> Mean: 21.33% (+/- 0.85%) of 19759/10
+	LinearRegression % test predictions error within 16 hours -> Mean: 34.57% (+/- 0.90%) of 19759/10
+	LinearRegression % test predictions error within 24 hours -> Mean: 46.19% (+/- 1.16%) of 19759/10
+	LinearRegression % test predictions error within 48 hours -> Mean: 69.50% (+/- 0.98%) of 19759/10
+	LinearRegression % test predictions error within 72 hours -> Mean: 83.06% (+/- 0.88%) of 19759/10
+	LinearRegression % test predictions error within 96 hours -> Mean: 90.94% (+/- 0.35%) of 19759/10
 

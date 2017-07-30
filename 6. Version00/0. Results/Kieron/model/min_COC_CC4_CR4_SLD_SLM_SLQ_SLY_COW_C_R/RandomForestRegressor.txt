@@ -1,5 +1,7 @@
-RandomForestRegressor 20170730-135402
+RandomForestRegressor 20170730-173829
 
+
+['Cases_created_within_past_8_hours', 'Cases_resolved_within_past_8_hours', 'Concurrent_open_cases', 'Created_on_Weekend', 'Seconds_left_Day', 'Seconds_left_Month', 'Seconds_left_Qtr', 'Seconds_left_Year']
 
 
 Simple TimeTaken stats
@@ -19,14 +21,14 @@ RandomForestRegressor: Cross Validation (10 Folds)
 	Test Mean MAE: 14787.61 (+/-610.29)
 
 
-	RandomForestRegressor % test predictions error within 1 hour -> Mean: 40.11% (+/- 1.15%) of 1975
-	RandomForestRegressor % test predictions error within 4 hours -> Mean: 74.38% (+/- 0.75%) of 1975
-	RandomForestRegressor % test predictions error within 8 hours -> Mean: 86.40% (+/- 0.68%) of 1975
-	RandomForestRegressor % test predictions error within 16 hours -> Mean: 94.43% (+/- 0.51%) of 1975
-	RandomForestRegressor % test predictions error within 24 hours -> Mean: 97.23% (+/- 0.40%) of 1975
-	RandomForestRegressor % test predictions error within 48 hours -> Mean: 99.45% (+/- 0.12%) of 1975
-	RandomForestRegressor % test predictions error within 72 hours -> Mean: 99.93% (+/- 0.09%) of 1975
-	RandomForestRegressor % test predictions error within 96 hours -> Mean: 100.03% (+/- 0.03%) of 1975
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 40.09% (+/- 1.15%) of 19759/10
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 74.35% (+/- 0.75%) of 19759/10
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 86.36% (+/- 0.68%) of 19759/10
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 94.39% (+/- 0.51%) of 19759/10
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 97.19% (+/- 0.40%) of 19759/10
+	RandomForestRegressor % test predictions error within 48 hours -> Mean: 99.41% (+/- 0.12%) of 19759/10
+	RandomForestRegressor % test predictions error within 72 hours -> Mean: 99.89% (+/- 0.10%) of 19759/10
+	RandomForestRegressor % test predictions error within 96 hours -> Mean: 99.98% (+/- 0.02%) of 19759/10
 
 
 Feature Importances:

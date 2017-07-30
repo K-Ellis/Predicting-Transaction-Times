@@ -44,8 +44,11 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.xlabel('TimeTaken (Seconds)')
     plt.ylabel('Frequency')
     plt.title(column + " all data")
+    if not os.path.exists(newpath + "PDFs/"):
+        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
     plt.savefig(newpath + column + "_all.png")
-    plt.savefig(newpath + column + "_all.pdf")
+    plt.savefig(newpath + "PDFs/" + column + "_all.pdf")
+    plt.close()
 
     plt.figure()  # Plot times under 500,000 seconds
     plt.hist(df[df.TimeTaken < 500000][column], bins='auto')
@@ -53,7 +56,8 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " < 500000s data")
     plt.savefig(newpath + column + "_500000.png")
-    plt.savefig(newpath + column + "_500000.pdf")
+    plt.savefig(newpath + "PDFs/" + column + "_500000.pdf")
+    plt.close()
 
     plt.figure()  # Plot times under 100,000 seconds
     plt.hist(df[df.TimeTaken < 100000][column], bins='auto')
@@ -61,7 +65,8 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " < 100000s data")
     plt.savefig(newpath + column + "_100000.png")
-    plt.savefig(newpath + column + "_100000.pdf")
+    plt.savefig(newpath + "PDFs/" + column + "_100000.pdf")
+    plt.close()
 
     plt.figure()  # Plot all data
     plt.hist(np.log(df[column]), bins='auto')
@@ -69,7 +74,8 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " Log of all data")
     plt.savefig(newpath + column + "_log_all.png")
-    plt.savefig(newpath + column + "_log_all.pdf")
+    plt.savefig(newpath + "PDFs/" + column + "_log_all.pdf")
+    plt.close()
 
     plt.figure()  # Plot times under 500,000 seconds
     plt.hist(np.log(df[df.TimeTaken < 500000][column]), bins='auto')
@@ -77,7 +83,8 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 500000s data")
     plt.savefig(newpath + column + "_log_500000.png")
-    plt.savefig(newpath + column + "_log_500000.pdf")
+    plt.savefig(newpath + "PDFs/" + column + "_log_500000.pdf")
+    plt.close()
 
     plt.figure()  # Plot times under 100,000 seconds
     plt.hist(np.log(df[df.TimeTaken < 100000][column]), bins='auto')
@@ -85,9 +92,10 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.ylabel('Frequency')
     plt.title(column + " Log of < 100000s data")
     plt.savefig(newpath + column + "_log_100000.png")
-    plt.savefig(newpath + column + "_log_100000.pdf")
+    plt.savefig(newpath + "PDFs/" + column + "_log_100000.pdf")
+    plt.close()
 
-def plot(x, y, alg, data, newpath, iter_no=None):
+def plot(x, y, alg, data, newpath, alg_initials, iter_no=None):
 # def plot(x, y, in_data, alg, data, newpath, iter_no=None):
     sns.reset_orig()
     # plt.rcParams.update(plt.rcParamsDefault)
@@ -105,13 +113,12 @@ def plot(x, y, alg, data, newpath, iter_no=None):
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
     if iter_no is None:
-        plt.savefig(newpath + alg + "_" + data + ".png")
-        plt.savefig(newpath + "PDFs/" + alg + "_" + data + ".pdf")
+        plt.savefig(newpath + alg_initials + "_" + data + ".png")
+        plt.savefig(newpath + "PDFs/" + alg_initials + "_" + data + ".pdf")
     else:
-        plt.savefig(newpath + d["top_k_features"] + "_" + alg + "_" + data + ".png")
-        plt.savefig(newpath + "PDFs/" + d["top_k_features"] + "_" + alg + "_" + data + ".pdf")
+        plt.savefig(newpath + d["top_k_features"] + "_" + alg_initials + "_" + data + ".png")
+        plt.savefig(newpath + "PDFs/" + d["top_k_features"] + "_" + alg_initials + "_" + data + ".pdf")
     plt.close()
-        
 
 def day_in_quarter(date):
     # Function found on stack overflow
@@ -155,8 +162,6 @@ def get_errors(df, alg, time_range, col):
     rmse_scores = []
     mae_scores = []
     for i in range(time_range):
-        actual = 0
-        predicted = 0
         actual = df.loc[df[col] == i, "TimeTaken_hours"]
         predicted = df.loc[df[col] == i, "TimeTaken_hours_%s"%alg]
 
@@ -173,8 +178,8 @@ def get_errors(df, alg, time_range, col):
             mae_scores.append(mean_absolute_error(actual, predicted))
     return [r2_scores, rmse_scores, mae_scores]
     
-def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, newpath, iter_no=None):
-    if x_label == "Day of the Quarter Created On" or x_label == "Day of the Quarter Resolved":
+def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initials, newpath, iter_no):
+    if x_label == "Day of Qtr Created" or x_label == "Day of Qtr Resolved":
         y = np.array(y)
         z = np.where(np.array(y)>=0)
         z = z[0]
@@ -182,7 +187,7 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, newpath, it
 
         x_num = [i for i in range(len(y))]
         x_num = np.array(x_num)
-        x_num_z = x_num[z]
+        # x_num_z = x_num[z]
 
         y_np = np.array(y)
         rot = .1
@@ -206,99 +211,106 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, newpath, it
         if not os.path.exists(newpath + "PDFs/"):
             os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
         if iter_no is None:
-            plt.savefig(newpath + alg + "_" + error_name +"_"+ x_label  + ".png")
-            plt.savefig(newpath + "PDFs/" + alg + "_" + error_name +"_"+ x_label  + ".pdf")
+            plt.savefig(newpath + alg_initials + "_" + error_name +"_"+ x_label  + ".png")
+            plt.savefig(newpath + "PDFs/" + alg_initials + "_" + error_name +"_"+ x_label  + ".pdf")
         else:
-            plt.savefig(newpath + d["top_k_features"] + "_" + alg + "_" + error_name +"_"+ x_label  + ".png")
-            plt.savefig(newpath + "PDFs/" + d["top_k_features"] + "_" + alg + "_" + error_name +"_"+ x_label  + ".pdf")
-        plt.close()
+            plt.savefig(newpath + d["top_k_features"] + "_" + alg_initials + "_" + error_name +"_"+ x_label  + ".png")
+            plt.savefig(newpath + "PDFs/" + d["top_k_features"] + "_" + alg_initials + "_" + error_name +"_"+ x_label  + ".pdf")
     else:
         plt.figure()
         x_num = [i for i in range(len(x_ticks))]
         
         y_np = np.array(y)
-    #     pal = sns.color_palette("BuGn", len(y)) # OrRd_r, GnBu_d, husl, Spectral, cubehelix, RdYlGn_r, BuGn, RdYlBu_r ;
-    # pal = sns.cubehelix_palette(len(y)); pal = sns.color_palette(palette="Reds", n_colors=len(y), desat=.9)
-    #     rot = .3, start = -1  # green blue ; rot = .3, start = 1.5  # green ; rot = .3, start = 2  # blue green
-    #     rot = .3, start = -2.5  # red
+            #     pal = sns.color_palette("BuGn", len(y)) # OrRd_r, GnBu_d, husl, Spectral, cubehelix, RdYlGn_r, BuGn, RdYlBu_r ;
+            # pal = sns.cubehelix_palette(len(y)); pal = sns.color_palette(palette="Reds", n_colors=len(y), desat=.9)
+            #     rot = .3, start = -1  # green blue ; rot = .3, start = 1.5  # green ; rot = .3, start = 2  # blue green
+            #     rot = .3, start = -2.5  # red
         rot = .1
         start = -2.5  # purple
         reverse = False
         if error_name == "R2":
             reverse = True
         pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.4, light=.7, reverse=reverse)
-        rank = y_np.argsort().argsort() 
+        rank = y_np.argsort().argsort()
         sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
-        plt.xticks(x_num, x_ticks)
+        plt.xticks(x_num, x_ticks, rotation="vertical")
         plt.title("%s - %s to %s"% (alg, error_name, x_label))
         plt.ylabel(y_label)
         plt.xlabel(x_label)
+
+        # min_ylim = min(y_z)-np.std(y_z)/3
+        # if min_ylim < 0:
+        #     min_ylim = 0
+        # plt.ylim(min_ylim, max(y_z)+np.std(y_z)/3)
+
         plt.ylim(min(y)-np.std(y)/3, max(y)+np.std(y)/3)    
         if not os.path.exists(newpath + "PDFs/"):
             os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
         if iter_no is None:
-            plt.savefig(newpath + alg + "_" + error_name +"_"+ x_label  + ".png")
-            plt.savefig(newpath + "PDFs/" + alg + "_" + error_name +"_"+ x_label  + ".pdf")
+            plt.savefig(newpath + alg_initials + "_" + error_name +"_"+ x_label  + ".png")
+            # plt.savefig(newpath + alg + "_" + error_name + "_" + x_label + ".pdf")
+            plt.savefig(newpath + "PDFs/" + alg_initials + "_" + error_name +"_"+ x_label  + ".pdf")
         else:
-            plt.savefig(newpath + d["top_k_features"] + "_" + alg + "_" + error_name +"_"+ x_label  + ".png")
-            plt.savefig(newpath + "PDFs/" + d["top_k_features"] + "_" + alg + "_" + error_name +"_"+ x_label  + ".pdf")
-        plt.close()
+            plt.savefig(newpath + d["top_k_features"] + "_" + alg_initials + "_" + error_name +"_"+ x_label  + ".png")
+            plt.savefig(newpath + "PDFs/" + d["top_k_features"] + "_" + alg_initials + "_" + error_name +"_"+ x_label  + ".pdf")
+    plt.close()
 
-def plot_errors_main(df, alg, data, newpath, iter_no=None):
-    import seaborn as sns
+def plot_errors_main(df, alg, data, newpath, alg_initials, iter_no=None):
+    # import seaborn as sns
     df = get_extra_cols(df, alg)
     error_names = ["R2", "RMSE", "MAE"]
     y_labels = ["R2 score", "RMSE (Hours)", "MAE (Hours)"]
     
     scores = get_errors(df, alg, 24, "Created_On_Day")
     x_vals = [x for x in range(24)]
-    x_label = "Time of the Day Created On"
+    x_label = "Time of Day Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
-        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None)
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath, iter_no)
     
     scores = get_errors(df, alg, 24, "ResolvedDate_Day")
     x_vals = [x for x in range(24)]
-    x_label = "Time of the Day Resolved"
+    x_label = "Time of Day Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
-        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None)
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath, iter_no)
     
     scores = get_errors(df, alg, 7, "Created_On_Week")
     x_vals = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
-    x_label = "Day of the Week Created On"
+    x_label = "Day of Week Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
-        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None)
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath, iter_no)
 
     scores = get_errors(df, alg, 7, "ResolvedDate_Week")
     x_vals = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
-    x_label = "Day of the Week Resolved"
+    x_label = "Day of Week Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
-        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None)
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath, iter_no)
         
     scores = get_errors(df, alg, 31, "Created_On_Month")
     x_vals = [x for x in range(31)]
-    x_label = "Day of the Month Created On"
+    x_label = "Day of Month Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
-        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None) 
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath, iter_no)
 
     scores = get_errors(df, alg, 31, "ResolvedDate_Month")
     x_vals = [x for x in range(31)]
-    x_label = "Day of the Month Resolved"
+    x_label = "Day of Month Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
-        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None) 
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath, iter_no)
     
     scores = get_errors(df, alg, 89, "Created_On_Qtr")
     x_vals = [(x+1)*5 for x in range(18)]
-    x_label = "Day of the Quarter Created On"
+    x_label = "Day of Qtr Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
-        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None) 
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath, iter_no)
 
     scores = get_errors(df, alg, 89, "ResolvedDate_Qtr")
     x_vals = [(x+1)*5 for x in range(18)]
-    x_label = "Day of the Quarter Resolved"
+    x_label = "Day of Qtr Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
-        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None) 
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath, iter_no)
 
-def results(df, alg, in_regressor, newpath, d, iter_no=None):    
+def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, iter_no=None):
+    # todo - create a new folder for each alg's results
     if iter_no is None:
         out_file_name = newpath + alg + ".txt"  # Log file name
     else:
@@ -319,12 +331,45 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         if col in df.columns:
             X = X.drop(col, axis=1)
         
-    print(X.columns)
+    print("Features used: ", X.columns.tolist(), "\n")
+    for col in X.columns:
+        print("\t%s" % col)
+        out_file.write("\n\t%s" % col)
+    # out_file.write("\n")
+    # out_file.write(str(X.columns.tolist()))
+    # out_file.write("\n")
     
     # todo remove other TimeTaken_alg's variables
     
     y = df["TimeTaken"]
 
+    ####################################################################################################################
+    # Simple Statistics
+    ####################################################################################################################
+    mean_time = np.mean(y)  # Calculate mean of predictions
+    std_time = np.std(y)  # Calculate standard deviation of predictions
+    out_file.write("\n\nSimple TimeTaken stats")
+    out_file.write("\n\tmean_time = %s" % mean_time)
+    out_file.write("\n\tstd_time = %s" % std_time)
+    if alg_counter == 1:
+        print("Simple TimeTaken stats")
+        print("\tmean_time = %s" % mean_time)
+        print("\tstd_time = %s" % std_time)
+    df["Mean_TimeTaken"] = mean_time
+    mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
+    mean_time_test_rmse = sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
+    mean_time_test_mae = mean_absolute_error(y, df["Mean_TimeTaken"])
+    out_file.write("\n\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
+    out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)
+    out_file.write("\n\tmean_time_test_mae = %s\n" % mean_time_test_mae)
+    if alg_counter == 1:
+        print("\tmean_time_test_r2 = %s" % mean_time_test_r2)
+        print("\tmean_time_test_rmse = %s" % mean_time_test_rmse)
+        print("\tmean_time_test_mae = %s\n " % mean_time_test_mae)
+
+    ####################################################################################################################
+    # Machine Learning
+    ####################################################################################################################
     numFolds = int(d["crossvalidation"])
     kf = KFold(n_splits=numFolds, shuffle=True, random_state=int(d["seed"]))
 
@@ -341,39 +386,17 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     # explained_variance_score
     # median_absolute_error
     
-    number_test_1 = []  # Tracking predictions within 1 hour
-    number_test_4 = []  # Tracking predictions within 4 hour
-    number_test_8 = []  # Tracking predictions within 8 hour
-    number_test_16 = []  # Tracking predictions within 16 hour
-    number_test_24 = []  # Tracking predictions within 24 hours
-    number_test_48 = []  # Tracking predictions within 24 hours
-    number_test_72 = []  # Tracking predictions within 24 hours
-    number_test_96 = []  # Tracking predictions within 24 hours
-    
-    mean_time = np.mean(y)  # Calculate mean of predictions
-    std_time = np.std(y)  # Calculate standard deviation of predictions
+    percent_within_1 = []  # Tracking predictions within 1 hour
+    percent_within_4 = []  # Tracking predictions within 4 hour
+    percent_within_8 = []  # Tracking predictions within 8 hour
+    percent_within_16 = []  # Tracking predictions within 16 hour
+    percent_within_24 = []  # Tracking predictions within 24 hours
+    percent_within_48 = []  # Tracking predictions within 24 hours
+    percent_within_72 = []  # Tracking predictions within 24 hours
+    percent_within_96 = []  # Tracking predictions within 24 hours
+
     max_time = 2000000
-    
-    # todo - output the simple statistics in a separate file
-    out_file.write("\n\nSimple TimeTaken stats")
-    out_file.write("\n\tmean_time = %s" % mean_time)
-    out_file.write("\n\tstd_time = %s" % std_time)
-    print("\nSimple TimeTaken stats")
-    print("\tmean_time = %s" % mean_time)
-    print("\tstd_time = %s" % std_time)
-    
-    df["Mean_TimeTaken"] = mean_time
-    mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
-    mean_time_test_rmse = sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
-    mean_time_test_mae = mean_absolute_error(y, df["Mean_TimeTaken"])
-    
-    out_file.write("\n\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
-    out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)   
-    out_file.write("\n\tmean_time_test_mae = %s\n" % mean_time_test_mae)
-    print("\tmean_time_test_r2 = %s" % mean_time_test_r2)
-    print("\tmean_time_test_rmse = %s" % mean_time_test_rmse)   
-    print("\tmean_time_test_mae = %s\n " % mean_time_test_mae)
-    
+
     df["TimeTaken_%s" % alg] = -1000000  # assign a random value
     
     # todo - plot RMSE against day, month, qtr, year
@@ -432,17 +455,17 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
                 number_close_72 += 1
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*96:  # Within 96 hours
                 number_close_96 += 1
-        # todo - problem
+
         df.loc[test_indices, "TimeTaken_%s"%alg] = y_test_pred
         
-        number_test_1.append(number_close_1)
-        number_test_4.append(number_close_4)
-        number_test_8.append(number_close_8)
-        number_test_16.append(number_close_16)
-        number_test_24.append(number_close_24)
-        number_test_48.append(number_close_48)
-        number_test_72.append(number_close_72)
-        number_test_96.append(number_close_96)
+        percent_within_1.append(number_close_1/len(y_test_pred))
+        percent_within_4.append(number_close_4/len(y_test_pred))
+        percent_within_8.append(number_close_8/len(y_test_pred))
+        percent_within_16.append(number_close_16/len(y_test_pred))
+        percent_within_24.append(number_close_24/len(y_test_pred))
+        percent_within_48.append(number_close_48/len(y_test_pred))
+        percent_within_72.append(number_close_72/len(y_test_pred))
+        percent_within_96.append(number_close_96/len(y_test_pred))
 
         train_rmse.append(sqrt(mean_squared_error(trainData_y, y_train_pred)))
         test_rmse.append(sqrt(mean_squared_error(testData_y, y_test_pred)))
@@ -451,6 +474,9 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         train_mae.append(mean_absolute_error(trainData_y, y_train_pred))
         test_mae.append(mean_absolute_error(testData_y, y_test_pred))
 
+    ########################################################################################################################
+    # Get averages and standard deviations of results
+    ########################################################################################################################
     train_rmse_ave = np.mean(train_rmse)
     test_rmse_ave = np.mean(test_rmse)
     train_r2_ave = np.mean(train_r_sq)
@@ -464,50 +490,50 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     test_r2_std = np.std(test_r_sq)
     train_mae_std = np.std(train_mae)
     test_mae_std = np.std(test_mae)
-    
-    print(len(number_test_1))
-    print(len(y_test_pred))
-    
-    ave_1hour = np.mean(number_test_1)
-    std_1hour = np.std(number_test_1)
-    pct_ave_1hour = ave_1hour/ len(y_test_pred) * 100
-    pct_std_std_1hour = std_1hour/ len(y_test_pred) * 100
 
-    ave_4hour = np.mean(number_test_4)
-    std_4hour = np.std(number_test_4)
-    pct_ave_4hour = ave_4hour/ len(y_test_pred) * 100
-    pct_std_std_4hour = std_4hour/ len(y_test_pred) * 100
-    
-    ave_8hour = np.mean(number_test_8)
-    std_8hour = np.std(number_test_8)
-    pct_ave_8hour = ave_8hour/ len(y_test_pred) * 100
-    pct_std_std_8hour = std_8hour/ len(y_test_pred) * 100
-    
-    ave_16hour = np.mean(number_test_16)
-    std_16hour = np.std(number_test_16)
-    pct_ave_16hour = ave_16hour/ len(y_test_pred) * 100
-    pct_std_std_16hour = std_16hour/ len(y_test_pred) * 100
-    
-    ave_24hour = np.mean(number_test_24)
-    std_24hour = np.std(number_test_24)
-    pct_ave_24hour = ave_24hour/ len(y_test_pred) * 100
-    pct_std_std_24hour = std_24hour/ len(y_test_pred) * 100
-    
-    ave_48hour = np.mean(number_test_48)
-    std_48hour = np.std(number_test_48)
-    pct_ave_48hour = ave_48hour/ len(y_test_pred) * 100
-    pct_std_std_48hour = std_48hour/ len(y_test_pred) * 100
+    ave_1hour = np.mean(percent_within_1)
+    std_1hour = np.std(percent_within_1)
+    pct_ave_1hour = ave_1hour * 100
+    pct_std_std_1hour = std_1hour * 100
 
-    ave_72hour = np.mean(number_test_72)
-    std_72hour = np.std(number_test_72)
-    pct_ave_72hour = ave_72hour/ len(y_test_pred) * 100
-    pct_std_std_72hour = std_72hour/ len(y_test_pred) * 100
+    ave_4hour = np.mean(percent_within_4)
+    std_4hour = np.std(percent_within_4)
+    pct_ave_4hour = ave_4hour * 100
+    pct_std_std_4hour = std_4hour * 100
     
-    ave_96hour = np.mean(number_test_96)
-    std_96hour = np.std(number_test_96)
-    pct_ave_96hour = ave_96hour/ len(y_test_pred) * 100
-    pct_std_std_96hour = std_96hour/ len(y_test_pred) * 100    
+    ave_8hour = np.mean(percent_within_8)
+    std_8hour = np.std(percent_within_8)
+    pct_ave_8hour = ave_8hour * 100
+    pct_std_std_8hour = std_8hour * 100
     
+    ave_16hour = np.mean(percent_within_16)
+    std_16hour = np.std(percent_within_16)
+    pct_ave_16hour = ave_16hour * 100
+    pct_std_std_16hour = std_16hour * 100
+    
+    ave_24hour = np.mean(percent_within_24)
+    std_24hour = np.std(percent_within_24)
+    pct_ave_24hour = ave_24hour * 100
+    pct_std_std_24hour = std_24hour * 100
+    
+    ave_48hour = np.mean(percent_within_48)
+    std_48hour = np.std(percent_within_48)
+    pct_ave_48hour = ave_48hour * 100
+    pct_std_std_48hour = std_48hour * 100
+
+    ave_72hour = np.mean(percent_within_72)
+    std_72hour = np.std(percent_within_72)
+    pct_ave_72hour = ave_72hour * 100
+    pct_std_std_72hour = std_72hour * 100
+    
+    ave_96hour = np.mean(percent_within_96)
+    std_96hour = np.std(percent_within_96)
+    pct_ave_96hour = ave_96hour * 100
+    pct_std_std_96hour = std_96hour * 100
+
+    ########################################################################################################################
+    # output results
+    ########################################################################################################################
     out_file.write("Input file name %s:\n" % d["input_file"])
     out_file.write(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)\n")
     out_file.write("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})\n".format(train_r2_ave, train_r2_std))
@@ -517,14 +543,22 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     out_file.write("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(train_mae_ave, train_mae_std))
     out_file.write("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(test_mae_ave, test_mae_std))
 
-    out_file.write("\n\n\t{2:s} % test predictions error within 1 hour -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_1hour, pct_std_std_1hour, alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_4hour, pct_std_std_4hour, alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_8hour, pct_std_std_8hour, alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_16hour, pct_std_std_16hour, alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_24hour, pct_std_std_24hour,alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions error within 48 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_48hour, pct_std_std_48hour,alg, len(y_test_pred)))    
-    out_file.write("\n\t{2:s} % test predictions error within 72 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_72hour, pct_std_std_72hour,alg, len(y_test_pred)))
-    out_file.write("\n\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}\n".format(pct_ave_96hour, pct_std_std_96hour,alg, len(y_test_pred)))    
+    out_file.write("\n\n\t{2:s} % test predictions error within 1 hour -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_1hour, pct_std_std_1hour, alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_4hour, pct_std_std_4hour, alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_8hour, pct_std_std_8hour, alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_16hour, pct_std_std_16hour, alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_24hour, pct_std_std_24hour,alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 48 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_48hour, pct_std_std_48hour,alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 72 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_72hour, pct_std_std_72hour,alg, len(y)))
+    out_file.write("\n\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10\n".format(
+        pct_ave_96hour, pct_std_std_96hour,alg, len(y)))
     out_file.write("\n")
     
     print(alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
@@ -535,14 +569,22 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     print("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})".format(train_mae_ave, train_mae_std))
     print("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})".format(test_mae_ave, test_mae_std))
     
-    print("\n\t{2:s} % test predictions within 1 hour -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_1hour, pct_std_std_1hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_4hour, pct_std_std_4hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_8hour, pct_std_std_8hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_16hour, pct_std_std_16hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_24hour, pct_std_std_24hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 48 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_48hour, pct_std_std_48hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 72 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_72hour, pct_std_std_72hour, alg, len(y_test_pred)))
-    print("\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}\n".format(pct_ave_96hour, pct_std_std_96hour, alg, len(y_test_pred)))
+    print("\n\t{2:s} % test predictions within 1 hour -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_1hour, pct_std_std_1hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_4hour, pct_std_std_4hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_8hour, pct_std_std_8hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_16hour, pct_std_std_16hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_24hour, pct_std_std_24hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 48 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_48hour, pct_std_std_48hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 72 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
+        pct_ave_72hour, pct_std_std_72hour, alg, len(y)))
+    print("\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10\n".format(
+        pct_ave_96hour, pct_std_std_96hour, alg, len(y)))
    
     # print("..creating concatonated cross validated predictions for plotting..")
     # # create concatonated results for the whole cross validation
@@ -552,11 +594,13 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     # print("\t\tPlotting Test RMSE %.1f" % sqrt(mean_squared_error(y, y_pred)))
     # print("\t\tPlotting Test R2 %.4f" % r2_score(y, y_pred))
     # print("\t\tPlotting Test MAE %.1f" % mean_absolute_error(y, y_pred))
-    
-    
+
+    ####################################################################################################################
+    # Plotting
+    ####################################################################################################################
     if d["plotting"] == "y":
         print("..plotting..")
-        plot_errors_main(df, alg, "Test", newpath, iter_no)
+        plot_errors_main(df, alg, "Test", newpath, alg_initials, iter_no)
         
         # x = "TimeTaken"
         # y = "TimeTaken_%s"%alg
@@ -570,9 +614,11 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         # y = "TimeTaken_%s"%alg
         # in_data = pd.DataFrame(df[[x,y]], columns=[x, y])
         # plot(x,y, in_data, alg, "Test", newpath, iter_no)
-        plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "Test", newpath, iter_no)
-        
+        plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "Test", newpath, alg_initials, iter_no)
 
+    ####################################################################################################################
+    # Importances
+    ####################################################################################################################
     if alg == "RandomForestRegressor":
         print("..Calculating importances..\n")
         importances = regr.feature_importances_
@@ -638,43 +684,51 @@ if __name__ == "__main__":  # Run program
     ####################################################################################################################
     # Modelling
     ####################################################################################################################
+    alg_counter = 0
     if d["LinearRegression"] == "y":
+        alg_counter+=1
         regressor = LinearRegression()
-        results(df, "LinearRegression", regressor, newpath, d)
+        results(df, "LinearRegression", regressor, newpath, d, alg_counter, "LR")
 
     if d["ElasticNet"] == "y":
+        alg_counter+=1
         regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
-        results(df, "ElasticNet", regressor, newpath, d)
+        results(df, "ElasticNet", regressor, newpath, d, alg_counter, "EN")
 
     if d["KernelRidge"] == "y":
+        alg_counter+=1
         regressor = KernelRidge(alpha=0.1)
-        results(df, "KernelRidge", regressor, newpath, d)
+        results(df, "KernelRidge", regressor, newpath, d, alg_counter, "KR")
 
     if d["MLPRegressor"] == "y":
+        alg_counter+=1
         regressor = MLPRegressor(hidden_layer_sizes=(50,25,10,5,3), random_state=int(d["seed"]),
                                  max_iter=2000)#,
         # early_stopping=True)
-        results(df, "MLPRegressor", regressor, newpath, d)
+        results(df, "MLPRegressor", regressor, newpath, d, alg_counter, "MLP")
 
     if d["GradientBoostingRegressor"] == "y":
+        alg_counter+=1
         regressor = GradientBoostingRegressor(random_state=int(d["seed"]))
-        results(df, "GradientBoostingRegressor", regressor, newpath, d)
+        results(df, "GradientBoostingRegressor", regressor, newpath, d, alg_counter, "GBR")
 
     if d["xgboost"] == "y":
+        alg_counter+=1
         import xgboost as xgb
         params = {
             'max_depth': 5,
             'n_estimators': 50,
             'objective': 'reg:linear'}
         regressor = xgb.XGBRegressor(**params)
-        results(df, "xgboost", regressor, newpath, d)
+        results(df, "xgboost", regressor, newpath, d, alg_counter, "XGB")
 
     if d["RandomForestRegressor"] == "y":
+        alg_counter+=1
         regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
         if d["rerun_with_top_importances"] == "n":
-            results(df, "RandomForestRegressor", regressor, newpath, d)
+            results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
         else:
-            dfimportances = results(df, "RandomForestRegressor", regressor, newpath, d)
+            dfimportances = results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
 
             if d["top_k_features"] == "half":
                 k = round(len(dfimportances["Columns"])/2)+1
@@ -697,15 +751,15 @@ if __name__ == "__main__":  # Run program
             ############################################################################################################
             if d["LinearRegression"] == "y":
                 regressor = LinearRegression()
-                results(df, "LinearRegression", regressor, newpath, d, "second")
+                results(df, "LinearRegression", regressor, newpath, d, alg_counter, "LR", "second")
 
             if d["ElasticNet"] == "y":
                 regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
-                results(df, "ElasticNet", regressor, newpath, d, "second")
+                results(df, "ElasticNet", regressor, newpath, d,alg_counter, "EN", "second")
 
             if d["KernelRidge"] == "y":
                 regressor = KernelRidge(alpha=0.1)
-                results(df, "KernelRidge", regressor, newpath, d, "second")
+                results(df, "KernelRidge", regressor, newpath, d,alg_counter, "KR", "second")
 
             if d["xgboost"] == "y":
                 params = {
@@ -713,10 +767,10 @@ if __name__ == "__main__":  # Run program
                     'n_estimators': 50,
                     'objective': 'reg:linear'}
                 regressor = xgb.XGBRegressor(**params)
-                results(df, "xgboost", regressor, newpath, d, "second")
+                results(df, "xgboost", regressor, newpath, d,alg_counter, "XGB", "second")
 
             regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]), max_depth=25, n_jobs=-1)
-            results(df, "RandomForestRegressor", regressor, newpath, d, "second")
+            results(df, "RandomForestRegressor", regressor, newpath, d,alg_counter, "RFR", "second")
 
     
     copyfile(parameters, newpath + "parameters.txt")  # Save parameters
