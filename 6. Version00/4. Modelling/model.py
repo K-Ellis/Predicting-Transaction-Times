@@ -627,7 +627,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
         if d["export_df_with_top_k_csv"] == "y":
             df_top = return_new_top_k_df(df, dfimportances, int(d["top_k_features"]))
             df_top.to_csv("../../../Data/%s_%s_top_%s.csv" % (d["input_file"], alg_initials, d["top_k_features"]), index=False)
-    print("..finished with alg: %s..\n" % alg)
+    print("\n..finished with alg: %s.." % alg)
     out_file.close()
 
 
