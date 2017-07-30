@@ -1,5 +1,6 @@
-LinearRegression 20170730-220737
+LinearRegression 20170731-003321
 
+Input file name min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R:
 
 Features used:
 	1 - Cases_created_within_past_8_hours
@@ -18,16 +19,17 @@ Simple TimeTaken stats
 	mean_time_test_rmse = 409942.1069048292
 	mean_time_test_mae = 299728.3208
 
-Input file name min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R:
-
 LinearRegression: Cross Validation (10 Folds)
 	Train Mean R2: 0.69302 (+/-0.01439)
 	Test Mean R2: 0.45648 (+/-0.39535)
 	Train Mean RMSE: 226846.02 (+/-8005.62)
 	Test Mean RMSE: 239900.43 (+/-66657.88)
-	Train Mean MAE: 147693.21 (+/-5358.08)
-	Test Mean MAE: 165052.52 (+/-34823.60)
-
+	Train Mean MeanAE: 147693.21 (+/-5358.08)
+	Test Mean MeanAE: 165052.52 (+/-34823.60)
+	Train Mean EVS: 0.70 (+/-0.70)
+	Test Mean EVS: 0.60 (+/-0.60)
+	Train Mean MedianAE: 92815.59 (+/-92815.59)
+	Test Mean MedianAE: 118581.65 (+/-118581.65)
 
 	LinearRegression % test predictions error within 1 hour -> Mean: 3.00% (+/- 4.58%) of 100/10
 	LinearRegression % test predictions error within 4 hours -> Mean: 10.00% (+/- 7.75%) of 100/10
@@ -38,3 +40,13 @@ LinearRegression: Cross Validation (10 Folds)
 	LinearRegression % test predictions error within 72 hours -> Mean: 84.00% (+/- 9.17%) of 100/10
 	LinearRegression % test predictions error within 96 hours -> Mean: 89.00% (+/- 5.39%) of 100/10
 
+
+Feature Importances:
+	1. "Created_on_Weekend" (-218301.588432)
+	2. "Cases_resolved_within_past_8_hours" (-35.291534)
+	3. "Cases_created_within_past_8_hours" (17.914836)
+	4. "Concurrent_open_cases" (-6.783302)
+	5. "Seconds_left_Year" (-1.739886)
+	6. "Seconds_left_Month" (-1.516033)
+	7. "Seconds_left_Qtr" (-1.467551)
+	8. "Seconds_left_Day" (-0.832955)

@@ -44,9 +44,9 @@ xgboost: n
 RandomForestRegressor: y
 n_estimators: 5
 ########### ################
-top_k_features: 20
-export_importances_csv: y
-export_df_with_top_k_csv: y
+top_k_features: 5
+export_importances_csv: n
+export_top_k_csv: n
 ########### ################
 grid_search: n
 grid_search_RMSE: n
@@ -54,7 +54,7 @@ grid_search_RMSE: n
 log_of_y: n
 histogram: n
 plotting: y
-output_predictions_csv: y
+output_predictions_csv: n
 ########### ################
 ########### ################
 user: Kieron
@@ -63,6 +63,7 @@ iteration_number: 5
 raw_data_location: ../../../Data/
 file_location: ../../../Data/
 ########### ################
+PREVIOUS_ITERATIONS_PARAMS #
 ########### ################
 step: y
 delete_ticketNumber: y

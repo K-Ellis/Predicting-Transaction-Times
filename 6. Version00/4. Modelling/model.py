@@ -24,13 +24,12 @@ import math
 from sklearn.model_selection import KFold, cross_val_predict#, cross_val_score, train_test_split
 from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from math import sqrt
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.neural_network import MLPRegressor
 from shutil import copyfile  # Used to copy parameters file to directory
-from select_k_importance import trim_df, select_top_k_importants
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error, explained_variance_score, \
+    median_absolute_error
 import seaborn as sns
 from calendar import monthrange
 import datetime
@@ -56,7 +55,7 @@ def tree_importances(regr, X, algpath, d, out_file, alg_initials):
         out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
         print("\t%d. \"%s\" (%f)" % (i + 1, col, importance))
 
-    if d["export_df_with_top_k_csv"] == "y":
+    if d["export_top_k_csv"] == "y":
         df_top = return_new_top_k_df(df, dfimportances, int(d["top_k_features"]))
         df_top.to_csv("../../../Data/%s_%s_top_%s.csv" % (d["input_file"], alg_initials, d["top_k_features"]),
                       index=False)
@@ -82,7 +81,7 @@ def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
         out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
         print("\t%d. \"%s\" (%f)" % (i + 1, col, importance))
 
-    if d["export_df_with_top_k_csv"] == "y":
+    if d["export_top_k_csv"] == "y":
         df_top = return_new_top_k_df(df, dfimportances, int(d["top_k_features"]))
         df_top.to_csv("%s%s_%s_top_%s.csv" % (d["file_location"], d["input_file"], alg_initials, d["top_k_features"]),
                       index=False)
@@ -428,14 +427,18 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     # todo - more metrics
     # adjusted R2
     # F-test?
-    # explained_variance_score
-    # median_absolute_error
+
     train_rmse = []
     test_rmse = []
     train_r_sq = []
     test_r_sq = []
     train_mae = []
-    test_mae = []
+    test_mae = [] # Mean Absolute Error
+    train_evs = [] # Explained variance regression score function
+    test_evs = []
+    train_median_ae = [] # Median absolute error regression loss
+    test_median_ae = []
+
     percent_within_1 = []  # Tracking predictions within 1 hour
     percent_within_4 = []  # Tracking predictions within 4 hour
     percent_within_8 = []  # Tracking predictions within 8 hour
@@ -521,6 +524,11 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
         test_r_sq.append(r2_score(testData_y, y_test_pred))
         train_mae.append(mean_absolute_error(trainData_y, y_train_pred))
         test_mae.append(mean_absolute_error(testData_y, y_test_pred))
+        train_evs.append(explained_variance_score(trainData_y, y_train_pred))
+        test_evs.append(explained_variance_score(testData_y, y_test_pred))
+        train_median_ae.append(median_absolute_error(trainData_y, y_train_pred))
+        test_median_ae.append(median_absolute_error(testData_y, y_test_pred))
+
 
     ########################################################################################################################
     # Get averages and standard deviations of results
@@ -531,6 +539,10 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     test_r2_ave = np.mean(test_r_sq)
     train_mae_ave = np.mean(train_mae)
     test_mae_ave = np.mean(test_mae)
+    train_evs_ave = np.mean(train_evs)
+    test_evs_ave = np.mean(test_evs)
+    train_median_ae_ave = np.mean(train_median_ae)
+    test_median_ae_ave = np.mean(test_median_ae)
 
     train_rmse_std = np.std(train_rmse)
     test_rmse_std = np.std(test_rmse)
@@ -538,6 +550,10 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     test_r2_std = np.std(test_r_sq)
     train_mae_std = np.std(train_mae)
     test_mae_std = np.std(test_mae)
+    train_evs_std = np.mean(train_evs)
+    test_evs_std = np.mean(test_evs)
+    train_median_ae_std = np.mean(train_median_ae)
+    test_median_ae_std = np.mean(test_median_ae)
 
     ave_1hour = np.mean(percent_within_1)
     std_1hour = np.std(percent_within_1)
@@ -587,8 +603,13 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     out_file.write("\tTest Mean R2: {0:.5f} (+/-{1:.5f})\n".format(test_r2_ave, test_r2_std))
     out_file.write("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(train_rmse_ave, train_rmse_std))
     out_file.write("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(test_rmse_ave, test_rmse_std))
-    out_file.write("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(train_mae_ave, train_mae_std))
-    out_file.write("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})\n".format(test_mae_ave, test_mae_std))
+    out_file.write("\tTrain Mean MeanAE: {0:.2f} (+/-{1:.2f})\n".format(train_mae_ave, train_mae_std))
+    out_file.write("\tTest Mean MeanAE: {0:.2f} (+/-{1:.2f})\n".format(test_mae_ave, test_mae_std))
+    out_file.write("\tTrain Mean EVS: {0:.2f} (+/-{1:.2f})\n".format(train_evs_ave, train_evs_std))
+    out_file.write("\tTest Mean EVS: {0:.2f} (+/-{1:.2f})\n".format(test_evs_ave, test_evs_std))
+    out_file.write("\tTrain Mean MedianAE: {0:.2f} (+/-{1:.2f})\n".format(train_median_ae_ave, train_median_ae_std))
+    out_file.write("\tTest Mean MedianAE: {0:.2f} (+/-{1:.2f})\n".format(test_median_ae_ave, test_median_ae_std))
+
 
     out_file.write("\n\t{2:s} % test predictions error within 1 hour -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
         pct_ave_1hour, pct_std_std_1hour, alg, len(y)))
@@ -613,9 +634,13 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     print("\tTest Mean R2: {0:.5f} (+/-{1:.5f})".format(test_r2_ave, test_r2_std))
     print("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})".format(train_rmse_ave, train_rmse_std))
     print("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})".format(test_rmse_ave, test_rmse_std))
-    print("\tTrain Mean MAE: {0:.2f} (+/-{1:.2f})".format(train_mae_ave, train_mae_std))
-    print("\tTest Mean MAE: {0:.2f} (+/-{1:.2f})".format(test_mae_ave, test_mae_std))
-    
+    print("\tTrain Mean MeanAE: {0:.2f} (+/-{1:.2f})".format(train_mae_ave, train_mae_std))
+    print("\tTest Mean MeanAE: {0:.2f} (+/-{1:.2f})".format(test_mae_ave, test_mae_std))
+    print("\tTrain Mean EVS: {0:.2f} (+/-{1:.2f})".format(train_evs_ave, train_evs_std))
+    print("\tTest Mean EVS: {0:.2f} (+/-{1:.2f})".format(test_evs_ave, test_evs_std))
+    print("\tTrain Mean MedianAE: {0:.2f} (+/-{1:.2f})".format(train_median_ae_ave, train_median_ae_std))
+    print("\tTest Mean MedianAE: {0:.2f} (+/-{1:.2f})".format(test_median_ae_ave, test_median_ae_std))
+
     print("\n\t{2:s} % test predictions within 1 hour -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
         pct_ave_1hour, pct_std_std_1hour, alg, len(y)))
     print("\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
@@ -705,7 +730,7 @@ if __name__ == "__main__":  # Run program
 
     if d["resample"] == "y":
         from sklearn.utils import resample
-        print("..resampling")
+        print("..resampling\n")
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
         df = df.reset_index(drop=True)
 

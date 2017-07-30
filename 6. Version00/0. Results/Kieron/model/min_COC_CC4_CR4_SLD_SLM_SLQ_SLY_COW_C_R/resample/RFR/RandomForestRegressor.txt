@@ -1,5 +1,6 @@
-RandomForestRegressor 20170730-220757
+RandomForestRegressor 20170731-003337
 
+Input file name min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R:
 
 Features used:
 	1 - Cases_created_within_past_8_hours
@@ -18,16 +19,17 @@ Simple TimeTaken stats
 	mean_time_test_rmse = 409942.1069048292
 	mean_time_test_mae = 299728.3208
 
-Input file name min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R:
-
 RandomForestRegressor: Cross Validation (10 Folds)
 	Train Mean R2: 0.96236 (+/-0.01094)
 	Test Mean R2: 0.71245 (+/-0.23567)
 	Train Mean RMSE: 78481.23 (+/-10276.67)
 	Test Mean RMSE: 164764.83 (+/-35119.59)
-	Train Mean MAE: 46172.75 (+/-3632.90)
-	Test Mean MAE: 118755.69 (+/-19036.29)
-
+	Train Mean MeanAE: 46172.75 (+/-3632.90)
+	Test Mean MeanAE: 118755.69 (+/-19036.29)
+	Train Mean EVS: 0.96 (+/-0.96)
+	Test Mean EVS: 0.75 (+/-0.75)
+	Train Mean MedianAE: 28066.61 (+/-28066.61)
+	Test Mean MedianAE: 88520.03 (+/-88520.03)
 
 	RandomForestRegressor % test predictions error within 1 hour -> Mean: 1.00% (+/- 3.00%) of 100/10
 	RandomForestRegressor % test predictions error within 4 hours -> Mean: 17.00% (+/- 9.00%) of 100/10
