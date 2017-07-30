@@ -306,6 +306,7 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
 
 
 if __name__ == "__main__":  # Run program
+    print("Modeling dataset", time.strftime("%Y.%m.%d"), time.strftime("%H.%M.%S"))
     d = {}
     with open(parameters, "r") as f:
         for line in f:
@@ -430,3 +431,11 @@ if __name__ == "__main__":  # Run program
         copyfile(parameters, newpath + "parameters.txt")  # Save parameters
     else:
         copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save parameters
+
+    if d["beep"] == "y":
+        import winsound
+        Freq = 400 # Set Frequency To 2500 Hertz
+        Dur = 1000 # Set Duration To 1000 ms == 1 second
+        winsound.Beep(Freq,Dur)
+        Freq = 300 # Set Frequency To 2500 Hertz
+        winsound.Beep(Freq,Dur)
