@@ -63,7 +63,6 @@ iteration_number: 5
 raw_data_location: ../../../Data/
 file_location: ../../../Data/
 ########### ################
-PREVIOUS_ITERATIONS_PARAMS #
 ########### ################
 step: y
 delete_ticketNumber: y
