@@ -148,10 +148,6 @@ def get_extra_cols(df, alg):
     df["Created_On_Qtr"]-=1
     df["ResolvedDate_Qtr"] = df["ResolvedDate"].apply(lambda x: int(day_in_quarter(x)))  # Day of the Qtr
     df["ResolvedDate_Qtr"]-=1
-    # df["Created_On_Year"] = df["Created_On"].apply(lambda x: int(x.strftime("%j")))  # Day of the year
-    # df["Created_On_Year"]-=1
-    # df["ResolvedDate_Year"] = df["ResolvedDate"].apply(lambda x: int(x.strftime("%j")))  # Day of the year
-    # df["ResolvedDate_Year"]-=1
     return df
 
 def get_errors(df, alg, time_range, col):
@@ -322,34 +318,6 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     for col in cols_not_used:
         if col in df.columns:
             X = X.drop(col, axis=1)
-    
-    # if "Created_On" in df.columns:
-        # X = X.drop("Created_On", axis=1)
-    # if "ResolvedDate" in df.columns:
-        # X = X.drop("ResolvedDate", axis=1)
-    # if "TimeTaken_LinearRegression" in df.columns:
-        # X = X.drop("TimeTaken_LinearRegression", axis=1)
-        # X = X.drop("TimeTaken_hours_LinearRegression", axis=1)
-        
-    # if "TimeTaken_RandomForestRegressor" in df.columns:
-        # X = X.drop("TimeTaken_RandomForestRegressor", axis=1)
-        # X = X.drop("TimeTaken_hours_RandomForestRegressor", axis=1)
-    
-    # if "Created_On_Day" in df.columns:
-        # X = X.drop("Created_On_Day", axis=1)
-        # X = X.drop("ResolvedDate_Day", axis=1)
-        
-        # X = X.drop("Created_On_Week", axis=1)
-        # X = X.drop("ResolvedDate_Week", axis=1)
-        
-        # X = X.drop("Created_On_Month", axis=1)
-        # X = X.drop("ResolvedDate_Month", axis=1)
-        
-        # X = X.drop("Created_On_Qtr", axis=1)
-        # X = X.drop("ResolvedDate_Qtr", axis=1)
-        
-        # X = X.drop("TimeTaken_hours", axis=1)
-        # X = X.drop("Mean_TimeTaken", axis=1)
         
     print(X.columns)
     
@@ -464,6 +432,7 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
                 number_close_72 += 1
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*96:  # Within 96 hours
                 number_close_96 += 1
+        # todo - problem
         df.loc[test_indices, "TimeTaken_%s"%alg] = y_test_pred
         
         number_test_1.append(number_close_1)
@@ -665,7 +634,7 @@ if __name__ == "__main__":  # Run program
         from sklearn.utils import resample
         print("..resampling")
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
-    
+        df = df.reset_index(drop=True)
     ####################################################################################################################
     # Modelling
     ####################################################################################################################
