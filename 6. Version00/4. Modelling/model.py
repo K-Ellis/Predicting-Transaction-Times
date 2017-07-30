@@ -660,29 +660,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     print("..Calculating importances..\n")
     if alg == "RandomForestRegressor" or alg == "GradientBoostingRegressor" or alg == "xgboost":
         tree_importances(regr, X, algpath, d, out_file, alg_initials)
-    #     importances = regr.feature_importances_
-    #
-    #     dfimportances = pd.DataFrame(data=X.columns, columns=["Columns"])
-    #     dfimportances["Importances"] = importances
-    #
-    #     dfimportances = dfimportances.sort_values("Importances", ascending=False)
-    #     if d["export_importances_csv"] == "y":
-    #         dfimportances.to_csv(algpath + "importances.csv", index=False)
-    #
-    #     print("Feature Importances:")
-    #     out_file.write("\nFeature Importances:\n")
-    #     for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
-    #         "Importances"].values.tolist())):
-    #         out_file.write("\t%d. \"%s\" (%f)\n" % (i+1, col, importance))
-    #         print("\t%d. \"%s\" (%f)" % (i+1, col, importance))
-    #
-    #     if d["export_df_with_top_k_csv"] == "y":
-    #         df_top = return_new_top_k_df(df, dfimportances, int(d["top_k_features"]))
-    #         df_top.to_csv("../../../Data/%s_%s_top_%s.csv" % (d["input_file"], alg_initials, d["top_k_features"]), index=False)
+
     elif alg == "LinearRegression" or alg == "ElasticNet":
         regression_coef_importances(regr, X, algpath, d, out_file, alg_initials)
-
-
 
     print("\n..finished with alg: %s.." % alg)
     out_file.close()
