@@ -658,7 +658,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     # Importances
     ####################################################################################################################
     print("..Calculating importances..\n")
-    if alg == "RandomForestRegressor" or alg == "GradientBoostingRegressor":
+    if alg == "RandomForestRegressor" or alg == "GradientBoostingRegressor" or alg == "xgboost":
         tree_importances(regr, X, algpath, d, out_file, alg_initials)
     #     importances = regr.feature_importances_
     #
