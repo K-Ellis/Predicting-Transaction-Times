@@ -327,11 +327,7 @@ if __name__ == "__main__":  # Run program
 
     np.random.seed(int(d["seed"]))  # Set seed
 
-    if d["user"] == "Kieron":
-        df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
-    else:
-        df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["input_file"] + ".csv", encoding='latin-1',
-                     low_memory=False)
+    df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
 
     print("Input file name: %s\n" % d["input_file"])
     
