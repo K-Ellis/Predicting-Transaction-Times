@@ -1,0 +1,21 @@
+LinearRegression 20170730-131304
+
+Input file name vw_Incident_cleaned_30_7:
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean RMSE: 197886.17 (+/-537.05)
+	Test Mean RMSE: 199208.03 (+/-4502.32)
+	Train Mean R2: 0.76310 (+/-0.00078)
+	Test Mean R2: 0.75977 (+/-0.00803)
+	Train Mean MAE: 133183.24 (+/-436.97)
+	Test Mean MAE: 133909.56 (+/-1695.74)
+
+
+	LinearRegression % test predictions with error within 1 hour   -> Mean: 2.86% (+/- 0.38%)
+	LinearRegression % test predictions with error within 4 hours  -> Mean: 11.64% (+/- 0.72%)
+	LinearRegression % test predictions with error within 8 hours  -> Mean: 22.19% (+/- 1.04%)
+	LinearRegression % test predictions with error within 24 hours -> Mean: 48.13% (+/- 0.68%)
+
+	LinearRegression number test predictions with error within 1 hour   -> Mean: 56.5/1975 (+/- 7.6)
+	LinearRegression number test predictions with error within 4 hours  -> Mean: 229.9/1975 (+/- 14.2)
+	LinearRegression number test predictions with error within 8 hours  -> Mean: 438.2/1975 (+/- 20.6)
+	LinearRegression number test predictions with error within 24 hours -> Mean: 950.5/1975 (+/- 13.4)

@@ -18,6 +18,7 @@ from sklearn import preprocessing
 from shutil import copyfile  # Used to copy parameters file to directory
 from pandas.tseries.offsets import BDay
 
+
 def fill_nulls_dfcs(df, dfcs, fill_value): # Fill in Nulls given a set of dataframe columns
     for dfc in dfcs:
         if fill_value == "mode": df[dfc].fillna(df[dfc].mode()[0], inplace=True)
@@ -120,6 +121,7 @@ def deletions(df, d):  # Delete all columns apart from those listed
 
     return df
 
+
 def get_last_bdays_months():
     last_bdays = pd.date_range("2017.01.01", periods=11, freq='BM')
     last_bdays_offset = []
@@ -201,6 +203,7 @@ def get_seconds_until_end_of_day(date, cutoffs):
                     else:
                         return (24*60*60) - date_in_seconds + cutoff_in_seconds
 
+
 def get_last_bdays_months_just_date():
     last_bdays = pd.date_range("2017.01.01", periods=11, freq='BM')
     last_bdays_offset = []
@@ -219,6 +222,7 @@ def created_on_weekend(date, last_bdays):
             return 1
     else:
         return 0
+
 
 def get_rolling_stats(df, window):
     dfcopy = df.copy()

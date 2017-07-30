@@ -689,6 +689,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
 
 
 if __name__ == "__main__":  # Run program
+    print("Modeling dataset", time.strftime("%Y.%m.%d"), time.strftime("%H.%M.%S"))
     d = {}
     with open(parameters, "r") as f:
         for line in f:
@@ -778,7 +779,7 @@ if __name__ == "__main__":  # Run program
 
     if d["output_predictions_csv"] == "y":
         df.to_csv(d["file_location"] + d["input_file"] + "_predictions.csv", index=False)  # export file
-    
+
     if d["beep"] == "y":
         import winsound
         Freq = 400 # Set Frequency To 2500 Hertz
@@ -786,3 +787,4 @@ if __name__ == "__main__":  # Run program
         winsound.Beep(Freq,Dur)
         Freq = 300 # Set Frequency To 2500 Hertz
         winsound.Beep(Freq,Dur)
+
