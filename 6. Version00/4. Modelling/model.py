@@ -30,6 +30,10 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.neural_network import MLPRegressor
 from shutil import copyfile  # Used to copy parameters file to directory
 from select_k_importance import trim_df, select_top_k_importants
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+import seaborn as sns
+from calendar import monthrange
+import datetime
 
 parameters = "../../../Data/parameters.txt"  # Parameters file
 
@@ -83,10 +87,14 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.savefig(newpath + column + "_log_100000.png")
     plt.savefig(newpath + column + "_log_100000.pdf")
 
-
 def plot(x, y, alg, data, newpath, iter_no=None):
+# def plot(x, y, in_data, alg, data, newpath, iter_no=None):
+    sns.reset_orig()
+    # plt.rcParams.update(plt.rcParamsDefault)
     plt.figure()
-    plt.plot(x, y, 'ro', alpha=0.1, markersize=3)
+    plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
+    # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
+    # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
     plt.xlabel(data + " Data")
     plt.ylabel(data + " Data Prediction")
     plt.title(alg + " - " + data + " Data")
@@ -94,36 +102,259 @@ def plot(x, y, alg, data, newpath, iter_no=None):
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
     plt.tight_layout()  # Force everything to fit on figure
-    if d["user"] == "Kieron":
+    if not os.path.exists(newpath + "PDFs/"):
+        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+    if iter_no is None:
+        plt.savefig(newpath + alg + "_" + data + ".png")
+        plt.savefig(newpath + "PDFs/" + alg + "_" + data + ".pdf")
+    else:
+        plt.savefig(newpath + d["top_k_features"] + "_" + alg + "_" + data + ".png")
+        plt.savefig(newpath + "PDFs/" + d["top_k_features"] + "_" + alg + "_" + data + ".pdf")
+    plt.close()
+        
+
+def day_in_quarter(date):
+    # Function found on stack overflow
+    # https://stackoverflow.com/questions/37471704/how-do-i-get-the-correspondent-day-of-the-quarter-from-a-date-field
+    q2 = (datetime.datetime.strptime("4/1/{0:4d}".format(date.year), "%m/%d/%Y")).timetuple().tm_yday
+    q3 = (datetime.datetime.strptime("7/1/{0:4d}".format(date.year), "%m/%d/%Y")).timetuple().tm_yday
+    q4 = (datetime.datetime.strptime("10/1/{0:4d}".format(date.year), "%m/%d/%Y")).timetuple().tm_yday
+
+    cur_day =  date.timetuple().tm_yday
+    if (date.month < 4):
+        return cur_day
+    elif (date.month < 7):
+        return cur_day - q2 + 1
+    elif (date.month < 10):
+        return cur_day - q3 + 1
+    else:
+        return cur_day - q4 + 1
+
+def get_extra_cols(df, alg):
+    df["Created_On"] = pd.to_datetime(df["Created_On"])
+    df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
+    df["TimeTaken_hours"] = df["TimeTaken"]/60/60
+    df["TimeTaken_hours_%s"%alg] = df["TimeTaken_%s"%alg]/60/60
+    
+    df["Created_On_Day"] = df["Created_On"].apply(lambda x: int(x.strftime("%H")))  # Time of the day
+    df["ResolvedDate_Day"] = df["ResolvedDate"].apply(lambda x: int(x.strftime("%H")))  # Time of the day
+    df["Created_On_Week"] = df["Created_On"].apply(lambda x: int(x.strftime("%w")))  # Day of the week
+    df["ResolvedDate_Week"] = df["ResolvedDate"].apply(lambda x: int(x.strftime("%w")))  # Day of the week
+    df["Created_On_Month"] = df["Created_On"].apply(lambda x: int(x.strftime("%d")))  # Day of the month
+    df["Created_On_Month"]-=1
+    df["ResolvedDate_Month"] = df["ResolvedDate"].apply(lambda x: int(x.strftime("%d")))  # Day of the month
+    df["ResolvedDate_Month"]-=1
+    df["Created_On_Qtr"] = df["Created_On"].apply(lambda x: int(day_in_quarter(x)))  # Day of the Qtr
+    df["Created_On_Qtr"]-=1
+    df["ResolvedDate_Qtr"] = df["ResolvedDate"].apply(lambda x: int(day_in_quarter(x)))  # Day of the Qtr
+    df["ResolvedDate_Qtr"]-=1
+    # df["Created_On_Year"] = df["Created_On"].apply(lambda x: int(x.strftime("%j")))  # Day of the year
+    # df["Created_On_Year"]-=1
+    # df["ResolvedDate_Year"] = df["ResolvedDate"].apply(lambda x: int(x.strftime("%j")))  # Day of the year
+    # df["ResolvedDate_Year"]-=1
+    return df
+
+def get_errors(df, alg, time_range, col):
+    r2_scores = []
+    rmse_scores = []
+    mae_scores = []
+    for i in range(time_range):
+        actual = 0
+        predicted = 0
+        actual = df.loc[df[col] == i, "TimeTaken_hours"]
+        predicted = df.loc[df[col] == i, "TimeTaken_hours_%s"%alg]
+
+        if len(df[col][df[col] == i]) == 0: 
+            r2_scores.append(-1)
+            rmse_scores.append(-1)
+            mae_scores.append(-1)
+        else:
+            if r2_score(actual, predicted) < 0:
+                r2_scores.append(0)
+            else:    
+                r2_scores.append(r2_score(actual, predicted))
+            rmse_scores.append(np.sqrt(mean_squared_error(actual, predicted)))
+            mae_scores.append(mean_absolute_error(actual, predicted))
+    return [r2_scores, rmse_scores, mae_scores]
+    
+def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, newpath, iter_no=None):
+    if x_label == "Day of the Quarter Created On" or x_label == "Day of the Quarter Resolved":
+        y = np.array(y)
+        z = np.where(np.array(y)>=0)
+        z = z[0]
+        y_z = y[z]
+
+        x_num = [i for i in range(len(y))]
+        x_num = np.array(x_num)
+        x_num_z = x_num[z]
+
+        y_np = np.array(y)
+        rot = .1
+        start = -2.5  # purple
+        reverse = False
+        if error_name == "R2":
+            reverse = True
+        pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.4, light=.7, reverse=reverse)
+        rank = y_np.argsort().argsort() 
+        sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
+        plt.xticks(x_ticks, x_ticks)
+        plt.title("%s - %s to %s"% (alg, error_name, x_label))
+        plt.ylabel(y_label)
+        plt.xlabel(x_label)
+
+        min_ylim = min(y_z)-np.std(y_z)/3
+        if min_ylim < 0:
+            min_ylim = 0
+        plt.ylim(min_ylim, max(y_z)+np.std(y_z)/3)       
+        
         if not os.path.exists(newpath + "PDFs/"):
             os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
         if iter_no is None:
-            plt.savefig(newpath + alg + "_" + data + ".png")
-            plt.savefig(newpath + "PDFs/" + alg + "_" + data + ".pdf")
+            plt.savefig(newpath + alg + "_" + error_name +"_"+ x_label  + ".png")
+            plt.savefig(newpath + "PDFs/" + alg + "_" + error_name +"_"+ x_label  + ".pdf")
         else:
-            plt.savefig(newpath + d["top_k_features"] + "_" + alg + "_" + data + ".png")
-            plt.savefig(newpath + "PDFs/" + d["top_k_features"] + "_" + alg + "_" + data + ".pdf")
+            plt.savefig(newpath + d["top_k_features"] + "_" + alg + "_" + error_name +"_"+ x_label  + ".png")
+            plt.savefig(newpath + "PDFs/" + d["top_k_features"] + "_" + alg + "_" + error_name +"_"+ x_label  + ".pdf")
+        plt.close()
     else:
-        plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + alg + "_" + data + ".png")
-        plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + alg + "_" + data + ".pdf")
-
-
-def results(df, alg, in_regressor, newpath, d, iter_no=None):
-    if d["user"] == "Kieron":
+        plt.figure()
+        x_num = [i for i in range(len(x_ticks))]
+        
+        y_np = np.array(y)
+    #     pal = sns.color_palette("BuGn", len(y)) # OrRd_r, GnBu_d, husl, Spectral, cubehelix, RdYlGn_r, BuGn, RdYlBu_r ;
+    # pal = sns.cubehelix_palette(len(y)); pal = sns.color_palette(palette="Reds", n_colors=len(y), desat=.9)
+    #     rot = .3, start = -1  # green blue ; rot = .3, start = 1.5  # green ; rot = .3, start = 2  # blue green
+    #     rot = .3, start = -2.5  # red
+        rot = .1
+        start = -2.5  # purple
+        reverse = False
+        if error_name == "R2":
+            reverse = True
+        pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.4, light=.7, reverse=reverse)
+        rank = y_np.argsort().argsort() 
+        sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
+        plt.xticks(x_num, x_ticks)
+        plt.title("%s - %s to %s"% (alg, error_name, x_label))
+        plt.ylabel(y_label)
+        plt.xlabel(x_label)
+        plt.ylim(min(y)-np.std(y)/3, max(y)+np.std(y)/3)    
+        if not os.path.exists(newpath + "PDFs/"):
+            os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
         if iter_no is None:
-            out_file_name = newpath + alg + ".txt"  # Log file name
+            plt.savefig(newpath + alg + "_" + error_name +"_"+ x_label  + ".png")
+            plt.savefig(newpath + "PDFs/" + alg + "_" + error_name +"_"+ x_label  + ".pdf")
         else:
-            out_file_name = newpath + d["top_k_features"] + "_" + alg + ".txt"  # Log file name
+            plt.savefig(newpath + d["top_k_features"] + "_" + alg + "_" + error_name +"_"+ x_label  + ".png")
+            plt.savefig(newpath + "PDFs/" + d["top_k_features"] + "_" + alg + "_" + error_name +"_"+ x_label  + ".pdf")
+        plt.close()
+
+def plot_errors_main(df, alg, data, newpath, iter_no=None):
+    import seaborn as sns
+    df = get_extra_cols(df, alg)
+    error_names = ["R2", "RMSE", "MAE"]
+    y_labels = ["R2 score", "RMSE (Hours)", "MAE (Hours)"]
+    
+    scores = get_errors(df, alg, 24, "Created_On_Day")
+    x_vals = [x for x in range(24)]
+    x_label = "Time of the Day Created On"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None)
+    
+    scores = get_errors(df, alg, 24, "ResolvedDate_Day")
+    x_vals = [x for x in range(24)]
+    x_label = "Time of the Day Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None)
+    
+    scores = get_errors(df, alg, 7, "Created_On_Week")
+    x_vals = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+    x_label = "Day of the Week Created On"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None)
+
+    scores = get_errors(df, alg, 7, "ResolvedDate_Week")
+    x_vals = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+    x_label = "Day of the Week Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None)
+        
+    scores = get_errors(df, alg, 31, "Created_On_Month")
+    x_vals = [x for x in range(31)]
+    x_label = "Day of the Month Created On"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None) 
+
+    scores = get_errors(df, alg, 31, "ResolvedDate_Month")
+    x_vals = [x for x in range(31)]
+    x_label = "Day of the Month Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None) 
+    
+    scores = get_errors(df, alg, 89, "Created_On_Qtr")
+    x_vals = [(x+1)*5 for x in range(18)]
+    x_label = "Day of the Quarter Created On"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None) 
+
+    scores = get_errors(df, alg, 89, "ResolvedDate_Qtr")
+    x_vals = [(x+1)*5 for x in range(18)]
+    x_label = "Day of the Quarter Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, newpath, iter_no=None) 
+
+def results(df, alg, in_regressor, newpath, d, iter_no=None):    
+    if iter_no is None:
+        out_file_name = newpath + alg + ".txt"  # Log file name
     else:
-        out_file_name = newpath + time.strftime("%H.%M.%S") + "_" + alg + ".txt"  # Log file name
+        out_file_name = newpath + d["top_k_features"] + "_" + alg + ".txt"  # Log file name
+    
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
         
     X = df.drop("TimeTaken", axis=1)
-    if "Created_On" in df.columns:
-        X = X.drop("Created_On", axis=1)
-    if "ResolvedDate" in df.columns:
-        X = X.drop("ResolvedDate", axis=1)
+    
+    cols_not_used = ["Created_On", "ResolvedDate", "Created_On_Day", "ResolvedDate_Day", "Created_On_Week", 
+    "ResolvedDate_Week", "Created_On_Month", "ResolvedDate_Month", "Created_On_Qtr", "ResolvedDate_Qtr", "TimeTaken_hours",
+    "Mean_TimeTaken", 
+    "TimeTaken_LinearRegression", "TimeTaken_hours_LinearRegression", 
+    "TimeTaken_RandomForestRegressor", "TimeTaken_hours_RandomForestRegressor", 
+    ]
+    for col in cols_not_used:
+        if col in df.columns:
+            X = X.drop(col, axis=1)
+    
+    # if "Created_On" in df.columns:
+        # X = X.drop("Created_On", axis=1)
+    # if "ResolvedDate" in df.columns:
+        # X = X.drop("ResolvedDate", axis=1)
+    # if "TimeTaken_LinearRegression" in df.columns:
+        # X = X.drop("TimeTaken_LinearRegression", axis=1)
+        # X = X.drop("TimeTaken_hours_LinearRegression", axis=1)
+        
+    # if "TimeTaken_RandomForestRegressor" in df.columns:
+        # X = X.drop("TimeTaken_RandomForestRegressor", axis=1)
+        # X = X.drop("TimeTaken_hours_RandomForestRegressor", axis=1)
+    
+    # if "Created_On_Day" in df.columns:
+        # X = X.drop("Created_On_Day", axis=1)
+        # X = X.drop("ResolvedDate_Day", axis=1)
+        
+        # X = X.drop("Created_On_Week", axis=1)
+        # X = X.drop("ResolvedDate_Week", axis=1)
+        
+        # X = X.drop("Created_On_Month", axis=1)
+        # X = X.drop("ResolvedDate_Month", axis=1)
+        
+        # X = X.drop("Created_On_Qtr", axis=1)
+        # X = X.drop("ResolvedDate_Qtr", axis=1)
+        
+        # X = X.drop("TimeTaken_hours", axis=1)
+        # X = X.drop("Mean_TimeTaken", axis=1)
+        
+    print(X.columns)
+    
+    # todo remove other TimeTaken_alg's variables
+    
     y = df["TimeTaken"]
 
     numFolds = int(d["crossvalidation"])
@@ -136,7 +367,7 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     train_mae = []
     test_mae = []
     
-    # todo
+    # todo - more metrics
     # adjusted R2
     # F-test?
     # explained_variance_score
@@ -155,7 +386,27 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     std_time = np.std(y)  # Calculate standard deviation of predictions
     max_time = 2000000
     
-    df["TimeTaken_%s" % alg] = -1  # assign a nonsense value
+    # todo - output the simple statistics in a separate file
+    out_file.write("\n\nSimple TimeTaken stats")
+    out_file.write("\n\tmean_time = %s" % mean_time)
+    out_file.write("\n\tstd_time = %s" % std_time)
+    print("\nSimple TimeTaken stats")
+    print("\tmean_time = %s" % mean_time)
+    print("\tstd_time = %s" % std_time)
+    
+    df["Mean_TimeTaken"] = mean_time
+    mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
+    mean_time_test_rmse = sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
+    mean_time_test_mae = mean_absolute_error(y, df["Mean_TimeTaken"])
+    
+    out_file.write("\n\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
+    out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)   
+    out_file.write("\n\tmean_time_test_mae = %s\n" % mean_time_test_mae)
+    print("\tmean_time_test_r2 = %s" % mean_time_test_r2)
+    print("\tmean_time_test_rmse = %s" % mean_time_test_rmse)   
+    print("\tmean_time_test_mae = %s\n " % mean_time_test_mae)
+    
+    df["TimeTaken_%s" % alg] = -1000000  # assign a random value
     
     # todo - plot RMSE against day, month, qtr, year
 
@@ -186,24 +437,15 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
             if y_train_pred[i] < 0:  # Convert all negative predictions to 0
                 y_train_pred[i] = 0
-                
             if y_train_pred[i] > max_time:  # Convert all predictions > 2M to 2M
                 y_train_pred[i] = max_time  
-                
-            
             if math.isnan(y_train_pred[i]):  # If NaN set to 0
                 y_train_pred[i] = 0
-        
         for i in range(len(y_test_pred)): # Convert high or low predictions to 0 or 3 std
             if y_test_pred[i] < 0:  # Convert all negative predictions to 0
                 y_test_pred[i] = 0
-                # neg_sum+=1
-                
-            # if y_test_pred[i] > (mean_time + 3*std_time):  # Convert all predictions > 3 std to 3std
-                # y_test_pred[i] = (mean_time + 3*std_time)
             if y_test_pred[i] > max_time:  # Convert all predictions > max_time to max_time
                 y_test_pred[i] = max_time
-                
             if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600:  # Within 1 hour
@@ -253,6 +495,9 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     test_r2_std = np.std(test_r_sq)
     train_mae_std = np.std(train_mae)
     test_mae_std = np.std(test_mae)
+    
+    print(len(number_test_1))
+    print(len(y_test_pred))
     
     ave_1hour = np.mean(number_test_1)
     std_1hour = np.std(number_test_1)
@@ -330,24 +575,34 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
     print("\t{2:s} % test predictions error within 72 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}".format(pct_ave_72hour, pct_std_std_72hour, alg, len(y_test_pred)))
     print("\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}\n".format(pct_ave_96hour, pct_std_std_96hour, alg, len(y_test_pred)))
    
-   # todo write message
-    print("TimeTaken stats")
-    print(mean_time)
-    print(std_time)
-    print(mean_time + 3*std_time)
-   
-   
-    print("..creating concatonated cross validated predictions for plotting..")
-    # create concatonated results for the whole cross validation
-    y_pred = cross_val_predict(regr, X, y, cv=int(d["crossvalidation"]))
-    # Final Concatonated Scores
-    print("\tFinal Concatonated Test Scores:")
-    print("\t\tPlotting Test RMSE %.1f" % sqrt(mean_squared_error(y, y_pred)))
-    print("\t\tPlotting Test R2 %.4f" % r2_score(y, y_pred))
-    print("\t\tPlotting Test MAE %.1f" % mean_absolute_error(y, y_pred))
+    # print("..creating concatonated cross validated predictions for plotting..")
+    # # create concatonated results for the whole cross validation
+    # y_pred = cross_val_predict(regr, X, y, cv=int(d["crossvalidation"]))
+    # # Final Concatonated Scores
+    # print("\tFinal Concatonated Test Scores:")
+    # print("\t\tPlotting Test RMSE %.1f" % sqrt(mean_squared_error(y, y_pred)))
+    # print("\t\tPlotting Test R2 %.4f" % r2_score(y, y_pred))
+    # print("\t\tPlotting Test MAE %.1f" % mean_absolute_error(y, y_pred))
     
-    print("..plotting..")
-    plot(y, y_pred, alg, "Test", newpath, iter_no)
+    
+    if d["plotting"] == "y":
+        print("..plotting..")
+        plot_errors_main(df, alg, "Test", newpath, iter_no)
+        
+        # x = "TimeTaken"
+        # y = "TimeTaken_%s"%alg
+        # in_data = pd.DataFrame([trainData_y, y_train_pred], x, y)
+        # plot(x, y, in_data, alg, "Train", newpath, iter_no)
+        
+        # plot(trainData_x,y_train_pred, alg, "Train", newpath, iter_no)
+        # todo - Is there a way to plot the train predictions with cross validation..?
+        
+        # x = "TimeTaken"
+        # y = "TimeTaken_%s"%alg
+        # in_data = pd.DataFrame(df[[x,y]], columns=[x, y])
+        # plot(x,y, in_data, alg, "Test", newpath, iter_no)
+        plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "Test", newpath, iter_no)
+        
 
     if alg == "RandomForestRegressor":
         print("..Calculating importances..\n")
@@ -359,12 +614,9 @@ def results(df, alg, in_regressor, newpath, d, iter_no=None):
         dfimportances = dfimportances.sort_values("importances", ascending=False)
         if d["export_importances_csv"] == "y":
             if iter_no == "second":
-                if d["user"] == "Kieron":
-                    dfimportances.to_csv(newpath + d["top_k_features"] + "_importances.csv", index=False)
-                else:
-                    dfimportances.to_csv(newpath + "secondround_importances.csv", index=False)
+                dfimportances.to_csv(newpath + d["top_k_features"] + "_importances.csv", index=False)
             else:
-                dfimportances.to_csv(newpath + "importances.csv", index=False)
+                dfimportances.to_csv(newpath + "all_importances.csv", index=False)
 
         print(dfimportances[:10], "\n")
         out_file.write("\nFeature Importances:\n")
@@ -386,25 +638,19 @@ if __name__ == "__main__":  # Run program
             (key, val) = line.split()
             d[key] = val
 
-    if d["user"] == "Kieron":
-        if d["resample"] == "y":
-            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] + "/resample/" 
-        elif d["specify_subfolder"] == "n":
-            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] +"/"
-        else:
-            newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"]+ "/" + d["specify_subfolder"]+"/"
+
+    if d["resample"] == "y":
+        newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] + "/resample/" 
+    elif d["specify_subfolder"] == "n":
+        newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"] +"/"
     else:
-        newpath = r"../0. Results/" + d["user"] + "/model/" + time.strftime("%Y.%m.%d/")  # Log file location
+        newpath = r"../0. Results/" + d["user"] + "/model/" + d["input_file"]+ "/" + d["specify_subfolder"]+"/"
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
     np.random.seed(int(d["seed"]))  # Set seed
 
-    if d["user"] == "Kieron":
-        df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
-    else:
-        df = pd.read_csv(d["file_location"] + "vw_Incident_cleaned" + d["input_file"] + ".csv", encoding='latin-1',
-                     low_memory=False)
+    df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
 
     print("Input file name: %s\n" % d["input_file"])
     

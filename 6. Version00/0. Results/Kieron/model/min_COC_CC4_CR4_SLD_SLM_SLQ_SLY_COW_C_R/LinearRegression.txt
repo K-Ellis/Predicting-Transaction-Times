@@ -1,11 +1,20 @@
-LinearRegression 20170729-194332
+LinearRegression 20170730-134759
 
+
+
+Simple TimeTaken stats
+	mean_time = 349178.1586618756
+	std_time = 407388.8162615632
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 407388.8162615634
+	mean_time_test_mae = 303121.332656
 Input file name min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R:
 LinearRegression: Cross Validation (10 Folds)
-	Train Mean RMSE: 223862.29 (+/-551.60)
-	Test Mean RMSE: 223905.25 (+/-5934.29)
 	Train Mean R2: 0.69804 (+/-0.00094)
 	Test Mean R2: 0.69754 (+/-0.00903)
+	Train Mean RMSE: 223862.29 (+/-551.60)
+	Test Mean RMSE: 223905.25 (+/-5934.29)
 	Train Mean MAE: 148399.31 (+/-469.05)
 	Test Mean MAE: 148486.97 (+/-3473.34)
 
