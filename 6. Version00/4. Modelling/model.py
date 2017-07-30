@@ -315,25 +315,27 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n\n")
         
     X = df.drop("TimeTaken", axis=1)
-    
-    cols_not_used = ["Created_On", "ResolvedDate", "Created_On_Day", "ResolvedDate_Day", "Created_On_Week",
-    "ResolvedDate_Week", "Created_On_Month", "ResolvedDate_Month", "Created_On_Qtr", "ResolvedDate_Qtr", "TimeTaken_hours",
-    "Mean_TimeTaken",
-    "TimeTaken_LinearRegression", "TimeTaken_hours_LinearRegression",
-    "TimeTaken_RandomForestRegressor", "TimeTaken_hours_RandomForestRegressor",
-    ]
-    for col in cols_not_used:
-        if col in df.columns:
-            X = X.drop(col, axis=1)
+
+    keepers = ["IsSOXCase", "Numberofreactivations", "Priority",
+               "Complexity", "StageName", "CountrySource", "CountryProcessed", "SalesLocation", "Queue",
+               "AmountinUSD", "Complexity", "StageName", "StatusReason", "SubReason", "ROCName",
+               "sourcesystem", "Source", "Revenutype",
+    "Concurrent_open_cases", "Cases_created_within_past_8_hours", "Cases_resolved_within_past_8_hours",
+    "Seconds_left_Day", "Seconds_left_Month", "Seconds_left_Qtr", "Seconds_left_Year", "Created_on_Weekend",
+    "Rolling_Mean", "Rolling_Median", "Rolling_Std",
+    "HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
+    "AssignedToGroup_BPO", "AssignedToGroup_CRMT",
+    "AuditDuration"]
+
+    for col in X.columns:
+        if col not in keepers:
+            del X[col]
         
     print("Features used:")
     out_file.write("\nFeatures used:")
-    for col in X.columns:
-        print("\t%s" % col)
-        out_file.write("\n\t%s" % col)
-    # out_file.write("\n")
-    # out_file.write(str(X.columns.tolist()))
-    # out_file.write("\n")
+    for i, col in enumerate(X.columns):
+        print("\t%s - %s" % (i+1, col))
+        out_file.write("\n\t%s - %s" % (i+1, col))
 
     # todo remove other TimeTaken_alg's variables
     
