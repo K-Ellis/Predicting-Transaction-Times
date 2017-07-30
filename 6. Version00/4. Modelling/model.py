@@ -615,8 +615,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
         # in_data = pd.DataFrame(df[[x,y]], columns=[x, y])
         # plot(x,y, in_data, alg, "Test", algpath)
 
-
-
         plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "Test", algpath, alg_initials)
 
     ####################################################################################################################
@@ -638,9 +636,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
         for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances["importances"].values.tolist())):
             out_file.write("%d. \"%s\" (%f)\n" % (i, col, importance))
 
-        if d["rerun_with_top_importances"] == "y":
-            out_file.close()
-            return dfimportances
+        # if d["rerun_with_top_importances"] == "y":
+        out_file.close()
+        return dfimportances
     print("..finished with alg: %s..\n" % alg)
     out_file.close()
 
@@ -729,6 +727,8 @@ if __name__ == "__main__":  # Run program
         #     results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
         # else:
         dfimportances = results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
+
+        # todo - output df with only top k features (plus timetaken, created and resolved)
 
             # if d["top_k_features"] == "half":
             #     k = round(len(dfimportances["Columns"])/2)+1
