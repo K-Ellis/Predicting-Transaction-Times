@@ -60,6 +60,7 @@ def tree_importances(regr, X, algpath, d, out_file, alg_initials):
         df_top.to_csv("../../../Data/%s_%s_top_%s.csv" % (d["input_file"], alg_initials, d["top_k_features"]),
                       index=False)
 
+
 def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
     scalerX = StandardScaler().fit(X)
     # scalery = StandardScaler().fit(y.values.reshape(-1,1)) # Have to reshape to avoid warnings
@@ -95,6 +96,7 @@ def return_new_top_k_df(in_df, dfimportances, k):
         top.append("Created_On")
         top.append("ResolvedDate")
     return df[top]
+
 
 def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.figure()  # Plot all data
@@ -153,6 +155,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.savefig(newpath + "PDFs/" + column + "_log_100000.pdf")
     plt.close()
 
+
 def plot(x, y, alg, data, newpath, alg_initials):
     sns.reset_orig() # plt.rcParams.update(plt.rcParamsDefault)
     plt.figure()
@@ -175,6 +178,7 @@ def plot(x, y, alg, data, newpath, alg_initials):
     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + data + ".pdf")
     plt.close()
 
+
 def day_in_quarter(date):
     # Function found on stack overflow
     # https://stackoverflow.com/questions/37471704/how-do-i-get-the-correspondent-day-of-the-quarter-from-a-date-field
@@ -191,6 +195,7 @@ def day_in_quarter(date):
         return cur_day - q3 + 1
     else:
         return cur_day - q4 + 1
+
 
 def get_extra_cols(df, alg, d):
     df["Created_On"] = pd.to_datetime(df["Created_On"])
@@ -214,6 +219,7 @@ def get_extra_cols(df, alg, d):
     df["ResolvedDate_Qtr"]-=1
     return df
 
+
 def get_errors(df, alg, time_range, col):
     r2_scores = []
     rmse_scores = []
@@ -234,7 +240,8 @@ def get_errors(df, alg, time_range, col):
             rmse_scores.append(np.sqrt(mean_squared_error(actual, predicted)))
             mae_scores.append(mean_absolute_error(actual, predicted))
     return [r2_scores, rmse_scores, mae_scores]
-    
+
+
 def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initials, newpath):
     if x_label == "Day of Qtr Created" or x_label == "Day of Qtr Resolved":
         y = np.array(y)
@@ -305,6 +312,7 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         plt.savefig(newpath + "PDFs/" + error_name +"_"+ x_label  + ".pdf")
 
     plt.close()
+
 
 def plot_errors_main(df, alg, data, newpath, alg_initials):
     # import seaborn as sns
