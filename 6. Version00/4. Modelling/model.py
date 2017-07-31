@@ -249,7 +249,7 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         reverse = False
         if error_name == "R2":
             reverse = True
-        pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.4, light=.7, reverse=reverse)
+        pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.2, light=.7, reverse=reverse)
         rank = y_np.argsort().argsort() 
         sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
         plt.xticks(x_ticks, x_ticks)
