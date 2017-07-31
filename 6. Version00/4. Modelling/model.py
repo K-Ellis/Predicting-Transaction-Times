@@ -159,9 +159,12 @@ def plot(x, y, alg, data, newpath, alg_initials):
     plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
     # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
     # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
-    plt.xlabel(data + " Data")
+    plt.xlabel(data + " Data Actual")
     plt.ylabel(data + " Data Prediction")
-    plt.title(alg + " - " + data + " Data")
+    if alg == "Simple":
+        plt.title(alg_initials + " - " + data + " Data")
+    else:
+        plt.title(alg + " - " + data + " Data")
     plt.axis('equal')
     plt.ylim(0, 2000000)
     plt.xlim(0, 2000000)
@@ -461,6 +464,10 @@ def get_keepers():
                "sourcesystem_web",
                "HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
                "AssignedToGroup_BPO", "AssignedToGroup_CRMT",
+               "IsGovernment",
+                "AmountinUSD",
+                "IsMagnumCase",
+                "IsSignature",
                ]
     return keepers
 
@@ -486,14 +493,14 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     # output the features being used
     if alg_counter == 1:
         print("Length of df = %s" % len(df.columns)) # todo add these 3 print messages to outfile or delete them
-        print("Length of keepers = %s\n" % len(keepers))
+        print("Length of keepers = %s" % len(keepers))
         print("Length of features used = %s\n" % len(X.columns))
         print("Features used:")
-    out_file.write("\nFeatures used:")
+    # out_file.write("\nFeatures used:")
     for i, col in enumerate(X.columns):
         if alg_counter == 1:
             print("\t%s - %s" % (i+1, col))
-        out_file.write("\n\t%s - %s" % (i+1, col))
+        # out_file.write("\n\t%s - %s" % (i+1, col))
     
     y = df["TimeTaken"]
 
@@ -502,33 +509,70 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     ####################################################################################################################
     mean_time = np.mean(y)  # Calculate mean of predictions
     std_time = np.std(y)  # Calculate standard deviation of predictions
+    median_time = np.median(y)  # Calculate standard deviation of predictions
+    
     out_file.write("\n\nSimple TimeTaken stats")
     out_file.write("\n\tmean_time = %s" % mean_time)
     out_file.write("\n\tstd_time = %s" % std_time)
+    out_file.write("\n\tmedian_time = %s\n" % median_time)
     if alg_counter == 1:
         print("\nSimple TimeTaken stats")
         print("\tmean_time = %s" % mean_time)
         print("\tstd_time = %s" % std_time)
+        print("\tmedian_time = %s\n" % median_time)
     df["Mean_TimeTaken"] = mean_time
+    df["Median_TimeTaken"] = median_time
+    
     mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
     mean_time_test_rmse = sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
-    mean_time_test_mae = mean_absolute_error(y, df["Mean_TimeTaken"])
+    mean_time_test_meanae = mean_absolute_error(y, df["Mean_TimeTaken"])
+    mean_time_test_evs = explained_variance_score(y, df["Mean_TimeTaken"])
+    mean_time_test_medianae = median_absolute_error(y, df["Mean_TimeTaken"])
+    
+    median_time_test_r2 = r2_score(y, df["Median_TimeTaken"])
+    median_time_test_rmse = sqrt(mean_squared_error(y, df["Median_TimeTaken"]))
+    median_time_test_meanae = mean_absolute_error(y, df["Median_TimeTaken"])
+    median_time_test_evs = explained_variance_score(y, df["Median_TimeTaken"])
+    median_time_test_medianae = median_absolute_error(y, df["Median_TimeTaken"])
+    
     out_file.write("\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
     out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)
-    out_file.write("\n\tmean_time_test_mae = %s\n" % mean_time_test_mae)
+    out_file.write("\n\tmean_time_test_meanae = %s\n" % mean_time_test_meanae)
+    out_file.write("\n\tmean_time_test_evs = %s\n" % mean_time_test_evs)
+    out_file.write("\n\tmean_time_test_medianae = %s\n" % mean_time_test_medianae)
+    
+    out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_r2)
+    out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_rmse)
+    out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_meanae)
+    out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_evs)
+    out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_medianae)
+    
     if alg_counter == 1:
         print("\tmean_time_test_r2 = %s" % mean_time_test_r2)
         print("\tmean_time_test_rmse = %s" % mean_time_test_rmse)
-        print("\tmean_time_test_mae = %s\n " % mean_time_test_mae)
+        print("\tmean_time_test_meanae = %s " % mean_time_test_meanae)
+        print("\tmean_time_test_evs = %s" % mean_time_test_evs)
+        print("\tmean_time_test_medianae = %s\n " % mean_time_test_medianae)
 
+        print("\tmedian_time_test_r2 = %s" % median_time_test_r2)
+        print("\tmedian_time_test_rmse = %s" % median_time_test_rmse)
+        print("\tmedian_time_test_meanae = %s" % median_time_test_meanae)
+        print("\tmedian_time_test_evs = %s" % median_time_test_evs)
+        print("\tmedian_time_test_medianae = %s" % median_time_test_medianae)
+    
+    simplepath = newpath + "Simple_Stat_Plots/"
+    if not os.path.exists(simplepath):
+        os.makedirs(simplepath)  # Make folder for storing results if it does not exist
+    
+    if alg_counter == 1:
+        plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "All", simplepath, "Mean")
+        plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "All", simplepath, "Median")
+    
     ####################################################################################################################
     # Machine Learning
     ####################################################################################################################
     numFolds = int(d["crossvalidation"])
     kf = KFold(n_splits=numFolds, shuffle=True, random_state=int(d["seed"]))
-    # todo - more metrics
-    # adjusted R2
-    # F-test?
 
     train_rmse = []
     test_rmse = []
@@ -546,9 +590,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     percent_within_8 = []  # Tracking predictions within 8 hour
     percent_within_16 = []  # Tracking predictions within 16 hour
     percent_within_24 = []  # Tracking predictions within 24 hours
-    percent_within_48 = []  # Tracking predictions within 24 hours
-    percent_within_72 = []  # Tracking predictions within 24 hours
-    percent_within_96 = []  # Tracking predictions within 24 hours
+    percent_within_48 = []  # Tracking predictions within 48 hours
+    percent_within_72 = []  # Tracking predictions within 72 hours
+    percent_within_96 = []  # Tracking predictions within 96 hours
 
     max_time = 2000000
     df["TimeTaken_%s" % alg] = -1000000  # assign a random value
@@ -842,6 +886,8 @@ if __name__ == "__main__":  # Run program
     alg_counter = 0  # used so the simple stats, etc. aren't printed for each algorithm used
     if d["statsmodels_OLS"] == "y":
         import statsmodels.api as sm
+        np.set_printoptions(threshold=np.inf)
+        
         alg_initials = "OLS"
         alg = "Statsmodels_OLS"
         algpath = newpath + alg_initials + "/"
@@ -865,93 +911,89 @@ if __name__ == "__main__":  # Run program
         print("Length of df = %s" % len(df.columns)) # todo add these 3 print messages to outfile or delete them
         print("Length of keepers = %s\n" % len(keepers))
         print("Length of features used = %s\n" % len(X.columns))
-        print("Features used:")
+        # print("Features used:")
         out_file.write("\nFeatures used:")
         for i, col in enumerate(X.columns):
-            print("\t%s - %s" % (i+1, col))
+            # print("\t%s - %s" % (i+1, col))
             out_file.write("\n\t%s - %s" % (i+1, col))
         
         y = df["TimeTaken"]
         
         model = sm.OLS(y, X)
         results = model.fit()
+        
+        print('\nR2: ', results.rsquared)
+        out_file.write('\n\nR2: '+ str(results.rsquared))
+        
         print(results.summary())
         out_file.write("\n\n" + str(results.summary()) + "\n")
         
+        # # print('Parameters:')
+        # out_file.write('\n\nParameters:')
+        # # print(results.params)
+        # out_file.write("\n"+str(results.params))
         
-        print('Parameters:')
-        out_file.write('\n\nParameters:')
+        # # print('Standard errors: ') 
+        # out_file.write('\nStandard errors: \n') 
+        # print(results.bse)
+        # out_file.write(str(results.bse))
         
-        print(results.params)
-        out_file.write("\n"+str(results.params))
-        
-        print('\nR2: ', results.rsquared)
-        out_file.write('\nR2: '+ str(results.rsquared))
-        
-        
-        print('Standard errors: ') 
-        out_file.write('\nStandard errors: \n') 
-        
-        print(results.bse)
-        out_file.write(str(results.bse))
-        
-        print('\nPredicted values: ', results.predict())
+        # print('\nPredicted values: ', results.predict())
         out_file.write('\nPredicted values: '+str(results.predict()))
         
         y_pred = results.predict()
         # print(y_pred)
         # out_file.write(y_pred)
         
-        
         plot(y, y_pred, alg, "All Data", algpath, alg_initials)
         out_file.close()
-    
-    if d["LinearRegression"] == "y":
-        alg_counter+=1
-        regressor = LinearRegression()
-        results(df, "LinearRegression", regressor, newpath, d, alg_counter, "LR")
+    else:
+        if d["LinearRegression"] == "y":
+            alg_counter+=1
+            regressor = LinearRegression()
+            results(df, "LinearRegression", regressor, newpath, d, alg_counter, "LR")
 
-    if d["ElasticNet"] == "y":
-        alg_counter+=1
-        regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
-        results(df, "ElasticNet", regressor, newpath, d, alg_counter, "EN")
+        if d["ElasticNet"] == "y":
+            alg_counter+=1
+            regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
+            results(df, "ElasticNet", regressor, newpath, d, alg_counter, "EN")
 
-    if d["KernelRidge"] == "y":
-        alg_counter+=1
-        regressor = KernelRidge(alpha=0.1)
-        results(df, "KernelRidge", regressor, newpath, d, alg_counter, "KR")
+        if d["KernelRidge"] == "y":
+            alg_counter+=1
+            regressor = KernelRidge(alpha=0.1)
+            results(df, "KernelRidge", regressor, newpath, d, alg_counter, "KR")
 
-    if d["MLPRegressor"] == "y":
-        alg_counter+=1
-        regressor = MLPRegressor(hidden_layer_sizes=(50,25,10,5,3), random_state=int(d["seed"]),
-                                 max_iter=2000) # early_stopping=True)
-        results(df, "MLPRegressor", regressor, newpath, d, alg_counter, "MLP")
+        if d["MLPRegressor"] == "y":
+            alg_counter+=1
+            regressor = MLPRegressor(hidden_layer_sizes=(50,25,10,5,3), random_state=int(d["seed"]),
+                                     max_iter=2000) # early_stopping=True)
+            results(df, "MLPRegressor", regressor, newpath, d, alg_counter, "MLP")
 
-    if d["GradientBoostingRegressor"] == "y":
-        alg_counter+=1
-        regressor = GradientBoostingRegressor(random_state=int(d["seed"]))
-        results(df, "GradientBoostingRegressor", regressor, newpath, d, alg_counter, "GBR")
+        if d["GradientBoostingRegressor"] == "y":
+            alg_counter+=1
+            regressor = GradientBoostingRegressor(random_state=int(d["seed"]))
+            results(df, "GradientBoostingRegressor", regressor, newpath, d, alg_counter, "GBR")
 
-    if d["xgboost"] == "y":
-        alg_counter+=1
-        import xgboost as xgb
-        params = {
-            'max_depth': 5,
-            'n_estimators': 50,
-            'objective': 'reg:linear'}
-        regressor = xgb.XGBRegressor(**params)
-        results(df, "xgboost", regressor, newpath, d, alg_counter, "XGB")
+        if d["xgboost"] == "y":
+            alg_counter+=1
+            import xgboost as xgb
+            params = {
+                'max_depth': 5,
+                'n_estimators': 50,
+                'objective': 'reg:linear'}
+            regressor = xgb.XGBRegressor(**params)
+            results(df, "xgboost", regressor, newpath, d, alg_counter, "XGB")
 
-    if d["RandomForestRegressor"] == "y":
-        alg_counter+=1
-        regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]),
-                                          max_depth=25, n_jobs=-1)
-        results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
-    
-    copyfile(parameters, newpath + "parameters.txt")  # Save parameters
+        if d["RandomForestRegressor"] == "y":
+            alg_counter+=1
+            regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]),
+                                              max_depth=25, n_jobs=-1)
+            results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
+        
+        copyfile(parameters, newpath + "parameters.txt")  # Save parameters
 
-    if d["output_predictions_csv"] == "y":
-        df.to_csv(d["file_location"] + d["input_file"] + "_predictions.csv", index=False)  # export file
+        if d["output_predictions_csv"] == "y":
+            df.to_csv(d["file_location"] + d["input_file"] + "_predictions.csv", index=False)  # export file
 
     if d["beep"] == "y":
         import winsound

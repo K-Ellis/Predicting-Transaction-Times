@@ -35,9 +35,9 @@ prev******: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW
 prev******: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R
 input_file: all_Incident
 ########### ################
-statsmodels_OLS: y
+statsmodels_OLS: n
 crossvalidation: 10
-LinearRegression: n
+LinearRegression: y
 ElasticNet: n
 KernelRidge: n
 MLPRegressor: n

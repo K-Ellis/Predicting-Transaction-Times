@@ -292,7 +292,7 @@ def clean_data(d):
         df.IsSOXCase = df.IsSOXCase.astype(int)
         df = df[df["IsSOXCase"] != 2]
     else:
-        df["IsSOXCase"].fillna(1, inplace=True)
+        del df["IsSOXCase"]
 
     df["Numberofreactivations"].fillna(0, inplace=True)
     df.Numberofreactivations = df.Numberofreactivations.astype(int)  # Also convert to ints
