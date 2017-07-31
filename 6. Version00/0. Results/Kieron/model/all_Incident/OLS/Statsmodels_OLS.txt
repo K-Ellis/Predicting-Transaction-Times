@@ -1,0 +1,360 @@
+Statsmodels_OLS 20170731-132331
+
+Input file name all_Incident:
+
+Features used:
+	1 - AmountinUSD
+	2 - Cases_created_within_past_8_hours
+	3 - Cases_resolved_within_past_8_hours
+	4 - Complexity
+	5 - Concurrent_open_cases
+	6 - CountryProcessed_africa
+	7 - CountryProcessed_asia
+	8 - CountryProcessed_australia
+	9 - CountryProcessed_europe
+	10 - CountryProcessed_northamerica
+	11 - CountryProcessed_other
+	12 - CountryProcessed_southamerica
+	13 - CountrySource_africa
+	14 - CountrySource_asia
+	15 - CountrySource_australia
+	16 - CountrySource_europe
+	17 - CountrySource_northamerica
+	18 - CountrySource_other
+	19 - CountrySource_southamerica
+	20 - Created_on_Weekend
+	21 - IsSOXCase
+	22 - Numberofreactivations
+	23 - Priority
+	24 - Queue_AOC
+	25 - Queue_APOC
+	26 - Queue_Broken
+	27 - Queue_E&E
+	28 - Queue_EOC
+	29 - Queue_LOC
+	30 - Queue_NAOC
+	31 - ROCName_AOC
+	32 - ROCName_APOC
+	33 - ROCName_EOC
+	34 - Revenutype_Advanced Billing
+	35 - Revenutype_Credit / Rebill
+	36 - Revenutype_Current Revenue
+	37 - Revenutype_Disputed Revenue
+	38 - Revenutype_Future Billing
+	39 - Revenutype_Future OTRRR with OLS
+	40 - Revenutype_Future OTRRR without OLS
+	41 - Revenutype_New Work Sold
+	42 - Revenutype_Non-revenue
+	43 - Revenutype_Revenue Impacting Case / Pending Revenue
+	44 - Revenutype_Revenue Unknown
+	45 - Rolling_Mean
+	46 - Rolling_Median
+	47 - Rolling_Std
+	48 - SalesLocation_africa
+	49 - SalesLocation_asia
+	50 - SalesLocation_australia
+	51 - SalesLocation_europe
+	52 - SalesLocation_northamerica
+	53 - SalesLocation_other
+	54 - SalesLocation_southamerica
+	55 - Seconds_left_Day
+	56 - Seconds_left_Month
+	57 - Seconds_left_Qtr
+	58 - Seconds_left_Year
+	59 - Source_E-mail
+	60 - Source_Fax
+	61 - Source_Hard Copy
+	62 - Source_Manual
+	63 - Source_Soft Copy
+	64 - Source_Web
+	65 - Source_eAgreement (Ele)
+	66 - Source_eAgreement (Phy)
+	67 - StageName
+	68 - StatusReason_3rd Party Hold
+	69 - StatusReason_Completed
+	70 - StatusReason_Customer Hold
+	71 - StatusReason_Final Routing
+	72 - StatusReason_Information Provided
+	73 - StatusReason_New
+	74 - StatusReason_New Mail
+	75 - StatusReason_Problem Solved
+	76 - StatusReason_Reactivated
+	77 - StatusReason_Ready for Archiving
+	78 - StatusReason_Ready for Audit
+	79 - SubReason_Additional Product Order
+	80 - SubReason_Basic Enterprise Commitment
+	81 - SubReason_Electronic Order Pend / Reject
+	82 - SubReason_Future Pricing Only CPS
+	83 - SubReason_Manual Order Entry
+	84 - SubReason_Meteaop
+	85 - SubReason_P&H Electronic Order
+	86 - SubReason_Tax Exemption Order
+	87 - SubReason_True Up
+	88 - SubReason_Zero Usage Order
+	89 - sourcesystem_AplQuest
+	90 - sourcesystem_Aplquest
+	91 - sourcesystem_CLT
+	92 - sourcesystem_Current Revenue
+	93 - sourcesystem_Moritz Jürgensen
+	94 - sourcesystem_NEMEC
+	95 - sourcesystem_NMEC
+	96 - sourcesystem_Web
+	97 - sourcesystem_`
+	98 - sourcesystem_clt
+	99 - sourcesystem_web
+
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:              TimeTaken   R-squared:                       0.706
+Model:                            OLS   Adj. R-squared:                  0.705
+Method:                 Least Squares   F-statistic:                     694.1
+Date:                Mon, 31 Jul 2017   Prob (F-statistic):               0.00
+Time:                        13:23:32   Log-Likelihood:            -3.5335e+05
+No. Observations:               25799   AIC:                         7.069e+05
+Df Residuals:                   25709   BIC:                         7.076e+05
+Df Model:                          89                                         
+Covariance Type:            nonrobust                                         
+=======================================================================================================================
+                                                          coef    std err          t      P>|t|      [0.025      0.975]
+-----------------------------------------------------------------------------------------------------------------------
+AmountinUSD                                             0.0006      0.001      0.579      0.563      -0.001       0.002
+Cases_created_within_past_8_hours                     275.1034     34.931      7.876      0.000     206.638     343.569
+Cases_resolved_within_past_8_hours                    198.6113     36.362      5.462      0.000     127.340     269.882
+Complexity                                           1.145e+04   6155.859      1.860      0.063    -616.620    2.35e+04
+Concurrent_open_cases                                -931.0125      6.230   -149.444      0.000    -943.223    -918.802
+CountryProcessed_africa                              4.622e+04   4.75e+04      0.974      0.330   -4.68e+04    1.39e+05
+CountryProcessed_asia                                1.328e+04   4.11e+04      0.323      0.747   -6.74e+04    9.39e+04
+CountryProcessed_australia                           1.279e+04   4.66e+04      0.274      0.784   -7.86e+04    1.04e+05
+CountryProcessed_europe                              8872.3534   4.12e+04      0.215      0.829   -7.18e+04    8.96e+04
+CountryProcessed_northamerica                        4.094e+04   8.66e+04      0.473      0.636   -1.29e+05    2.11e+05
+CountryProcessed_other                               4.237e+04   7.16e+04      0.592      0.554   -9.79e+04    1.83e+05
+CountryProcessed_southamerica                        6.572e+04    8.7e+04      0.756      0.450   -1.05e+05    2.36e+05
+CountrySource_africa                                -1.285e+05   5.63e+04     -2.285      0.022   -2.39e+05   -1.83e+04
+CountrySource_asia                                  -2.763e+04    4.7e+04     -0.587      0.557    -1.2e+05    6.46e+04
+CountrySource_australia                              1.823e+05    8.5e+04      2.144      0.032    1.57e+04    3.49e+05
+CountrySource_europe                                -1.537e+04   5.97e+04     -0.258      0.797   -1.32e+05    1.02e+05
+CountrySource_northamerica                           1.385e+05   8.38e+04      1.651      0.099   -2.59e+04    3.03e+05
+CountrySource_other                                 -3.131e+04   5.61e+04     -0.558      0.577   -1.41e+05    7.87e+04
+CountrySource_southamerica                           1.123e+05   7.99e+04      1.405      0.160   -4.43e+04    2.69e+05
+Created_on_Weekend                                  -2.667e+04   3790.879     -7.035      0.000   -3.41e+04   -1.92e+04
+IsSOXCase                                            -111.2076   7196.881     -0.015      0.988   -1.42e+04     1.4e+04
+Numberofreactivations                                1.074e+05   3900.393     27.542      0.000    9.98e+04    1.15e+05
+Priority                                             2.295e+04   6733.520      3.409      0.001    9755.413    3.62e+04
+Queue_AOC                                            8794.0357   4.19e+04      0.210      0.834   -7.33e+04    9.09e+04
+Queue_APOC                                           2.008e+05   1.37e+05      1.468      0.142   -6.72e+04    4.69e+05
+Queue_Broken                                         2.326e+05   1.08e+05      2.148      0.032    2.04e+04    4.45e+05
+Queue_E&E                                           -7.188e+04   7.08e+04     -1.015      0.310   -2.11e+05    6.69e+04
+Queue_EOC                                            4388.8935   5.22e+04      0.084      0.933   -9.79e+04    1.07e+05
+Queue_LOC                                           -7.053e+04    4.3e+04     -1.639      0.101   -1.55e+05    1.38e+04
+Queue_NAOC                                          -7.401e+04   4.19e+04     -1.765      0.078   -1.56e+05    8160.051
+ROCName_AOC                                          2.301e+05   1.14e+05      2.019      0.044    6663.587    4.54e+05
+ROCName_APOC                                        -1.132e+05   1.25e+05     -0.905      0.365   -3.58e+05    1.32e+05
+ROCName_EOC                                          1.133e+05   7.63e+04      1.484      0.138   -3.63e+04    2.63e+05
+Revenutype_Advanced Billing                         -3.232e+04   1.98e+05     -0.163      0.870    -4.2e+05    3.55e+05
+Revenutype_Credit / Rebill                           6.486e+04   2.61e+04      2.482      0.013    1.36e+04    1.16e+05
+Revenutype_Current Revenue                            1.53e+04   2.53e+04      0.605      0.545   -3.42e+04    6.48e+04
+Revenutype_Disputed Revenue                          3.301e+04   6.44e+04      0.513      0.608   -9.31e+04    1.59e+05
+Revenutype_Future Billing                            2071.5599   2.57e+04      0.081      0.936   -4.82e+04    5.24e+04
+Revenutype_Future OTRRR with OLS                    -1.989e+04   5.07e+04     -0.393      0.695   -1.19e+05    7.94e+04
+Revenutype_Future OTRRR without OLS                  7592.4518    7.4e+04      0.103      0.918   -1.37e+05    1.53e+05
+Revenutype_New Work Sold                             9.156e+04   1.41e+05      0.649      0.516   -1.85e+05    3.68e+05
+Revenutype_Non-revenue                               1.579e+04   2.56e+04      0.616      0.538   -3.44e+04     6.6e+04
+Revenutype_Revenue Impacting Case / Pending Revenue  2.841e+04   4.67e+04      0.608      0.543   -6.32e+04     1.2e+05
+Revenutype_Revenue Unknown                           2.379e+04   2.75e+04      0.865      0.387   -3.01e+04    7.77e+04
+Rolling_Mean                                            0.6973      0.025     28.407      0.000       0.649       0.745
+Rolling_Median                                         -0.1611      0.018     -8.735      0.000      -0.197      -0.125
+Rolling_Std                                             0.0333      0.015      2.262      0.024       0.004       0.062
+SalesLocation_africa                                 2.185e+05   5.97e+04      3.659      0.000    1.01e+05    3.36e+05
+SalesLocation_asia                                   1.718e+05   5.49e+04      3.128      0.002    6.41e+04    2.79e+05
+SalesLocation_australia                             -1.771e+04   9.14e+04     -0.194      0.846   -1.97e+05    1.61e+05
+SalesLocation_europe                                 1.448e+05   6.12e+04      2.368      0.018     2.5e+04    2.65e+05
+SalesLocation_northamerica                          -1.069e+05   7.33e+04     -1.459      0.145   -2.51e+05    3.67e+04
+SalesLocation_other                                 -1.138e+05   1.05e+05     -1.084      0.278    -3.2e+05     9.2e+04
+SalesLocation_southamerica                          -6.646e+04    7.8e+04     -0.852      0.394   -2.19e+05    8.64e+04
+Seconds_left_Day                                        0.2847      0.021     13.675      0.000       0.244       0.325
+Seconds_left_Month                                      0.0247      0.002     10.800      0.000       0.020       0.029
+Seconds_left_Qtr                                       -0.0093      0.001    -12.359      0.000      -0.011      -0.008
+Seconds_left_Year                                      -0.0057      0.000    -25.339      0.000      -0.006      -0.005
+Source_E-mail                                        4758.2368   2.31e+04      0.206      0.837   -4.05e+04       5e+04
+Source_Fax                                          -2.785e+04   1.35e+05     -0.206      0.837   -2.93e+05    2.37e+05
+Source_Hard Copy                                     3.004e+04   2.24e+04      1.343      0.179   -1.38e+04    7.39e+04
+Source_Manual                                        1.167e+05    2.2e+04      5.301      0.000    7.35e+04     1.6e+05
+Source_Soft Copy                                     1.761e+04   2.04e+04      0.863      0.388   -2.24e+04    5.76e+04
+Source_Web                                           1.936e+04   1.99e+04      0.971      0.331   -1.97e+04    5.84e+04
+Source_eAgreement (Ele)                              4.932e+04   4.59e+04      1.074      0.283   -4.07e+04    1.39e+05
+Source_eAgreement (Phy)                              2.027e+04   2.08e+04      0.977      0.329   -2.04e+04    6.09e+04
+StageName                                            1327.1929   1328.876      0.999      0.318   -1277.479    3931.865
+StatusReason_3rd Party Hold                         -1.666e+05   1.45e+05     -1.148      0.251   -4.51e+05    1.18e+05
+StatusReason_Completed                               1.287e+05   4.28e+04      3.007      0.003    4.48e+04    2.13e+05
+StatusReason_Customer Hold                          -2681.0120   7.27e+04     -0.037      0.971   -1.45e+05     1.4e+05
+StatusReason_Final Routing                          -1.755e+04   2.01e+05     -0.087      0.930   -4.11e+05    3.76e+05
+StatusReason_Information Provided                    2.018e+05   7.55e+04      2.672      0.008    5.38e+04     3.5e+05
+StatusReason_New                                    -2.341e+05   2.01e+05     -1.164      0.244   -6.28e+05     1.6e+05
+StatusReason_New Mail                                   -5e+04   1.54e+05     -0.325      0.745   -3.52e+05    2.52e+05
+StatusReason_Problem Solved                           1.44e+05   4.27e+04      3.368      0.001    6.02e+04    2.28e+05
+StatusReason_Reactivated                            -1.338e+05   2.01e+05     -0.667      0.505   -5.27e+05    2.59e+05
+StatusReason_Ready for Archiving                     -4.71e+04   1.45e+05     -0.325      0.745   -3.31e+05    2.37e+05
+StatusReason_Ready for Audit                         4.077e+05   1.45e+05      2.808      0.005    1.23e+05    6.92e+05
+SubReason_Additional Product Order                   9148.0710   1.19e+04      0.769      0.442   -1.42e+04    3.25e+04
+SubReason_Basic Enterprise Commitment                 3.98e+04   9632.360      4.132      0.000    2.09e+04    5.87e+04
+SubReason_Electronic Order Pend / Reject            -2.549e+04   1.38e+04     -1.849      0.064   -5.25e+04    1529.232
+SubReason_Future Pricing Only CPS                    6.631e+04   1.25e+04      5.318      0.000    4.19e+04    9.08e+04
+SubReason_Manual Order Entry                        -1.193e+04      1e+04     -1.189      0.235   -3.16e+04    7743.703
+SubReason_Meteaop                                    1.733e+04   9201.209      1.884      0.060    -700.286    3.54e+04
+SubReason_P&H Electronic Order                      -4.045e+04   5.13e+04     -0.788      0.431   -1.41e+05    6.01e+04
+SubReason_Tax Exemption Order                        1.298e+05   2.51e+04      5.171      0.000    8.06e+04    1.79e+05
+SubReason_True Up                                    3.469e+04   1.03e+04      3.369      0.001    1.45e+04    5.49e+04
+SubReason_Zero Usage Order                           1.101e+04   9807.307      1.122      0.262   -8214.394    3.02e+04
+sourcesystem_AplQuest                                5.946e+04   1.47e+05      0.405      0.685   -2.28e+05    3.47e+05
+sourcesystem_Aplquest                               -3.102e+04   7.33e+04     -0.423      0.672   -1.75e+05    1.13e+05
+sourcesystem_CLT                                     3.326e+04   4.64e+04      0.716      0.474   -5.78e+04    1.24e+05
+sourcesystem_Current Revenue                         4.958e+04   2.02e+05      0.245      0.806   -3.47e+05    4.46e+05
+sourcesystem_Moritz Jürgensen                       -1.004e+04   2.02e+05     -0.050      0.960   -4.06e+05    3.85e+05
+sourcesystem_NEMEC                                  -1.289e+05   2.02e+05     -0.640      0.522   -5.24e+05    2.66e+05
+sourcesystem_NMEC                                   -8.318e+04   5.54e+04     -1.502      0.133   -1.92e+05    2.53e+04
+sourcesystem_Web                                     4.542e+04   2.02e+05      0.225      0.822    -3.5e+05     4.4e+05
+sourcesystem_`                                       3.192e+05   2.02e+05      1.582      0.114   -7.62e+04    7.15e+05
+sourcesystem_clt                                     1.235e+05   1.46e+05      0.844      0.399   -1.63e+05     4.1e+05
+sourcesystem_web                                    -1.471e+05   1.09e+05     -1.355      0.175    -3.6e+05    6.56e+04
+==============================================================================
+Omnibus:                     7227.819   Durbin-Watson:                   1.611
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):            25084.054
+Skew:                           1.397   Prob(JB):                         0.00
+Kurtosis:                       6.941   Cond. No.                     1.46e+18
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The smallest eigenvalue is 1.3e-18. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.
+
+
+Parameters:
+AmountinUSD                                      0.000564
+Cases_created_within_past_8_hours              275.103424
+Cases_resolved_within_past_8_hours             198.611264
+Complexity                                   11449.209966
+Concurrent_open_cases                         -931.012502
+CountryProcessed_africa                      46217.983475
+CountryProcessed_asia                        13278.698161
+CountryProcessed_australia                   12788.956145
+CountryProcessed_europe                       8872.353440
+CountryProcessed_northamerica                40941.319639
+CountryProcessed_other                       42373.961814
+CountryProcessed_southamerica                65716.825853
+CountrySource_africa                       -128540.057138
+CountrySource_asia                          -27630.172440
+CountrySource_australia                     182281.121227
+CountrySource_europe                        -15366.381186
+CountrySource_northamerica                  138462.592979
+CountrySource_other                         -31307.999613
+CountrySource_southamerica                  112290.882112
+Created_on_Weekend                          -26667.245748
+IsSOXCase                                     -111.207569
+Numberofreactivations                       107425.485026
+Priority                                     22953.491406
+Queue_AOC                                     8794.035715
+Queue_APOC                                  200820.300513
+Queue_Broken                                232605.050081
+Queue_E&E                                   -71880.503579
+Queue_EOC                                     4388.893542
+Queue_LOC                                   -70526.262552
+Queue_NAOC                                  -74011.493300
+                                                ...      
+StatusReason_Customer Hold                   -2681.012025
+StatusReason_Final Routing                  -17548.202782
+StatusReason_Information Provided           201772.850628
+StatusReason_New                           -234112.922353
+StatusReason_New Mail                       -50003.927194
+StatusReason_Problem Solved                 143971.134763
+StatusReason_Reactivated                   -133832.792601
+StatusReason_Ready for Archiving            -47095.351609
+StatusReason_Ready for Audit                407652.208491
+SubReason_Additional Product Order            9148.071006
+SubReason_Basic Enterprise Commitment        39802.764513
+SubReason_Electronic Order Pend / Reject    -25493.353537
+SubReason_Future Pricing Only CPS            66311.499532
+SubReason_Manual Order Entry                -11929.830562
+SubReason_Meteaop                            17334.601827
+SubReason_P&H Electronic Order              -40447.778656
+SubReason_Tax Exemption Order               129761.151884
+SubReason_True Up                            34694.415660
+SubReason_Zero Usage Order                   11008.478753
+sourcesystem_AplQuest                        59456.609757
+sourcesystem_Aplquest                       -31018.822374
+sourcesystem_CLT                             33264.822101
+sourcesystem_Current Revenue                 49584.458199
+sourcesystem_Moritz Jürgensen               -10035.751483
+sourcesystem_NEMEC                         -128933.706027
+sourcesystem_NMEC                           -83177.283750
+sourcesystem_Web                             45421.007022
+sourcesystem_`                              319233.029275
+sourcesystem_clt                            123479.421949
+sourcesystem_web                           -147083.764249
+Length: 99, dtype: float64
+R2: 0.706130097618
+Standard errors: 
+AmountinUSD                                      0.000974
+Cases_created_within_past_8_hours               34.930574
+Cases_resolved_within_past_8_hours              36.361731
+Complexity                                    6155.858993
+Concurrent_open_cases                            6.229854
+CountryProcessed_africa                      47463.198936
+CountryProcessed_asia                        41138.320201
+CountryProcessed_australia                   46601.667206
+CountryProcessed_europe                      41179.724792
+CountryProcessed_northamerica                86578.486203
+CountryProcessed_other                       71565.375388
+CountryProcessed_southamerica                86969.583280
+CountrySource_africa                         56258.153115
+CountrySource_asia                           47040.802503
+CountrySource_australia                      85007.043768
+CountrySource_europe                         59650.774928
+CountrySource_northamerica                   83844.350397
+CountrySource_other                          56124.529363
+CountrySource_southamerica                   79908.580106
+Created_on_Weekend                            3790.878604
+IsSOXCase                                     7196.880686
+Numberofreactivations                         3900.393315
+Priority                                      6733.520358
+Queue_AOC                                    41880.802371
+Queue_APOC                                  136756.979892
+Queue_Broken                                108286.425604
+Queue_E&E                                    70794.662992
+Queue_EOC                                    52179.674517
+Queue_LOC                                    43029.054104
+Queue_NAOC                                   41923.054027
+                                                ...      
+StatusReason_Customer Hold                   72651.909211
+StatusReason_Final Routing                  200685.782013
+StatusReason_Information Provided            75509.956883
+StatusReason_New                            201108.665035
+StatusReason_New Mail                       153922.893110
+StatusReason_Problem Solved                  42745.968813
+StatusReason_Reactivated                    200661.900107
+StatusReason_Ready for Archiving            145080.713141
+StatusReason_Ready for Audit                145156.605925
+SubReason_Additional Product Order           11891.675108
+SubReason_Basic Enterprise Commitment         9632.359791
+SubReason_Electronic Order Pend / Reject     13786.637652
+SubReason_Future Pricing Only CPS            12470.157230
+SubReason_Manual Order Entry                 10037.229201
+SubReason_Meteaop                             9201.209472
+SubReason_P&H Electronic Order               51320.653375
+SubReason_Tax Exemption Order                25095.136115
+SubReason_True Up                            10298.975807
+SubReason_Zero Usage Order                    9807.306765
+sourcesystem_AplQuest                       146719.186519
+sourcesystem_Aplquest                        73293.841220
+sourcesystem_CLT                             46441.499967
+sourcesystem_Current Revenue                202187.343360
+sourcesystem_Moritz Jürgensen               201769.043603
+sourcesystem_NEMEC                          201562.950078
+sourcesystem_NMEC                            55362.304710
+sourcesystem_Web                            201552.563708
+sourcesystem_`                              201736.453807
+sourcesystem_clt                            146349.683797
+sourcesystem_web                            108515.639328
+Length: 99, dtype: float64
+Predicted values: [ 1272447.07343306  1210600.37926325  1176797.82306906 ...,
+   202186.69339297   261838.86908923   245861.47067709]

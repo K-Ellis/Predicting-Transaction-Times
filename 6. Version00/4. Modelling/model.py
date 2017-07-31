@@ -840,6 +840,72 @@ if __name__ == "__main__":  # Run program
     # Modelling
     ###################################################################################################################
     alg_counter = 0  # used so the simple stats, etc. aren't printed for each algorithm used
+    if d["statsmodels_OLS"] == "y":
+        import statsmodels.api as sm
+        alg_initials = "OLS"
+        alg = "Statsmodels_OLS"
+        algpath = newpath + alg_initials + "/"
+        if not os.path.exists(algpath):
+            os.makedirs(algpath)  # Make folder for storing results if it does not exist
+
+        out_file_name = algpath + alg + ".txt"  # Log file name
+
+        out_file = open(out_file_name, "w")  # Open log file
+        out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
+        out_file.write("\nInput file name %s:\n" % d["input_file"])
+
+        X = df.drop("TimeTaken", axis=1)
+
+        keepers = get_keepers()
+        for col in X.columns:
+            if col not in keepers:
+                del X[col]
+
+        # output the features being used
+        print("Length of df = %s" % len(df.columns)) # todo add these 3 print messages to outfile or delete them
+        print("Length of keepers = %s\n" % len(keepers))
+        print("Length of features used = %s\n" % len(X.columns))
+        print("Features used:")
+        out_file.write("\nFeatures used:")
+        for i, col in enumerate(X.columns):
+            print("\t%s - %s" % (i+1, col))
+            out_file.write("\n\t%s - %s" % (i+1, col))
+        
+        y = df["TimeTaken"]
+        
+        model = sm.OLS(y, X)
+        results = model.fit()
+        print(results.summary())
+        out_file.write("\n\n" + str(results.summary()) + "\n")
+        
+        
+        print('Parameters:')
+        out_file.write('\n\nParameters:')
+        
+        print(results.params)
+        out_file.write("\n"+str(results.params))
+        
+        print('\nR2: ', results.rsquared)
+        out_file.write('\nR2: '+ str(results.rsquared))
+        
+        
+        print('Standard errors: ') 
+        out_file.write('\nStandard errors: \n') 
+        
+        print(results.bse)
+        out_file.write(str(results.bse))
+        
+        print('\nPredicted values: ', results.predict())
+        out_file.write('\nPredicted values: '+str(results.predict()))
+        
+        y_pred = results.predict()
+        # print(y_pred)
+        # out_file.write(y_pred)
+        
+        
+        plot(y, y_pred, alg, "All Data", algpath, alg_initials)
+        out_file.close()
+    
     if d["LinearRegression"] == "y":
         alg_counter+=1
         regressor = LinearRegression()
