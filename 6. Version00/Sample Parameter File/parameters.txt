@@ -35,6 +35,7 @@ prev******: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW
 prev******: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R
 input_file: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R
 ########### ################
+statsmodels_OLS: y
 crossvalidation: 10
 LinearRegression: y
 ElasticNet: n
