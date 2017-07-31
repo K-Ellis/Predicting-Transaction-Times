@@ -1,0 +1,100 @@
+Columns,Importances
+Concurrent_open_cases,0.8256458926478552
+Seconds_left_Year,0.06255012037974207
+Rolling_Std,0.026468104647089576
+Seconds_left_Qtr,0.02429997422154257
+Seconds_left_Month,0.020696590496060655
+Rolling_Mean,0.01915949562174986
+Rolling_Median,0.008438041905000797
+Seconds_left_Day,0.003376760902430981
+Cases_resolved_within_past_8_hours,0.0022431505035841685
+Cases_created_within_past_8_hours,0.0013785844500957963
+Created_on_Weekend,0.0013392117050397946
+Numberofreactivations,0.001014045063254022
+AmountinUSD,0.0005805026323621276
+Queue_AOC,0.00018693739868096043
+StageName,0.00015400769768799327
+ROCName_AOC,0.0001311545816602667
+Complexity,0.00010353316801975393
+SubReason_Meteaop,0.00010247386021568035
+IsSOXCase,9.546467312458722e-05
+SubReason_Zero Usage Order,9.298325584916172e-05
+SubReason_Basic Enterprise Commitment,9.156678787632708e-05
+Source_Web,9.145932611847097e-05
+Source_Soft Copy,8.877163674318103e-05
+Revenutype_Current Revenue,8.241000696959331e-05
+Queue_NAOC,7.916172394181753e-05
+CountryProcessed_northamerica,7.142744262088687e-05
+StatusReason_Problem Solved,6.836961832909575e-05
+SalesLocation_northamerica,6.75636887847522e-05
+SubReason_True Up,6.562121564540748e-05
+SubReason_Manual Order Entry,6.34984940876443e-05
+Queue_EOC,6.283550690988187e-05
+StatusReason_Completed,6.05470511739568e-05
+ROCName_EOC,5.004212590017467e-05
+CountryProcessed_asia,4.921741723027207e-05
+Revenutype_Future Billing,4.9209683399657816e-05
+Revenutype_Credit / Rebill,4.883891655041415e-05
+Revenutype_Non-revenue,4.801485301200502e-05
+Priority,4.6207977050518264e-05
+ROCName_APOC,4.567928170855859e-05
+CountrySource_northamerica,4.510847122591521e-05
+CountrySource_europe,4.1534474821045274e-05
+SalesLocation_asia,3.970740718544347e-05
+CountryProcessed_europe,3.93295192383011e-05
+SalesLocation_europe,3.9209174372772816e-05
+Queue_APOC,3.7333401442474386e-05
+CountryProcessed_southamerica,3.5684116328495494e-05
+Queue_LOC,3.5642709299455835e-05
+SalesLocation_southamerica,3.3967216361667584e-05
+SubReason_Future Pricing Only CPS,3.2157299778508777e-05
+Source_eAgreement (Phy),3.162280789610269e-05
+CountrySource_asia,3.0367419172814774e-05
+CountrySource_southamerica,2.9169103140434007e-05
+Source_Manual,2.8691770892653735e-05
+Source_Hard Copy,2.3454757683625282e-05
+Revenutype_Revenue Unknown,2.2374619685656226e-05
+SubReason_Additional Product Order,2.087444526047479e-05
+CountrySource_australia,2.07147264433333e-05
+SalesLocation_australia,1.891868730672881e-05
+SubReason_Tax Exemption Order,1.4331973761950023e-05
+Source_E-mail,1.0994742066693456e-05
+SalesLocation_africa,1.0807909642029534e-05
+SubReason_Electronic Order Pend / Reject,1.0523565577630232e-05
+CountrySource_africa,8.972629863255135e-06
+CountryProcessed_africa,8.2483576995296e-06
+sourcesystem_NMEC,7.382548753846749e-06
+Queue_Broken,7.168645605420593e-06
+Revenutype_Future OTRRR without OLS,5.1168461159143115e-06
+Revenutype_Future OTRRR with OLS,4.783071968733249e-06
+Queue_E&E,3.859877552531303e-06
+CountryProcessed_australia,2.4835708740190174e-06
+sourcesystem_CLT,2.235458926979838e-06
+Source_eAgreement (Ele),2.2266731040928294e-06
+StatusReason_Information Provided,2.0677712745774348e-06
+SubReason_P&H Electronic Order,1.962940428013436e-06
+Revenutype_Revenue Impacting Case / Pending Revenue,1.3712830147082819e-06
+sourcesystem_Web,5.258406607203116e-07
+sourcesystem_Aplquest,3.7140801891277914e-07
+sourcesystem_`,3.308189720226517e-07
+CountryProcessed_other,2.9183695674212275e-07
+StatusReason_Customer Hold,2.40138780852621e-07
+CountrySource_other,1.599596698028769e-07
+Revenutype_Disputed Revenue,1.0917231920571313e-07
+StatusReason_Ready for Archiving,4.893268714244582e-08
+sourcesystem_NEMEC,2.1534894109675417e-08
+Source_Fax,2.090415804280185e-08
+sourcesystem_clt,2.8582123006251687e-09
+Revenutype_New Work Sold,1.2804052040924445e-09
+Revenutype_Advanced Billing,9.965350048025645e-10
+StatusReason_Reactivated,6.040136615620356e-10
+SalesLocation_other,5.867080681216933e-10
+sourcesystem_Moritz Jürgensen,2.780499361794721e-10
+sourcesystem_web,1.4733078055495155e-10
+sourcesystem_AplQuest,5.967294679647301e-11
+StatusReason_Final Routing,4.855688076545571e-11
+StatusReason_New Mail,1.737382677893659e-11
+StatusReason_3rd Party Hold,1.7159577897524475e-11
+sourcesystem_Current Revenue,0.0
+StatusReason_Ready for Audit,0.0
+StatusReason_New,0.0

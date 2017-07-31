@@ -21,8 +21,10 @@ from pandas.tseries.offsets import BDay
 
 def fill_nulls_dfcs(df, dfcs, fill_value): # Fill in Nulls given a set of dataframe columns
     for dfc in dfcs:
-        if fill_value == "mode": df[dfc].fillna(df[dfc].mode()[0], inplace=True)
-        if fill_value == "mean": df[dfc].fillna(df[dfc].mean(), inplace=True)
+        if fill_value == "mode":
+            df[dfc].fillna(df[dfc].mode()[0], inplace=True)
+        if fill_value == "mean":
+            df[dfc].fillna(df[dfc].mean(), inplace=True)
 
 
 def time_taken(df):  # replace start & finish with one new column, "TimeTaken"
@@ -285,9 +287,13 @@ def clean_data(d):
     ####################################################################################################################
     # IsSox case transformation to filter na's
     ####################################################################################################################
-    df["IsSOXCase"].fillna(2, inplace=True)
-    df.IsSOXCase = df.IsSOXCase.astype(int)
-    df = df[df["IsSOXCase"] != 2]
+    if d["remove_null_IsSOXCase"] == "y":
+        df["IsSOXCase"].fillna(2, inplace=True)
+        df.IsSOXCase = df.IsSOXCase.astype(int)
+        df = df[df["IsSOXCase"] != 2]
+    else:
+        df["IsSOXCase"].fillna(1, inplace=True)
+
     df["Numberofreactivations"].fillna(0, inplace=True)
     df.Numberofreactivations = df.Numberofreactivations.astype(int)  # Also convert to ints
     print("ISO and Reactivations done:", df.shape)
@@ -299,7 +305,7 @@ def clean_data(d):
         df = resample(df, n_samples=int(d["n_samples"]), random_state=int(d["seed"]))
         df = df.reset_index(drop=True)
         print("Dataset resampled:", df.shape)
-   
+
     ####################################################################################################################
     # Date and time - calculate time taken
     ####################################################################################################################
@@ -547,16 +553,24 @@ def clean_data(d):
     
     if d["Rolling_Mean"] == "y": quant_cols.append("Rolling_Mean")  
     if d["Rolling_Median"] == "y": quant_cols.append("Rolling_Median")  
-    if d["Rolling_Std"] == "y": quant_cols.append("Rolling_Std")  
-    
+    if d["Rolling_Std"] == "y": quant_cols.append("Rolling_Std")
+
+    do_not_fill = ["TimeTaken", "Created_on_Weekend", "Created_On", "ResolvedDate"]
     categorical_cols = []
     for col in list(df):
-        if col not in quant_cols:
+        if col not in quant_cols and col not in do_not_fill:
             categorical_cols.append(col)
     fill_nulls_dfcs(df, categorical_cols, "mode")
+    print("fill categoricals done:", df.shape)
+
+    # print(len(df["AmountinUSD"]))
+    df["AmountinUSD"] = df["AmountinUSD"].apply(lambda x: float(x)) # was getting an error when filling amountinusd
+    # here but this fixed it
+    # print(len(df["AmountinUSD"]))
+
     fill_nulls_dfcs(df, quant_cols, "mean")
     # fill_nulls_dfcs(df, ["AmountinUSD", "Priority", "Complexity", "StageName"], "mean")
-    print("fill_nulls_dfcs done:", df.shape)
+    print("fill quants done:", df.shape)
 
     # df = scale_quant_cols(df, quant_cols)
     # print("scale_quant_cols done:", df.shape)

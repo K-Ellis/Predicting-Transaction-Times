@@ -357,6 +357,114 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
+
+def get_keepers():
+    keepers = ["AmountinUSD",
+               "AuditDuration",
+               "Cases_created_within_past_8_hours",
+               "Cases_resolved_within_past_8_hours",
+               "Complexity",
+               "Concurrent_open_cases",
+               "CountryProcessed_africa",
+               "CountryProcessed_asia",
+               "CountryProcessed_australia",
+               "CountryProcessed_europe",
+               "CountryProcessed_northamerica",
+               "CountryProcessed_other",
+               "CountryProcessed_southamerica",
+               "CountrySource_africa",
+               "CountrySource_asia",
+               "CountrySource_australia",
+               "CountrySource_europe",
+               "CountrySource_northamerica",
+               "CountrySource_other",
+               "CountrySource_southamerica",
+               "Created_on_Weekend",
+               "IsSOXCase",
+               "Numberofreactivations",
+               "Priority",
+               "Queue_AOC",
+               "Queue_APOC",
+               "Queue_Broken",
+               "Queue_E&E",
+               "Queue_EOC",
+               "Queue_LOC",
+               "Queue_NAOC",
+               "ROCName_AOC",
+               "ROCName_APOC",
+               "ROCName_EOC",
+               "Revenutype_Advanced Billing",
+               "Revenutype_Credit / Rebill",
+               "Revenutype_Current Revenue",
+               "Revenutype_Disputed Revenue",
+               "Revenutype_Future Billing",
+               "Revenutype_Future OTRRR with OLS",
+               "Revenutype_Future OTRRR without OLS",
+               "Revenutype_New Work Sold",
+               "Revenutype_Non-revenue",
+               "Revenutype_Revenue Impacting Case / Pending Revenue",
+               "Revenutype_Revenue Unknown",
+               "Rolling_Mean",
+               "Rolling_Median",
+               "Rolling_Std",
+               "SalesLocation_africa",
+               "SalesLocation_asia",
+               "SalesLocation_australia",
+               "SalesLocation_europe",
+               "SalesLocation_northamerica",
+               "SalesLocation_other",
+               "SalesLocation_southamerica",
+               "Seconds_left_Day",
+               "Seconds_left_Month",
+               "Seconds_left_Qtr",
+               "Seconds_left_Year",
+               "Source_E-mail",
+               "Source_Fax",
+               "Source_Hard Copy",
+               "Source_Manual",
+               "Source_Soft Copy",
+               "Source_Web",
+               "Source_eAgreement (Ele)",
+               "Source_eAgreement (Phy)",
+               "StageName",
+               "StatusReason_3rd Party Hold",
+               "StatusReason_Completed",
+               "StatusReason_Customer Hold",
+               "StatusReason_Final Routing",
+               "StatusReason_Information Provided",
+               "StatusReason_New",
+               "StatusReason_New Mail",
+               "StatusReason_Problem Solved",
+               "StatusReason_Reactivated",
+               "StatusReason_Ready for Archiving",
+               "StatusReason_Ready for Audit",
+               "SubReason_Additional Product Order",
+               "SubReason_Basic Enterprise Commitment",
+               "SubReason_Electronic Order Pend / Reject",
+               "SubReason_Future Pricing Only CPS",
+               "SubReason_Manual Order Entry",
+               "SubReason_Meteaop",
+               "SubReason_P&H Electronic Order",
+               "SubReason_Tax Exemption Order",
+               "SubReason_True Up",
+               "SubReason_Zero Usage Order",
+               "sourcesystem_AplQuest",
+               "sourcesystem_Aplquest",
+               "sourcesystem_CLT",
+               "sourcesystem_Current Revenue",
+               "sourcesystem_Moritz Jürgensen",
+               "sourcesystem_NEMEC",
+               "sourcesystem_NMEC",
+               "sourcesystem_Web",
+               "sourcesystem_`",
+               "sourcesystem_clt",
+               "sourcesystem_web",
+               "HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
+               "AssignedToGroup_BPO", "AssignedToGroup_CRMT",
+               ]
+    return keepers
+
+
 def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     algpath = newpath + alg_initials + "/"
     if not os.path.exists(algpath):
@@ -369,23 +477,17 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     out_file.write("\nInput file name %s:\n" % d["input_file"])
 
     X = df.drop("TimeTaken", axis=1)
-    # delete columns from X that aren't being used
-    keepers = ["IsSOXCase", "Numberofreactivations", "Priority",
-               "Complexity", "StageName", "CountrySource", "CountryProcessed", "SalesLocation", "Queue",
-               "AmountinUSD", "Complexity", "StageName", "StatusReason", "SubReason", "ROCName",
-               "sourcesystem", "Source", "Revenutype",
-    "Concurrent_open_cases", "Cases_created_within_past_8_hours", "Cases_resolved_within_past_8_hours",
-    "Seconds_left_Day", "Seconds_left_Month", "Seconds_left_Qtr", "Seconds_left_Year", "Created_on_Weekend",
-    "Rolling_Mean", "Rolling_Median", "Rolling_Std",
-    "HoldDuration", "HoldTypeName_3rd Party", "HoldTypeName_Customer", "HoldTypeName_Internal",
-    "AssignedToGroup_BPO", "AssignedToGroup_CRMT",
-    "AuditDuration"]
+
+    keepers = get_keepers()
     for col in X.columns:
         if col not in keepers:
             del X[col]
 
     # output the features being used
     if alg_counter == 1:
+        print("Length of df = %s" % len(df.columns)) # todo add these 3 print messages to outfile or delete them
+        print("Length of keepers = %s\n" % len(keepers))
+        print("Length of features used = %s\n" % len(X.columns))
         print("Features used:")
     out_file.write("\nFeatures used:")
     for i, col in enumerate(X.columns):
