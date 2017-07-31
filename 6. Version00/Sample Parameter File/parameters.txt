@@ -28,6 +28,8 @@ Rolling_Std: n
 keep_created_resolved: y
 mandatory_data: n
 minimum_data: n
+ordinal_mapping: y
+onehot_encoding: y
 ########### ################
 MODEL ######################
 ########### ################
