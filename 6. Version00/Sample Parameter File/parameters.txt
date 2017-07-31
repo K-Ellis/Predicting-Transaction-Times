@@ -9,6 +9,7 @@ PREPARE_DATASET ############
 prepare_input_file: vw_Incident
 prepare_output_file: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R
 ########### ################
+remove_null_IsSOXCase: y
 remove_outliers: y
 append_HoldDuration: n
 append_AuditDuration: n
