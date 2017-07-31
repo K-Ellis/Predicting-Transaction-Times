@@ -86,10 +86,10 @@ def scale_quant_cols(df, quant_cols):  # Scale quantitative variables
 
 
 def deletions(df, d):  # Delete all columns apart from those listed
-    keepers = ["TimeTaken", "Created_On", "ResolvedDate", "IsSOXCase", "Numberofreactivations", "Priority",
+    keepers = ["TimeTaken", "Created_On", "ResolvedDate", "IsSOXCase", "Priority",
                "Complexity", "StageName", "CountrySource", "CountryProcessed", "SalesLocation", "Queue",
                "AmountinUSD", "Complexity", "StageName", "StatusReason", "SubReason", "ROCName",
-               "sourcesystem", "Source", "Revenutype"]
+               "sourcesystem", "Source", "Revenutype", "IsGovernment", "IsMagnumCase", "IsSignature"]
                
     if d["Concurrent_open_cases"] == "y": keepers.append("Concurrent_open_cases")
     if d["Cases_created_within_past_8_hours"] == "y": keepers.append("Cases_created_within_past_8_hours")
@@ -105,7 +105,13 @@ def deletions(df, d):  # Delete all columns apart from those listed
     if d["Rolling_Mean"] == "y": keepers.append("Rolling_Mean")
     if d["Rolling_Median"] == "y": keepers.append("Rolling_Median")
     if d["Rolling_Std"] == "y": keepers.append("Rolling_Std")
-    
+
+    if d["ordinal_mapping"] == "y": keepers.append(["Priority", "Complexity", "StageName"])
+
+    if d["onehot_encoding"] == "y":
+        keepers.append(["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason", "ROCName",
+                        "sourcesystem", "Source", "Revenutype", "Queue"])
+
     # New variables created using Created_On and ResolvedDate:
     # "Concurrent_open_cases", "Cases_created_within_past_8_hours", "Cases_resolved_within_past_8_hours", 
     # "Seconds_left_Day", "Seconds_left_Month", "Seconds_left_Qtr", "Seconds_left_Year", "Created_on_Weekend", 
@@ -278,7 +284,7 @@ def clean_data(d):
     df = df[df["LanguageName"] == "English"]  # Only keep the rows which are English
     df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
     df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
-    print("Filtering Program/Language/Status/Valid:", df.shape)
+    print("Filtered Program/Language/Status/Valid:", df.shape)
 
     # Change to datetime
     df["Created_On"] = pd.to_datetime(df["Created_On"])
@@ -293,10 +299,6 @@ def clean_data(d):
         df = df[df["IsSOXCase"] != 2]
     else:
         df["IsSOXCase"].fillna(1, inplace=True)
-
-    df["Numberofreactivations"].fillna(0, inplace=True)
-    df.Numberofreactivations = df.Numberofreactivations.astype(int)  # Also convert to ints
-    print("ISO and Reactivations done:", df.shape)
 
     ####################################################################################################################
     # Resample option
@@ -320,7 +322,7 @@ def clean_data(d):
         df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
         df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
         df = df.reset_index(drop=True)
-        print("Remove Outliers:", df.shape)
+        print("Removed Outliers:", df.shape)
 
     ####################################################################################################################
     # Last 4 Business Days Only
@@ -345,7 +347,7 @@ def clean_data(d):
         df.dropna(subset=["TimeTaken"], inplace=True)
         print("Concurrent_open_cases added:", df.shape)
         
-    ####################################################################################################################    
+    ####################################################################################################################
     # Generate Cases_created_within_past_8_hours and/or Cases_resolved_within_past_8_hours variables.      
     ####################################################################################################################
     if d["Cases_created_within_past_8_hours"] == "y" or d["Cases_resolved_within_past_8_hours"] == "y":
@@ -372,12 +374,10 @@ def clean_data(d):
         if d["Cases_resolved_within_past_8_hours"] == "y": 
             df.dropna(subset=["TimeTaken"], inplace=True)
             print("Cases_resolved_within_past_8_hours added:", df.shape)
-            
 
     ####################################################################################################################
     # Time remaining before Day, Month, Qtr and Year end. 
     ####################################################################################################################
-    
     if d["Seconds_left_Day"] == "y":
         last_bdays_months = get_last_bdays_months()
         daily_cutoffs = get_daily_cutoffs(last_bdays_months)
@@ -407,7 +407,6 @@ def clean_data(d):
     ####################################################################################################################
     # Rolling stats
     ####################################################################################################################
-    
     if d["Rolling_Mean"] == "y" or d["Rolling_Median"] == "y" or d["Rolling_Std"] == "y":
         window = 10
         df = get_rolling_stats(df, window)  # ..Don't want to do this for each of them, because it deletes the first 9 
@@ -426,7 +425,7 @@ def clean_data(d):
         print("Specified Rolling Stats kept:", df.shape)
    
     ####################################################################################################################
-    # Combine based on ticket numbers  # todo giving 0s
+    # Combine based on ticket numbers
     ####################################################################################################################
     if d["append_HoldDuration"] == "y":
         dfholdactivity = pd.read_csv("../../../Data/vw_HoldActivity.csv", encoding='latin-1', low_memory=False)
@@ -494,11 +493,12 @@ def clean_data(d):
     ####################################################################################################################
     # Ordinal variable mapping. Priority, Complexity, StageName
     ####################################################################################################################
-    df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
-    df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
-    df["StageName"] = df["StageName"].map({"Ops In": 0, "Triage And Validation": 1, "Data Entry": 2, "Submission": 3,
-                                           "Ops Out": 4})
-    print("Ordinal variable mapping done:", df.shape)
+    if d["ordinal_mapping"] == "y":
+        df["Priority"] = df["Priority"].map({"Low": 0, "Normal": 1, "High": 2, "Immediate": 3})
+        df["Complexity"] = df["Complexity"].map({"Low": 0, "Medium": 1, "High": 2})
+        df["StageName"] = df["StageName"].map({"Ops In": 0, "Triage And Validation": 1, "Data Entry": 2, "Submission": 3,
+                                               "Ops Out": 4})
+        print("Ordinal variable mapping done:", df.shape)
 
     ####################################################################################################################
     # Transform countries into continents
@@ -607,8 +607,8 @@ def clean_data(d):
     
         for col in df.columns:
             if col not in minimum: del df[col]
-        print("mandatory_data data only - all other columns deleted", df.shape)   
-        
+        print("mandatory_data data only - all other columns deleted", df.shape)
+
     ####################################################################################################################
     # If we only want minimum data
     ####################################################################################################################
@@ -643,14 +643,15 @@ def clean_data(d):
     ####################################################################################################################
     # One-hot encode categorical variables
     ####################################################################################################################
-    cat_vars_to_one_hot = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason",
-                           "ROCName", "sourcesystem", "Source", "Revenutype", "Queue"]
-    for var in cat_vars_to_one_hot:
-        if var in df.columns:
-            df = pd.concat([df, pd.get_dummies(df[var], prefix=var, drop_first=False)], axis=1)
-            del df[var]
-    print("One hot encoding complete:", df.shape)        
-        
+    if d["onehot_encoding"] == "y":
+        cat_vars_to_one_hot = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason",
+                               "ROCName", "sourcesystem", "Source", "Revenutype", "Queue"]
+        for var in cat_vars_to_one_hot:
+            if var in df.columns:
+                df = pd.concat([df, pd.get_dummies(df[var], prefix=var, drop_first=False)], axis=1)
+                del df[var]
+        print("One hot encoding complete:", df.shape)
+
     ####################################################################################################################
     # If we want to keep created and resolved
     ####################################################################################################################
