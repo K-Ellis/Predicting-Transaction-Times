@@ -1,0 +1,101 @@
+Columns,Importances
+Concurrent_open_cases,0.8660896028388366
+Rolling_Median,0.10072109925882426
+Rolling_Std,0.017405275553217085
+Cases_resolved_within_past_8_hours,0.0059408453328994
+Cases_created_within_past_8_hours,0.003877349827531523
+Rolling_Mean,0.0023548289125602047
+Created_on_Weekend,0.0006248883540459185
+AmountinUSD,0.0004496368079845646
+Queue_AOC,0.00017404533113747996
+Source_Soft Copy,0.00011721113433959851
+Queue_NAOC,0.00010746536932620353
+SubReason_Manual Order Entry,0.00010623783992584964
+Complexity,9.447490340642042e-05
+SubReason_Basic Enterprise Commitment,8.834716090023958e-05
+Revenutype_Current Revenue,8.424944757086257e-05
+StageName,7.888122663951849e-05
+ROCName_AOC,7.828766805490639e-05
+IsSignature,7.757881223680532e-05
+Source_Manual,7.006096353413525e-05
+CountryProcessed_australia,7.005358090397626e-05
+SubReason_Future Pricing Only CPS,6.674698743335573e-05
+Revenutype_Revenue Unknown,6.042566321654767e-05
+StatusReason_Completed,5.816599812342283e-05
+SubReason_Meteaop,5.791111804258957e-05
+StatusReason_Problem Solved,5.686554326226829e-05
+Source_Web,5.552289311907475e-05
+Revenutype_Credit / Rebill,5.383562687518888e-05
+Source_E-mail,5.3546545870136865e-05
+SubReason_Zero Usage Order,4.766366057986092e-05
+Revenutype_Future Billing,4.631925295762931e-05
+CountryProcessed_northamerica,4.4858187534714466e-05
+SalesLocation_australia,4.429612682184107e-05
+CountrySource_australia,4.330945375807743e-05
+IsGovernment,4.2714290473279854e-05
+Queue_EOC,3.9112140910681365e-05
+Priority,3.576171466299817e-05
+Queue_APOC,3.55943275407529e-05
+SalesLocation_northamerica,3.401559623642019e-05
+SubReason_True Up,3.3918746011516365e-05
+ROCName_EOC,3.3510405295163e-05
+IsMagnumCase,3.027404148766737e-05
+ROCName_APOC,3.017989900063813e-05
+Queue_E&E,2.945401020993709e-05
+CountrySource_northamerica,2.827646270474246e-05
+CountryProcessed_europe,2.2411002787890696e-05
+SalesLocation_europe,2.2062890749200257e-05
+Revenutype_Non-revenue,2.0436103308270008e-05
+Revenutype_Future OTRRR with OLS,2.012294555877054e-05
+CountryProcessed_southamerica,1.9758335377863186e-05
+SalesLocation_southamerica,1.9569564294466265e-05
+SubReason_Additional Product Order,1.8930720934395444e-05
+CountryProcessed_asia,1.87972586833659e-05
+SalesLocation_asia,1.8655825754088466e-05
+CountrySource_asia,1.8406886328787504e-05
+Source_eAgreement (Phy),1.82568982628826e-05
+Source_Hard Copy,1.769389609792265e-05
+CountrySource_europe,1.7384481271733415e-05
+CountrySource_southamerica,1.6744659918845e-05
+Queue_LOC,1.3481864385169603e-05
+CountryProcessed_africa,7.692123778043325e-06
+SubReason_Electronic Order Pend / Reject,5.934290273020762e-06
+CountrySource_africa,5.847473417355333e-06
+SubReason_Tax Exemption Order,5.248710201022544e-06
+SalesLocation_africa,5.055438058807576e-06
+sourcesystem_NMEC,4.161587598706345e-06
+Revenutype_Disputed Revenue,3.3643308435682336e-06
+sourcesystem_CLT,2.997578259210132e-06
+Revenutype_Revenue Impacting Case / Pending Revenue,2.959761053639988e-06
+Source_eAgreement (Ele),4.286726924980723e-07
+Queue_Broken,2.573506117909226e-07
+Source_Fax,2.1586151483929926e-07
+SubReason_P&H Electronic Order,1.4813753583194311e-07
+CountrySource_other,7.298172495161787e-08
+StatusReason_Information Provided,6.374481967430923e-08
+StatusReason_Customer Hold,3.412655912856403e-08
+Revenutype_Future OTRRR without OLS,3.32443942083469e-08
+CountryProcessed_other,2.7125995913974195e-08
+sourcesystem_Aplquest,2.3124220415939787e-08
+Revenutype_New Work Sold,1.428303652984962e-08
+sourcesystem_web,4.067970654371856e-09
+SalesLocation_other,1.7822269776023514e-09
+sourcesystem_clt,6.409732872202108e-10
+StatusReason_Reactivated,3.935412294854353e-10
+StatusReason_New Mail,3.8055850694130634e-10
+StatusReason_Ready for Audit,2.7710813169205164e-10
+sourcesystem_AplQuest,1.2295666387264768e-10
+StatusReason_New,1.6787794714225223e-11
+StatusReason_Final Routing,1.0125324078546331e-11
+StatusReason_Ready for Archiving,6.088616758750879e-12
+StatusReason_3rd Party Hold,3.4561546011445334e-12
+sourcesystem_Current Revenue,8.663202909953362e-13
+sourcesystem_NEMEC,5.362063400152087e-13
+Revenutype_Advanced Billing,4.971218737250596e-13
+HoldTypeName_3rd Party,0.0
+HoldTypeName_Customer,0.0
+HoldDuration,0.0
+AssignedToGroup_BPO,0.0
+AuditDuration,0.0
+AssignedToGroup_CRMT,0.0
+HoldTypeName_Internal,0.0

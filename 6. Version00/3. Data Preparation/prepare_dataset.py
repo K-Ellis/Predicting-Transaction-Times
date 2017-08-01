@@ -285,6 +285,7 @@ def clean_data(d):
     df = df[df["StatusReason"] != "Rejected"]  # Remove StatusReason = rejected
     df = df[df["ValidCase"] == 1]  # Remove ValidCase = 0
     print("Filtered Program/Language/Status/Valid:", df.shape)
+    df.reset_index(drop=True, inplace=True)
 
     # Change to datetime
     df["Created_On"] = pd.to_datetime(df["Created_On"])
@@ -297,8 +298,10 @@ def clean_data(d):
         df["IsSOXCase"].fillna(2, inplace=True)
         df.IsSOXCase = df.IsSOXCase.astype(int)
         df = df[df["IsSOXCase"] != 2]
+        df.reset_index(drop=True, inplace=True)
     else:
         del df["IsSOXCase"]
+
 
     ####################################################################################################################
     # Resample option
@@ -330,9 +333,9 @@ def clean_data(d):
     if d["last_4_BDays"] == "y":
         end_cutoffs  = get_last_bdays_months()
         start_cutoffs = get_GCO_start_cutoffs(end_cutoffs)
-
         df["Created_On"] = df["Created_On"].apply(lambda x: get_GCO_df(x, start_cutoffs, end_cutoffs))
         df.dropna(subset=["Created_On"], inplace=True)
+        df.reset_index(drop=True, inplace=True)
         print("last_4_BDays done:", df.shape)
         
     ####################################################################################################################
@@ -345,6 +348,7 @@ def clean_data(d):
                 df.loc[i, "Concurrent_open_cases"] = len(df[(df.Created_On < df.iloc[i]["Created_On"]) & (
                                                                         df.ResolvedDate > df.iloc[i]["ResolvedDate"])])
         df.dropna(subset=["TimeTaken"], inplace=True)
+        df.reset_index(drop=True, inplace=True)
         print("Concurrent_open_cases added:", df.shape)
         
     ####################################################################################################################
@@ -369,10 +373,12 @@ def clean_data(d):
         
         if d["Cases_created_within_past_8_hours"] == "y":
             df.dropna(subset=["TimeTaken"], inplace=True)
+            df.reset_index(drop=True, inplace=True)
             print("Cases_created_within_past_8_hours added:", df.shape)
         
         if d["Cases_resolved_within_past_8_hours"] == "y": 
             df.dropna(subset=["TimeTaken"], inplace=True)
+            df.reset_index(drop=True, inplace=True)
             print("Cases_resolved_within_past_8_hours added:", df.shape)
 
     ####################################################################################################################
@@ -607,6 +613,7 @@ def clean_data(d):
     
         for col in df.columns:
             if col not in minimum: del df[col]
+        df.reset_index(drop=True, inplace=True)
         print("mandatory_data data only - all other columns deleted", df.shape)
 
     ####################################################################################################################
@@ -638,6 +645,7 @@ def clean_data(d):
     
         for col in df.columns:
             if col not in minimum: del df[col]
+        df.reset_index(drop=True, inplace=True)
         print("Minimum data only - all other columns deleted", df.shape)
 
     ####################################################################################################################
@@ -665,6 +673,7 @@ def clean_data(d):
     ####################################################################################################################
     df = df.reindex_axis(sorted(df.columns), axis=1)
     df = pd.concat([df.pop("TimeTaken"), df], axis=1)
+    df.reset_index(drop=True, inplace=True)
     df.to_csv(d["file_location"] + d["prepare_output_file"] + ".csv", index=False)  # export file
 
 
