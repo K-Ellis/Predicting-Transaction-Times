@@ -166,7 +166,7 @@ def get_seconds_left(date, last_bdays_offset):
        
        
 def get_daily_cutoffs(last_bdays):
-    start_of_the_year = pd.datetime(2017,1,1)
+    start_of_the_year = pd.datetime(2017,1,1)  # todo hardcoded date
     last_bdays_offset = [start_of_the_year]
     for last_bday in last_bdays:
         end_fourth_last = (last_bday - BDay(1) - BDay(1) - BDay(1) - BDay(1)).normalize() +pd.DateOffset(hours=17)
