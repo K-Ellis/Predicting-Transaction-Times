@@ -1,0 +1,151 @@
+ElasticNet 20170801-112610
+
+Input file name Experiment_temp:
+
+
+Simple TimeTaken stats
+	mean_time = -2267988.512662087
+	std_time = 5170272.523922767
+	median_time = 52500.0
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 5170272.523922768
+	mean_time_test_meanae = 3846923.07337
+
+	mean_time_test_evs = 0.0
+
+	mean_time_test_medianae = 2466168.51266
+
+	median_time_test_mae = -0.201433628138
+
+	median_time_test_mae = 5667131.982672313
+
+	median_time_test_mae = 2658775.26361
+
+	median_time_test_mae = 0.0
+
+	median_time_test_mae = 216600.0
+
+ElasticNet: Cross Validation (10 Folds)
+	Train Mean R2: -0.19150 (+/-0.00131)
+	Test Mean R2: -0.19168 (+/-0.01183)
+	Train Mean RMSE: 5643631.20 (+/-18727.86)
+	Test Mean RMSE: 5641293.78 (+/-165220.14)
+	Train Mean MeanAE: 2674541.56 (+/-13258.69)
+	Test Mean MeanAE: 2674872.73 (+/-112990.25)
+	Train Mean EVS: 0.04 (+/-0.04)
+	Test Mean EVS: 0.04 (+/-0.04)
+	Train Mean MedianAE: 311594.81 (+/-311594.81)
+	Test Mean MedianAE: 311917.70 (+/-311917.70)
+
+	ElasticNet % test predictions error within 1 hour -> Mean: 1.48% (+/- 0.31%) of 24601/10
+	ElasticNet % test predictions error within 4 hours -> Mean: 6.28% (+/- 0.54%) of 24601/10
+	ElasticNet % test predictions error within 8 hours -> Mean: 12.07% (+/- 0.61%) of 24601/10
+	ElasticNet % test predictions error within 16 hours -> Mean: 18.01% (+/- 0.68%) of 24601/10
+	ElasticNet % test predictions error within 24 hours -> Mean: 22.90% (+/- 0.64%) of 24601/10
+	ElasticNet % test predictions error within 48 hours -> Mean: 35.19% (+/- 0.86%) of 24601/10
+	ElasticNet % test predictions error within 72 hours -> Mean: 45.10% (+/- 0.60%) of 24601/10
+	ElasticNet % test predictions error within 96 hours -> Mean: 52.84% (+/- 0.53%) of 24601/10
+
+
+Feature Importances:
+	1. "StatusReason_Ready for Archiving" (-617014024.238599)
+	2. "StatusReason_New Mail" (-289973965.487638)
+	3. "Source_Fax" (52223156.742365)
+	4. "Revenutype_Revenue Impacting Case / Pending Revenue" (28204706.792709)
+	5. "SubReason_P&H Electronic Order" (-28199718.780577)
+	6. "Queue_Broken" (-23855992.376140)
+	7. "sourcesystem_NMEC" (-22937441.164974)
+	8. "CountryProcessed_other" (-22126086.549238)
+	9. "StatusReason_Information Provided" (13481097.489949)
+	10. "Source_eAgreement (Ele)" (12447041.889403)
+	11. "SalesLocation_other" (9501588.042316)
+	12. "Queue_E&E" (9464312.012381)
+	13. "Revenutype_Future OTRRR without OLS" (7773683.560885)
+	14. "CountryProcessed_australia" (7527943.542202)
+	15. "StatusReason_Customer Hold" (-7115883.527132)
+	16. "Revenutype_Future OTRRR with OLS" (-3738694.940987)
+	17. "Revenutype_Disputed Revenue" (-2824278.391795)
+	18. "SubReason_Tax Exemption Order" (-2750671.492666)
+	19. "CountryProcessed_southamerica" (2290082.312893)
+	20. "Source_E-mail" (2057129.479766)
+	21. "SalesLocation_australia" (-1489312.028009)
+	22. "sourcesystem_Aplquest" (1442535.422569)
+	23. "Source_Manual" (-1277825.005749)
+	24. "SubReason_Electronic Order Pend / Reject" (982814.810002)
+	25. "Revenutype_Credit / Rebill" (-929259.811109)
+	26. "CountrySource_asia" (-891800.726324)
+	27. "Source_Hard Copy" (-871876.263530)
+	28. "Queue_AOC" (-848821.147083)
+	29. "CountrySource_southamerica" (-826846.003695)
+	30. "SalesLocation_northamerica" (-784874.773426)
+	31. "SubReason_True Up" (-743735.445686)
+	32. "SalesLocation_africa" (-727608.807773)
+	33. "CountrySource_northamerica" (717527.698601)
+	34. "Queue_APOC" (-683892.635584)
+	35. "Created_on_Weekend" (640052.443890)
+	36. "Revenutype_Revenue Unknown" (630346.501390)
+	37. "ROCName_APOC" (597612.774676)
+	38. "CountryProcessed_asia" (515705.006307)
+	39. "SubReason_Future Pricing Only CPS" (505772.532881)
+	40. "IsSignature" (376263.312607)
+	41. "SubReason_Manual Order Entry" (-346980.565512)
+	42. "Source_eAgreement (Phy)" (326552.149580)
+	43. "SubReason_Basic Enterprise Commitment" (-320201.905100)
+	44. "Priority" (303951.917366)
+	45. "SubReason_Zero Usage Order" (274870.006636)
+	46. "Revenutype_Future Billing" (-247194.967243)
+	47. "CountryProcessed_europe" (-152336.914832)
+	48. "Complexity" (117578.226778)
+	49. "Source_Soft Copy" (-97273.161123)
+	50. "IsMagnumCase" (69995.623819)
+	51. "StatusReason_Problem Solved" (63257.828765)
+	52. "Source_Web" (-61528.347815)
+	53. "SubReason_Meteaop" (47788.699202)
+	54. "StageName" (24628.471209)
+	55. "IsGovernment" (-18753.924208)
+	56. "SalesLocation_asia" (15233.611369)
+	57. "Revenutype_Current Revenue" (14634.159970)
+	58. "Queue_NAOC" (10955.258872)
+	59. "ROCName_EOC" (-2859.020104)
+	60. "Cases_resolved_within_past_8_hours" (75.362443)
+	61. "Cases_created_within_past_8_hours" (18.527256)
+	62. "sourcesystem_CLT" (-17.187134)
+	63. "StatusReason_Completed" (-1.076272)
+	64. "ROCName_AOC" (-0.935302)
+	65. "Rolling_Std" (-0.910999)
+	66. "CountryProcessed_northamerica" (-0.888129)
+	67. "Queue_EOC" (-0.726775)
+	68. "Concurrent_open_cases" (-0.676716)
+	69. "SalesLocation_europe" (-0.623718)
+	70. "CountrySource_europe" (-0.622963)
+	71. "Revenutype_Non-revenue" (-0.607081)
+	72. "Rolling_Mean" (0.530839)
+	73. "Rolling_Median" (0.415368)
+	74. "SalesLocation_southamerica" (-0.228033)
+	75. "CountrySource_australia" (-0.209886)
+	76. "CountrySource_africa" (-0.154839)
+	77. "CountryProcessed_africa" (-0.147668)
+	78. "Queue_LOC" (-0.135105)
+	79. "AmountinUSD" (-0.122577)
+	80. "SubReason_Additional Product Order" (0.073104)
+	81. "CountrySource_other" (-0.030591)
+	82. "sourcesystem_web" (-0.012752)
+	83. "sourcesystem_clt" (-0.011044)
+	84. "StatusReason_Ready for Audit" (-0.009017)
+	85. "StatusReason_3rd Party Hold" (-0.009017)
+	86. "Revenutype_New Work Sold" (-0.009017)
+	87. "StatusReason_New" (-0.006376)
+	88. "sourcesystem_NEMEC" (-0.006376)
+	89. "sourcesystem_Current Revenue" (-0.006376)
+	90. "StatusReason_Reactivated" (-0.006376)
+	91. "sourcesystem_AplQuest" (-0.006376)
+	92. "StatusReason_Final Routing" (-0.006376)
+	93. "Revenutype_Advanced Billing" (-0.006376)
+	94. "HoldTypeName_3rd Party" (0.000000)
+	95. "HoldDuration" (0.000000)
+	96. "HoldTypeName_Internal" (0.000000)
+	97. "AuditDuration" (0.000000)
+	98. "AssignedToGroup_BPO" (0.000000)
+	99. "AssignedToGroup_CRMT" (0.000000)
+	100. "HoldTypeName_Customer" (0.000000)
