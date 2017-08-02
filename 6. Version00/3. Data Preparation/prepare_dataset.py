@@ -271,6 +271,7 @@ def get_GCO_df(date, start_cutoffs, end_cutoffs):
     
 def clean_data(d):
     df = pd.read_csv(d["file_location"] + d["prepare_input_file"] + ".csv", encoding='latin-1', low_memory=False)
+    print("prepare_input_file:", d["prepare_input_file"])
     print("Data read in:", df.shape)
 
     ####################################################################################################################
@@ -294,15 +295,14 @@ def clean_data(d):
     ####################################################################################################################
     # IsSox case transformation to filter na's
     ####################################################################################################################
-    
     df["IsSOXCase"].fillna(2, inplace=True)
     df.IsSOXCase = df.IsSOXCase.astype(int)
     df = df[df["IsSOXCase"] != 2]
     df.reset_index(drop=True, inplace=True)
+    print("IsSOXCase Filtered", df.shape)
     # if d["remove_null_IsSOXCase"] == "y":
     # else:
         # del df["IsSOXCase"]
-
 
     ####################################################################################################################
     # Resample option
@@ -324,9 +324,8 @@ def clean_data(d):
         mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
         std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
         df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
-        # df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
         df = df.reset_index(drop=True)
-        print("Removed Outliers:", df.shape)
+        print("Removed Outliers 3std:", df.shape)
 
     ####################################################################################################################
     # Last 4 Business Days Only

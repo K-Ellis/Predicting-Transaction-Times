@@ -166,8 +166,8 @@ def plot(x, y, alg, data, newpath, alg_initials):
     else:
         plt.title(alg + " - " + data + " Data")
     plt.axis('equal')
-    plt.ylim(0, 2000000)
-    plt.xlim(0, 2000000)
+    plt.ylim(0, 2500000)
+    plt.xlim(0, 2500000)
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
@@ -869,7 +869,8 @@ if __name__ == "__main__":  # Run program
 
     df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
 
-    print("Input file name: %s\n" % d["input_file"])
+    print("Input file name: %s" % d["input_file"])
+    print("DF Shape:", df.shape, "\n")
     
     if d["histogram"] == "y":
         histogram(df, "TimeTaken", newpath)  # Save histogram plots of TimeTaken
