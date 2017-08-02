@@ -21,7 +21,6 @@ from pandas.tseries.offsets import BDay
 
 def fill_nulls_dfcs(df, dfcs, fill_value): # Fill in Nulls given a set of dataframe columns
     for dfc in dfcs:
-        print(dfc)
         if fill_value == "mode":
             df[dfc].fillna(df[dfc].mode()[0], inplace=True)
         if fill_value == "mean":
