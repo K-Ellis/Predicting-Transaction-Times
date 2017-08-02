@@ -86,8 +86,8 @@ def scale_quant_cols(df, quant_cols):  # Scale quantitative variables
 
 
 def deletions(df, d):  # Delete all columns apart from those listed
-    keepers = ["TimeTaken", "Created_On", "ResolvedDate", "IsSOXCase", "AmountinUSD", "Complexity", "StageName",
-               "IsGovernment", "IsMagnumCase", "IsSignature"]
+    keepers = ["TimeTaken", "Created_On", "ResolvedDate", "IsSOXCase", "AmountinUSD", "IsGovernment", "IsMagnumCase",
+               "IsSignature"]
                
     if d["Concurrent_open_cases"] == "y": keepers.append("Concurrent_open_cases")
     if d["Cases_created_within_past_8_hours"] == "y": keepers.append("Cases_created_within_past_8_hours")
@@ -104,11 +104,16 @@ def deletions(df, d):  # Delete all columns apart from those listed
     if d["Rolling_Median"] == "y": keepers.append("Rolling_Median")
     if d["Rolling_Std"] == "y": keepers.append("Rolling_Std")
 
-    if d["ordinal_mapping"] == "y": keepers.append(["Priority", "Complexity", "StageName"])
+    if d["ordinal_mapping"] == "y":
+        cols = ["Priority", "Complexity", "StageName"]
+        for col in cols:
+            keepers.append(col)
 
     if d["onehot_encoding"] == "y":
-        keepers.append(["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason", "ROCName",
-                        "sourcesystem", "Source", "Revenutype", "Queue"])
+        cols = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason",
+                "ROCName", "sourcesystem", "Source", "Revenutype", "Queue"]
+        for col in cols:
+            keepers.append(col)
 
     # New variables created using Created_On and ResolvedDate:
     # "Concurrent_open_cases", "Cases_created_within_past_8_hours", "Cases_resolved_within_past_8_hours", 
@@ -120,7 +125,8 @@ def deletions(df, d):  # Delete all columns apart from those listed
                     "AssignedToGroup_BPO", "AssignedToGroup_CRMT"]:
             keepers.append(col)
     if d["append_AuditDuration"] == "y": keepers.append("AuditDuration")
-    
+
+    print("Keepers:", keepers)
     for col in df.columns:
         if col not in keepers: del df[col]
     print("Deletions:", df.shape)
