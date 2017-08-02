@@ -1,4 +1,4 @@
-Statsmodels_OLS 20170731-162025
+Statsmodels_OLS 20170802-125724
 
 Input file name all_Incident:
 
@@ -102,6 +102,7 @@ Features used:
 	97 - sourcesystem_`
 	98 - sourcesystem_clt
 	99 - sourcesystem_web
+
 R2: 0.706130097618
 
                             OLS Regression Results                            
@@ -109,8 +110,8 @@ R2: 0.706130097618
 Dep. Variable:              TimeTaken   R-squared:                       0.706
 Model:                            OLS   Adj. R-squared:                  0.705
 Method:                 Least Squares   F-statistic:                     694.1
-Date:                Mon, 31 Jul 2017   Prob (F-statistic):               0.00
-Time:                        16:20:25   Log-Likelihood:            -3.5335e+05
+Date:                Wed, 02 Aug 2017   Prob (F-statistic):               0.00
+Time:                        12:57:25   Log-Likelihood:            -3.5335e+05
 No. Observations:               25799   AIC:                         7.069e+05
 Df Residuals:                   25709   BIC:                         7.076e+05
 Df Model:                          89                                         

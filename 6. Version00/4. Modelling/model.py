@@ -889,6 +889,54 @@ if __name__ == "__main__":  # Run program
     # Modelling
     ###################################################################################################################
     alg_counter = 0  # used so the simple stats, etc. aren't printed for each algorithm used
+
+    if d["LinearRegression"] == "y":
+        alg_counter+=1
+        regressor = LinearRegression()
+        results(df, "LinearRegression", regressor, newpath, d, alg_counter, "LR")
+
+    if d["ElasticNet"] == "y":
+        alg_counter+=1
+        regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
+        results(df, "ElasticNet", regressor, newpath, d, alg_counter, "EN")
+
+    if d["KernelRidge"] == "y":
+        alg_counter+=1
+        regressor = KernelRidge(alpha=0.1)
+        results(df, "KernelRidge", regressor, newpath, d, alg_counter, "KR")
+
+    if d["MLPRegressor"] == "y":
+        alg_counter+=1
+        regressor = MLPRegressor(hidden_layer_sizes=(50,25,10,5,3), random_state=int(d["seed"]),
+                                 max_iter=2000) # early_stopping=True)
+        results(df, "MLPRegressor", regressor, newpath, d, alg_counter, "MLP")
+
+    if d["GradientBoostingRegressor"] == "y":
+        alg_counter+=1
+        regressor = GradientBoostingRegressor(random_state=int(d["seed"]))
+        results(df, "GradientBoostingRegressor", regressor, newpath, d, alg_counter, "GBR")
+
+    if d["xgboost"] == "y":
+        alg_counter+=1
+        import xgboost as xgb
+        params = {
+            'max_depth': 5,
+            'n_estimators': 50,
+            'objective': 'reg:linear'}
+        regressor = xgb.XGBRegressor(**params)
+        results(df, "xgboost", regressor, newpath, d, alg_counter, "XGB")
+
+    if d["RandomForestRegressor"] == "y":
+        alg_counter+=1
+        regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]),
+                                          max_depth=25, n_jobs=-1)
+        results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
+    
+    copyfile(parameters, newpath + "parameters.txt")  # Save parameters
+
+    if d["output_predictions_csv"] == "y":
+        df.to_csv(d["file_location"] + d["input_file"] + "_predictions.csv", index=False)  # export file
+    
     if d["statsmodels_OLS"] == "y":
         import statsmodels.api as sm
         np.set_printoptions(threshold=np.inf)
@@ -952,54 +1000,7 @@ if __name__ == "__main__":  # Run program
         
         plot(y, y_pred, alg, "All Data", algpath, alg_initials)
         out_file.close()
-    else:
-        if d["LinearRegression"] == "y":
-            alg_counter+=1
-            regressor = LinearRegression()
-            results(df, "LinearRegression", regressor, newpath, d, alg_counter, "LR")
-
-        if d["ElasticNet"] == "y":
-            alg_counter+=1
-            regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
-            results(df, "ElasticNet", regressor, newpath, d, alg_counter, "EN")
-
-        if d["KernelRidge"] == "y":
-            alg_counter+=1
-            regressor = KernelRidge(alpha=0.1)
-            results(df, "KernelRidge", regressor, newpath, d, alg_counter, "KR")
-
-        if d["MLPRegressor"] == "y":
-            alg_counter+=1
-            regressor = MLPRegressor(hidden_layer_sizes=(50,25,10,5,3), random_state=int(d["seed"]),
-                                     max_iter=2000) # early_stopping=True)
-            results(df, "MLPRegressor", regressor, newpath, d, alg_counter, "MLP")
-
-        if d["GradientBoostingRegressor"] == "y":
-            alg_counter+=1
-            regressor = GradientBoostingRegressor(random_state=int(d["seed"]))
-            results(df, "GradientBoostingRegressor", regressor, newpath, d, alg_counter, "GBR")
-
-        if d["xgboost"] == "y":
-            alg_counter+=1
-            import xgboost as xgb
-            params = {
-                'max_depth': 5,
-                'n_estimators': 50,
-                'objective': 'reg:linear'}
-            regressor = xgb.XGBRegressor(**params)
-            results(df, "xgboost", regressor, newpath, d, alg_counter, "XGB")
-
-        if d["RandomForestRegressor"] == "y":
-            alg_counter+=1
-            regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]),
-                                              max_depth=25, n_jobs=-1)
-            results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
-        
-        copyfile(parameters, newpath + "parameters.txt")  # Save parameters
-
-        if d["output_predictions_csv"] == "y":
-            df.to_csv(d["file_location"] + d["input_file"] + "_predictions.csv", index=False)  # export file
-
+    
     if d["beep"] == "y":
         import winsound
         Freq = 400 # Set Frequency To 2500 Hertz
