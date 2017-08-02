@@ -86,8 +86,8 @@ def scale_quant_cols(df, quant_cols):  # Scale quantitative variables
 
 
 def deletions(df, d):  # Delete all columns apart from those listed
-    keepers = ["TimeTaken", "Created_On", "ResolvedDate", "IsSOXCase", "AmountinUSD", "Complexity", "StageName",
-               "IsGovernment", "IsMagnumCase", "IsSignature"]
+    keepers = ["TimeTaken", "Created_On", "ResolvedDate", "IsSOXCase", "AmountinUSD", "IsGovernment", "IsMagnumCase",
+               "IsSignature"]
                
     if d["Concurrent_open_cases"] == "y": keepers.append("Concurrent_open_cases")
     if d["Cases_created_within_past_8_hours"] == "y": keepers.append("Cases_created_within_past_8_hours")
@@ -110,8 +110,8 @@ def deletions(df, d):  # Delete all columns apart from those listed
             keepers.append(col)
 
     if d["onehot_encoding"] == "y":
-        cols = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason", "ROCName",
-                    "sourcesystem", "Source", "Revenutype", "Queue"]
+        cols = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason",
+                "ROCName", "sourcesystem", "Source", "Revenutype", "Queue"]
         for col in cols:
             keepers.append(col)
 
