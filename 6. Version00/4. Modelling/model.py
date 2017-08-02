@@ -166,8 +166,8 @@ def plot(x, y, alg, data, newpath, alg_initials):
     else:
         plt.title(alg + " - " + data + " Data")
     plt.axis('equal')
-    plt.ylim(0, 2000000)
-    plt.xlim(0, 2000000)
+    plt.ylim(0, 2500000)
+    plt.xlim(0, 2500000)
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
