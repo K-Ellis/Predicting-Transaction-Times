@@ -21,6 +21,7 @@ from pandas.tseries.offsets import BDay
 
 def fill_nulls_dfcs(df, dfcs, fill_value): # Fill in Nulls given a set of dataframe columns
     for dfc in dfcs:
+        print(dfc)
         if fill_value == "mode":
             df[dfc].fillna(df[dfc].mode()[0], inplace=True)
         if fill_value == "mean":
@@ -294,13 +295,14 @@ def clean_data(d):
     ####################################################################################################################
     # IsSox case transformation to filter na's
     ####################################################################################################################
-    if d["remove_null_IsSOXCase"] == "y":
-        df["IsSOXCase"].fillna(2, inplace=True)
-        df.IsSOXCase = df.IsSOXCase.astype(int)
-        df = df[df["IsSOXCase"] != 2]
-        df.reset_index(drop=True, inplace=True)
-    else:
-        del df["IsSOXCase"]
+    
+    df["IsSOXCase"].fillna(2, inplace=True)
+    df.IsSOXCase = df.IsSOXCase.astype(int)
+    df = df[df["IsSOXCase"] != 2]
+    df.reset_index(drop=True, inplace=True)
+    # if d["remove_null_IsSOXCase"] == "y":
+    # else:
+        # del df["IsSOXCase"]
 
 
     ####################################################################################################################
@@ -544,7 +546,7 @@ def clean_data(d):
     ####################################################################################################################
     # Fill Categorical and numerical nulls. Scale numerical variables.
     ####################################################################################################################
-    quant_cols = ["AmountinUSD", "Priority", "Complexity", "StageName"]
+    quant_cols = ["AmountinUSD"]#, "Priority", "Complexity", "StageName"]
     if d["append_HoldDuration"] == "y": quant_cols.append("HoldDuration")
     if d["append_AuditDuration"] == "y":  quant_cols.append("AuditDuration")
     
