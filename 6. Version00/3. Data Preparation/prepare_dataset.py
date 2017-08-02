@@ -86,10 +86,8 @@ def scale_quant_cols(df, quant_cols):  # Scale quantitative variables
 
 
 def deletions(df, d):  # Delete all columns apart from those listed
-    keepers = ["TimeTaken", "Created_On", "ResolvedDate", "IsSOXCase", "Priority",
-               "Complexity", "StageName", "CountrySource", "CountryProcessed", "SalesLocation", "Queue",
-               "AmountinUSD", "Complexity", "StageName", "StatusReason", "SubReason", "ROCName",
-               "sourcesystem", "Source", "Revenutype", "IsGovernment", "IsMagnumCase", "IsSignature"]
+    keepers = ["TimeTaken", "Created_On", "ResolvedDate", "IsSOXCase", "AmountinUSD", "IsGovernment", "IsMagnumCase",
+               "IsSignature"]
                
     if d["Concurrent_open_cases"] == "y": keepers.append("Concurrent_open_cases")
     if d["Cases_created_within_past_8_hours"] == "y": keepers.append("Cases_created_within_past_8_hours")
@@ -106,11 +104,16 @@ def deletions(df, d):  # Delete all columns apart from those listed
     if d["Rolling_Median"] == "y": keepers.append("Rolling_Median")
     if d["Rolling_Std"] == "y": keepers.append("Rolling_Std")
 
-    if d["ordinal_mapping"] == "y": keepers.append(["Priority", "Complexity", "StageName"])
+    if d["ordinal_mapping"] == "y":
+        cols = ["Priority", "Complexity", "StageName"]
+        for col in cols:
+            keepers.append(col)
 
     if d["onehot_encoding"] == "y":
-        keepers.append(["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason", "ROCName",
-                        "sourcesystem", "Source", "Revenutype", "Queue"])
+        cols = ["CountrySource", "CountryProcessed", "SalesLocation", "StatusReason", "SubReason",
+                "ROCName", "sourcesystem", "Source", "Revenutype", "Queue"]
+        for col in cols:
+            keepers.append(col)
 
     # New variables created using Created_On and ResolvedDate:
     # "Concurrent_open_cases", "Cases_created_within_past_8_hours", "Cases_resolved_within_past_8_hours", 
@@ -122,7 +125,8 @@ def deletions(df, d):  # Delete all columns apart from those listed
                     "AssignedToGroup_BPO", "AssignedToGroup_CRMT"]:
             keepers.append(col)
     if d["append_AuditDuration"] == "y": keepers.append("AuditDuration")
-    
+
+    print("Keepers:", keepers)
     for col in df.columns:
         if col not in keepers: del df[col]
     print("Deletions:", df.shape)
@@ -509,37 +513,39 @@ def clean_data(d):
     ####################################################################################################################
     # Transform countries into continents
     ####################################################################################################################
-    transform_countrys = ["CountrySource", "CountryProcessed", "SalesLocation"]
-    for column in transform_countrys:
-        df[column] = transform_country(df[column])
-    print("Transformed countries into continents:", df.shape)
+    if d["onehot_encoding"] == "y":
+        transform_countrys = ["CountrySource", "CountryProcessed", "SalesLocation"]
+        for column in transform_countrys:
+            df[column] = transform_country(df[column])
+        print("Transformed countries into continents:", df.shape)
 
     ####################################################################################################################
     # Queue: Prepare for one hot encoding in buckets
     ####################################################################################################################
-    substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "Broken", "E&E"]
-    check_substr_exists = [False for _ in substr_list]
-    # Create a list of 8 unique substrings located in the categorical variables. These will become the new one-hot
-    # encoded column names.
-    val_list = df.Queue.value_counts().index.tolist()  # List the categorical values in Queue
-    cat_list = [[] for _ in substr_list]  # Create a list of 8 lists (the same size as substr_list)
-    for i, substr in enumerate(substr_list):
-        for j, val in enumerate(val_list):
-            if substr in val:  # If one of the 8 substrings is located in a categorical variable, overwrite the
-                # variable with a nonsense value and append the variable name to cat_list
-                val_list[j] = "n"
-                cat_list[i].append(val)
-                check_substr_exists[i] = True
-    for i in range(len(substr_list)):
-        if check_substr_exists[i] == True:
-            df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Rplace categorical vars in Queue with substrings
-    extra_queues = ["<WWCS - EMEA Admin>", "<3P Xbox AR Operations>", "<VL OpsPM program support>",
-                    "<CLT Duplicates>"]
-    # combine uncommon queue types
-    for extra in extra_queues:
-        if extra in df["Queue"].values:
-            df["Queue"] = df["Queue"].replace(extra, "Other")
-    print("Queue transformation:", df.shape)
+    if d["onehot_encoding"] == "y":
+        substr_list = ["NAOC", "EOC", "AOC", "APOC", "LOC", "Broken", "E&E"]
+        check_substr_exists = [False for _ in substr_list]
+        # Create a list of 8 unique substrings located in the categorical variables. These will become the new one-hot
+        # encoded column names.
+        val_list = df.Queue.value_counts().index.tolist()  # List the categorical values in Queue
+        cat_list = [[] for _ in substr_list]  # Create a list of 8 lists (the same size as substr_list)
+        for i, substr in enumerate(substr_list):
+            for j, val in enumerate(val_list):
+                if substr in val:  # If one of the 8 substrings is located in a categorical variable, overwrite the
+                    # variable with a nonsense value and append the variable name to cat_list
+                    val_list[j] = "n"
+                    cat_list[i].append(val)
+                    check_substr_exists[i] = True
+        for i in range(len(substr_list)):
+            if check_substr_exists[i] == True:
+                df.Queue = df.Queue.replace(cat_list[i], substr_list[i])  # Rplace categorical vars in Queue with substrings
+        extra_queues = ["<WWCS - EMEA Admin>", "<3P Xbox AR Operations>", "<VL OpsPM program support>",
+                        "<CLT Duplicates>"]
+        # combine uncommon queue types
+        for extra in extra_queues:
+            if extra in df["Queue"].values:
+                df["Queue"] = df["Queue"].replace(extra, "Other")
+        print("Queue transformation:", df.shape)
 
     ####################################################################################################################
     # Fill Categorical and numerical nulls. Scale numerical variables.
