@@ -251,12 +251,16 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         # x_num_z = x_num[z]
 
         y_np = np.array(y)
-        rot = .1
-        start = -2.5  # purple
+        # rot = .1
+        # start = -2.5  # purple
+        
+
         reverse = False
         if error_name == "R2":
             reverse = True
-        pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.2, light=.7, reverse=reverse)
+        # pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.1, light=.9, reverse=reverse)
+        pal = sns.cubehelix_palette(len(y), start=1, rot=0,hue=1.5, gamma=1,dark=.3, light=0.9, reverse=reverse)
+        
         rank = y_np.argsort().argsort() 
         sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
         plt.xticks(x_ticks, x_ticks)
@@ -284,12 +288,13 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
             # pal = sns.cubehelix_palette(len(y)); pal = sns.color_palette(palette="Reds", n_colors=len(y), desat=.9)
             #     rot = .3, start = -1  # green blue ; rot = .3, start = 1.5  # green ; rot = .3, start = 2  # blue green
             #     rot = .3, start = -2.5  # red
-        rot = .1
-        start = -2.5  # purple
+        # rot = .1
+        # start = -2.5  # purple
         reverse = False
         if error_name == "R2":
             reverse = True
-        pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.4, light=.7, reverse=reverse)
+        # pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.4, light=.7, reverse=reverse)
+        pal = sns.cubehelix_palette(len(y), start=1, rot=0,hue=1.5, gamma=1,dark=.3, light=0.9, reverse=reverse)
         rank = y_np.argsort().argsort()
         sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
         plt.xticks(x_num, x_ticks, rotation="vertical")
@@ -599,7 +604,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     percent_within_72 = []  # Tracking predictions within 72 hours
     percent_within_96 = []  # Tracking predictions within 96 hours
 
-    max_time = 2000000
+    # max_time = 2000000
     df["TimeTaken_%s" % alg] = -1000000  # assign a random value
 
     for train_indices, test_indices in kf.split(X, y):
@@ -629,15 +634,15 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
             if y_train_pred[i] < 0:  # Convert all negative predictions to 0
                 y_train_pred[i] = 0
-            if y_train_pred[i] > max_time:  # Convert all predictions > 2M to 2M
-                y_train_pred[i] = max_time  
+            # if y_train_pred[i] > max_time:  # Convert all predictions > 2M to 2M
+                # y_train_pred[i] = max_time  
             if math.isnan(y_train_pred[i]):  # If NaN set to 0
                 y_train_pred[i] = 0
         for i in range(len(y_test_pred)): # Convert high or low predictions to 0 or 3 std
             if y_test_pred[i] < 0:  # Convert all negative predictions to 0
                 y_test_pred[i] = 0
-            if y_test_pred[i] > max_time:  # Convert all predictions > max_time to max_time
-                y_test_pred[i] = max_time
+            # if y_test_pred[i] > max_time:  # Convert all predictions > max_time to max_time
+                # y_test_pred[i] = max_time
             if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
             if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600:  # Within 1 hour
