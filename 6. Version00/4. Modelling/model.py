@@ -542,15 +542,15 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     
     out_file.write("\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
     out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)
-    out_file.write("\n\tmean_time_test_meanae = %s\n" % mean_time_test_meanae)
-    out_file.write("\n\tmean_time_test_evs = %s\n" % mean_time_test_evs)
+    out_file.write("\n\tmean_time_test_meanae = %s" % mean_time_test_meanae)
+    out_file.write("\n\tmean_time_test_evs = %s" % mean_time_test_evs)
     out_file.write("\n\tmean_time_test_medianae = %s\n" % mean_time_test_medianae)
     
-    out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_r2)
-    out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_rmse)
-    out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_meanae)
-    out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_evs)
-    out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_medianae)
+    out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_r2)
+    out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_rmse)
+    out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_meanae)
+    out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_evs)
+    out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_medianae)
     
     if alg_counter == 1:
         print("\tmean_time_test_r2 = %s" % mean_time_test_r2)
