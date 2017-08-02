@@ -1,0 +1,55 @@
+LinearRegression 20170802-182432
+
+Input file name exp_all_yes_RFR_top_10:
+
+
+Simple TimeTaken stats
+	mean_time = 353447.46836758254
+	std_time = 423081.21604296373
+	median_time = 194467.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 423081.216042964
+	mean_time_test_meanae = 310162.254362
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 268815.968368
+
+	median_time_test_mae = -0.14120085438
+	median_time_test_mae = 451964.98283666925
+	median_time_test_mae = 286847.832795
+	median_time_test_mae = 0.0
+	median_time_test_mae = 170525.0
+
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean R2: 0.72644 (+/-0.00098)
+	Test Mean R2: 0.72588 (+/-0.00716)
+	Train Mean RMSE: 221282.41 (+/-384.74)
+	Test Mean RMSE: 221380.70 (+/-4079.22)
+	Train Mean MeanAE: 146224.36 (+/-311.82)
+	Test Mean MeanAE: 146304.26 (+/-2504.27)
+	Train Mean EVS: 0.73 (+/-0.73)
+	Test Mean EVS: 0.73 (+/-0.73)
+	Train Mean MedianAE: 99987.10 (+/-99987.10)
+	Test Mean MedianAE: 99902.98 (+/-99902.98)
+
+	LinearRegression % test predictions error within 1 hour -> Mean: 2.74% (+/- 0.27%) of 25986/10
+	LinearRegression % test predictions error within 4 hours -> Mean: 11.21% (+/- 0.62%) of 25986/10
+	LinearRegression % test predictions error within 8 hours -> Mean: 20.85% (+/- 0.84%) of 25986/10
+	LinearRegression % test predictions error within 16 hours -> Mean: 34.33% (+/- 0.82%) of 25986/10
+	LinearRegression % test predictions error within 24 hours -> Mean: 45.36% (+/- 0.91%) of 25986/10
+	LinearRegression % test predictions error within 48 hours -> Mean: 70.21% (+/- 0.76%) of 25986/10
+	LinearRegression % test predictions error within 72 hours -> Mean: 84.93% (+/- 0.67%) of 25986/10
+	LinearRegression % test predictions error within 96 hours -> Mean: 92.01% (+/- 0.43%) of 25986/10
+
+
+Feature Importances:
+	1. "Created_on_Weekend" (-82536.577497)
+	2. "Concurrent_open_cases" (-5.214516)
+	3. "Cases_resolved_within_past_8_hours" (4.163083)
+	4. "Rolling_Std" (-1.834840)
+	5. "Rolling_Mean" (-1.644235)
+	6. "Seconds_left_Month" (-1.386322)
+	7. "Seconds_left_Qtr" (-1.228670)
+	8. "Rolling_Median" (-1.104297)
+	9. "Seconds_left_Day" (-0.880352)
+	10. "Seconds_left_Year" (-0.825560)

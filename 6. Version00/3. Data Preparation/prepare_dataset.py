@@ -662,7 +662,7 @@ def clean_data(d):
                                "ROCName", "sourcesystem", "Source", "Revenutype", "Queue"]
         for var in cat_vars_to_one_hot:
             if var in df.columns:
-                df = pd.concat([df, pd.get_dummies(df[var], prefix=var, drop_first=False)], axis=1)
+                df = pd.concat([df, pd.get_dummies(df[var], prefix=var, drop_first=True)], axis=1)
                 del df[var]
         print("One hot encoding complete:", df.shape)
 
