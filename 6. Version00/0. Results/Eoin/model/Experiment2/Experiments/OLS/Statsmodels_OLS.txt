@@ -1,4 +1,4 @@
-Statsmodels_OLS 20170802-225634
+Statsmodels_OLS 20170802-231812
 
 Input file name Experiment2:
 
@@ -9,15 +9,13 @@ Features used:
 	4 - IsSOXCase
 	5 - IsSignature
 
-R2: 0.415822134487
-
                             OLS Regression Results                            
 ==============================================================================
 Dep. Variable:              TimeTaken   R-squared:                       0.416
 Model:                            OLS   Adj. R-squared:                  0.416
 Method:                 Least Squares   F-statistic:                     3700.
 Date:                Wed, 02 Aug 2017   Prob (F-statistic):               0.00
-Time:                        22:56:34   Log-Likelihood:            -3.7361e+05
+Time:                        23:18:12   Log-Likelihood:            -3.7361e+05
 No. Observations:               25995   AIC:                         7.472e+05
 Df Residuals:                   25990   BIC:                         7.473e+05
 Df Model:                           5                                         
