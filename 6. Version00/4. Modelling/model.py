@@ -159,8 +159,8 @@ def plot(x, y, alg, data, newpath, alg_initials):
     plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
     # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
     # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
-    plt.xlabel(data + " Data Actual")
-    plt.ylabel(data + " Data Prediction")
+    plt.xlabel("Actual - Time Taken (Hours)")
+    plt.ylabel("Prediction Time - Taken (Hours)")
     if alg == "Simple":
         plt.title(alg_initials + " - " + data + " Data")
     else:
@@ -168,6 +168,10 @@ def plot(x, y, alg, data, newpath, alg_initials):
     plt.axis('equal')
     plt.ylim(0, 2500000)
     plt.xlim(0, 2500000)
+    ticks = [0, 360000, 720000, 1080000, 1440000, 1800000, 2160000]
+    tick_names = [0, 100, 200, 300, 400, 500, 600]
+    plt.xticks(ticks, tick_names)
+    plt.yticks(ticks, tick_names)
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
@@ -868,6 +872,7 @@ if __name__ == "__main__":  # Run program
     np.random.seed(int(d["seed"]))  # Set seed
 
     df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
+    # df["TimeTaken"] = df["TimeTaken"].apply(lambda x: x/3600)
 
     print("Input file name: %s" % d["input_file"])
     print("DF Shape:", df.shape, "\n")
