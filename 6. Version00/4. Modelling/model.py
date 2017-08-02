@@ -962,13 +962,12 @@ if __name__ == "__main__":  # Run program
                 del X[col]
 
         # output the features being used
-        print("Length of df = %s" % len(df.columns)) # todo add these 3 print messages to outfile or delete them
-        print("Length of keepers = %s\n" % len(keepers))
+        print("\nLength of df = %s" % len(df.columns)) # todo add these 3 print messages to outfile or delete them
+        print("Length of keepers = %s" % len(keepers))
         print("Length of features used = %s\n" % len(X.columns))
-        # print("Features used:")
+
         out_file.write("\nFeatures used:")
         for i, col in enumerate(X.columns):
-            # print("\t%s - %s" % (i+1, col))
             out_file.write("\n\t%s - %s" % (i+1, col))
         
         y = df["TimeTaken"]
@@ -976,28 +975,12 @@ if __name__ == "__main__":  # Run program
         model = sm.OLS(y, X)
         results = model.fit()
         
-        print('\nR2: ', results.rsquared)
-        out_file.write('\n\nR2: '+ str(results.rsquared))
-        
         print(results.summary())
         out_file.write("\n\n" + str(results.summary()) + "\n")
-        
-        # # print('Parameters:')
-        # out_file.write('\n\nParameters:')
-        # # print(results.params)
-        # out_file.write("\n"+str(results.params))
-        
-        # # print('Standard errors: ') 
-        # out_file.write('\nStandard errors: \n') 
-        # print(results.bse)
-        # out_file.write(str(results.bse))
-        
-        # print('\nPredicted values: ', results.predict())
+
         out_file.write('\nPredicted values: '+str(results.predict()))
         
         y_pred = results.predict()
-        # print(y_pred)
-        # out_file.write(y_pred)
         
         plot(y, y_pred, alg, "All Data", algpath, alg_initials)
         out_file.close()
