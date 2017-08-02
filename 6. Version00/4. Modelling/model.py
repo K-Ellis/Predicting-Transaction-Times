@@ -869,7 +869,8 @@ if __name__ == "__main__":  # Run program
 
     df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
 
-    print("Input file name: %s\n" % d["input_file"])
+    print("Input file name: %s" % d["input_file"])
+    print("DF Shape:", df.shape, "\n")
     
     if d["histogram"] == "y":
         histogram(df, "TimeTaken", newpath)  # Save histogram plots of TimeTaken
