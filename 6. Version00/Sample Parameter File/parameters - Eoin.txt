@@ -1,3 +1,19 @@
+
+
+
+
+
+
+
+This file is now obsolete
+
+
+
+
+
+
+
+
 beep: y
 resample: n
 n_samples: 100

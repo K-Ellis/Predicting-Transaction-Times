@@ -7,7 +7,7 @@ specify_subfolder: Experiments
 PREPARE_DATASET ############
 ########### ################
 prepare_input_file: vw_Incident
-prepare_output_file: Experiment_2
+prepare_output_file: Experiment_NUM
 ########### ################
 remove_null_IsSOXCase: n
 remove_outliers: y
@@ -73,7 +73,6 @@ step: y
 delete_ticketNumber: y
 output_file: n
 save_parameters: n
-rerun_with_top_importances: y
 clean_Incident: y
 clean_AuditHistory: n
 clean_HoldActivity: n
