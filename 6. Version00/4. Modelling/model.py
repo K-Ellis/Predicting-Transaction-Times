@@ -160,7 +160,7 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
     # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
     plt.xlabel("Actual - Time Taken (Hours)")
-    plt.ylabel("Prediction Time - Taken (Hours)")
+    plt.ylabel("Prediction - Time Taken (Hours)")
     if alg == "Simple":
         plt.title(alg_initials + " " + input_file)
     else:
@@ -185,7 +185,7 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
     # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
     plt.xlabel("Actual - Time Taken (Hours)")
-    plt.ylabel("Prediction Time - Taken (Hours)")
+    plt.ylabel("Prediction - Time Taken (Hours)")
     if alg == "Simple":
         plt.title(alg_initials + " " + input_file)
     else:
