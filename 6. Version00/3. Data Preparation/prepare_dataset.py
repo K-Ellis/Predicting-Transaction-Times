@@ -325,7 +325,7 @@ def clean_data(d):
         mean_time = sum(df["TimeTaken"].tolist()) / len(df["TimeTaken"])  # Calculate mean of time taken
         std_time = np.std(df["TimeTaken"].tolist())  # Calculate standard deviation of time taken
         df = df[df["TimeTaken"] < (mean_time + 3*std_time)]  # Remove outliers that are > 3 std from mean
-        df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
+        # df = df[df["TimeTaken"] < 2000000]  # Remove outliers that are > 2000000
         df = df.reset_index(drop=True)
         print("Removed Outliers:", df.shape)
 
