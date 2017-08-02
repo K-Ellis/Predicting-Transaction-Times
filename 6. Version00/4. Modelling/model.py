@@ -153,7 +153,7 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.close()
 
 
-def plot(x, y, alg, data, newpath, alg_initials):
+def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     sns.reset_orig() # plt.rcParams.update(plt.rcParamsDefault)
     plt.figure()
     plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
@@ -162,9 +162,9 @@ def plot(x, y, alg, data, newpath, alg_initials):
     plt.xlabel("Actual - Time Taken (Hours)")
     plt.ylabel("Prediction Time - Taken (Hours)")
     if alg == "Simple":
-        plt.title(alg_initials + " - " + data + " Data")
+        plt.title(alg_initials + " " + input_file)
     else:
-        plt.title(alg + " - " + data + " Data")
+        plt.title(alg + " " + input_file)
     plt.axis('equal')
     plt.ylim(0, 2500000)
     plt.xlim(0, 2500000)
@@ -175,8 +175,33 @@ def plot(x, y, alg, data, newpath, alg_initials):
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    plt.savefig(newpath + alg_initials + "_" + data + ".png")
-    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + data + ".pdf")
+    plt.savefig(newpath + alg_initials + "_" + input_file + ".png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + ".pdf")
+    plt.close()
+
+    # Plot up to 800000 only
+    plt.figure()
+    plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
+    # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
+    # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
+    plt.xlabel("Actual - Time Taken (Hours)")
+    plt.ylabel("Prediction Time - Taken (Hours)")
+    if alg == "Simple":
+        plt.title(alg_initials + " " + input_file)
+    else:
+        plt.title(alg + " " + input_file)
+    plt.axis('equal')
+    plt.ylim(0, 800000)
+    plt.xlim(0, 800000)
+    ticks = [0, 180000, 360000, 540000, 720000]
+    tick_names = [0, 50, 100, 150, 200]
+    plt.xticks(ticks, tick_names)
+    plt.yticks(ticks, tick_names)
+    plt.tight_layout()  # Force everything to fit on figure
+    if not os.path.exists(newpath + "PDFs/"):
+        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+    plt.savefig(newpath + alg_initials + "_" + input_file + "_2.png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_2.pdf")
     plt.close()
 
 
@@ -574,8 +599,8 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
         os.makedirs(simplepath)  # Make folder for storing results if it does not exist
     
     if alg_counter == 1:
-        plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "All", simplepath, "Mean")
-        plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "All", simplepath, "Median")
+        plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "All", simplepath, "Mean", d["input_file"])
+        plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "All", simplepath, "Median",  d["input_file"])
     
     ####################################################################################################################
     # Machine Learning
@@ -832,7 +857,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
         # y = "TimeTaken_%s"%alg
         # in_data = pd.DataFrame(df[[x,y]], columns=[x, y])
         # plot(x,y, in_data, alg, "Test", algpath)
-        plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "Test", algpath, alg_initials)
+        plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "Test", algpath, alg_initials, d["input_file"])
 
     ####################################################################################################################
     # Importances
@@ -1004,7 +1029,7 @@ if __name__ == "__main__":  # Run program
         # print(y_pred)
         # out_file.write(y_pred)
         
-        plot(y, y_pred, alg, "All Data", algpath, alg_initials)
+        plot(y, y_pred, alg, "All Data", algpath, alg_initials, d["input_file"])
         out_file.close()
     
     if d["beep"] == "y":
