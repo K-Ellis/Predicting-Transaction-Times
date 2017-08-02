@@ -15,6 +15,7 @@ Import libraries
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
 import time
 import os  # Used to create folders
 import math
@@ -162,12 +163,13 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.xlabel("Actual - Time Taken (Hours)")
     plt.ylabel("Prediction - Time Taken (Hours)")
     if alg == "Simple":
-        plt.title(alg_initials + " " + input_file)
+        plt.title(alg_initials)
     else:
-        plt.title(alg + " " + input_file)
-    plt.axis('equal')
-    plt.ylim(0, 2500000)
-    plt.xlim(0, 2500000)
+        plt.title(alg)
+    # plt.axis('equal')
+    plt.ylim([0, 2500000])
+    plt.xlim([0, 2500000])
+    plt.gca().set_aspect('equal', adjustable='box')
     ticks = [0, 360000, 720000, 1080000, 1440000, 1800000, 2160000]
     tick_names = [0, 100, 200, 300, 400, 500, 600]
     plt.xticks(ticks, tick_names)
@@ -187,12 +189,13 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.xlabel("Actual - Time Taken (Hours)")
     plt.ylabel("Prediction - Time Taken (Hours)")
     if alg == "Simple":
-        plt.title(alg_initials + " " + input_file)
+        plt.title(alg_initials)
     else:
-        plt.title(alg + " " + input_file)
-    plt.axis('equal')
-    plt.ylim(0, 800000)
-    plt.xlim(0, 800000)
+        plt.title(alg)
+    # plt.axis('equal')
+    plt.ylim([0, 800000])
+    plt.xlim([0, 800000])
+    plt.gca().set_aspect('equal', adjustable='box')
     ticks = [0, 180000, 360000, 540000, 720000]
     tick_names = [0, 50, 100, 150, 200]
     plt.xticks(ticks, tick_names)
