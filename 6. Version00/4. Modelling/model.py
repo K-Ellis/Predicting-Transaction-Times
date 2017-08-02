@@ -156,6 +156,8 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
 
 def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     sns.reset_orig() # plt.rcParams.update(plt.rcParamsDefault)
+
+    # Plot all
     plt.figure()
     plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
     # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
@@ -177,11 +179,37 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    plt.savefig(newpath + alg_initials + "_" + input_file + ".png")
-    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + ".pdf")
+    plt.savefig(newpath + alg_initials + "_" + input_file + "_allhrs.png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_allhrs.pdf")
     plt.close()
 
-    # Plot up to 800000 only
+    # Plot up to 2500000s only (600hrs)
+    plt.figure()
+    plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
+    # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
+    # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
+    plt.xlabel("Actual - Time Taken (Hours)")
+    plt.ylabel("Prediction - Time Taken (Hours)")
+    if alg == "Simple":
+        plt.title(alg_initials)
+    else:
+        plt.title(alg)
+    # plt.axis('equal')
+    plt.ylim([0, 2500000])
+    plt.xlim([0, 2500000])
+    plt.gca().set_aspect('equal', adjustable='box')
+    ticks = [0, 360000, 720000, 1080000, 1440000, 1800000, 2160000]
+    tick_names = [0, 100, 200, 300, 400, 500, 600]
+    plt.xticks(ticks, tick_names)
+    plt.yticks(ticks, tick_names)
+    plt.tight_layout()  # Force everything to fit on figure
+    if not os.path.exists(newpath + "PDFs/"):
+        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+    plt.savefig(newpath + alg_initials + "_" + input_file + "_600hrs.png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_600hrs.pdf")
+    plt.close()
+
+    # Plot up to 800000s only (200hrs)
     plt.figure()
     plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
     # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
@@ -203,10 +231,35 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    plt.savefig(newpath + alg_initials + "_" + input_file + "_2.png")
-    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_2.pdf")
+    plt.savefig(newpath + alg_initials + "_" + input_file + "_200hrs.png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_200hrs.pdf")
     plt.close()
 
+    # Plot up to 100000s only (24hrs)
+    plt.figure()
+    plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
+    # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
+    # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
+    plt.xlabel("Actual - Time Taken (Hours)")
+    plt.ylabel("Prediction - Time Taken (Hours)")
+    if alg == "Simple":
+        plt.title(alg_initials)
+    else:
+        plt.title(alg)
+    # plt.axis('equal')
+    plt.ylim([0, 100000])
+    plt.xlim([0, 100000])
+    plt.gca().set_aspect('equal', adjustable='box')
+    ticks = [0, 14400, 28800, 43200, 57600, 72000, 86400]
+    tick_names = [0, 4, 8, 12, 16, 20, 24]
+    plt.xticks(ticks, tick_names)
+    plt.yticks(ticks, tick_names)
+    plt.tight_layout()  # Force everything to fit on figure
+    if not os.path.exists(newpath + "PDFs/"):
+        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+    plt.savefig(newpath + alg_initials + "_" + input_file + "_24hrs.png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_24hrs.pdf")
+    plt.close()
 
 def day_in_quarter(date):
     # Function found on stack overflow
