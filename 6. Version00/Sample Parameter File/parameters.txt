@@ -8,6 +8,7 @@ PREPARE_DATASET ############
 ########### ################
 prepare_input_file: vw_Incident
 prepare_output_file: Experiment_NUM
+save_parameters: n
 ########### ################
 remove_null_IsSOXCase: n
 remove_outliers: y
