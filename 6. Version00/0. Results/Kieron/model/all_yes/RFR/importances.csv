@@ -1,0 +1,99 @@
+Columns,Importances
+Concurrent_open_cases,0.8242093251108794
+Seconds_left_Year,0.060733125877206556
+Seconds_left_Qtr,0.03238794229578837
+Rolling_Std,0.028842057288366692
+Seconds_left_Month,0.024482330621589297
+Rolling_Mean,0.010123505714286073
+Rolling_Median,0.00871739085808499
+Seconds_left_Day,0.003003573010420949
+Cases_resolved_within_past_8_hours,0.0022196244529147356
+Created_on_Weekend,0.0013367443708950455
+Cases_created_within_past_8_hours,0.0011421746579310295
+AmountinUSD,0.0005030721954921074
+StageName,0.00014527827858484043
+Queue_NAOC,0.00010187358919824769
+SubReason_Meteaop,8.574317960662118e-05
+SubReason_Basic Enterprise Commitment,8.055784881515177e-05
+Source_Soft Copy,8.010331862376381e-05
+Revenutype_Current Revenue,7.441253760643084e-05
+SubReason_Zero Usage Order,7.231334855667725e-05
+CountryProcessed_northamerica,6.945782086175987e-05
+SalesLocation_northamerica,6.53116270481091e-05
+Source_Web,6.528980344290984e-05
+IsMagnumCase,6.403177211408797e-05
+IsSignature,6.184718957133638e-05
+IsGovernment,6.161702537988727e-05
+Source_eAgreement (Phy),6.141403732516899e-05
+Revenutype_Non-revenue,6.105616683702513e-05
+ROCName_EOC,5.984100278018085e-05
+StatusReason_Problem Solved,5.966357308569647e-05
+StatusReason_Completed,5.922930187269977e-05
+Queue_EOC,5.4358532640100256e-05
+SubReason_True Up,5.3639310221811306e-05
+SubReason_Manual Order Entry,5.112447853104216e-05
+CountrySource_northamerica,4.760622524152448e-05
+Revenutype_Future Billing,4.741510909311242e-05
+Revenutype_Credit / Rebill,4.465389324562981e-05
+IsSOXCase,4.417430523415067e-05
+CountryProcessed_asia,3.845492204799664e-05
+ROCName_APOC,3.6121855878358876e-05
+Queue_LOC,3.459683063948287e-05
+CountrySource_europe,3.439501241520256e-05
+SalesLocation_europe,3.285854429748308e-05
+CountryProcessed_europe,3.235083274017442e-05
+SalesLocation_southamerica,3.21461567026261e-05
+Queue_APOC,3.114059951617512e-05
+CountrySource_asia,3.099148776243165e-05
+SalesLocation_asia,3.051896374565138e-05
+SalesLocation_australia,2.912934936696964e-05
+Complexity,2.9089116091297256e-05
+SubReason_Future Pricing Only CPS,2.7669760571886096e-05
+Priority,2.6358891500984638e-05
+CountrySource_southamerica,2.566009369696018e-05
+Source_Manual,2.3779561179929448e-05
+CountrySource_australia,2.064966865740112e-05
+SubReason_Electronic Order Pend / Reject,2.0298398335734427e-05
+SubReason_Tax Exemption Order,1.8603113425374847e-05
+CountryProcessed_southamerica,1.630257826638632e-05
+Revenutype_Revenue Unknown,1.4205942948267007e-05
+Source_Hard Copy,1.2690496053295226e-05
+StatusReason_Information Provided,1.1437380293324439e-05
+sourcesystem_NMEC,3.1356910103114753e-06
+Revenutype_Future OTRRR without OLS,2.357238447253898e-06
+sourcesystem_CLT,2.3224029127225165e-06
+Revenutype_Future OTRRR with OLS,1.938659057934027e-06
+Revenutype_Revenue Impacting Case / Pending Revenue,1.614076198822493e-06
+Queue_Broken,1.3692266035206233e-06
+CountryProcessed_other,1.073884628279661e-06
+Source_eAgreement (Ele),7.873226389890396e-07
+CountrySource_other,7.357889225155329e-07
+CountryProcessed_australia,7.058088116302494e-07
+StatusReason_Customer Hold,4.926712930886868e-07
+Revenutype_Disputed Revenue,2.4353202294414103e-07
+Queue_E&E,2.3737736758873655e-07
+sourcesystem_Aplquest,2.3254847217291451e-07
+SubReason_P&H Electronic Order,2.1197251957285954e-07
+sourcesystem_`,1.0167551001718963e-07
+StatusReason_Ready for Archiving,3.5261929346179304e-08
+StatusReason_Ready for Audit,2.238675608697504e-08
+SalesLocation_other,1.6171485459318325e-08
+StatusReason_New Mail,1.270181256757174e-08
+Source_Fax,9.1835169946528e-09
+sourcesystem_NEMEC,8.085487546583491e-09
+sourcesystem_clt,4.269691085002081e-09
+Revenutype_New Work Sold,1.7638612804538288e-09
+sourcesystem_web,8.562418013936258e-10
+StatusReason_Reactivated,7.038634975923011e-11
+sourcesystem_Moritz Jürgensen,6.09905766944569e-11
+StatusReason_New,1.6491163933158248e-11
+StatusReason_Final Routing,9.426013502241308e-12
+AssignedToGroup_BPO,0.0
+AuditDuration,0.0
+AssignedToGroup_CRMT,0.0
+HoldTypeName_Customer,0.0
+sourcesystem_Current Revenue,0.0
+HoldTypeName_3rd Party,0.0
+sourcesystem_Web,0.0
+HoldDuration,0.0
+HoldTypeName_Internal,0.0
