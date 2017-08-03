@@ -955,6 +955,8 @@ if __name__ == "__main__":  # Run program
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
+    copyfile(parameters, newpath + "parameters.txt")  # Save parameters
+    
     np.random.seed(int(d["seed"]))  # Set seed
 
     df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
@@ -1023,8 +1025,6 @@ if __name__ == "__main__":  # Run program
         regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]),
                                           max_depth=25, n_jobs=-1)
         results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
-    
-    copyfile(parameters, newpath + "parameters.txt")  # Save parameters
 
     if d["output_predictions_csv"] == "y":
         df.to_csv(d["file_location"] + d["input_file"] + "_predictions.csv", index=False)  # export file
