@@ -1,0 +1,52 @@
+GradientBoostingRegressor 20170803-172605
+
+Input file name min:
+
+
+Simple TimeTaken stats
+	mean_time = 252513.96670630202
+	std_time = 304321.5789556882
+	median_time = 114634.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 304321.5789556889
+	mean_time_test_meanae = 231183.990102
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 215086.0
+
+	median_time_test_mae = -0.205273880724
+	median_time_test_mae = 334099.34264721005
+	median_time_test_mae = 213147.021998
+	median_time_test_mae = 0.0
+	median_time_test_mae = 104143.5
+
+
+GradientBoostingRegressor - July Results
+	Test R2: 0.23668
+	Test RMSE: 265880.56
+	Test MeanAE: 168033.90
+	Test EVS: 0.49 
+	Test MedianAE: 59975.80 
+
+	GradientBoostingRegressor % test predictions error within 1 hour -> 4.21% of 6728
+	GradientBoostingRegressor % test predictions error within 4 hours -> 13.87% of 6728
+	GradientBoostingRegressor % test predictions error within 8 hours -> 26.16% of 6728
+	GradientBoostingRegressor % test predictions error within 16 hours -> 48.77% of 6728
+	GradientBoostingRegressor % test predictions error within 24 hours -> 59.02% of 6728
+	GradientBoostingRegressor % test predictions error within 48 hours -> 69.57% of 6728
+	GradientBoostingRegressor % test predictions error within 72 hours -> 74.00% of 6728
+	GradientBoostingRegressor % test predictions error within 96 hours -> 77.23% of 6728
+
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.460185)
+	2. "Seconds_left_Qtr" (0.158047)
+	3. "Seconds_left_Year" (0.146105)
+	4. "Seconds_left_Month" (0.110612)
+	5. "Rolling_Median" (0.027621)
+	6. "Created_on_Weekend" (0.024325)
+	7. "Seconds_left_Day" (0.019272)
+	8. "Rolling_Mean" (0.019178)
+	9. "Rolling_Std" (0.017130)
+	10. "Cases_resolved_within_past_8_hours" (0.015291)
+	11. "Cases_created_within_past_8_hours" (0.002233)
