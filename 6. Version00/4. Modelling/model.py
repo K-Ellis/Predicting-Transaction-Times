@@ -932,6 +932,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
 
     print("\n..finished with alg: %s.." % alg)
     out_file.close()
+    
+    if d["extra_testing"] == "y":
+        pass
 
 
 if __name__ == "__main__":  # Run program
