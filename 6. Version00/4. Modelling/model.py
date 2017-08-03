@@ -333,12 +333,8 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
 
         x_num = [i for i in range(len(y))]
         x_num = np.array(x_num)
-        # x_num_z = x_num[z]
 
         y_np = np.array(y)
-        # rot = .1
-        # start = -2.5  # purple
-        
 
         reverse = False
         if error_name == "R2":
@@ -369,16 +365,10 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         x_num = [i for i in range(len(x_ticks))]
         
         y_np = np.array(y)
-            #     pal = sns.color_palette("BuGn", len(y)) # OrRd_r, GnBu_d, husl, Spectral, cubehelix, RdYlGn_r, BuGn, RdYlBu_r ;
-            # pal = sns.cubehelix_palette(len(y)); pal = sns.color_palette(palette="Reds", n_colors=len(y), desat=.9)
-            #     rot = .3, start = -1  # green blue ; rot = .3, start = 1.5  # green ; rot = .3, start = 2  # blue green
-            #     rot = .3, start = -2.5  # red
-        # rot = .1
-        # start = -2.5  # purple
         reverse = False
         if error_name == "R2":
             reverse = True
-        # pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.4, light=.7, reverse=reverse)
+
         pal = sns.cubehelix_palette(len(y), start=1, rot=0,hue=1.5, gamma=1,dark=.3, light=0.9, reverse=reverse)
         rank = y_np.argsort().argsort()
         sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
@@ -386,11 +376,6 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         plt.title("%s - %s to %s"% (alg, error_name, x_label))
         plt.ylabel(y_label)
         plt.xlabel(x_label)
-
-        # min_ylim = min(y_z)-np.std(y_z)/3
-        # if min_ylim < 0:
-        #     min_ylim = 0
-        # plt.ylim(min_ylim, max(y_z)+np.std(y_z)/3)
 
         plt.ylim(min(y)-np.std(y)/3, max(y)+np.std(y)/3)    
         if not os.path.exists(newpath + "PDFs/"):
@@ -406,19 +391,19 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
     df = get_extra_cols(df, alg, d)
     error_names = ["R2", "RMSE", "MAE"]
     y_labels = ["R2 score", "RMSE (Hours)", "MAE (Hours)"]
-    
+
     scores = get_errors(df, alg, 24, "Created_On_Day")
     x_vals = [x for x in range(24)]
     x_label = "Time of Day Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    
+
     scores = get_errors(df, alg, 24, "ResolvedDate_Day")
     x_vals = [x for x in range(24)]
     x_label = "Time of Day Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    
+
     scores = get_errors(df, alg, 7, "Created_On_Week")
     x_vals = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
     x_label = "Day of Week Created"
@@ -430,7 +415,7 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
     x_label = "Day of Week Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-        
+
     scores = get_errors(df, alg, 31, "Created_On_Month")
     x_vals = [x for x in range(31)]
     x_label = "Day of Month Created"
@@ -442,7 +427,7 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
     x_label = "Day of Month Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    
+
     scores = get_errors(df, alg, 89, "Created_On_Qtr")
     x_vals = [(x+1)*5 for x in range(18)]
     x_label = "Day of Qtr Created"
@@ -577,9 +562,18 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
     out_file.write("\nInput file name %s:\n" % d["input_file"])
-
+    
+    if d["extra_testing"] == "y":
+        if d["min_pre_post_july"] == "y":
+            df["Created_On"] = pd.to_datetime(df["Created_On"])
+            dfprejuly = df[df["Created_On"]<pd.datetime(2017,6,20)].copy()
+            dfjuly = df[df["Created_On"]>=pd.datetime(2017,6,20)].copy()
+            df = dfprejuly.copy()
+            print("DF July Shape:", dfjuly.shape)
+            print("DF pre-July Shape:", df.shape, "\n")
+    
     X = df.drop("TimeTaken", axis=1)
-
+  
     keepers = get_keepers()
     for col in X.columns:
         if col not in keepers:
@@ -602,46 +596,49 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     ####################################################################################################################
     # Simple Statistics
     ####################################################################################################################
+
     mean_time = np.mean(y)  # Calculate mean of predictions
     std_time = np.std(y)  # Calculate standard deviation of predictions
     median_time = np.median(y)  # Calculate standard deviation of predictions
-    
+
     out_file.write("\n\nSimple TimeTaken stats")
     out_file.write("\n\tmean_time = %s" % mean_time)
     out_file.write("\n\tstd_time = %s" % std_time)
     out_file.write("\n\tmedian_time = %s\n" % median_time)
+
     if alg_counter == 1:
         print("\nSimple TimeTaken stats")
         print("\tmean_time = %s" % mean_time)
         print("\tstd_time = %s" % std_time)
         print("\tmedian_time = %s\n" % median_time)
+
     df["Mean_TimeTaken"] = mean_time
     df["Median_TimeTaken"] = median_time
-    
+        
     mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
     mean_time_test_rmse = sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
     mean_time_test_meanae = mean_absolute_error(y, df["Mean_TimeTaken"])
     mean_time_test_evs = explained_variance_score(y, df["Mean_TimeTaken"])
     mean_time_test_medianae = median_absolute_error(y, df["Mean_TimeTaken"])
-    
+
     median_time_test_r2 = r2_score(y, df["Median_TimeTaken"])
     median_time_test_rmse = sqrt(mean_squared_error(y, df["Median_TimeTaken"]))
     median_time_test_meanae = mean_absolute_error(y, df["Median_TimeTaken"])
     median_time_test_evs = explained_variance_score(y, df["Median_TimeTaken"])
     median_time_test_medianae = median_absolute_error(y, df["Median_TimeTaken"])
-    
+
     out_file.write("\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
     out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)
     out_file.write("\n\tmean_time_test_meanae = %s" % mean_time_test_meanae)
     out_file.write("\n\tmean_time_test_evs = %s" % mean_time_test_evs)
     out_file.write("\n\tmean_time_test_medianae = %s\n" % mean_time_test_medianae)
-    
+
     out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_r2)
     out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_rmse)
     out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_meanae)
     out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_evs)
     out_file.write("\n\tmedian_time_test_mae = %s\n" % median_time_test_medianae)
-    
+
     if alg_counter == 1:
         print("\tmean_time_test_r2 = %s" % mean_time_test_r2)
         print("\tmean_time_test_rmse = %s" % mean_time_test_rmse)
@@ -654,12 +651,13 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
         print("\tmedian_time_test_meanae = %s" % median_time_test_meanae)
         print("\tmedian_time_test_evs = %s" % median_time_test_evs)
         print("\tmedian_time_test_medianae = %s" % median_time_test_medianae)
-    
-    simplepath = newpath + "Simple_Stat_Plots/"
-    if not os.path.exists(simplepath):
-        os.makedirs(simplepath)  # Make folder for storing results if it does not exist
-    
+
     if alg_counter == 1:
+        simplepath = newpath + "Simple_Stat_Plots/"
+        if not os.path.exists(simplepath):
+            os.makedirs(simplepath)  # Make folder for storing results if it does not exist
+
+
         plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "All", simplepath, "Mean", d["input_file"])
         plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "All", simplepath, "Median",  d["input_file"])
     
@@ -930,12 +928,231 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials):
     elif alg == "LinearRegression" or alg == "ElasticNet":
         regression_coef_importances(regr, X, algpath, d, out_file, alg_initials)
 
-    print("\n..finished with alg: %s.." % alg)
     out_file.close()
     
+    ####################################################################################################################
+    # Extra Testing
+    ####################################################################################################################
     if d["extra_testing"] == "y":
-        pass
+        print("\n..extra testing..\n")
+        if d["min_pre_post_july"] == "y":
+            algpath = newpath + alg_initials + "/July/"
+            if not os.path.exists(algpath):
+                os.makedirs(algpath)  # Make folder for storing results if it does not exist
 
+            out_file_name = algpath + alg + ".txt"  # Log file name
+
+            out_file = open(out_file_name, "w")  # Open log file
+            out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
+            out_file.write("\nInput file name %s:\n" % d["input_file"])            
+            
+            print("DF Shape:", dfjuly.shape, "\n")
+            
+            y = dfjuly["TimeTaken"]
+            X = dfjuly.drop("TimeTaken", axis=1)
+            keepers = get_keepers()
+            for col in X.columns:
+                if col not in keepers:
+                    del X[col]
+            
+            y_pred = regr.predict(X)
+            
+            ####################################################################################################################
+            # Simple Statistics
+            ####################################################################################################################
+            mean_time = np.mean(y)  # Calculate mean of predictions
+            std_time = np.std(y)  # Calculate standard deviation of predictions
+            median_time = np.median(y)  # Calculate standard deviation of predictions
+            
+            out_file.write("\n\nSimple TimeTaken stats")
+            out_file.write("\n\tmean_time = %s" % mean_time)
+            out_file.write("\n\tstd_time = %s" % std_time)
+            out_file.write("\n\tmedian_time = %s\n" % median_time)
+
+            if alg_counter == 1:
+                print("\nSimple TimeTaken stats")
+                print("\tmean_time = %s" % mean_time)
+                print("\tstd_time = %s" % std_time)
+                print("\tmedian_time = %s\n" % median_time)
+
+            dfjuly["Mean_TimeTaken"] = mean_time
+            dfjuly["Median_TimeTaken"] = median_time
+            
+            mean_time_test_r2 = r2_score(y, dfjuly["Mean_TimeTaken"])
+            mean_time_test_rmse = sqrt(mean_squared_error(y, dfjuly["Mean_TimeTaken"]))
+            mean_time_test_meanae = mean_absolute_error(y, dfjuly["Mean_TimeTaken"])
+            mean_time_test_evs = explained_variance_score(y, dfjuly["Mean_TimeTaken"])
+            mean_time_test_medianae = median_absolute_error(y, dfjuly["Mean_TimeTaken"])
+            
+            median_time_test_r2 = r2_score(y, dfjuly["Median_TimeTaken"])
+            median_time_test_rmse = sqrt(mean_squared_error(y, dfjuly["Median_TimeTaken"]))
+            median_time_test_meanae = mean_absolute_error(y, dfjuly["Median_TimeTaken"])
+            median_time_test_evs = explained_variance_score(y, dfjuly["Median_TimeTaken"])
+            median_time_test_medianae = median_absolute_error(y, dfjuly["Median_TimeTaken"])
+            
+            out_file.write("\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
+            out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)
+            out_file.write("\n\tmean_time_test_meanae = %s" % mean_time_test_meanae)
+            out_file.write("\n\tmean_time_test_evs = %s" % mean_time_test_evs)
+            out_file.write("\n\tmean_time_test_medianae = %s\n" % mean_time_test_medianae)
+            
+            out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_r2)
+            out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_rmse)
+            out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_meanae)
+            out_file.write("\n\tmedian_time_test_mae = %s" % median_time_test_evs)
+            out_file.write("\n\tmedian_time_test_mae = %s\n\n" % median_time_test_medianae)
+            
+            if alg_counter == 1:
+                print("\tmean_time_test_r2 = %s" % mean_time_test_r2)
+                print("\tmean_time_test_rmse = %s" % mean_time_test_rmse)
+                print("\tmean_time_test_meanae = %s " % mean_time_test_meanae)
+                print("\tmean_time_test_evs = %s" % mean_time_test_evs)
+                print("\tmean_time_test_medianae = %s\n " % mean_time_test_medianae)
+
+                print("\tmedian_time_test_r2 = %s" % median_time_test_r2)
+                print("\tmedian_time_test_rmse = %s" % median_time_test_rmse)
+                print("\tmedian_time_test_meanae = %s" % median_time_test_meanae)
+                print("\tmedian_time_test_evs = %s" % median_time_test_evs)
+                print("\tmedian_time_test_medianae = %s" % median_time_test_medianae)
+
+            if alg_counter == 1:
+                simplepath = newpath + "Simple_Stat_Plots/"
+                if not os.path.exists(simplepath):
+                    os.makedirs(simplepath)  # Make folder for storing results if it does not exist
+            
+                if alg_counter == 1:
+                    plot(dfjuly["TimeTaken"],dfjuly["Mean_TimeTaken"], "Simple", "All", simplepath, "Mean", d["input_file"])
+                    plot(dfjuly["TimeTaken"],dfjuly["Median_TimeTaken"], "Simple", "All", simplepath, "Median",
+                         d["input_file"])
+            
+            number_close_1 = 0  # Use to track number of close estimations within 1 hour
+            number_close_4 = 0  # Use to track number of close estimations within 4 hour
+            number_close_8 = 0  # Use to track number of close estimations within 8 hour
+            number_close_16 = 0  # Use to track number of close estimations within 16 hour
+            number_close_24 = 0  # Use to track number of close estimations within 24 hours
+            number_close_48 = 0  # Use to track number of close estimations within 24 hours
+            number_close_72 = 0  # Use to track number of close estimations within 24 hours
+            number_close_96 = 0  # Use to track number of close estimations within 24 hours
+        
+            
+            for i in range(len(y_pred)): # Convert high or low predictions to 0 or 3 std
+                if y_pred[i] < 0:  # Convert all negative predictions to 0
+                    y_pred[i] = 0
+                if math.isnan(y_pred[i]):  # If NaN set to 0
+                    y_pred[i] = 0
+                if abs(y_pred[i] - y.iloc[i]) <= 3600:  # Within 1 hour
+                    number_close_1 += 1
+                if abs(y_pred[i] - y.iloc[i]) <= 4*60*60:  # Within 4 hours
+                    number_close_4 += 1
+                if abs(y_pred[i] - y.iloc[i]) <= 8*60*60:  # Within 8 hours
+                    number_close_8 += 1
+                if abs(y_pred[i] - y.iloc[i]) <= 16*60*60:  # Within 16 hours
+                    number_close_16 += 1
+                if abs(y_pred[i] - y.iloc[i]) <= 3600*24:  # Within 24 hours
+                    number_close_24 += 1
+                if abs(y_pred[i] - y.iloc[i]) <= 3600*48:  # Within 48 hours
+                    number_close_48 += 1
+                if abs(y_pred[i] - y.iloc[i]) <= 3600*72:  # Within 72 hours
+                    number_close_72 += 1
+                if abs(y_pred[i] - y.iloc[i]) <= 3600*96:  # Within 96 hours
+                    number_close_96 += 1
+
+            #  append the predictions for this fold to dfjuly
+            dfjuly["TimeTaken_%s"%alg] = y_pred
+            
+            test_rmse = (sqrt(mean_squared_error(y, y_pred)))
+            test_r_sq = (r2_score(y, y_pred))
+            test_mae = (mean_absolute_error(y, y_pred))
+            test_evs = (explained_variance_score(y, y_pred))
+            test_median_ae = (median_absolute_error(y, y_pred))            
+ 
+            pct_close_1 = number_close_1/len(y) *100
+            pct_close_4 = number_close_4/len(y) *100
+            pct_close_8 = number_close_8/len(y) *100
+            pct_close_16 = number_close_16/len(y) *100
+            pct_close_24 = number_close_24/len(y) *100
+            pct_close_48 = number_close_48/len(y) *100
+            pct_close_72 = number_close_72/len(y) *100
+            pct_close_96 = number_close_96/len(y) *100
+            
+            ########################################################################################################################
+            # output results
+            ########################################################################################################################
+            out_file.write("\n%s - July Results\n" % alg)
+            out_file.write("\tTest R2: {0:.5f}\n".format(test_r_sq))
+            out_file.write("\tTest RMSE: {0:.2f}\n".format(test_rmse))
+            out_file.write("\tTest MeanAE: {0:.2f}\n".format(test_mae))
+            out_file.write("\tTest EVS: {0:.2f} \n".format(test_evs))
+            out_file.write("\tTest MedianAE: {0:.2f} \n".format(test_median_ae))
+
+            out_file.write("\n\t{2:s} % test predictions error within 1 hour -> {0:.2f}% of {3:d}".format(
+                pct_close_1, pct_std_std_1hour, alg, len(y)))
+            out_file.write("\n\t{2:s} % test predictions error within 4 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_4, pct_std_std_4hour, alg, len(y)))
+            out_file.write("\n\t{2:s} % test predictions error within 8 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_8, pct_std_std_8hour, alg, len(y)))
+            out_file.write("\n\t{2:s} % test predictions error within 16 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_16, pct_std_std_16hour, alg, len(y)))
+            out_file.write("\n\t{2:s} % test predictions error within 24 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_24, pct_std_std_24hour,alg, len(y)))
+            out_file.write("\n\t{2:s} % test predictions error within 48 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_48, pct_std_std_48hour,alg, len(y)))
+            out_file.write("\n\t{2:s} % test predictions error within 72 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_72, pct_std_std_72hour,alg, len(y)))
+            out_file.write("\n\t{2:s} % test predictions error within 96 hours -> {0:.2f}% of {3:d}\n".format(
+                pct_close_96, pct_std_std_96hour,alg, len(y)))
+            out_file.write("\n")
+
+            print("\n%s - July Results\n" % alg)
+            print("\tTest R2: {0:.5f} ".format(test_r_sq))
+            print("\tTest RMSE: {0:.2f}".format(test_rmse))
+            print("\tTest MeanAE: {0:.2f} ".format(test_mae))
+            print("\tTest EVS: {0:.2f}".format(test_evs))
+            print("\tTest MedianAE: {0:.2f} \n".format(test_median_ae))
+
+            print("\n\t{2:s} % test predictions error within 1 hour -> {0:.2f}% of {3:d}".format(
+                pct_close_1, pct_std_std_1hour, alg, len(y)))
+            print("\t{2:s} % test predictions error within 4 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_4, pct_std_std_4hour, alg, len(y)))
+            print("\t{2:s} % test predictions error within 8 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_8, pct_std_std_8hour, alg, len(y)))
+            print("\t{2:s} % test predictions error within 16 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_16, pct_std_std_16hour, alg, len(y)))
+            print("\t{2:s} % test predictions error within 24 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_24, pct_std_std_24hour,alg, len(y)))
+            print("\t{2:s} % test predictions error within 48 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_48, pct_std_std_48hour,alg, len(y)))
+            print("\t{2:s} % test predictions error within 72 hours -> {0:.2f}% of {3:d}".format(
+                pct_close_72, pct_std_std_72hour,alg, len(y)))
+            print("\t{2:s} % test predictions error within 96 hours -> {0:.2f}% of {3:d}\n".format(
+                pct_close_96, pct_std_std_96hour,alg, len(y)))
+            
+            ####################################################################################################################
+            # Plotting
+            ####################################################################################################################
+            if d["plotting"] == "y":
+                print("..plotting..\n")
+                print("plotting errors to time")
+                plot_errors_main(dfjuly, alg, "Test", algpath, alg_initials)
+                print("plotting actual verus predicted")
+                plot(dfjuly["TimeTaken"],dfjuly["TimeTaken_%s"%alg], alg, "Test", algpath, alg_initials, d["input_file"])
+
+            ####################################################################################################################
+            # Importances
+            ####################################################################################################################
+            print("..Calculating importances..\n")
+            if alg == "RandomForestRegressor" or alg == "GradientBoostingRegressor" or alg == "xgboost":
+                tree_importances(regr, X, algpath, d, out_file, alg_initials)
+
+            elif alg == "LinearRegression" or alg == "ElasticNet":
+                regression_coef_importances(regr, X, algpath, d, out_file, alg_initials)
+
+
+            out_file.close()
+
+            dfjuly.to_csv(d["file_location"] + d["input_file"] + "_%s_July_predictions.csv" % alg_initials, index=False)  #
+            # export file
+    print("\n..finished with alg: %s.." % alg)
 
 if __name__ == "__main__":  # Run program
     print("Modeling dataset", time.strftime("%Y.%m.%d"), time.strftime("%H.%M.%S"))
