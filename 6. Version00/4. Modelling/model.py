@@ -959,7 +959,7 @@ if __name__ == "__main__":  # Run program
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
     copyfile(parameters, newpath + "parameters.txt")  # Save parameters
-    
+
     np.random.seed(int(d["seed"]))  # Set seed
 
     df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
