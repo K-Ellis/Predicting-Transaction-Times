@@ -1,0 +1,3 @@
+Statsmodels_OLS 20170804-151606
+
+Input file name man:
