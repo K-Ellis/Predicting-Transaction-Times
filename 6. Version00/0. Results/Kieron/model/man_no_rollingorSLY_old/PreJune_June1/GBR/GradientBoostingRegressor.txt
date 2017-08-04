@@ -1,0 +1,78 @@
+GradientBoostingRegressor 20170803-203625
+
+Input file name man:
+
+
+Simple TimeTaken stats
+	mean_time = 388709.7281649185
+	std_time = 452078.6467084189
+	median_time = 237714.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 452078.646708419
+	mean_time_test_meanae = 335431.133726
+	mean_time_test_evs = 1.11022302463e-16
+	mean_time_test_medianae = 294801.728165
+
+	median_time_test_r2 = -0.111557418762
+	median_time_test_rmse = 476628.4315253249
+	median_time_test_meanae = 309468.435403
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 202180.5
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.97284 (+/-0.00040)
+	Test Mean R2: 0.97089 (+/-0.00148)
+	Train Mean RMSE: 74500.69 (+/-514.21)
+	Test Mean RMSE: 77049.02 (+/-1791.68)
+	Train Mean MeanAE: 52918.53 (+/-397.07)
+	Test Mean MeanAE: 54530.45 (+/-1129.88)
+	Train Mean EVS: 0.97 (+/-0.97)
+	Test Mean EVS: 0.97 (+/-0.97)
+	Train Mean MedianAE: 36780.06 (+/-36780.06)
+	Test Mean MedianAE: 37416.71 (+/-37416.71)
+
+	GradientBoostingRegressor % test predictions error within 1 hour -> Mean: 5.55% (+/- 0.46%) of 19258/10
+	GradientBoostingRegressor % test predictions error within 4 hours -> Mean: 22.52% (+/- 0.68%) of 19258/10
+	GradientBoostingRegressor % test predictions error within 8 hours -> Mean: 41.05% (+/- 1.11%) of 19258/10
+	GradientBoostingRegressor % test predictions error within 16 hours -> Mean: 65.27% (+/- 1.00%) of 19258/10
+	GradientBoostingRegressor % test predictions error within 24 hours -> Mean: 79.60% (+/- 1.13%) of 19258/10
+	GradientBoostingRegressor % test predictions error within 48 hours -> Mean: 95.87% (+/- 0.39%) of 19258/10
+	GradientBoostingRegressor % test predictions error within 72 hours -> Mean: 99.00% (+/- 0.20%) of 19258/10
+	GradientBoostingRegressor % test predictions error within 96 hours -> Mean: 99.83% (+/- 0.11%) of 19258/10
+
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.496127)
+	2. "Seconds_left_Qtr" (0.277224)
+	3. "Seconds_left_Month" (0.137650)
+	4. "Created_on_Weekend" (0.026256)
+	5. "Cases_created_within_past_8_hours" (0.021875)
+	6. "Seconds_left_Day" (0.021445)
+	7. "Cases_resolved_within_past_8_hours" (0.019339)
+	8. "Queue_Broken" (0.000084)
+	9. "CountryProcessed_europe" (0.000000)
+	10. "Queue_LOC" (0.000000)
+	11. "CountryProcessed_asia" (0.000000)
+	12. "SalesLocation_southamerica" (0.000000)
+	13. "SalesLocation_other" (0.000000)
+	14. "SalesLocation_northamerica" (0.000000)
+	15. "SalesLocation_europe" (0.000000)
+	16. "SalesLocation_australia" (0.000000)
+	17. "SalesLocation_asia" (0.000000)
+	18. "ROCName_EOC" (0.000000)
+	19. "ROCName_APOC" (0.000000)
+	20. "Queue_NAOC" (0.000000)
+	21. "Queue_EOC" (0.000000)
+	22. "CountryProcessed_northamerica" (0.000000)
+	23. "Queue_E&E" (0.000000)
+	24. "CountryProcessed_australia" (0.000000)
+	25. "CountrySource_southamerica" (0.000000)
+	26. "CountrySource_other" (0.000000)
+	27. "CountrySource_northamerica" (0.000000)
+	28. "CountrySource_europe" (0.000000)
+	29. "CountrySource_australia" (0.000000)
+	30. "CountrySource_asia" (0.000000)
+	31. "CountryProcessed_southamerica" (0.000000)
+	32. "CountryProcessed_other" (0.000000)
+	33. "Queue_APOC" (0.000000)
