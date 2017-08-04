@@ -1,4 +1,4 @@
-ElasticNet 20170804-133138
+ElasticNet 20170804-144917
 
 Input file name man:
 
@@ -21,61 +21,62 @@ Simple TimeTaken stats
 	median_time_test_medianae = 175958.5
 
 ElasticNet: Cross Validation (10 Folds)
-	Train Mean R2: 0.70060 (+/-0.00091)
-	Test Mean R2: 0.69962 (+/-0.00860)
-	Train Mean RMSE: 235520.15 (+/-456.14)
-	Test Mean RMSE: 235805.07 (+/-4211.32)
-	Train Mean MeanAE: 169684.81 (+/-409.55)
-	Test Mean MeanAE: 169890.83 (+/-2748.23)
+	Train Mean R2: 0.70093 (+/-0.00092)
+	Test Mean R2: 0.69994 (+/-0.00861)
+	Train Mean RMSE: 235393.01 (+/-459.25)
+	Test Mean RMSE: 235681.02 (+/-4237.36)
+	Train Mean MeanAE: 169457.97 (+/-407.15)
+	Test Mean MeanAE: 169665.64 (+/-2747.50)
 	Train Mean EVS: 0.70 (+/-0.70)
 	Test Mean EVS: 0.70 (+/-0.70)
-	Train Mean MedianAE: 131703.45 (+/-131703.45)
-	Test Mean MedianAE: 131864.10 (+/-131864.10)
+	Train Mean MedianAE: 131620.29 (+/-131620.29)
+	Test Mean MedianAE: 131933.81 (+/-131933.81)
 
-	ElasticNet % test predictions error within 1 hour -> Mean: 1.37% (+/- 0.24%) of 23992/10
-	ElasticNet % test predictions error within 4 hours -> Mean: 5.93% (+/- 0.29%) of 23992/10
-	ElasticNet % test predictions error within 8 hours -> Mean: 11.42% (+/- 0.65%) of 23992/10
-	ElasticNet % test predictions error within 16 hours -> Mean: 22.46% (+/- 0.74%) of 23992/10
-	ElasticNet % test predictions error within 24 hours -> Mean: 33.64% (+/- 0.72%) of 23992/10
-	ElasticNet % test predictions error within 48 hours -> Mean: 63.04% (+/- 0.58%) of 23992/10
-	ElasticNet % test predictions error within 72 hours -> Mean: 81.53% (+/- 0.76%) of 23992/10
-	ElasticNet % test predictions error within 96 hours -> Mean: 90.98% (+/- 0.59%) of 23992/10
+	ElasticNet % test predictions error within 1 hour -> Mean: 1.48% (+/- 0.30%) of 23992/10
+	ElasticNet % test predictions error within 4 hours -> Mean: 5.98% (+/- 0.40%) of 23992/10
+	ElasticNet % test predictions error within 8 hours -> Mean: 11.36% (+/- 0.59%) of 23992/10
+	ElasticNet % test predictions error within 16 hours -> Mean: 22.55% (+/- 0.72%) of 23992/10
+	ElasticNet % test predictions error within 24 hours -> Mean: 33.61% (+/- 0.83%) of 23992/10
+	ElasticNet % test predictions error within 48 hours -> Mean: 63.13% (+/- 0.61%) of 23992/10
+	ElasticNet % test predictions error within 72 hours -> Mean: 81.64% (+/- 0.71%) of 23992/10
+	ElasticNet % test predictions error within 96 hours -> Mean: 90.94% (+/- 0.58%) of 23992/10
 
 
 Feature Importances:
-	1. "Queue_Broken" (28755672.410304)
-	2. "Queue_LOC" (-648455.093583)
-	3. "SalesLocation_southamerica" (188988.451281)
-	4. "Queue_NAOC" (-173008.861474)
-	5. "CountryProcessed_southamerica" (105435.838243)
-	6. "CountrySource_australia" (104123.335122)
-	7. "Created_on_Weekend" (-88911.396185)
-	8. "Queue_EOC" (-64431.112903)
-	9. "ROCName_APOC" (-40675.910263)
-	10. "CountrySource_northamerica" (30796.036640)
-	11. "SalesLocation_europe" (-22108.549243)
-	12. "CountrySource_asia" (5365.782715)
-	13. "Concurrent_open_cases" (-5.209791)
-	14. "Cases_created_within_past_8_hours" (3.029404)
-	15. "Cases_resolved_within_past_8_hours" (2.475177)
-	16. "Rolling_Std" (-1.856833)
-	17. "Rolling_Mean" (-1.670446)
+	1. "Queue_Broken" (28752633.554948)
+	2. "Queue_LOC" (-639537.162122)
+	3. "SalesLocation_southamerica" (189077.302529)
+	4. "Queue_NAOC" (-171338.608413)
+	5. "CountryProcessed_southamerica" (118885.646010)
+	6. "Created_on_Weekend" (-96057.167435)
+	7. "CountrySource_australia" (87640.619444)
+	8. "Queue_EOC" (-57984.632827)
+	9. "ROCName_APOC" (-38124.206286)
+	10. "CountrySource_northamerica" (34682.022475)
+	11. "SalesLocation_europe" (-24243.176506)
+	12. "CountrySource_asia" (3239.242327)
+	13. "Concurrent_open_cases" (-5.215257)
+	14. "Cases_created_within_past_8_hours" (1.925821)
+	15. "Rolling_Std" (-1.856833)
+	16. "Rolling_Mean" (-1.670446)
+	17. "Seconds_left_Year" (-1.412743)
 	18. "Seconds_left_Month" (-1.330231)
 	19. "Seconds_left_Qtr" (-1.190129)
 	20. "Rolling_Median" (-1.122546)
 	21. "CountryProcessed_northamerica" (-0.926812)
-	22. "Seconds_left_Day" (-0.879310)
-	23. "SalesLocation_northamerica" (-0.878077)
-	24. "ROCName_EOC" (-0.710337)
-	25. "CountryProcessed_europe" (-0.613577)
-	26. "CountrySource_europe" (-0.605859)
-	27. "CountryProcessed_asia" (-0.527198)
-	28. "SalesLocation_asia" (-0.471789)
-	29. "Queue_APOC" (-0.467293)
-	30. "CountrySource_southamerica" (-0.231062)
-	31. "SalesLocation_australia" (-0.210286)
-	32. "CountryProcessed_australia" (-0.052121)
-	33. "CountrySource_other" (-0.032297)
-	34. "CountryProcessed_other" (-0.027401)
-	35. "Queue_E&E" (-0.018264)
-	36. "SalesLocation_other" (-0.011183)
+	22. "Cases_resolved_within_past_8_hours" (0.888176)
+	23. "Seconds_left_Day" (-0.879310)
+	24. "SalesLocation_northamerica" (-0.878077)
+	25. "ROCName_EOC" (-0.710337)
+	26. "CountryProcessed_europe" (-0.613577)
+	27. "CountrySource_europe" (-0.605859)
+	28. "CountryProcessed_asia" (-0.527198)
+	29. "SalesLocation_asia" (-0.471789)
+	30. "Queue_APOC" (-0.467293)
+	31. "CountrySource_southamerica" (-0.231062)
+	32. "SalesLocation_australia" (-0.210286)
+	33. "CountryProcessed_australia" (-0.052121)
+	34. "CountrySource_other" (-0.032297)
+	35. "CountryProcessed_other" (-0.027401)
+	36. "Queue_E&E" (-0.018264)
+	37. "SalesLocation_other" (-0.011183)

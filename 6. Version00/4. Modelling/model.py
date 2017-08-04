@@ -19,7 +19,7 @@ import matplotlib
 import time
 import os  # Used to create folders
 import math
-from sklearn.model_selection import KFold, cross_val_predict#, cross_val_score, train_test_split
+from sklearn.model_selection import KFold, train_test_split # cross_val_predict#, cross_val_score,
 from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
 from math import sqrt
@@ -318,7 +318,7 @@ def get_extra_cols(df, alg, d):
 
 
     df["TimeTaken_hours_%s"%alg] = df["TimeTaken_%s"%alg]/60/60
-    
+
     df["Created_On_Day"] = df["Created_On"].apply(lambda x: int(x.strftime("%H")))  # Time of the day
     df["ResolvedDate_Day"] = df["ResolvedDate"].apply(lambda x: int(x.strftime("%H")))  # Time of the day
     df["Created_On_Week"] = df["Created_On"].apply(lambda x: int(x.strftime("%w")))  # Day of the week
@@ -342,7 +342,7 @@ def get_errors(df, alg, time_range, col):
         actual = df.loc[df[col] == i, "TimeTaken_hours"]
         predicted = df.loc[df[col] == i, "TimeTaken_hours_%s"%alg]
 
-        if len(df[col][df[col] == i]) == 0: 
+        if len(df[col][df[col] == i]) == 0:
             r2_scores.append(0)
             rmse_scores.append(0)
             mae_scores.append(0)
@@ -374,8 +374,8 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
             reverse = True
         # pal = sns.cubehelix_palette(len(y), start=start, rot=rot,dark=.1, light=.9, reverse=reverse)
         pal = sns.cubehelix_palette(len(y), start=1, rot=0,hue=1.5, gamma=1,dark=.3, light=0.9, reverse=reverse)
-        
-        rank = y_np.argsort().argsort() 
+
+        rank = y_np.argsort().argsort()
         sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
         plt.xticks(x_ticks, x_ticks)
         plt.title("%s - %s to %s"% (alg, error_name, x_label))
@@ -385,8 +385,8 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         min_ylim = min(y_z)-np.std(y_z)/3
         if min_ylim < 0:
             min_ylim = 0
-        plt.ylim(min_ylim, max(y_z)+np.std(y_z)/3)       
-        
+        plt.ylim(min_ylim, max(y_z)+np.std(y_z)/3)
+
         if not os.path.exists(newpath + "PDFs/"):
             os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
 
@@ -396,7 +396,7 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
     else:
         plt.figure()
         x_num = [i for i in range(len(x_ticks))]
-        
+
         y_np = np.array(y)
         reverse = False
         if error_name == "R2":
@@ -410,7 +410,7 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         plt.ylabel(y_label)
         plt.xlabel(x_label)
 
-        plt.ylim(min(y)-np.std(y)/3, max(y)+np.std(y)/3)    
+        plt.ylim(min(y)-np.std(y)/3, max(y)+np.std(y)/3)
         if not os.path.exists(newpath + "PDFs/"):
             os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
         plt.savefig(newpath + error_name +"_"+ x_label  + ".png")
@@ -597,7 +597,20 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     out_file.write("\nInput file name %s:\n" % d["input_file"])
 
     print("DF Shape:", df.shape, "\n")
-    
+
+
+    if d["train_test_split"] == "y":
+        print("train_test_split")
+        train_split, test_split = train_test_split(df, random_state=int(d["seed"]))
+        print("\nX train Shape:", train_split.shape)
+        print("X test Shape:", test_split.shape, "\n")
+        df = train_split.copy()
+        df.reset_index(drop=True, inplace=True)
+        df_test = test_split.copy()
+        df_test.reset_index(drop=True, inplace=True)
+        print("\nX train Shape:", train_split.shape)
+        print("X test Shape:", test_split.shape, "\n")
+
     X = df.drop("TimeTaken", axis=1)
     keepers = get_keepers()
     for col in X.columns:
@@ -615,8 +628,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         if alg_counter == 1:
             print("\t%s - %s" % (i+1, col))
         # out_file.write("\n\t%s - %s" % (i+1, col))
-    
+
     y = df["TimeTaken"]
+
 
     ####################################################################################################################
     # Simple Statistics
@@ -639,7 +653,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
     df["Mean_TimeTaken"] = mean_time
     df["Median_TimeTaken"] = median_time
-        
+
     mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
     mean_time_test_rmse = sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
     mean_time_test_meanae = mean_absolute_error(y, df["Mean_TimeTaken"])
@@ -685,7 +699,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
         plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "All", simplepath, "Mean", d["input_file"])
         plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "All", simplepath, "Median",  d["input_file"])
-    
+
     ####################################################################################################################
     # Machine Learning
     ####################################################################################################################
@@ -738,7 +752,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         number_close_48 = 0  # Use to track number of close estimations within 24 hours
         number_close_72 = 0  # Use to track number of close estimations within 24 hours
         number_close_96 = 0  # Use to track number of close estimations within 24 hours
-        
+
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
             # if y_train_pred[i] < 0:  # Convert all negative predictions to 0
             #     y_train_pred[i] = 0
@@ -769,7 +783,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
                 number_close_96 += 1
         #  append the predictions for this fold to df
         df.loc[test_indices, "TimeTaken_%s"%alg] = y_test_pred
-        
+
         percent_within_1.append(number_close_1/len(y_test_pred))
         percent_within_4.append(number_close_4/len(y_test_pred))
         percent_within_8.append(number_close_8/len(y_test_pred))
@@ -825,22 +839,22 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     std_4hour = np.std(percent_within_4)
     pct_ave_4hour = ave_4hour * 100
     pct_std_std_4hour = std_4hour * 100
-    
+
     ave_8hour = np.mean(percent_within_8)
     std_8hour = np.std(percent_within_8)
     pct_ave_8hour = ave_8hour * 100
     pct_std_std_8hour = std_8hour * 100
-    
+
     ave_16hour = np.mean(percent_within_16)
     std_16hour = np.std(percent_within_16)
     pct_ave_16hour = ave_16hour * 100
     pct_std_std_16hour = std_16hour * 100
-    
+
     ave_24hour = np.mean(percent_within_24)
     std_24hour = np.std(percent_within_24)
     pct_ave_24hour = ave_24hour * 100
     pct_std_std_24hour = std_24hour * 100
-    
+
     ave_48hour = np.mean(percent_within_48)
     std_48hour = np.std(percent_within_48)
     pct_ave_48hour = ave_48hour * 100
@@ -850,7 +864,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     std_72hour = np.std(percent_within_72)
     pct_ave_72hour = ave_72hour * 100
     pct_std_std_72hour = std_72hour * 100
-    
+
     ave_96hour = np.mean(percent_within_96)
     std_96hour = np.std(percent_within_96)
     pct_ave_96hour = ave_96hour * 100
@@ -889,7 +903,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     out_file.write("\n\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10\n".format(
         pct_ave_96hour, pct_std_std_96hour,alg, len(y)))
     out_file.write("\n")
-    
+
     print("\n" + alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
     print("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})".format(train_r2_ave, train_r2_std))
     print("\tTest Mean R2: {0:.5f} (+/-{1:.5f})".format(test_r2_ave, test_r2_std))
@@ -926,14 +940,14 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         print("..plotting..\n")
 
         plot_errors_main(df, alg, "Test", algpath, alg_initials)
-        
+
         # x = "TimeTaken"
         # y = "TimeTaken_%s"%alg
         # in_data = pd.DataFrame([trainData_y, y_train_pred], x, y)
         # plot(x, y, in_data, alg, "Train", algpath)
         # plot(trainData_x,y_train_pred, alg, "Train", algpath)
         # todo - Is there a way to plot the train predictions with cross validation..? Maybe just for the last fold?
-        
+
         # x = "TimeTaken"
         # y = "TimeTaken_%s"%alg
         # in_data = pd.DataFrame(df[[x,y]], columns=[x, y])
@@ -951,7 +965,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         regression_coef_importances(regr, X, algpath, d, out_file, alg_initials)
 
     out_file.close()
-    
+
     ####################################################################################################################
     # Extra Testing
     ####################################################################################################################
@@ -969,6 +983,10 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
             algpath = newpath + alg_initials + "/JuneJuly/"
             if not os.path.exists(algpath):
                 os.makedirs(algpath)  # Make folder for storing results if it does not exist
+        elif d["train_test_split"] == "y":
+            algpath = newpath + alg_initials + "/test_train_split/"
+            if not os.path.exists(algpath):
+                os.makedirs(algpath)  # Make folder for storing results if it does not exist
 
         out_file_name = algpath + alg + ".txt"  # Log file name
 
@@ -976,8 +994,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
         out_file.write("\nInput file name %s:\n" % d["input_file"])
 
-        print("DF Shape:", df_test.shape, "\n")
 
+
+        print("DF Shape:", df_test.shape, "\n")
         y = df_test["TimeTaken"]
         X = df_test.drop("TimeTaken", axis=1)
         keepers = get_keepers()
@@ -1189,6 +1208,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
             elif d["prejune_junejuly"] == "y":
                 df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_JuneJuly_predictions.csv" % alg_initials,
                                index=False)
+            elif d["train_test_split"] == "y":
+                df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_TrainTestSplit_predictions.csv" % alg_initials,
+                               index=False)
         else:
             df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_%s__predictions.csv" % (d["specify_subfolder"],
                                                                                             alg_initials), index=False)
@@ -1247,9 +1269,9 @@ if __name__ == "__main__":  # Run program
             print("prejune_junejuly")
             df_train = df[df["Created_On"] < pd.datetime(2017, 6, 1, 8)].copy()
             df_test = df[(df["Created_On"] >= pd.datetime(2017, 6, 1, 8))].copy()
-
-        print("DF Train Shape:", df_train.shape)
-        print("DF Test Shape:", df_test.shape, "\n")
+        if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
+            print("DF Train Shape:", df_train.shape)
+            print("DF Test Shape:", df_test.shape, "\n")
     else:
         print("DF Shape:", df.shape, "\n")
 
@@ -1282,7 +1304,7 @@ if __name__ == "__main__":  # Run program
     if d["LinearRegression"] == "y":
         alg_counter+=1
         regressor = LinearRegression()
-        if d["extra_testing"] == "y":
+        if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             results(df_train, "LinearRegression", regressor, newpath, d, alg_counter, "LR", df_test)
         else:
             results(df, "LinearRegression", regressor, newpath, d, alg_counter, "LR")
@@ -1290,7 +1312,7 @@ if __name__ == "__main__":  # Run program
     if d["ElasticNet"] == "y":
         alg_counter+=1
         regressor = ElasticNet(alpha=100, l1_ratio=1, max_iter=100000)
-        if d["extra_testing"] == "y":
+        if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             results(df_train, "ElasticNet", regressor, newpath, d, alg_counter, "EN", df_test)
         else:
             results(df, "ElasticNet", regressor, newpath, d, alg_counter, "EN")
@@ -1309,7 +1331,7 @@ if __name__ == "__main__":  # Run program
     if d["GradientBoostingRegressor"] == "y":
         alg_counter+=1
         regressor = GradientBoostingRegressor(random_state=int(d["seed"]))
-        if d["extra_testing"] == "y":
+        if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             results(df_train, "GradientBoostingRegressor", regressor, newpath, d, alg_counter, "GBR", df_test)
         else:
             results(df, "GradientBoostingRegressor", regressor, newpath, d, alg_counter, "GBR")
@@ -1328,7 +1350,7 @@ if __name__ == "__main__":  # Run program
         alg_counter+=1
         regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]),
                                           max_depth=25, n_jobs=-1)
-        if d["extra_testing"] == "y":
+        if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             results(df_train, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR", df_test)
         else:
             results(df, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR")
@@ -1341,14 +1363,15 @@ if __name__ == "__main__":  # Run program
                 df.to_csv(d["file_location"] + d["input_file"] + "_prejune_predictions.csv", index=False)  # export file
             elif d["prejune_junejuly"] == "y":
                 df.to_csv(d["file_location"] + d["input_file"] + "_prejune_predictions.csv", index=False)  # export file
+            elif d["train_test_split"] == "y":
+                df.to_csv(d["file_location"] + d["input_file"] + "_traintestsplit_predictions.csv", index=False)  # export file
         else:
             df.to_csv(d["file_location"] + d["input_file"] + "_predictions.csv", index=False)  # export file
-    
+
     if d["statsmodels_OLS"] == "y":
         import statsmodels.api as sm
-        from sklearn.model_selection import train_test_split
         np.set_printoptions(threshold=np.inf)
-        
+
         alg_initials = "OLS"
         alg = "Statsmodels_OLS"
         algpath = newpath + alg_initials + "/"
@@ -1361,7 +1384,7 @@ if __name__ == "__main__":  # Run program
         out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
         out_file.write("\nInput file name %s:\n" % d["input_file"])
 
-        if d["extra_testing"] == "y":
+        if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             X = df_train.drop("TimeTaken", axis=1)
             X_test = df_test.drop("TimeTaken", axis=1)
         else:
@@ -1374,7 +1397,6 @@ if __name__ == "__main__":  # Run program
 
                 if d["extra_testing"] == "y":
                     del X_test[col]
-
 
         # output the features being used
         print("\nLength of df = %s" % len(df.columns)) # todo add these 3 print messages to outfile or delete them
@@ -1390,14 +1412,15 @@ if __name__ == "__main__":  # Run program
             y = df_train["TimeTaken"]
         else:
             y = df["TimeTaken"]
+
         if d["extra_testing"] == "y":
             X_train, X_test, y_train, y_test = X, X_test, y, y_test
         else:
             X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=int(d["seed"]))
-        
+
         model = sm.OLS(y_train, X_train)
         olsregr = model.fit()
-        
+
         print("olsregr.summary():\n", olsregr.summary())
         out_file.write("\n\n + olsregr.summary():\n"+ str(olsregr.summary()) + "\n")
 
@@ -1422,11 +1445,11 @@ if __name__ == "__main__":  # Run program
 
         out_file.write('\ny_train Predicted values: ' + str(y_train_pred))
         out_file.write('\n\ny_test Predicted values: ' + str(y_test_pred))
-        
+
         plot(y_train, y_train_pred, alg, "Train Data", algpath, alg_initials, d["input_file"])
         plot(y_test, y_test_pred, alg, "Test Data", algpath, alg_initials, d["input_file"])
         out_file.close()
-    
+
     if d["beep"] == "y":
         import winsound
         Freq = 400 # Set Frequency To 2500 Hertz

@@ -17,7 +17,7 @@ Cases_resolved_within_past_8_hours: y
 Seconds_left_Day: y
 Seconds_left_Month: y
 Seconds_left_Qtr: y
-Seconds_left_Year: n
+Seconds_left_Year: y
 Created_on_Weekend: y
 Rolling_Mean: y
 Rolling_Median: y
@@ -60,6 +60,7 @@ extra_testing: y
 prejuly_july: y
 prejune_june: n
 prejune_junejuly: n
+train_test_split: n
 log_of_y: n
 histogram: n
 plotting: y
