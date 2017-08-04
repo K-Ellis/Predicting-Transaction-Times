@@ -1,0 +1,77 @@
+GradientBoostingRegressor 20170804-133512
+
+Input file name man:
+
+
+Simple TimeTaken stats
+	mean_time = 236038.37311935806
+	std_time = 297563.806007236
+	median_time = 84459.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 297563.80600723554
+	mean_time_test_meanae = 236235.54225
+	mean_time_test_evs = -2.22044604925e-16
+	mean_time_test_medianae = 217275.373119
+
+	median_time_test_r2 = -0.259487916067
+	median_time_test_rmse = 333946.6625400622
+	median_time_test_meanae = 212057.920762
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 80181.0
+
+
+GradientBoostingRegressor - df Test Results
+	Test R2: -2.21678
+	Test RMSE: 533692.31
+	Test MeanAE: 494776.42
+	Test EVS: 0.53 
+	Test MedianAE: 525160.93 
+
+	GradientBoostingRegressor % test predictions error within 1 hour -> 1.05% of 1994
+	GradientBoostingRegressor % test predictions error within 4 hours -> 2.61% of 1994
+	GradientBoostingRegressor % test predictions error within 8 hours -> 3.96% of 1994
+	GradientBoostingRegressor % test predictions error within 16 hours -> 5.32% of 1994
+	GradientBoostingRegressor % test predictions error within 24 hours -> 6.32% of 1994
+	GradientBoostingRegressor % test predictions error within 48 hours -> 7.62% of 1994
+	GradientBoostingRegressor % test predictions error within 72 hours -> 13.59% of 1994
+	GradientBoostingRegressor % test predictions error within 96 hours -> 19.91% of 1994
+
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.442794)
+	2. "Seconds_left_Qtr" (0.268822)
+	3. "Seconds_left_Month" (0.141742)
+	4. "Cases_resolved_within_past_8_hours" (0.030216)
+	5. "Rolling_Std" (0.025592)
+	6. "Rolling_Mean" (0.022933)
+	7. "Rolling_Median" (0.021428)
+	8. "Created_on_Weekend" (0.021355)
+	9. "Seconds_left_Day" (0.013833)
+	10. "Cases_created_within_past_8_hours" (0.009387)
+	11. "CountrySource_northamerica" (0.000956)
+	12. "SalesLocation_australia" (0.000501)
+	13. "CountryProcessed_southamerica" (0.000439)
+	14. "CountrySource_australia" (0.000000)
+	15. "CountryProcessed_other" (0.000000)
+	16. "CountryProcessed_asia" (0.000000)
+	17. "CountryProcessed_australia" (0.000000)
+	18. "SalesLocation_southamerica" (0.000000)
+	19. "SalesLocation_other" (0.000000)
+	20. "SalesLocation_northamerica" (0.000000)
+	21. "SalesLocation_europe" (0.000000)
+	22. "SalesLocation_asia" (0.000000)
+	23. "CountryProcessed_europe" (0.000000)
+	24. "CountryProcessed_northamerica" (0.000000)
+	25. "ROCName_EOC" (0.000000)
+	26. "CountrySource_europe" (0.000000)
+	27. "ROCName_APOC" (0.000000)
+	28. "Queue_NAOC" (0.000000)
+	29. "Queue_LOC" (0.000000)
+	30. "Queue_EOC" (0.000000)
+	31. "Queue_Broken" (0.000000)
+	32. "Queue_APOC" (0.000000)
+	33. "CountrySource_asia" (0.000000)
+	34. "CountrySource_southamerica" (0.000000)
+	35. "CountrySource_other" (0.000000)
+	36. "Queue_E&E" (0.000000)

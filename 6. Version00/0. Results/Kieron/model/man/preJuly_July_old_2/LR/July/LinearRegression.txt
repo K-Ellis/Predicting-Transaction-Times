@@ -1,0 +1,74 @@
+LinearRegression 20170804-123611
+
+Input file name man:
+
+
+Simple TimeTaken stats
+	mean_time = 292161.33355226123
+	std_time = 357048.46364548634
+	median_time = 158931.0
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 357048.46364548703
+	mean_time_test_meanae = 265503.840653
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 242419.5
+
+	median_time_test_r2 = -0.139236113726
+	median_time_test_rmse = 381095.6929303314
+	median_time_test_meanae = 246115.127885
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 142917.5
+
+
+LinearRegression - July Results
+	Test R2: 0.45924
+	Test RMSE: 262560.25
+	Test MeanAE: 170442.20
+	Test EVS: 0.48 
+	Test MedianAE: 89847.00 
+
+	LinearRegression % test predictions error within 1 hour -> 3.08% of 10658
+	LinearRegression % test predictions error within 4 hours -> 12.41% of 10658
+	LinearRegression % test predictions error within 8 hours -> 23.13% of 10658
+	LinearRegression % test predictions error within 16 hours -> 36.95% of 10658
+	LinearRegression % test predictions error within 24 hours -> 48.66% of 10658
+	LinearRegression % test predictions error within 48 hours -> 68.31% of 10658
+	LinearRegression % test predictions error within 72 hours -> 77.52% of 10658
+	LinearRegression % test predictions error within 96 hours -> 84.02% of 10658
+
+
+Feature Importances:
+	1. "Queue_Broken" (97753269.004245)
+	2. "Queue_E&E" (3097344.453167)
+	3. "CountryProcessed_australia" (2831218.121529)
+	4. "CountryProcessed_other" (2652799.881620)
+	5. "SalesLocation_australia" (-1760310.214692)
+	6. "Queue_LOC" (-1069749.023588)
+	7. "CountrySource_other" (-943753.336141)
+	8. "CountrySource_australia" (927978.742494)
+	9. "CountrySource_europe" (736941.191202)
+	10. "SalesLocation_europe" (-641405.238968)
+	11. "SalesLocation_asia" (-321764.853282)
+	12. "CountryProcessed_asia" (313198.892100)
+	13. "Queue_NAOC" (-269181.196213)
+	14. "Created_on_Weekend" (-245562.900501)
+	15. "SalesLocation_southamerica" (218781.158357)
+	16. "CountryProcessed_southamerica" (203452.438428)
+	17. "Queue_APOC" (-179199.118875)
+	18. "CountryProcessed_europe" (-163883.141423)
+	19. "Queue_EOC" (-117242.570091)
+	20. "CountrySource_northamerica" (81028.657950)
+	21. "CountrySource_asia" (-64971.592183)
+	22. "CountrySource_southamerica" (-59340.327207)
+	23. "SalesLocation_northamerica" (-44698.180612)
+	24. "ROCName_APOC" (-42289.401839)
+	25. "ROCName_EOC" (-22565.471508)
+	26. "CountryProcessed_northamerica" (-2907.190070)
+	27. "Cases_resolved_within_past_8_hours" (-22.941866)
+	28. "Concurrent_open_cases" (-5.823648)
+	29. "Seconds_left_Month" (-1.531567)
+	30. "Cases_created_within_past_8_hours" (1.263965)
+	31. "Seconds_left_Qtr" (-0.890216)
+	32. "Seconds_left_Day" (-0.875803)
+	33. "SalesLocation_other" (-0.019376)

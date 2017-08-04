@@ -683,10 +683,10 @@ def clean_data(d):
     df.to_csv(d["file_location"] + d["prepare_output_file"] + ".csv", index=False)  # export file
     
     # if d["extra_testing"] == "y":
-        # dfprejuly = df[df["Created_On"]<pd.datetime(2017,7,1)]
-        # dfjuly = df[df["Created_On"]>=pd.datetime(2017,7,1)]
-        # dfprejuly.to_csv(d["file_location"] + d["prepare_output_file"] + "_preJuly.csv", index=False)  # export file
-        # dfjuly.to_csv(d["file_location"] + d["prepare_output_file"] + "_July.csv", index=False)  # export file
+        # df_train = df[df["Created_On"]<pd.datetime(2017,7,1)]
+        # df_test = df[df["Created_On"]>=pd.datetime(2017,7,1)]
+        # df_train.to_csv(d["file_location"] + d["prepare_output_file"] + "_preJuly.csv", index=False)  # export file
+        # df_test.to_csv(d["file_location"] + d["prepare_output_file"] + "_July.csv", index=False)  # export file
         
 
 
