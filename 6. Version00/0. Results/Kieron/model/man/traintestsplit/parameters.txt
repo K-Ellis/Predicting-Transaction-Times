@@ -42,12 +42,12 @@ prev******: man_no_rollingorSLY
 input_file: man
 ########### ################
 crossvalidation: 10
-LinearRegression: y
-ElasticNet: y
-GradientBoostingRegressor: y
-RandomForestRegressor: y
+LinearRegression: n
+ElasticNet: n
+GradientBoostingRegressor: n
+RandomForestRegressor: n
 n_estimators: 100
-statsmodels_OLS: n
+statsmodels_OLS: y
 KernelRidge: n
 xgboost: n
 MLPRegressor: n

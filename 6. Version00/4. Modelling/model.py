@@ -1395,7 +1395,7 @@ if __name__ == "__main__":  # Run program
             if col not in keepers:
                 del X[col]
 
-                if d["extra_testing"] == "y":
+                if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
                     del X_test[col]
 
         # output the features being used
