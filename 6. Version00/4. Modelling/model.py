@@ -1407,13 +1407,13 @@ if __name__ == "__main__":  # Run program
         for i, col in enumerate(X.columns):
             out_file.write("\n\t%s - %s" % (i+1, col))
 
-        if d["extra_testing"] == "y":
+        if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             y_test = df_test["TimeTaken"]
             y = df_train["TimeTaken"]
         else:
             y = df["TimeTaken"]
 
-        if d["extra_testing"] == "y":
+        if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             X_train, X_test, y_train, y_test = X, X_test, y, y_test
         else:
             X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=int(d["seed"]))

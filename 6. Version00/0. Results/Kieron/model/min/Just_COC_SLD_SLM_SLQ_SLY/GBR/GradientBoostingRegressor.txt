@@ -1,0 +1,50 @@
+GradientBoostingRegressor 20170804-154357
+
+Input file name min:
+
+
+Simple TimeTaken stats
+	mean_time = 353447.46836758254
+	std_time = 423081.21604296373
+	median_time = 194467.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 423081.216042964
+	mean_time_test_meanae = 310162.254362
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 268815.968368
+
+	median_time_test_r2 = -0.14120085438
+	median_time_test_rmse = 451964.98283666925
+	median_time_test_meanae = 286847.832795
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 170525.0
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.96890 (+/-0.00049)
+	Test Mean R2: 0.96673 (+/-0.00177)
+	Train Mean RMSE: 74611.91 (+/-536.33)
+	Test Mean RMSE: 77080.22 (+/-1033.55)
+	Train Mean MeanAE: 52354.19 (+/-330.77)
+	Test Mean MeanAE: 53775.34 (+/-730.75)
+	Train Mean EVS: 0.97 (+/-0.97)
+	Test Mean EVS: 0.97 (+/-0.97)
+	Train Mean MedianAE: 35210.67 (+/-35210.67)
+	Test Mean MedianAE: 35980.68 (+/-35980.68)
+
+	GradientBoostingRegressor % test predictions error within 1 hour -> Mean: 5.92% (+/- 0.61%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 4 hours -> Mean: 22.40% (+/- 0.72%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 8 hours -> Mean: 41.79% (+/- 1.08%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 16 hours -> Mean: 67.09% (+/- 0.77%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 24 hours -> Mean: 80.41% (+/- 0.47%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 48 hours -> Mean: 95.92% (+/- 0.34%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 72 hours -> Mean: 98.93% (+/- 0.18%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 96 hours -> Mean: 99.76% (+/- 0.08%) of 25986/10
+
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.412963)
+	2. "Seconds_left_Qtr" (0.212981)
+	3. "Seconds_left_Year" (0.206832)
+	4. "Seconds_left_Month" (0.152348)
+	5. "Seconds_left_Day" (0.014876)
