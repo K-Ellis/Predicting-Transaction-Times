@@ -825,10 +825,10 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     test_r2_std = np.std(test_r_sq)
     train_mae_std = np.std(train_mae)
     test_mae_std = np.std(test_mae)
-    train_evs_std = np.mean(train_evs)
-    test_evs_std = np.mean(test_evs)
-    train_median_ae_std = np.mean(train_median_ae)
-    test_median_ae_std = np.mean(test_median_ae)
+    train_evs_std = np.std(train_evs) # was set to mean..
+    test_evs_std = np.std(test_evs)# was set to mean..
+    train_median_ae_std = np.std(train_median_ae)# was set to mean..
+    test_median_ae_std = np.std(test_median_ae)# was set to mean..
 
     ave_1hour = np.mean(percent_within_1)
     std_1hour = np.std(percent_within_1)
