@@ -179,11 +179,11 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     else:
         plt.title(alg)
     # plt.axis('equal')
-    plt.ylim([0, 2500000])
-    plt.xlim([0, 2500000])
+    # plt.ylim([0, 2500000])
+    # plt.xlim([0, 2500000])
     plt.gca().set_aspect('equal', adjustable='box')
-    ticks = [0, 360000, 720000, 1080000, 1440000, 1800000, 2160000]
-    tick_names = [0, 100, 200, 300, 400, 500, 600]
+    ticks = [0, 100, 200, 300, 400, 500, 600, 700]
+    tick_names = [0, 100, 200, 300, 400, 500, 600, 700]
     plt.xticks(ticks, tick_names)
     plt.yticks(ticks, tick_names)
     plt.tight_layout()  # Force everything to fit on figure
@@ -207,14 +207,14 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     if alg == "Simple":
         plt.title(alg_initials)
     elif alg == "Statsmodels_OLS":
-        plt.title(alg + data)
+        plt.title(alg + data + " < 600hrs")
     else:
-        plt.title(alg)
+        plt.title(alg + " < 600hrs")
     # plt.axis('equal')
-    plt.ylim([0, 2500000])
-    plt.xlim([0, 2500000])
+    plt.ylim([0, 600])
+    plt.xlim([0, 600])
     plt.gca().set_aspect('equal', adjustable='box')
-    ticks = [0, 360000, 720000, 1080000, 1440000, 1800000, 2160000]
+    ticks = [0, 100, 200, 300, 400, 500, 600]
     tick_names = [0, 100, 200, 300, 400, 500, 600]
     plt.xticks(ticks, tick_names)
     plt.yticks(ticks, tick_names)
@@ -239,14 +239,14 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     if alg == "Simple":
         plt.title(alg_initials)
     elif alg == "Statsmodels_OLS":
-        plt.title(alg + data)
+        plt.title(alg + data + " < 200hrs")
     else:
-        plt.title(alg)
+        plt.title(alg + " < 200hrs")
     # plt.axis('equal')
-    plt.ylim([0, 800000])
-    plt.xlim([0, 800000])
+    plt.ylim([0, 200])
+    plt.xlim([0, 200])
     plt.gca().set_aspect('equal', adjustable='box')
-    ticks = [0, 180000, 360000, 540000, 720000]
+    ticks = [0, 50, 100, 150, 200]
     tick_names = [0, 50, 100, 150, 200]
     plt.xticks(ticks, tick_names)
     plt.yticks(ticks, tick_names)
@@ -271,14 +271,14 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     if alg == "Simple":
         plt.title(alg_initials)
     elif alg == "Statsmodels_OLS":
-        plt.title(alg + data)
+        plt.title(alg + data + " < 24hrs")
     else:
-        plt.title(alg)
+        plt.title(alg + " < 24hrs")
     # plt.axis('equal')
-    plt.ylim([0, 100000])
-    plt.xlim([0, 100000])
+    plt.ylim([0, 24])
+    plt.xlim([0, 24])
     plt.gca().set_aspect('equal', adjustable='box')
-    ticks = [0, 14400, 28800, 43200, 57600, 72000, 86400]
+    ticks = [0, 4, 8, 12, 16, 20, 24]
     tick_names = [0, 4, 8, 12, 16, 20, 24]
     plt.xticks(ticks, tick_names)
     plt.yticks(ticks, tick_names)
@@ -292,6 +292,7 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
         plt.savefig(newpath + alg_initials + "_" + input_file + "_24hrs.png")
         plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_24hrs.pdf")
     plt.close()
+
 
 def day_in_quarter(date):
     # Function found on stack overflow
@@ -765,21 +766,21 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
             if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600:  # Within 1 hour
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 1:  # Within 1 hour
                 number_close_1 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 4*60*60:  # Within 4 hours
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 4:  # Within 4 hours
                 number_close_4 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 8*60*60:  # Within 8 hours
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 8:  # Within 8 hours
                 number_close_8 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 16*60*60:  # Within 16 hours
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 16:  # Within 16 hours
                 number_close_16 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*24:  # Within 24 hours
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 24:  # Within 24 hours
                 number_close_24 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*48:  # Within 48 hours
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 48:  # Within 48 hours
                 number_close_48 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*72:  # Within 72 hours
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 72:  # Within 72 hours
                 number_close_72 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 3600*96:  # Within 96 hours
+            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 96:  # Within 96 hours
                 number_close_96 += 1
         #  append the predictions for this fold to df
         df.loc[test_indices, "TimeTaken_%s"%alg] = y_test_pred
@@ -1089,21 +1090,21 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
                 y_pred[i] = 0
             if math.isnan(y_pred[i]):  # If NaN set to 0
                 y_pred[i] = 0
-            if abs(y_pred[i] - y.iloc[i]) <= 3600:  # Within 1 hour
+            if abs(y_pred[i] - y.iloc[i]) <= 1:  # Within 1 hour
                 number_close_1 += 1
-            if abs(y_pred[i] - y.iloc[i]) <= 4*60*60:  # Within 4 hours
+            if abs(y_pred[i] - y.iloc[i]) <= 4:  # Within 4 hours
                 number_close_4 += 1
-            if abs(y_pred[i] - y.iloc[i]) <= 8*60*60:  # Within 8 hours
+            if abs(y_pred[i] - y.iloc[i]) <= 8:  # Within 8 hours
                 number_close_8 += 1
-            if abs(y_pred[i] - y.iloc[i]) <= 16*60*60:  # Within 16 hours
+            if abs(y_pred[i] - y.iloc[i]) <= 16:  # Within 16 hours
                 number_close_16 += 1
-            if abs(y_pred[i] - y.iloc[i]) <= 3600*24:  # Within 24 hours
+            if abs(y_pred[i] - y.iloc[i]) <= 24:  # Within 24 hours
                 number_close_24 += 1
-            if abs(y_pred[i] - y.iloc[i]) <= 3600*48:  # Within 48 hours
+            if abs(y_pred[i] - y.iloc[i]) <= 48:  # Within 48 hours
                 number_close_48 += 1
-            if abs(y_pred[i] - y.iloc[i]) <= 3600*72:  # Within 72 hours
+            if abs(y_pred[i] - y.iloc[i]) <= 72:  # Within 72 hours
                 number_close_72 += 1
-            if abs(y_pred[i] - y.iloc[i]) <= 3600*96:  # Within 96 hours
+            if abs(y_pred[i] - y.iloc[i]) <= 96:  # Within 96 hours
                 number_close_96 += 1
 
         #  append the predictions for this fold to df_test
@@ -1243,7 +1244,7 @@ if __name__ == "__main__":  # Run program
     np.random.seed(int(d["seed"]))  # Set seed
 
     df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
-    # df["TimeTaken"] = df["TimeTaken"].apply(lambda x: x/3600)
+    df["TimeTaken"] = df["TimeTaken"].apply(lambda x: x/3600)
 
     option_cols = ["Concurrent_open_cases", "Cases_created_within_past_8_hours",
                    "Cases_resolved_within_past_8_hours", "Seconds_left_Day", "Seconds_left_Month",
@@ -1452,9 +1453,52 @@ if __name__ == "__main__":  # Run program
 
     if d["beep"] == "y":
         import winsound
-        Freq = 400 # Set Frequency To 2500 Hertz
-        Dur = 1000 # Set Duration To 1000 ms == 1 second
-        winsound.Beep(Freq,Dur)
-        Freq = 300 # Set Frequency To 2500 Hertz
-        winsound.Beep(Freq,Dur)
+        # Freq = 400 # Set Frequency To 2500 Hertz
+        # Dur = 1000 # Set Duration To 1000 ms == 1 second
+        # winsound.Beep(Freq,Dur)
+        # Freq = 300 # Set Frequency To 2500 Hertz
+        # winsound.Beep(Freq,Dur)
+
+        winsound.Beep(293, 200)  # D
+        winsound.Beep(293, 200)  # D
+        winsound.Beep(293, 200)  # D
+        winsound.Beep(293, 600)  # D
+        winsound.Beep(246, 600)  # B
+
+        time.sleep(0.1)
+
+        winsound.Beep(369, 200)  # F#
+        winsound.Beep(369, 200)  # F#
+        winsound.Beep(369, 200)  # F#
+        winsound.Beep(369, 600)  # F#
+        winsound.Beep(329, 600)  # E
+
+        time.sleep(0.1)
+
+        winsound.Beep(329, 200)  # E
+        winsound.Beep(329, 200)  # E
+        winsound.Beep(329, 200)  # E
+        winsound.Beep(369, 500)  # F#
+
+        time.sleep(0.9)
+
+        winsound.Beep(369, 200)  # F#
+        winsound.Beep(369, 200)  # F#
+        winsound.Beep(369, 200)  # F#
+        winsound.Beep(369, 600)  # F#
+
+        time.sleep(0.9)
+        winsound.Beep(369, 200)  # F#
+        winsound.Beep(369, 200)  # F#
+        winsound.Beep(369, 200)  # F#
+
+        for i in range(4):
+            winsound.Beep(369, 200)  # F#
+            time.sleep(0.1)
+
+        for i in range(4):
+            winsound.Beep(369, 100)  # F#
+            time.sleep(0.1)
+
+        winsound.Beep(369, 600)  # F#
 
