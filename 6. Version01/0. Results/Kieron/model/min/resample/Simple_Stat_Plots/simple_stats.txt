@@ -1,4 +1,4 @@
-Simple Stats - 20170813-182409
+Simple Stats - 20170813-183151
 
 Input file name: min
 

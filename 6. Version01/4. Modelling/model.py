@@ -446,16 +446,11 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         rank = y_np.argsort().argsort()
         sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
         plt.xticks(x_num, x_ticks, rotation="vertical")
-        plt.title("%s - %s to %s"% (alg, error_name, x_label))
+        plt.title("%s - %s to %s" % (alg, error_name, x_label))
         plt.ylabel(y_label)
         plt.xlabel(x_label)
 
         plt.ylim(min(y)-np.std(y)/3, max(y)+np.std(y)/3)
-
-        # if not os.path.exists(newpath + "PDFs/"):
-        #     os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-        # plt.savefig(newpath + error_name +"_"+ x_label  + ".png")
-        # plt.savefig(newpath + "PDFs/" + error_name +"_"+ x_label  + ".pdf")
 
         if not os.path.exists(newpath + "PDFs/"):
             os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
@@ -501,13 +496,13 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 31, "Created_On_Month")
-    x_vals = [x for x in range(31)]
+    x_vals = [x+1 for x in range(31)]
     x_label = "Day of Month Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 31, "ResolvedDate_Month")
-    x_vals = [x for x in range(31)]
+    x_vals = [x+1 for x in range(31)]
     x_label = "Day of Month Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
@@ -775,6 +770,11 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "", simplepath, "Mean", d["input_file"])
         plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "", simplepath, "Median",  d["input_file"])
         plot_percent_correct(simple_percent_close, simplepath, "Mean", d["input_file"])
+
+        # plot errors against time
+        plot_errors_main(df, alg, "Test", algpath, alg_initials)
+        plot_errors_main()
+
         simple_out_file.close()
     ####################################################################################################################
     # Machine Learning
