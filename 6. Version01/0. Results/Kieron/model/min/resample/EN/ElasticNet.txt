@@ -1,0 +1,36 @@
+ElasticNet 20170813-170527
+
+Input file name min:
+
+ElasticNet: Cross Validation (10 Folds)
+	Train Mean R2: 0.77011 (+/-0.01214)
+	Test Mean R2: 0.37712 (+/-0.80920)
+	Train Mean RMSE: 39.30 (+/-1.38)
+	Test Mean RMSE: 46.02 (+/-13.39)
+	Train Mean MeanAE: 30.57 (+/-1.39)
+	Test Mean MeanAE: 36.17 (+/-8.81)
+	Train Mean EVS: 0.77 (+/-0.01)
+	Test Mean EVS: 0.53 (+/-0.51)
+	Train Mean MedianAE: 24.76 (+/-1.66)
+	Test Mean MedianAE: 29.40 (+/-7.89)
+
+	ElasticNet % test predictions error within 0 hour(s) -> Mean: 1.00% (+/- 3.00%) of 100/10
+	ElasticNet % test predictions error within 3 hour(s) -> Mean: 5.00% (+/- 6.71%) of 100/10
+	ElasticNet % test predictions error within 7 hour(s) -> Mean: 17.00% (+/- 6.40%) of 100/10
+	ElasticNet % test predictions error within 15 hour(s) -> Mean: 27.00% (+/- 6.40%) of 100/10
+	ElasticNet % test predictions error within 23 hour(s) -> Mean: 46.00% (+/- 14.97%) of 100/10
+	ElasticNet % test predictions error within 47 hour(s) -> Mean: 74.00% (+/- 14.97%) of 100/10
+	ElasticNet % test predictions error within 71 hour(s) -> Mean: 88.00% (+/- 9.80%) of 100/10
+	ElasticNet % test predictions error within 95 hour(s) -> Mean: 94.00% (+/- 8.00%) of 100/10
+Feature Importances:
+	1. "Rolling_Std" (-2.176434)
+	2. "Cases_resolved_within_past_8_hours" (-2.105331)
+	3. "Cases_created_within_past_8_hours" (-1.898006)
+	4. "Concurrent_open_cases" (-1.837538)
+	5. "Rolling_Mean" (-1.758315)
+	6. "Seconds_left_Month" (-1.174037)
+	7. "Seconds_left_Qtr" (-1.129500)
+	8. "Rolling_Median" (-1.070489)
+	9. "Seconds_left_Year" (-0.887919)
+	10. "Seconds_left_Day" (-0.879059)
+	11. "Created_on_Weekend" (-0.452570)

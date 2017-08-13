@@ -1,0 +1,37 @@
+GradientBoostingRegressor 20170813-170545
+
+Input file name min:
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.99906 (+/-0.00012)
+	Test Mean R2: 0.58178 (+/-0.46976)
+	Train Mean RMSE: 2.50 (+/-0.18)
+	Test Mean RMSE: 35.66 (+/-10.38)
+	Train Mean MeanAE: 1.98 (+/-0.15)
+	Test Mean MeanAE: 25.98 (+/-8.43)
+	Train Mean EVS: 1.00 (+/-0.00)
+	Test Mean EVS: 0.63 (+/-0.39)
+	Train Mean MedianAE: 1.65 (+/-0.18)
+	Test Mean MedianAE: 18.25 (+/-8.30)
+
+	GradientBoostingRegressor % test predictions error within 0 hour(s) -> Mean: 6.00% (+/- 8.00%) of 100/10
+	GradientBoostingRegressor % test predictions error within 3 hour(s) -> Mean: 19.00% (+/- 15.13%) of 100/10
+	GradientBoostingRegressor % test predictions error within 7 hour(s) -> Mean: 30.00% (+/- 16.73%) of 100/10
+	GradientBoostingRegressor % test predictions error within 15 hour(s) -> Mean: 45.00% (+/- 21.56%) of 100/10
+	GradientBoostingRegressor % test predictions error within 23 hour(s) -> Mean: 63.00% (+/- 20.02%) of 100/10
+	GradientBoostingRegressor % test predictions error within 47 hour(s) -> Mean: 82.00% (+/- 9.80%) of 100/10
+	GradientBoostingRegressor % test predictions error within 71 hour(s) -> Mean: 91.00% (+/- 7.00%) of 100/10
+	GradientBoostingRegressor % test predictions error within 95 hour(s) -> Mean: 97.00% (+/- 4.58%) of 100/10
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.334332)
+	2. "Seconds_left_Year" (0.121453)
+	3. "Rolling_Median" (0.084282)
+	4. "Rolling_Mean" (0.079888)
+	5. "Cases_resolved_within_past_8_hours" (0.075028)
+	6. "Cases_created_within_past_8_hours" (0.074003)
+	7. "Seconds_left_Qtr" (0.066438)
+	8. "Seconds_left_Day" (0.062730)
+	9. "Seconds_left_Month" (0.060694)
+	10. "Rolling_Std" (0.032023)
+	11. "Created_on_Weekend" (0.009131)
