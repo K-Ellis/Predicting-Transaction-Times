@@ -1,0 +1,37 @@
+RandomForestRegressor 20170813-170605
+
+Input file name min:
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.97476 (+/-0.00229)
+	Test Mean R2: 0.64770 (+/-0.36391)
+	Train Mean RMSE: 13.00 (+/-0.37)
+	Test Mean RMSE: 33.83 (+/-8.20)
+	Train Mean MeanAE: 9.32 (+/-0.35)
+	Test Mean MeanAE: 25.21 (+/-5.24)
+	Train Mean EVS: 0.97 (+/-0.00)
+	Test Mean EVS: 0.68 (+/-0.31)
+	Train Mean MedianAE: 6.27 (+/-0.73)
+	Test Mean MedianAE: 18.24 (+/-6.63)
+
+	RandomForestRegressor % test predictions error within 0 hour(s) -> Mean: 1.00% (+/- 3.00%) of 100/10
+	RandomForestRegressor % test predictions error within 3 hour(s) -> Mean: 8.00% (+/- 6.00%) of 100/10
+	RandomForestRegressor % test predictions error within 7 hour(s) -> Mean: 25.00% (+/- 12.85%) of 100/10
+	RandomForestRegressor % test predictions error within 15 hour(s) -> Mean: 50.00% (+/- 19.49%) of 100/10
+	RandomForestRegressor % test predictions error within 23 hour(s) -> Mean: 64.00% (+/- 14.28%) of 100/10
+	RandomForestRegressor % test predictions error within 47 hour(s) -> Mean: 86.00% (+/- 6.63%) of 100/10
+	RandomForestRegressor % test predictions error within 71 hour(s) -> Mean: 95.00% (+/- 6.71%) of 100/10
+	RandomForestRegressor % test predictions error within 95 hour(s) -> Mean: 98.00% (+/- 4.00%) of 100/10
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.869246)
+	2. "Rolling_Median" (0.028955)
+	3. "Rolling_Mean" (0.020244)
+	4. "Seconds_left_Year" (0.017398)
+	5. "Cases_resolved_within_past_8_hours" (0.014948)
+	6. "Rolling_Std" (0.014213)
+	7. "Seconds_left_Day" (0.010690)
+	8. "Seconds_left_Qtr" (0.008756)
+	9. "Seconds_left_Month" (0.008003)
+	10. "Cases_created_within_past_8_hours" (0.007279)
+	11. "Created_on_Weekend" (0.000269)

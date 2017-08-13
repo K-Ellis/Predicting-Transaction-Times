@@ -35,12 +35,14 @@ parameters = "../../../Data/parameters.txt"  # Parameters file
 sample_parameters = "../Sample Parameter File/parameters.txt"
 
 
-def plot_percent_correct(y, alg, newpath, alg_initials, input_file, std=None):
-    y = [0] + y
-    std = [0] + std
-    x = range(len(y))
-
-    plt.errorbar(x, y, yerr=std, fmt="r", ecolor="b", elinewidth=0.5, capsize=1.5, errorevery=2)
+def plot_percent_correct(y_vals, newpath, alg_initials, input_file, std=None):
+    y_vals = [0] + y_vals
+    x = range(len(y_vals))
+    if std is None:
+        plt.plot(x, y_vals, "r")
+    else:
+        std = [0] + std
+        plt.errorbar(x, y_vals, yerr=std, fmt="r", ecolor="b", elinewidth=0.5, capsize=1.5, errorevery=2)
 
     plt.title(alg_initials + " - Predictions Within Hours")
 
@@ -50,7 +52,7 @@ def plot_percent_correct(y, alg, newpath, alg_initials, input_file, std=None):
     xticks = [(x + 1) * 8 for x in range(12)]
     plt.xticks(xticks, xticks)
 
-    yticks = [i * 10 for i in range(10)]
+    yticks = [i * 10 for i in range(11)]
     plt.yticks(yticks, yticks)
 
     plt.grid()
@@ -76,7 +78,7 @@ def tree_importances(regr, X, algpath, d, out_file, alg_initials):
         dfimportances.to_csv(algpath + "importances.csv", index=False)
 
     print("Feature Importances:")
-    out_file.write("\nFeature Importances:\n")
+    out_file.write("\n\nFeature Importances:\n")
     for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist())):
         out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
@@ -107,7 +109,7 @@ def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
     # print(dfimportances)
 
     print("Feature Importances:")
-    out_file.write("\nFeature Importances:\n")
+    out_file.write("\n\nFeature Importances:\n")
     for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist())):
         out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
@@ -226,105 +228,105 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
         # plt.savefig(newpath + alg_initials + "_" + input_file + "_allhrs.png")
         # plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_allhrs.pdf")
     plt.close()
-
-    # Plot up to 2500000s only (600hrs)
-    plt.figure()
-    plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
-    # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
-    # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
-    plt.xlabel("Actual - Time Taken (Hours)")
-    plt.ylabel("Prediction - Time Taken (Hours)")
-    if alg == "Simple":
-        plt.title(alg_initials)
-    # elif alg == "Statsmodels_OLS":
+    #
+    # # Plot up to 2500000s only (600hrs)
+    # plt.figure()
+    # plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
+    # # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
+    # # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
+    # plt.xlabel("Actual - Time Taken (Hours)")
+    # plt.ylabel("Prediction - Time Taken (Hours)")
+    # if alg == "Simple":
+    #     plt.title(alg_initials)
+    # # elif alg == "Statsmodels_OLS":
+    # #     plt.title(alg + data + " < 600hrs")
+    # else:
     #     plt.title(alg + data + " < 600hrs")
-    else:
-        plt.title(alg + data + " < 600hrs")
-        # plt.title(alg + " < 600hrs")
-    # plt.axis('equal')
-    plt.ylim([0, 600])
-    plt.xlim([0, 600])
-    plt.gca().set_aspect('equal', adjustable='box')
-    ticks = [0, 100, 200, 300, 400, 500, 600]
-    tick_names = [0, 100, 200, 300, 400, 500, 600]
-    plt.xticks(ticks, tick_names)
-    plt.yticks(ticks, tick_names)
-    plt.tight_layout()  # Force everything to fit on figure
-    if not os.path.exists(newpath + "PDFs/"):
-        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    # if alg == "Statsmodels_OLS":
-    plt.savefig(newpath + alg_initials + "_" + input_file + data + "_600hrs.png")
-    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data  + "_600hrs.pdf")
+    #     # plt.title(alg + " < 600hrs")
+    # # plt.axis('equal')
+    # plt.ylim([0, 600])
+    # plt.xlim([0, 600])
+    # plt.gca().set_aspect('equal', adjustable='box')
+    # ticks = [0, 100, 200, 300, 400, 500, 600]
+    # tick_names = [0, 100, 200, 300, 400, 500, 600]
+    # plt.xticks(ticks, tick_names)
+    # plt.yticks(ticks, tick_names)
+    # plt.tight_layout()  # Force everything to fit on figure
+    # if not os.path.exists(newpath + "PDFs/"):
+    #     os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+    # # if alg == "Statsmodels_OLS":
+    # plt.savefig(newpath + alg_initials + "_" + input_file + data + "_600hrs.png")
+    # plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data  + "_600hrs.pdf")
+    # # else:
+    # #     plt.savefig(newpath + alg_initials + "_" + input_file + "_600hrs.png")
+    # #     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_600hrs.pdf")
+    # plt.close()
+    #
+    # # Plot up to 800000s only (200hrs)
+    # plt.figure()
+    # plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
+    # # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
+    # # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
+    # plt.xlabel("Actual - Time Taken (Hours)")
+    # plt.ylabel("Prediction - Time Taken (Hours)")
+    # if alg == "Simple":
+    #     plt.title(alg_initials)
+    # # elif alg == "Statsmodels_OLS":
+    # #     plt.title(alg + data + " < 200hrs")
     # else:
-    #     plt.savefig(newpath + alg_initials + "_" + input_file + "_600hrs.png")
-    #     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_600hrs.pdf")
-    plt.close()
-
-    # Plot up to 800000s only (200hrs)
-    plt.figure()
-    plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
-    # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
-    # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
-    plt.xlabel("Actual - Time Taken (Hours)")
-    plt.ylabel("Prediction - Time Taken (Hours)")
-    if alg == "Simple":
-        plt.title(alg_initials)
-    # elif alg == "Statsmodels_OLS":
     #     plt.title(alg + data + " < 200hrs")
-    else:
-        plt.title(alg + data + " < 200hrs")
-        # plt.title(alg + " < 200hrs")
-    # plt.axis('equal')
-    plt.ylim([0, 200])
-    plt.xlim([0, 200])
-    plt.gca().set_aspect('equal', adjustable='box')
-    ticks = [0, 50, 100, 150, 200]
-    tick_names = [0, 50, 100, 150, 200]
-    plt.xticks(ticks, tick_names)
-    plt.yticks(ticks, tick_names)
-    plt.tight_layout()  # Force everything to fit on figure
-    if not os.path.exists(newpath + "PDFs/"):
-        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    # if alg == "Statsmodels_OLS":
-    plt.savefig(newpath + alg_initials + "_" + input_file + data + "_200hrs.png")
-    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_200hrs.pdf")
+    #     # plt.title(alg + " < 200hrs")
+    # # plt.axis('equal')
+    # plt.ylim([0, 200])
+    # plt.xlim([0, 200])
+    # plt.gca().set_aspect('equal', adjustable='box')
+    # ticks = [0, 50, 100, 150, 200]
+    # tick_names = [0, 50, 100, 150, 200]
+    # plt.xticks(ticks, tick_names)
+    # plt.yticks(ticks, tick_names)
+    # plt.tight_layout()  # Force everything to fit on figure
+    # if not os.path.exists(newpath + "PDFs/"):
+    #     os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+    # # if alg == "Statsmodels_OLS":
+    # plt.savefig(newpath + alg_initials + "_" + input_file + data + "_200hrs.png")
+    # plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_200hrs.pdf")
+    # # else:
+    # #     plt.savefig(newpath + alg_initials + "_" + input_file + "_200hrs.png")
+    # #     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_200hrs.pdf")
+    # plt.close()
+    #
+    # # Plot up to 100000s only (24hrs)
+    # plt.figure()
+    # plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
+    # # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
+    # # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
+    # plt.xlabel("Actual - Time Taken (Hours)")
+    # plt.ylabel("Prediction - Time Taken (Hours)")
+    # if alg == "Simple":
+    #     plt.title(alg_initials)
+    # # elif alg == "Statsmodels_OLS":
+    # #     plt.title(alg + data + " < 24hrs")
     # else:
-    #     plt.savefig(newpath + alg_initials + "_" + input_file + "_200hrs.png")
-    #     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_200hrs.pdf")
-    plt.close()
-
-    # Plot up to 100000s only (24hrs)
-    plt.figure()
-    plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
-    # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
-    # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
-    plt.xlabel("Actual - Time Taken (Hours)")
-    plt.ylabel("Prediction - Time Taken (Hours)")
-    if alg == "Simple":
-        plt.title(alg_initials)
-    # elif alg == "Statsmodels_OLS":
     #     plt.title(alg + data + " < 24hrs")
-    else:
-        plt.title(alg + data + " < 24hrs")
-        # plt.title(alg + " < 24hrs")
-    # plt.axis('equal')
-    plt.ylim([0, 24])
-    plt.xlim([0, 24])
-    plt.gca().set_aspect('equal', adjustable='box')
-    ticks = [0, 4, 8, 12, 16, 20, 24]
-    tick_names = [0, 4, 8, 12, 16, 20, 24]
-    plt.xticks(ticks, tick_names)
-    plt.yticks(ticks, tick_names)
-    plt.tight_layout()  # Force everything to fit on figure
-    if not os.path.exists(newpath + "PDFs/"):
-        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    # if alg == "Statsmodels_OLS":
-    plt.savefig(newpath + alg_initials + "_" + input_file + data + "_24hrs.png")
-    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_24hrs.pdf")
-    # else:
-    #     plt.savefig(newpath + alg_initials + "_" + input_file + "_24hrs.png")
-    #     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_24hrs.pdf")
-    plt.close()
+    #     # plt.title(alg + " < 24hrs")
+    # # plt.axis('equal')
+    # plt.ylim([0, 24])
+    # plt.xlim([0, 24])
+    # plt.gca().set_aspect('equal', adjustable='box')
+    # ticks = [0, 4, 8, 12, 16, 20, 24]
+    # tick_names = [0, 4, 8, 12, 16, 20, 24]
+    # plt.xticks(ticks, tick_names)
+    # plt.yticks(ticks, tick_names)
+    # plt.tight_layout()  # Force everything to fit on figure
+    # if not os.path.exists(newpath + "PDFs/"):
+    #     os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+    # # if alg == "Statsmodels_OLS":
+    # plt.savefig(newpath + alg_initials + "_" + input_file + data + "_24hrs.png")
+    # plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_24hrs.pdf")
+    # # else:
+    # #     plt.savefig(newpath + alg_initials + "_" + input_file + "_24hrs.png")
+    # #     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_24hrs.pdf")
+    # plt.close()
 
 
 def day_in_quarter(date):
@@ -628,7 +630,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
     out_file = open(out_file_name, "w")  # Open log file
     out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-    out_file.write("\nInput file name %s:\n" % d["input_file"])
+    out_file.write("\nInput file name: %s \n" % d["input_file"])
 
     print("DF Shape:", df.shape, "\n")
 
@@ -657,63 +659,91 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         print("Length of keepers = %s" % len(keepers))
         print("Length of features used = %s\n" % len(X.columns))
         print("Features used:")
-    # out_file.write("\nFeatures used:")
+
     for i, col in enumerate(X.columns):
         if alg_counter == 1:
             print("\t%s - %s" % (i+1, col))
-        # out_file.write("\n\t%s - %s" % (i+1, col))
 
     y = df["TimeTaken"]
-
 
     ####################################################################################################################
     # Simple Statistics
     ####################################################################################################################
-
-    mean_time = np.mean(y)  # Calculate mean of predictions
-    std_time = np.std(y)  # Calculate standard deviation of predictions
-    median_time = np.median(y)  # Calculate standard deviation of predictions
-
-    out_file.write("\n\nSimple TimeTaken stats")
-    out_file.write("\n\tmean_time = %s" % mean_time)
-    out_file.write("\n\tstd_time = %s" % std_time)
-    out_file.write("\n\tmedian_time = %s\n" % median_time)
-
     if alg_counter == 1:
+        simplepath = newpath + "Simple_Stat_Plots/"
+        if not os.path.exists(simplepath):
+            os.makedirs(simplepath)  # Make folder for storing results if it does not exist
+
+        simple_out_file_name = simplepath + "simple_stats.txt"  # Log file name
+
+        simple_out_file = open(simple_out_file_name, "w")  # Open log file
+        simple_out_file.write("Simple Stats - " + time.strftime("%Y%m%d-%H%M%S") + "\n")
+        simple_out_file.write("\nInput file name: %s\n" % d["input_file"])
+
+        print("\nDF Shape:", df.shape)
+        simple_out_file.write("\nDF Shape: " + str(df.shape) + "\n")
+
+        mean_time = np.mean(y)  # Calculate mean of predictions
+        std_time = np.std(y)  # Calculate standard deviation of predictions
+        median_time = np.median(y)  # Calculate standard deviation of predictions
+
+        simple_out_file.write("\nSimple TimeTaken stats")
+        simple_out_file.write("\n\tmean_time = %s" % mean_time)
+        simple_out_file.write("\n\tstd_time = %s" % std_time)
+        simple_out_file.write("\n\tmedian_time = %s\n" % median_time)
+
         print("\nSimple TimeTaken stats")
         print("\tmean_time = %s" % mean_time)
         print("\tstd_time = %s" % std_time)
         print("\tmedian_time = %s\n" % median_time)
 
-    df["Mean_TimeTaken"] = mean_time
-    df["Median_TimeTaken"] = median_time
+        df["Mean_TimeTaken"] = mean_time
+        df["Median_TimeTaken"] = median_time
 
-    mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
-    mean_time_test_rmse = sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
-    mean_time_test_meanae = mean_absolute_error(y, df["Mean_TimeTaken"])
-    mean_time_test_evs = explained_variance_score(y, df["Mean_TimeTaken"])
-    mean_time_test_medianae = median_absolute_error(y, df["Mean_TimeTaken"])
+        simple_percent_close = []
+        simple_number_close = [0 for _ in range(96)]
 
-    median_time_test_r2 = r2_score(y, df["Median_TimeTaken"])
-    median_time_test_rmse = sqrt(mean_squared_error(y, df["Median_TimeTaken"]))
-    median_time_test_meanae = mean_absolute_error(y, df["Median_TimeTaken"])
-    median_time_test_evs = explained_variance_score(y, df["Median_TimeTaken"])
-    median_time_test_medianae = median_absolute_error(y, df["Median_TimeTaken"])
+        for i in range(len(df["Mean_TimeTaken"])):
+            for j in range(len(simple_number_close)):
+                if abs(df["Mean_TimeTaken"].iloc[i] - y.iloc[i]) <= j + 1:  # Within 1 hour
+                    simple_number_close[j] += 1
 
-    out_file.write("\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
-    out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)
-    out_file.write("\n\tmean_time_test_meanae = %s" % mean_time_test_meanae)
-    out_file.write("\n\tmean_time_test_evs = %s" % mean_time_test_evs)
-    out_file.write("\n\tmean_time_test_medianae = %s\n" % mean_time_test_medianae)
+        for j in simple_number_close:
+            simple_percent_close.append(j / len(y) * 100)
 
-    out_file.write("\n\tmedian_time_test_r2 = %s" % median_time_test_r2)
-    out_file.write("\n\tmedian_time_test_rmse = %s" % median_time_test_rmse)
-    out_file.write("\n\tmedian_time_test_meanae = %s" % median_time_test_meanae)
-    out_file.write("\n\tmedian_time_test_evs = %s" % median_time_test_evs)
-    out_file.write("\n\tmedian_time_test_medianae = %s\n" % median_time_test_medianae)
+        interesting_hours = [1, 4, 8, 16, 24, 48, 72, 96]
+        for hour in interesting_hours:
+            hour -= 1
+            print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
+                  "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour+1))
+            simple_out_file.write("\n\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
+                  "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour+1))
 
-    if alg_counter == 1:
-        print("\tmean_time_test_r2 = %s" % mean_time_test_r2)
+        mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
+        mean_time_test_rmse = sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
+        mean_time_test_meanae = mean_absolute_error(y, df["Mean_TimeTaken"])
+        mean_time_test_evs = explained_variance_score(y, df["Mean_TimeTaken"])
+        mean_time_test_medianae = median_absolute_error(y, df["Mean_TimeTaken"])
+
+        median_time_test_r2 = r2_score(y, df["Median_TimeTaken"])
+        median_time_test_rmse = sqrt(mean_squared_error(y, df["Median_TimeTaken"]))
+        median_time_test_meanae = mean_absolute_error(y, df["Median_TimeTaken"])
+        median_time_test_evs = explained_variance_score(y, df["Median_TimeTaken"])
+        median_time_test_medianae = median_absolute_error(y, df["Median_TimeTaken"])
+
+        simple_out_file.write("\n\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
+        simple_out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)
+        simple_out_file.write("\n\tmean_time_test_meanae = %s" % mean_time_test_meanae)
+        simple_out_file.write("\n\tmean_time_test_evs = %s" % mean_time_test_evs)
+        simple_out_file.write("\n\tmean_time_test_medianae = %s\n" % mean_time_test_medianae)
+
+        simple_out_file.write("\n\tmedian_time_test_r2 = %s" % median_time_test_r2)
+        simple_out_file.write("\n\tmedian_time_test_rmse = %s" % median_time_test_rmse)
+        simple_out_file.write("\n\tmedian_time_test_meanae = %s" % median_time_test_meanae)
+        simple_out_file.write("\n\tmedian_time_test_evs = %s" % median_time_test_evs)
+        simple_out_file.write("\n\tmedian_time_test_medianae = %s\n" % median_time_test_medianae)
+
+        print("\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
         print("\tmean_time_test_rmse = %s" % mean_time_test_rmse)
         print("\tmean_time_test_meanae = %s " % mean_time_test_meanae)
         print("\tmean_time_test_evs = %s" % mean_time_test_evs)
@@ -725,18 +755,16 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         print("\tmedian_time_test_evs = %s" % median_time_test_evs)
         print("\tmedian_time_test_medianae = %s" % median_time_test_medianae)
 
-    if alg_counter == 1:
-        simplepath = newpath + "Simple_Stat_Plots/"
-        if not os.path.exists(simplepath):
-            os.makedirs(simplepath)  # Make folder for storing results if it does not exist
+        print("\n..plotting..\n")
 
-
-        plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "All", simplepath, "Mean", d["input_file"])
-        plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "All", simplepath, "Median",  d["input_file"])
-
+        plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "", simplepath, "Mean", d["input_file"])
+        plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "", simplepath, "Median",  d["input_file"])
+        plot_percent_correct(simple_percent_close, simplepath, "Mean", d["input_file"])
+        simple_out_file.close()
     ####################################################################################################################
     # Machine Learning
     ####################################################################################################################
+    print("\n..%s.." % alg)
     num_folds = int(d["crossvalidation"])
     kf = KFold(n_splits=num_folds, shuffle=True, random_state=int(d["seed"]))
 
@@ -870,9 +898,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     for hour in interesting_hours:
         hour -= 1
         out_file.write("\n\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
-                       "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour))
+                       "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour+1))
         print("\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
-                       "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour))
+                       "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour+1))
 
     ####################################################################################################################
     # Plotting
@@ -884,13 +912,13 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         plot_errors_main(df, alg, "Test", algpath, alg_initials)
 
         # plot the training error for the last fold ONLY
-        plot(trainData_y, y_train_pred, alg, "Train", algpath, alg_initials, d["input_file"])
+        plot(trainData_y, y_train_pred, alg, "_Train", algpath, alg_initials, d["input_file"])
 
         # plot the testing error for every fold
-        plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "Test", algpath, alg_initials, d["input_file"])
+        plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "_Test", algpath, alg_initials, d["input_file"])
 
         # plot % correct against time
-        plot_percent_correct(average_close, alg, algpath, alg_initials, d["input_file"], std_close)
+        plot_percent_correct(average_close, algpath, alg_initials, d["input_file"], std_close)
     ####################################################################################################################
     # Importances
     ####################################################################################################################
@@ -929,7 +957,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
         out_file = open(out_file_name, "w")  # Open log file
         out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-        out_file.write("\nInput file name %s:\n" % d["input_file"])
+        out_file.write("\nInput file name: %s\n" % d["input_file"])
 
 
 
@@ -1231,7 +1259,7 @@ if __name__ == "__main__":  # Run program
     #     if col in df.columns:
     #         del df[col]
 
-    print("\nInput file name: %s" % d["input_file"])
+    print("Input file name: %s" % d["input_file"])
 
     if d["histogram"] == "y":
         histogram(df, "TimeTaken", newpath)  # Save histogram plots of TimeTaken
@@ -1333,7 +1361,7 @@ if __name__ == "__main__":  # Run program
 
         out_file = open(out_file_name, "w")  # Open log file
         out_file.write(alg + " " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-        out_file.write("\nInput file name %s:\n" % d["input_file"])
+        out_file.write("\nInput file name: %s\n" % d["input_file"])
 
         if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             X = df_train.drop("TimeTaken", axis=1)
@@ -1373,7 +1401,7 @@ if __name__ == "__main__":  # Run program
         olsregr = model.fit()
 
         print("olsregr.summary():\n", olsregr.summary())
-        out_file.write("\n\n + olsregr.summary():\n"+ str(olsregr.summary()) + "\n")
+        out_file.write("\n\n olsregr.summary():\n"+ str(olsregr.summary()) + "\n")
 
 
         y_train_pred = olsregr.predict(X_train)
