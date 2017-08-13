@@ -1,4 +1,4 @@
-LinearRegression 20170813-183151
+LinearRegression 20170813-194315
 
 Input file name: min 
 
