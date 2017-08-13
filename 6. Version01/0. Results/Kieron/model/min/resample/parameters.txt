@@ -1,6 +1,6 @@
 beep: y
 resample: y
-n_samples: 1000
+n_samples: 100
 seed: 1234
 specify_subfolder: testing
 ########### ################
@@ -45,7 +45,7 @@ crossvalidation: 10
 LinearRegression: y
 ElasticNet: n
 GradientBoostingRegressor: n
-RandomForestRegressor: y
+RandomForestRegressor: n
 n_estimators: 100
 statsmodels_OLS: n
 KernelRidge: n
@@ -56,15 +56,15 @@ top_k_features: 10
 export_importances_csv: n
 export_top_k_csv: n
 ########### ################
-extra_testing: y
-prejuly_july: y
+extra_testing: n
+prejuly_july: n
 prejune_june: n
 prejune_junejuly: n
 train_test_split: n
 log_of_y: n
 histogram: n
 plotting: y
-output_predictions_csv: n
+output_predictions_csv: y
 ########### ################
 GRID_SEARCH ################
 ########### ################

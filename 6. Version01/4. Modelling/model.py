@@ -425,9 +425,13 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
 
         if not os.path.exists(newpath + "PDFs/"):
             os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+        if not os.path.exists(newpath + "PDFs/" + error_name + "/"):
+            os.makedirs(newpath + "PDFs/" + error_name + "/")  # Make folder for storing results if it does not exist
+        if not os.path.exists(newpath + error_name + "/"):
+            os.makedirs(newpath + error_name + "/")  # Make folder for storing results if it does not exist
 
-        plt.savefig(newpath + error_name +"_"+ x_label  + ".png")
-        plt.savefig(newpath + "PDFs/" + error_name +"_"+ x_label  + ".pdf")
+        plt.savefig(newpath + error_name +"/"+ x_label  + ".png")
+        plt.savefig(newpath + "PDFs/" + error_name +"/"+ x_label  + ".pdf")
 
     else:
         plt.figure()
@@ -442,15 +446,21 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         rank = y_np.argsort().argsort()
         sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
         plt.xticks(x_num, x_ticks, rotation="vertical")
-        plt.title("%s - %s to %s"% (alg, error_name, x_label))
+        plt.title("%s - %s to %s" % (alg, error_name, x_label))
         plt.ylabel(y_label)
         plt.xlabel(x_label)
 
         plt.ylim(min(y)-np.std(y)/3, max(y)+np.std(y)/3)
+
         if not os.path.exists(newpath + "PDFs/"):
             os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-        plt.savefig(newpath + error_name +"_"+ x_label  + ".png")
-        plt.savefig(newpath + "PDFs/" + error_name +"_"+ x_label  + ".pdf")
+        if not os.path.exists(newpath + "PDFs/" + error_name + "/"):
+            os.makedirs(newpath + "PDFs/" + error_name + "/")  # Make folder for storing results if it does not exist
+        if not os.path.exists(newpath + error_name + "/"):
+            os.makedirs(newpath + error_name + "/")  # Make folder for storing results if it does not exist
+
+        plt.savefig(newpath + error_name +"/"+ x_label  + ".png")
+        plt.savefig(newpath + "PDFs/" + error_name +"/"+ x_label  + ".pdf")
 
     plt.close()
 
@@ -486,13 +496,13 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 31, "Created_On_Month")
-    x_vals = [x for x in range(31)]
+    x_vals = [x+1 for x in range(31)]
     x_label = "Day of Month Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 31, "ResolvedDate_Month")
-    x_vals = [x for x in range(31)]
+    x_vals = [x+1 for x in range(31)]
     x_label = "Day of Month Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
@@ -760,6 +770,11 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "", simplepath, "Mean", d["input_file"])
         plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "", simplepath, "Median",  d["input_file"])
         plot_percent_correct(simple_percent_close, simplepath, "Mean", d["input_file"])
+
+        # plot errors against time
+        plot_errors_main(df, alg, "Test", algpath, alg_initials)
+        plot_errors_main()
+
         simple_out_file.close()
     ####################################################################################################################
     # Machine Learning
@@ -1222,7 +1237,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
                 df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_TrainTestSplit_predictions.csv" % alg_initials,
                                index=False)
         else:
-            df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_%s__predictions.csv" % (d["specify_subfolder"],
+            df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_%s_predictions.csv" % (d["specify_subfolder"],
                                                                                             alg_initials), index=False)
 
     print("\n..finished with alg: %s..\n" % alg)
@@ -1305,12 +1320,11 @@ if __name__ == "__main__":  # Run program
         if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             print("DF Train Shape:", df_train.shape)
             print("DF Test Shape:", df_test.shape, "\n")
+        if d["resample"] == "y":
+            df_train = df_train.reset_index(drop=True)
+            df_test = df_test.reset_index(drop=True)
     else:
         print("DF Shape:", df.shape, "\n")
-
-    if d["resample"] == "y":
-        df_train = df_train.reset_index(drop=True)
-        df_test = df_test.reset_index(drop=True)
 
     # del_cols = ["Seconds_left_Year", "Rolling_Mean", "Rolling_Median", "Rolling_Std"]
     # for col in del_cols:
@@ -1397,6 +1411,9 @@ if __name__ == "__main__":  # Run program
                 df.to_csv(d["file_location"] + d["input_file"] + "_prejune_predictions.csv", index=False)  # export file
             elif d["train_test_split"] == "y":
                 df.to_csv(d["file_location"] + d["input_file"] + "_traintestsplit_predictions.csv", index=False)  # export file
+        elif d["specify_subfolder"] != "n":
+            df.to_csv(d["file_location"] + d["input_file"] + "_" + d["specify_subfolder"] + "_predictions.csv", \
+                                                           index=False)  # export file
         else:
             df.to_csv(d["file_location"] + d["input_file"] + "_predictions.csv", index=False)  # export file
 
@@ -1489,47 +1506,3 @@ if __name__ == "__main__":  # Run program
         winsound.Beep(Freq,Dur)
         Freq = 300 # Set Frequency To 2500 Hertz
         winsound.Beep(Freq,Dur)
-
-        # winsound.Beep(293, 200)  # D
-        # winsound.Beep(293, 200)  # D
-        # winsound.Beep(293, 200)  # D
-        # winsound.Beep(293, 600)  # D
-        # winsound.Beep(246, 600)  # B
-        #
-        # time.sleep(0.1)
-        #
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 600)  # F#
-        # winsound.Beep(329, 600)  # E
-        #
-        # time.sleep(0.1)
-        #
-        # winsound.Beep(329, 200)  # E
-        # winsound.Beep(329, 200)  # E
-        # winsound.Beep(329, 200)  # E
-        # winsound.Beep(369, 500)  # F#
-        #
-        # time.sleep(0.9)
-        #
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 600)  # F#
-        #
-        # time.sleep(0.9)
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        #
-        # for i in range(4):
-        #     winsound.Beep(369, 200)  # F#
-        #     time.sleep(0.1)
-        #
-        # for i in range(4):
-        #     winsound.Beep(369, 100)  # F#
-        #     time.sleep(0.1)
-        #
-        # winsound.Beep(369, 600)  # F#
-

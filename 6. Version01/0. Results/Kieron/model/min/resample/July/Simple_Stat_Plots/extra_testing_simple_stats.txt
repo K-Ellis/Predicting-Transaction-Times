@@ -1,33 +1,33 @@
-Simple Stats - 20170813-175403
+Simple Stats - 20170813-180615
 
 Input file name: min
 
-df_test Shape: (72, 14)
+df_test Shape: (5, 14)
 
 
 Simple df_test TimeTaken stats
-	mean_time = 79.42963348765434
-	std_time = 86.99448474108078
-	median_time = 33.2022222222
+	mean_time = 66.80672222222222
+	std_time = 86.35978914330757
+	median_time = 20.1894444444
 
-	Mean % test predictions error within 1 hour(s) -> Mean: 0.00% of 72/10
-	Mean % test predictions error within 4 hour(s) -> Mean: 1.39% of 72/10
-	Mean % test predictions error within 8 hour(s) -> Mean: 8.33% of 72/10
-	Mean % test predictions error within 16 hour(s) -> Mean: 12.50% of 72/10
-	Mean % test predictions error within 24 hour(s) -> Mean: 12.50% of 72/10
-	Mean % test predictions error within 48 hour(s) -> Mean: 23.61% of 72/10
-	Mean % test predictions error within 72 hour(s) -> Mean: 50.00% of 72/10
-	Mean % test predictions error within 96 hour(s) -> Mean: 83.33% of 72/10
+	Mean % test predictions error within 1 hour(s) -> Mean: 0.00% of 5/10
+	Mean % test predictions error within 4 hour(s) -> Mean: 0.00% of 5/10
+	Mean % test predictions error within 8 hour(s) -> Mean: 0.00% of 5/10
+	Mean % test predictions error within 16 hour(s) -> Mean: 20.00% of 5/10
+	Mean % test predictions error within 24 hour(s) -> Mean: 20.00% of 5/10
+	Mean % test predictions error within 48 hour(s) -> Mean: 40.00% of 5/10
+	Mean % test predictions error within 72 hour(s) -> Mean: 80.00% of 5/10
+	Mean % test predictions error within 96 hour(s) -> Mean: 80.00% of 5/10
 
 	mean_time_test_r2 = 0.0
-	mean_time_test_rmse = 86.99448474108081
-	mean_time_test_meanae = 73.724876436
+	mean_time_test_rmse = 86.35978914330757
+	mean_time_test_meanae = 69.6641777778
 	mean_time_test_evs = 0.0
-	mean_time_test_medianae = 71.6376890432
+	mean_time_test_medianae = 62.9122777778
 
-	median_time_test_r2 = -0.282368148994
-	median_time_test_rmse = 98.51402909063023
-	median_time_test_meanae = 69.7239621914
-	median_time_test_evs = 2.22044604925e-16
-	median_time_test_medianae = 32.0483333333
+	median_time_test_r2 = -0.2913873353
+	median_time_test_rmse = 98.13859469284772
+	median_time_test_meanae = 60.3407222222
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 18.0136111111
 
