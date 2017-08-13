@@ -1,0 +1,32 @@
+RandomForestRegressor 20170813-175450
+
+Input file name: min
+
+RandomForestRegressor - df Test Results
+	Test R2: -1.15806
+	Test RMSE: 127.80
+	Test MeanAE: 119.26
+	Test EVS: 0.72 
+	Test MedianAE: 138.30 
+
+	RandomForestRegressor % test predictions error within 1 hour(s) -> Mean: 0.00% of 72/10
+	RandomForestRegressor % test predictions error within 4 hour(s) -> Mean: 0.00% of 72/10
+	RandomForestRegressor % test predictions error within 8 hour(s) -> Mean: 0.00% of 72/10
+	RandomForestRegressor % test predictions error within 16 hour(s) -> Mean: 0.00% of 72/10
+	RandomForestRegressor % test predictions error within 24 hour(s) -> Mean: 0.00% of 72/10
+	RandomForestRegressor % test predictions error within 48 hour(s) -> Mean: 8.33% of 72/10
+	RandomForestRegressor % test predictions error within 72 hour(s) -> Mean: 19.44% of 72/10
+	RandomForestRegressor % test predictions error within 96 hour(s) -> Mean: 34.72% of 72/10
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.898578)
+	2. "Seconds_left_Qtr" (0.021850)
+	3. "Rolling_Std" (0.014695)
+	4. "Seconds_left_Year" (0.012562)
+	5. "Seconds_left_Month" (0.012003)
+	6. "Rolling_Mean" (0.011416)
+	7. "Rolling_Median" (0.010464)
+	8. "Seconds_left_Day" (0.006123)
+	9. "Cases_created_within_past_8_hours" (0.005486)
+	10. "Cases_resolved_within_past_8_hours" (0.005398)
+	11. "Created_on_Weekend" (0.001426)
