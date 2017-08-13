@@ -728,6 +728,8 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     percent_within_72 = []  # Tracking predictions within 72 hours
     percent_within_96 = []  # Tracking predictions within 96 hours
 
+    percent_close = [[] for _ in range(96)]
+
     # max_time = 2000000
     df["TimeTaken_%s" % alg] = -1000000  # assign a random value
 
@@ -755,6 +757,8 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         number_close_72 = 0  # Use to track number of close estimations within 24 hours
         number_close_96 = 0  # Use to track number of close estimations within 24 hours
 
+        number_close = [0 for _ in range(96)]
+
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
             # if y_train_pred[i] < 0:  # Convert all negative predictions to 0
             #     y_train_pred[i] = 0
@@ -767,33 +771,16 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
             if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 1:  # Within 1 hour
-                number_close_1 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 4:  # Within 4 hours
-                number_close_4 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 8:  # Within 8 hours
-                number_close_8 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 16:  # Within 16 hours
-                number_close_16 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 24:  # Within 24 hours
-                number_close_24 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 48:  # Within 48 hours
-                number_close_48 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 72:  # Within 72 hours
-                number_close_72 += 1
-            if abs(y_test_pred[i] - testData_y.iloc[i]) <= 96:  # Within 96 hours
-                number_close_96 += 1
+
+            for j in range(len(number_close)):
+                if abs(y_test_pred[i] - testData_y.iloc[i]) <= j+1:  # Within 1 hour
+                    number_close[j] += 1
+
         #  append the predictions for this fold to df
         df.loc[test_indices, "TimeTaken_%s"%alg] = y_test_pred
 
-        percent_within_1.append(number_close_1/len(y_test_pred))
-        percent_within_4.append(number_close_4/len(y_test_pred))
-        percent_within_8.append(number_close_8/len(y_test_pred))
-        percent_within_16.append(number_close_16/len(y_test_pred))
-        percent_within_24.append(number_close_24/len(y_test_pred))
-        percent_within_48.append(number_close_48/len(y_test_pred))
-        percent_within_72.append(number_close_72/len(y_test_pred))
-        percent_within_96.append(number_close_96/len(y_test_pred))
+        for j in range(len(number_close)):
+            percent_close[j].append(number_close[j] / len(y_test_pred))
 
         train_rmse.append(sqrt(mean_squared_error(trainData_y, y_train_pred)))
         test_rmse.append(sqrt(mean_squared_error(testData_y, y_test_pred)))
@@ -832,45 +819,12 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     train_median_ae_std = np.std(train_median_ae)# was set to mean..
     test_median_ae_std = np.std(test_median_ae)# was set to mean..
 
-    ave_1hour = np.mean(percent_within_1)
-    std_1hour = np.std(percent_within_1)
-    pct_ave_1hour = ave_1hour * 100
-    pct_std_std_1hour = std_1hour * 100
+    average_close = []
+    std_close = []
 
-    ave_4hour = np.mean(percent_within_4)
-    std_4hour = np.std(percent_within_4)
-    pct_ave_4hour = ave_4hour * 100
-    pct_std_std_4hour = std_4hour * 100
-
-    ave_8hour = np.mean(percent_within_8)
-    std_8hour = np.std(percent_within_8)
-    pct_ave_8hour = ave_8hour * 100
-    pct_std_std_8hour = std_8hour * 100
-
-    ave_16hour = np.mean(percent_within_16)
-    std_16hour = np.std(percent_within_16)
-    pct_ave_16hour = ave_16hour * 100
-    pct_std_std_16hour = std_16hour * 100
-
-    ave_24hour = np.mean(percent_within_24)
-    std_24hour = np.std(percent_within_24)
-    pct_ave_24hour = ave_24hour * 100
-    pct_std_std_24hour = std_24hour * 100
-
-    ave_48hour = np.mean(percent_within_48)
-    std_48hour = np.std(percent_within_48)
-    pct_ave_48hour = ave_48hour * 100
-    pct_std_std_48hour = std_48hour * 100
-
-    ave_72hour = np.mean(percent_within_72)
-    std_72hour = np.std(percent_within_72)
-    pct_ave_72hour = ave_72hour * 100
-    pct_std_std_72hour = std_72hour * 100
-
-    ave_96hour = np.mean(percent_within_96)
-    std_96hour = np.std(percent_within_96)
-    pct_ave_96hour = ave_96hour * 100
-    pct_std_std_96hour = std_96hour * 100
+    for j in range(len(number_close)):
+        average_close.append(np.mean(percent_close[j]) * 100)
+        std_close.append(np.std(percent_close[j]) * 100)
 
     ########################################################################################################################
     # output results
@@ -887,25 +841,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     out_file.write("\tTrain Mean MedianAE: {0:.2f} (+/-{1:.2f})\n".format(train_median_ae_ave, train_median_ae_std))
     out_file.write("\tTest Mean MedianAE: {0:.2f} (+/-{1:.2f})\n".format(test_median_ae_ave, test_median_ae_std))
 
-
-    out_file.write("\n\t{2:s} % test predictions error within 1 hour -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_1hour, pct_std_std_1hour, alg, len(y)))
-    out_file.write("\n\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_4hour, pct_std_std_4hour, alg, len(y)))
-    out_file.write("\n\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_8hour, pct_std_std_8hour, alg, len(y)))
-    out_file.write("\n\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_16hour, pct_std_std_16hour, alg, len(y)))
-    out_file.write("\n\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_24hour, pct_std_std_24hour,alg, len(y)))
-    out_file.write("\n\t{2:s} % test predictions error within 48 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_48hour, pct_std_std_48hour,alg, len(y)))
-    out_file.write("\n\t{2:s} % test predictions error within 72 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_72hour, pct_std_std_72hour,alg, len(y)))
-    out_file.write("\n\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10\n".format(
-        pct_ave_96hour, pct_std_std_96hour,alg, len(y)))
-    out_file.write("\n")
-
     print("\n" + alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
     print("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})".format(train_r2_ave, train_r2_std))
     print("\tTest Mean R2: {0:.5f} (+/-{1:.5f})".format(test_r2_ave, test_r2_std))
@@ -918,22 +853,13 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     print("\tTrain Mean MedianAE: {0:.2f} (+/-{1:.2f})".format(train_median_ae_ave, train_median_ae_std))
     print("\tTest Mean MedianAE: {0:.2f} (+/-{1:.2f})".format(test_median_ae_ave, test_median_ae_std))
 
-    print("\n\t{2:s} % test predictions within 1 hour -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_1hour, pct_std_std_1hour, alg, len(y)))
-    print("\t{2:s} % test predictions error within 4 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_4hour, pct_std_std_4hour, alg, len(y)))
-    print("\t{2:s} % test predictions error within 8 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_8hour, pct_std_std_8hour, alg, len(y)))
-    print("\t{2:s} % test predictions error within 16 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_16hour, pct_std_std_16hour, alg, len(y)))
-    print("\t{2:s} % test predictions error within 24 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_24hour, pct_std_std_24hour, alg, len(y)))
-    print("\t{2:s} % test predictions error within 48 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_48hour, pct_std_std_48hour, alg, len(y)))
-    print("\t{2:s} % test predictions error within 72 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(
-        pct_ave_72hour, pct_std_std_72hour, alg, len(y)))
-    print("\t{2:s} % test predictions error within 96 hours -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10\n".format(
-        pct_ave_96hour, pct_std_std_96hour, alg, len(y)))
+    interesting_hours = [1, 4, 8, 16, 24, 48, 72, 96]
+    for hour in interesting_hours:
+        hour -= 1
+        out_file.write("\n\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
+                       "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour))
+        print("\n\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
+                       "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour))
 
     ####################################################################################################################
     # Plotting
@@ -959,7 +885,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     ####################################################################################################################
     # Importances
     ####################################################################################################################
-    print("..Calculating importances..\n")
+    print("\n..Calculating importances..\n")
     if alg == "RandomForestRegressor" or alg == "GradientBoostingRegressor" or alg == "xgboost":
         tree_importances(regr, X, algpath, d, out_file, alg_initials)
 
@@ -1468,52 +1394,52 @@ if __name__ == "__main__":  # Run program
 
     if d["beep"] == "y":
         import winsound
-        # Freq = 400 # Set Frequency To 2500 Hertz
-        # Dur = 1000 # Set Duration To 1000 ms == 1 second
-        # winsound.Beep(Freq,Dur)
-        # Freq = 300 # Set Frequency To 2500 Hertz
-        # winsound.Beep(Freq,Dur)
+        Freq = 400 # Set Frequency To 2500 Hertz
+        Dur = 1000 # Set Duration To 1000 ms == 1 second
+        winsound.Beep(Freq,Dur)
+        Freq = 300 # Set Frequency To 2500 Hertz
+        winsound.Beep(Freq,Dur)
 
-        winsound.Beep(293, 200)  # D
-        winsound.Beep(293, 200)  # D
-        winsound.Beep(293, 200)  # D
-        winsound.Beep(293, 600)  # D
-        winsound.Beep(246, 600)  # B
-
-        time.sleep(0.1)
-
-        winsound.Beep(369, 200)  # F#
-        winsound.Beep(369, 200)  # F#
-        winsound.Beep(369, 200)  # F#
-        winsound.Beep(369, 600)  # F#
-        winsound.Beep(329, 600)  # E
-
-        time.sleep(0.1)
-
-        winsound.Beep(329, 200)  # E
-        winsound.Beep(329, 200)  # E
-        winsound.Beep(329, 200)  # E
-        winsound.Beep(369, 500)  # F#
-
-        time.sleep(0.9)
-
-        winsound.Beep(369, 200)  # F#
-        winsound.Beep(369, 200)  # F#
-        winsound.Beep(369, 200)  # F#
-        winsound.Beep(369, 600)  # F#
-
-        time.sleep(0.9)
-        winsound.Beep(369, 200)  # F#
-        winsound.Beep(369, 200)  # F#
-        winsound.Beep(369, 200)  # F#
-
-        for i in range(4):
-            winsound.Beep(369, 200)  # F#
-            time.sleep(0.1)
-
-        for i in range(4):
-            winsound.Beep(369, 100)  # F#
-            time.sleep(0.1)
-
-        winsound.Beep(369, 600)  # F#
+        # winsound.Beep(293, 200)  # D
+        # winsound.Beep(293, 200)  # D
+        # winsound.Beep(293, 200)  # D
+        # winsound.Beep(293, 600)  # D
+        # winsound.Beep(246, 600)  # B
+        #
+        # time.sleep(0.1)
+        #
+        # winsound.Beep(369, 200)  # F#
+        # winsound.Beep(369, 200)  # F#
+        # winsound.Beep(369, 200)  # F#
+        # winsound.Beep(369, 600)  # F#
+        # winsound.Beep(329, 600)  # E
+        #
+        # time.sleep(0.1)
+        #
+        # winsound.Beep(329, 200)  # E
+        # winsound.Beep(329, 200)  # E
+        # winsound.Beep(329, 200)  # E
+        # winsound.Beep(369, 500)  # F#
+        #
+        # time.sleep(0.9)
+        #
+        # winsound.Beep(369, 200)  # F#
+        # winsound.Beep(369, 200)  # F#
+        # winsound.Beep(369, 200)  # F#
+        # winsound.Beep(369, 600)  # F#
+        #
+        # time.sleep(0.9)
+        # winsound.Beep(369, 200)  # F#
+        # winsound.Beep(369, 200)  # F#
+        # winsound.Beep(369, 200)  # F#
+        #
+        # for i in range(4):
+        #     winsound.Beep(369, 200)  # F#
+        #     time.sleep(0.1)
+        #
+        # for i in range(4):
+        #     winsound.Beep(369, 100)  # F#
+        #     time.sleep(0.1)
+        #
+        # winsound.Beep(369, 600)  # F#
 
