@@ -425,9 +425,13 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
 
         if not os.path.exists(newpath + "PDFs/"):
             os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+        if not os.path.exists(newpath + "PDFs/" + error_name + "/"):
+            os.makedirs(newpath + "PDFs/" + error_name + "/")  # Make folder for storing results if it does not exist
+        if not os.path.exists(newpath + error_name + "/"):
+            os.makedirs(newpath + error_name + "/")  # Make folder for storing results if it does not exist
 
-        plt.savefig(newpath + error_name +"_"+ x_label  + ".png")
-        plt.savefig(newpath + "PDFs/" + error_name +"_"+ x_label  + ".pdf")
+        plt.savefig(newpath + error_name +"/"+ x_label  + ".png")
+        plt.savefig(newpath + "PDFs/" + error_name +"/"+ x_label  + ".pdf")
 
     else:
         plt.figure()
@@ -447,10 +451,21 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         plt.xlabel(x_label)
 
         plt.ylim(min(y)-np.std(y)/3, max(y)+np.std(y)/3)
+
+        # if not os.path.exists(newpath + "PDFs/"):
+        #     os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+        # plt.savefig(newpath + error_name +"_"+ x_label  + ".png")
+        # plt.savefig(newpath + "PDFs/" + error_name +"_"+ x_label  + ".pdf")
+
         if not os.path.exists(newpath + "PDFs/"):
             os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-        plt.savefig(newpath + error_name +"_"+ x_label  + ".png")
-        plt.savefig(newpath + "PDFs/" + error_name +"_"+ x_label  + ".pdf")
+        if not os.path.exists(newpath + "PDFs/" + error_name + "/"):
+            os.makedirs(newpath + "PDFs/" + error_name + "/")  # Make folder for storing results if it does not exist
+        if not os.path.exists(newpath + error_name + "/"):
+            os.makedirs(newpath + error_name + "/")  # Make folder for storing results if it does not exist
+
+        plt.savefig(newpath + error_name +"/"+ x_label  + ".png")
+        plt.savefig(newpath + "PDFs/" + error_name +"/"+ x_label  + ".pdf")
 
     plt.close()
 
@@ -1305,12 +1320,11 @@ if __name__ == "__main__":  # Run program
         if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             print("DF Train Shape:", df_train.shape)
             print("DF Test Shape:", df_test.shape, "\n")
+        if d["resample"] == "y":
+            df_train = df_train.reset_index(drop=True)
+            df_test = df_test.reset_index(drop=True)
     else:
         print("DF Shape:", df.shape, "\n")
-
-    if d["resample"] == "y":
-        df_train = df_train.reset_index(drop=True)
-        df_test = df_test.reset_index(drop=True)
 
     # del_cols = ["Seconds_left_Year", "Rolling_Mean", "Rolling_Median", "Rolling_Std"]
     # for col in del_cols:
