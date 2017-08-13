@@ -175,13 +175,14 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.ylabel("Prediction - Time Taken (Hours)")
     if alg == "Simple":
         plt.title(alg_initials)
-    elif alg == "Statsmodels_OLS":
-        plt.title(alg + data)
+    # elif alg == "Statsmodels_OLS":
+    #
     else:
-        plt.title(alg)
+        plt.title(alg + data)
+        # plt.title(alg)
     # plt.axis('equal')
-    # plt.ylim([0, 2500000])
-    # plt.xlim([0, 2500000])
+    plt.ylim([0, 700])
+    plt.xlim([0, 700])
     plt.gca().set_aspect('equal', adjustable='box')
     ticks = [0, 100, 200, 300, 400, 500, 600, 700]
     tick_names = [0, 100, 200, 300, 400, 500, 600, 700]
@@ -190,12 +191,12 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    if alg == "Statsmodels_OLS":
-        plt.savefig(newpath + alg_initials + "_" + input_file + data + "_allhrs.png")
-        plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_allhrs.pdf")
-    else:
-        plt.savefig(newpath + alg_initials + "_" + input_file + "_allhrs.png")
-        plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_allhrs.pdf")
+    # if alg == "Statsmodels_OLS":
+    plt.savefig(newpath + alg_initials + "_" + input_file + data + "_allhrs.png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_allhrs.pdf")
+    # else:
+        # plt.savefig(newpath + alg_initials + "_" + input_file + "_allhrs.png")
+        # plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_allhrs.pdf")
     plt.close()
 
     # Plot up to 2500000s only (600hrs)
@@ -207,10 +208,11 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.ylabel("Prediction - Time Taken (Hours)")
     if alg == "Simple":
         plt.title(alg_initials)
-    elif alg == "Statsmodels_OLS":
-        plt.title(alg + data + " < 600hrs")
+    # elif alg == "Statsmodels_OLS":
+    #     plt.title(alg + data + " < 600hrs")
     else:
-        plt.title(alg + " < 600hrs")
+        plt.title(alg + data + " < 600hrs")
+        # plt.title(alg + " < 600hrs")
     # plt.axis('equal')
     plt.ylim([0, 600])
     plt.xlim([0, 600])
@@ -222,12 +224,12 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    if alg == "Statsmodels_OLS":
-        plt.savefig(newpath + alg_initials + "_" + input_file + data + "_600hrs.png")
-        plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data  + "_600hrs.pdf")
-    else:
-        plt.savefig(newpath + alg_initials + "_" + input_file + "_600hrs.png")
-        plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_600hrs.pdf")
+    # if alg == "Statsmodels_OLS":
+    plt.savefig(newpath + alg_initials + "_" + input_file + data + "_600hrs.png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data  + "_600hrs.pdf")
+    # else:
+    #     plt.savefig(newpath + alg_initials + "_" + input_file + "_600hrs.png")
+    #     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_600hrs.pdf")
     plt.close()
 
     # Plot up to 800000s only (200hrs)
@@ -239,10 +241,11 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.ylabel("Prediction - Time Taken (Hours)")
     if alg == "Simple":
         plt.title(alg_initials)
-    elif alg == "Statsmodels_OLS":
-        plt.title(alg + data + " < 200hrs")
+    # elif alg == "Statsmodels_OLS":
+    #     plt.title(alg + data + " < 200hrs")
     else:
-        plt.title(alg + " < 200hrs")
+        plt.title(alg + data + " < 200hrs")
+        # plt.title(alg + " < 200hrs")
     # plt.axis('equal')
     plt.ylim([0, 200])
     plt.xlim([0, 200])
@@ -254,12 +257,12 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    if alg == "Statsmodels_OLS":
-        plt.savefig(newpath + alg_initials + "_" + input_file + data + "_200hrs.png")
-        plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_200hrs.pdf")
-    else:
-        plt.savefig(newpath + alg_initials + "_" + input_file + "_200hrs.png")
-        plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_200hrs.pdf")
+    # if alg == "Statsmodels_OLS":
+    plt.savefig(newpath + alg_initials + "_" + input_file + data + "_200hrs.png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_200hrs.pdf")
+    # else:
+    #     plt.savefig(newpath + alg_initials + "_" + input_file + "_200hrs.png")
+    #     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_200hrs.pdf")
     plt.close()
 
     # Plot up to 100000s only (24hrs)
@@ -271,10 +274,11 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.ylabel("Prediction - Time Taken (Hours)")
     if alg == "Simple":
         plt.title(alg_initials)
-    elif alg == "Statsmodels_OLS":
-        plt.title(alg + data + " < 24hrs")
+    # elif alg == "Statsmodels_OLS":
+    #     plt.title(alg + data + " < 24hrs")
     else:
-        plt.title(alg + " < 24hrs")
+        plt.title(alg + data + " < 24hrs")
+        # plt.title(alg + " < 24hrs")
     # plt.axis('equal')
     plt.ylim([0, 24])
     plt.xlim([0, 24])
@@ -286,12 +290,12 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    if alg == "Statsmodels_OLS":
-        plt.savefig(newpath + alg_initials + "_" + input_file + data + "_24hrs.png")
-        plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_24hrs.pdf")
-    else:
-        plt.savefig(newpath + alg_initials + "_" + input_file + "_24hrs.png")
-        plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_24hrs.pdf")
+    # if alg == "Statsmodels_OLS":
+    plt.savefig(newpath + alg_initials + "_" + input_file + data + "_24hrs.png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_24hrs.pdf")
+    # else:
+    #     plt.savefig(newpath + alg_initials + "_" + input_file + "_24hrs.png")
+    #     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_24hrs.pdf")
     plt.close()
 
 
@@ -719,15 +723,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     train_median_ae = [] # Median absolute error regression loss
     test_median_ae = []
 
-    percent_within_1 = []  # Tracking predictions within 1 hour
-    percent_within_4 = []  # Tracking predictions within 4 hour
-    percent_within_8 = []  # Tracking predictions within 8 hour
-    percent_within_16 = []  # Tracking predictions within 16 hour
-    percent_within_24 = []  # Tracking predictions within 24 hours
-    percent_within_48 = []  # Tracking predictions within 48 hours
-    percent_within_72 = []  # Tracking predictions within 72 hours
-    percent_within_96 = []  # Tracking predictions within 96 hours
-
     percent_close = [[] for _ in range(96)]
 
     # max_time = 2000000
@@ -747,15 +742,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         # Get predictions
         y_train_pred = regr.predict(trainData_x)
         y_test_pred = regr.predict(testData_x)
-
-        number_close_1 = 0  # Use to track number of close estimations within 1 hour
-        number_close_4 = 0  # Use to track number of close estimations within 4 hour
-        number_close_8 = 0  # Use to track number of close estimations within 8 hour
-        number_close_16 = 0  # Use to track number of close estimations within 16 hour
-        number_close_24 = 0  # Use to track number of close estimations within 24 hours
-        number_close_48 = 0  # Use to track number of close estimations within 24 hours
-        number_close_72 = 0  # Use to track number of close estimations within 24 hours
-        number_close_96 = 0  # Use to track number of close estimations within 24 hours
 
         number_close = [0 for _ in range(96)]
 
@@ -851,35 +837,29 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     print("\tTrain Mean EVS: {0:.2f} (+/-{1:.2f})".format(train_evs_ave, train_evs_std))
     print("\tTest Mean EVS: {0:.2f} (+/-{1:.2f})".format(test_evs_ave, test_evs_std))
     print("\tTrain Mean MedianAE: {0:.2f} (+/-{1:.2f})".format(train_median_ae_ave, train_median_ae_std))
-    print("\tTest Mean MedianAE: {0:.2f} (+/-{1:.2f})".format(test_median_ae_ave, test_median_ae_std))
+    print("\tTest Mean MedianAE: {0:.2f} (+/-{1:.2f})\n".format(test_median_ae_ave, test_median_ae_std))
 
     interesting_hours = [1, 4, 8, 16, 24, 48, 72, 96]
     for hour in interesting_hours:
         hour -= 1
         out_file.write("\n\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
                        "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour))
-        print("\n\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
+        print("\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
                        "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour))
 
     ####################################################################################################################
     # Plotting
     ####################################################################################################################
     if d["plotting"] == "y":
-        print("..plotting..\n")
+        print("\n..plotting..\n")
 
-        plot_errors_main(df, alg, "Test", algpath, alg_initials)
+        # # plot errors against time
+        # plot_errors_main(df, alg, "Test", algpath, alg_initials)
 
-        # x = "TimeTaken"
-        # y = "TimeTaken_%s"%alg
-        # in_data = pd.DataFrame([trainData_y, y_train_pred], x, y)
-        # plot(x, y, in_data, alg, "Train", algpath)
-        # plot(trainData_x,y_train_pred, alg, "Train", algpath)
-        # todo - Is there a way to plot the train predictions with cross validation..? Maybe just for the last fold?
+        # plot the training error for the last fold ONLY
+        plot(trainData_y, y_train_pred, alg, "Train", algpath, alg_initials, d["input_file"])
 
-        # x = "TimeTaken"
-        # y = "TimeTaken_%s"%alg
-        # in_data = pd.DataFrame(df[[x,y]], columns=[x, y])
-        # plot(x,y, in_data, alg, "Test", algpath)
+        # plot the testing error for every fold
         plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "Test", algpath, alg_initials, d["input_file"])
 
     ####################################################################################################################
