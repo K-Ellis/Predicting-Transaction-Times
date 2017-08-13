@@ -15,7 +15,6 @@ Import libraries
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib
 import time
 import os  # Used to create folders
 import math
@@ -29,12 +28,41 @@ from shutil import copyfile  # Used to copy parameters file to directory
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error, explained_variance_score, \
     median_absolute_error
 import seaborn as sns
-from calendar import monthrange
 import datetime
 from sklearn.preprocessing import StandardScaler
 
 parameters = "../../../Data/parameters.txt"  # Parameters file
 sample_parameters = "../Sample Parameter File/parameters.txt"
+
+
+def plot_percent_correct(y, alg, newpath, alg_initials, input_file, std=None):
+    y = [0] + y
+    std = [0] + std
+    x = range(len(y))
+
+    plt.errorbar(x, y, yerr=std, fmt="r", ecolor="b", elinewidth=0.5, capsize=1.5, errorevery=2)
+
+    plt.title(alg_initials + " - Predictions Within Hours")
+
+    plt.xlim(0, 96)
+    plt.ylim(0, 100)
+
+    xticks = [(x + 1) * 8 for x in range(12)]
+    plt.xticks(xticks, xticks)
+
+    yticks = [i * 10 for i in range(10)]
+    plt.yticks(yticks, yticks)
+
+    plt.grid()
+    plt.xlabel("Time (hours)")
+    plt.ylabel("Percentage of Correct Predictions")
+
+    if not os.path.exists(newpath + "PDFs/"):
+        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+    plt.savefig(newpath + alg_initials + "_" + input_file + "_pct_correct.png")
+    plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_pct_correct.pdf")
+
+    plt.close()
 
 
 def tree_importances(regr, X, algpath, d, out_file, alg_initials):
@@ -779,7 +807,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         train_median_ae.append(median_absolute_error(trainData_y, y_train_pred))
         test_median_ae.append(median_absolute_error(testData_y, y_test_pred))
 
-
     ########################################################################################################################
     # Get averages and standard deviations of results
     ########################################################################################################################
@@ -853,8 +880,8 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     if d["plotting"] == "y":
         print("\n..plotting..\n")
 
-        # # plot errors against time
-        # plot_errors_main(df, alg, "Test", algpath, alg_initials)
+        # plot errors against time
+        plot_errors_main(df, alg, "Test", algpath, alg_initials)
 
         # plot the training error for the last fold ONLY
         plot(trainData_y, y_train_pred, alg, "Train", algpath, alg_initials, d["input_file"])
@@ -862,6 +889,8 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         # plot the testing error for every fold
         plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "Test", algpath, alg_initials, d["input_file"])
 
+        # plot % correct against time
+        plot_percent_correct(average_close, alg, algpath, alg_initials, d["input_file"], std_close)
     ####################################################################################################################
     # Importances
     ####################################################################################################################
