@@ -1222,7 +1222,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
                 df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_TrainTestSplit_predictions.csv" % alg_initials,
                                index=False)
         else:
-            df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_%s__predictions.csv" % (d["specify_subfolder"],
+            df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_%s_predictions.csv" % (d["specify_subfolder"],
                                                                                             alg_initials), index=False)
 
     print("\n..finished with alg: %s..\n" % alg)
@@ -1397,6 +1397,9 @@ if __name__ == "__main__":  # Run program
                 df.to_csv(d["file_location"] + d["input_file"] + "_prejune_predictions.csv", index=False)  # export file
             elif d["train_test_split"] == "y":
                 df.to_csv(d["file_location"] + d["input_file"] + "_traintestsplit_predictions.csv", index=False)  # export file
+        elif d["specify_subfolder"] != "n":
+            df.to_csv(d["file_location"] + d["input_file"] + "_" + d["specify_subfolder"] + "_predictions.csv", \
+                                                           index=False)  # export file
         else:
             df.to_csv(d["file_location"] + d["input_file"] + "_predictions.csv", index=False)  # export file
 
@@ -1489,47 +1492,3 @@ if __name__ == "__main__":  # Run program
         winsound.Beep(Freq,Dur)
         Freq = 300 # Set Frequency To 2500 Hertz
         winsound.Beep(Freq,Dur)
-
-        # winsound.Beep(293, 200)  # D
-        # winsound.Beep(293, 200)  # D
-        # winsound.Beep(293, 200)  # D
-        # winsound.Beep(293, 600)  # D
-        # winsound.Beep(246, 600)  # B
-        #
-        # time.sleep(0.1)
-        #
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 600)  # F#
-        # winsound.Beep(329, 600)  # E
-        #
-        # time.sleep(0.1)
-        #
-        # winsound.Beep(329, 200)  # E
-        # winsound.Beep(329, 200)  # E
-        # winsound.Beep(329, 200)  # E
-        # winsound.Beep(369, 500)  # F#
-        #
-        # time.sleep(0.9)
-        #
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 600)  # F#
-        #
-        # time.sleep(0.9)
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        # winsound.Beep(369, 200)  # F#
-        #
-        # for i in range(4):
-        #     winsound.Beep(369, 200)  # F#
-        #     time.sleep(0.1)
-        #
-        # for i in range(4):
-        #     winsound.Beep(369, 100)  # F#
-        #     time.sleep(0.1)
-        #
-        # winsound.Beep(369, 600)  # F#
-

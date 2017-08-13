@@ -595,8 +595,8 @@ def clean_data(d):
         mandatory = ["Queue", "ROCName", "CountrySource", "CountryProcessed", "SalesLocation"]        
         minimum+=mandatory
         
-        if d["append_HoldDuration"] == "y": minimum.append("HoldDuration")
-        if d["append_AuditDuration"] == "y": minimum.append("AuditDuration")
+        # if d["append_HoldDuration"] == "y": minimum.append("HoldDuration")
+        # if d["append_AuditDuration"] == "y": minimum.append("AuditDuration")
             
         if d["Concurrent_open_cases"] == "y": minimum.append("Concurrent_open_cases")
         if d["Cases_created_within_past_8_hours"] == "y": minimum.append("Cases_created_within_past_8_hours")
@@ -605,7 +605,7 @@ def clean_data(d):
         if d["Seconds_left_Day"] == "y": minimum.append("Seconds_left_Day")
         if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
         if d["Seconds_left_Qtr"] == "y": minimum.append("Seconds_left_Qtr")
-        if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
+        # if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
                     
         if d["Created_on_Weekend"] == "y": minimum.append("Created_on_Weekend")                
                    
@@ -632,18 +632,18 @@ def clean_data(d):
             
         if d["Concurrent_open_cases"] == "y": minimum.append("Concurrent_open_cases")
         if d["Cases_created_within_past_8_hours"] == "y": minimum.append("Cases_created_within_past_8_hours")
-        if d["Cases_resolved_within_past_8_hours"] == "y": minimum.append("Cases_resolved_within_past_8_hours")
+        # if d["Cases_resolved_within_past_8_hours"] == "y": minimum.append("Cases_resolved_within_past_8_hours")
         
         if d["Seconds_left_Day"] == "y": minimum.append("Seconds_left_Day")
         if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
         if d["Seconds_left_Qtr"] == "y": minimum.append("Seconds_left_Qtr")
-        if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
+        # if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
                     
         if d["Created_on_Weekend"] == "y": minimum.append("Created_on_Weekend")                
                    
-        if d["Rolling_Mean"] == "y": minimum.append("Rolling_Mean")
-        if d["Rolling_Median"] == "y": minimum.append("Rolling_Median")
-        if d["Rolling_Std"] == "y": minimum.append("Rolling_Std")
+        # if d["Rolling_Mean"] == "y": minimum.append("Rolling_Mean")
+        # if d["Rolling_Median"] == "y": minimum.append("Rolling_Median")
+        # if d["Rolling_Std"] == "y": minimum.append("Rolling_Std")
     
         if d["keep_created_resolved"] == "y":
             minimum.append("Created_On")
@@ -681,13 +681,6 @@ def clean_data(d):
     df = pd.concat([df.pop("TimeTaken"), df], axis=1)
     df.reset_index(drop=True, inplace=True)
     df.to_csv(d["file_location"] + d["prepare_output_file"] + ".csv", index=False)  # export file
-    
-    # if d["extra_testing"] == "y":
-        # df_train = df[df["Created_On"]<pd.datetime(2017,7,1)]
-        # df_test = df[df["Created_On"]>=pd.datetime(2017,7,1)]
-        # df_train.to_csv(d["file_location"] + d["prepare_output_file"] + "_preJuly.csv", index=False)  # export file
-        # df_test.to_csv(d["file_location"] + d["prepare_output_file"] + "_July.csv", index=False)  # export file
-        
 
 
 if __name__ == "__main__":  # Run program
