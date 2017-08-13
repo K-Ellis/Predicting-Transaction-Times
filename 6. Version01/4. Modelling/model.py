@@ -34,6 +34,7 @@ import datetime
 from sklearn.preprocessing import StandardScaler
 
 parameters = "../../../Data/parameters.txt"  # Parameters file
+sample_parameters = "../Sample Parameter File/parameters.txt"
 
 
 def tree_importances(regr, X, algpath, d, out_file, alg_initials):
@@ -599,18 +600,18 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
     print("DF Shape:", df.shape, "\n")
 
-
-    if d["train_test_split"] == "y":
-        print("train_test_split")
-        train_split, test_split = train_test_split(df, random_state=int(d["seed"]))
-        print("\nX train Shape:", train_split.shape)
-        print("X test Shape:", test_split.shape, "\n")
-        df = train_split.copy()
-        df.reset_index(drop=True, inplace=True)
-        df_test = test_split.copy()
-        df_test.reset_index(drop=True, inplace=True)
-        print("\nX train Shape:", train_split.shape)
-        print("X test Shape:", test_split.shape, "\n")
+    if d["extra_testing"] == "y":
+        if d["train_test_split"] == "y":
+            print("train_test_split")
+            train_split, test_split = train_test_split(df, random_state=int(d["seed"]))
+            print("\nX train Shape:", train_split.shape)
+            print("X test Shape:", test_split.shape, "\n")
+            df = train_split.copy()
+            df.reset_index(drop=True, inplace=True)
+            df_test = test_split.copy()
+            df_test.reset_index(drop=True, inplace=True)
+            print("\nX train Shape:", train_split.shape)
+            print("X test Shape:", test_split.shape, "\n")
 
     X = df.drop("TimeTaken", axis=1)
     keepers = get_keepers()
@@ -704,8 +705,8 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     ####################################################################################################################
     # Machine Learning
     ####################################################################################################################
-    numFolds = int(d["crossvalidation"])
-    kf = KFold(n_splits=numFolds, shuffle=True, random_state=int(d["seed"]))
+    num_folds = int(d["crossvalidation"])
+    kf = KFold(n_splits=num_folds, shuffle=True, random_state=int(d["seed"]))
 
     train_rmse = []
     test_rmse = []
@@ -1226,6 +1227,20 @@ if __name__ == "__main__":  # Run program
             line = line.replace(":", "")
             (key, val) = line.split()
             d[key] = val
+
+    sample_d = {}
+    with open(sample_parameters, "r") as f:
+        for line in f:
+            line = line.replace(":", "")
+            (key, val) = line.split()
+            sample_d[key] = val
+
+    for key in sample_d.keys():
+        if key not in d.keys():
+            print("\"%s\" not in parameters.txt - please update parameters file with this key" % key)
+            print("Default key and value => \"%s: %s\"" % (key, sample_d[key]))
+            exit()
+
 
     # if resample is selected then all results are put in a resample folder
     if d["resample"] == "y":
