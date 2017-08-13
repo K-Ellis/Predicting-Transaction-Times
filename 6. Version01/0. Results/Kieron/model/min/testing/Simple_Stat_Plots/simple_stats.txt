@@ -1,0 +1,31 @@
+Simple Stats - 20170813-185816
+
+Input file name: min
+
+DF Shape: (25986, 14)
+
+Simple TimeTaken stats
+	mean_time = 98.17985232432858
+	std_time = 117.52256001193341
+	median_time = 54.01875
+
+	Mean % test predictions error within 1 hour(s) -> Mean: 0.95% of 25986/10
+	Mean % test predictions error within 4 hour(s) -> Mean: 3.73% of 25986/10
+	Mean % test predictions error within 8 hour(s) -> Mean: 5.99% of 25986/10
+	Mean % test predictions error within 16 hour(s) -> Mean: 7.99% of 25986/10
+	Mean % test predictions error within 24 hour(s) -> Mean: 14.75% of 25986/10
+	Mean % test predictions error within 48 hour(s) -> Mean: 29.11% of 25986/10
+	Mean % test predictions error within 72 hour(s) -> Mean: 45.93% of 25986/10
+	Mean % test predictions error within 96 hour(s) -> Mean: 79.98% of 25986/10
+
+	mean_time_test_r2 = -2.22044604925e-16
+	mean_time_test_rmse = 117.52256001193446
+	mean_time_test_meanae = 86.1561817674
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 74.6711023243
+
+	median_time_test_r2 = -0.14120085438
+	median_time_test_rmse = 125.54582856574146
+	median_time_test_meanae = 79.6799535541
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 47.3680555556

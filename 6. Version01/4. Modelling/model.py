@@ -367,6 +367,17 @@ def get_extra_cols(df, alg, d):
     df["Created_On_Qtr"]-=1
     df["ResolvedDate_Qtr"] = df["ResolvedDate"].apply(lambda x: int(day_in_quarter(x)))  # Day of the Qtr
     df["ResolvedDate_Qtr"]-=1
+
+    df["Created_On_MonthOfYear"] = df["Created_On"].apply(lambda x: int(x.strftime("%m")))
+    df["Created_On_MonthOfYear"] -= 1
+    df["ResolvedDate_MonthOfYear"] = df["ResolvedDate"].apply(lambda x: int(x.strftime("%m")))
+    df["ResolvedDate_MonthOfYear"] -= 1
+
+    df["Created_On_Year"] = df["Created_On"].apply(lambda x: int(x.strftime("%j")))
+    df["Created_On_Year"] -= 1
+    df["ResolvedDate_Year"] = df["ResolvedDate"].apply(lambda x: int(x.strftime("%j")))
+    df["ResolvedDate_Year"] -= 1
+
     return df
 
 
@@ -394,14 +405,15 @@ def get_errors(df, alg, time_range, col):
 
 
 def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initials, newpath):
-    if x_label == "Day of Qtr Created" or x_label == "Day of Qtr Resolved":
+    if x_label == "Day of Qtr Created" or x_label == "Day of Qtr Resolved" or x_label == "Day of Year Resolved" or \
+                 x_label == "Day of Year Created" or x_label == "Month Of Year Created" or x_label == "Month Of Year " \
+                                                                                                      "Resolved":
         y = np.array(y)
-        z = np.where(np.array(y)>=0)
+        z = np.where(np.array(y) >= 0)
         z = z[0]
         y_z = y[z]
 
         x_num = [i for i in range(len(y))]
-        x_num = np.array(x_num)
 
         y_np = np.array(y)
 
@@ -413,10 +425,20 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
 
         rank = y_np.argsort().argsort()
         sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
-        plt.xticks(x_ticks, x_ticks)
-        plt.title("%s - %s to %s"% (alg, error_name, x_label))
+
+        plt.title("%s - %s to %s" % (alg, error_name, x_label))
         plt.ylabel(y_label)
         plt.xlabel(x_label)
+
+        if x_label == "Day of Year Resolved" or x_label == "Day of Year Created":
+            plt.xticks(x_ticks, x_ticks, rotation = "vertical")
+            plt.xlim(56, 210)
+            # todo - change the xticks with the actual end of data date instead of guessing at 240
+        elif x_label == "Month Of Year Created" or x_label == "Month Of Year Resolved":
+            plt.xticks([_+1 for _ in range(6)], x_ticks)
+            plt.xlim(0, 7)
+        else:
+            plt.xticks(x_ticks, x_ticks)
 
         min_ylim = min(y_z)-np.std(y_z)/3
         if min_ylim < 0:
@@ -435,7 +457,13 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
 
     else:
         plt.figure()
+
         x_num = [i for i in range(len(x_ticks))]
+
+        print(x_num)
+        print(x_ticks)
+        print(len(y))
+        print(y)
 
         y_np = np.array(y)
         reverse = False
@@ -466,7 +494,6 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
 
 
 def plot_errors_main(df, alg, data, newpath, alg_initials):
-    # import seaborn as sns
     df = get_extra_cols(df, alg, d)
     error_names = ["R2", "RMSE", "MAE"]
     y_labels = ["R2 score", "RMSE (Hours)", "MAE (Hours)"]
@@ -516,6 +543,32 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
     scores = get_errors(df, alg, 89, "ResolvedDate_Qtr")
     x_vals = [(x+1)*5 for x in range(18)]
     x_label = "Day of Qtr Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 9, "Created_On_MonthOfYear")
+    x_vals = [2,3,4,5,6,7]
+    x_label = "Month Of Year Created"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 9, "ResolvedDate_MonthOfYear")
+    x_vals = [2,3,4,5,6,7]
+    x_label = "Month Of Year Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 240, "Created_On_Year")
+    # todo - change the xticks with the actual end of data date instead of guessing at 240
+    x_vals = [(x+1)*7 for x in range(34)]
+    x_label = "Day of Year Created"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 240, "ResolvedDate_Year")
+    # todo - change the xticks with the actual end of data date instead of guessing at 240
+    x_vals = [(x+1)*7 for x in range(34)]
+    x_label = "Day of Year Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
@@ -770,10 +823,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "", simplepath, "Mean", d["input_file"])
         plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "", simplepath, "Median",  d["input_file"])
         plot_percent_correct(simple_percent_close, simplepath, "Mean", d["input_file"])
-
-        # plot errors against time
-        plot_errors_main(df, alg, "Test", algpath, alg_initials)
-        plot_errors_main()
 
         simple_out_file.close()
     ####################################################################################################################
