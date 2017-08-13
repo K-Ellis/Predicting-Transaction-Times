@@ -413,13 +413,7 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         z = z[0]
         y_z = y[z]
 
-        # if x_label == "Month Of Year Created" or x_label == "Month Of Year Resolved":
-            # x_num = x_ticks
-            # print(x_num)
-
-        # else:
         x_num = [i for i in range(len(y))]
-        # x_num = np.array(x_num)
 
         y_np = np.array(y)
 
@@ -445,9 +439,6 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
             plt.xlim(0, 7)
         else:
             plt.xticks(x_ticks, x_ticks)
-
-        # if x_label == "Month Of Year Created" or x_label == "Month Of Year Resolved":
-        #     plt.xlim(1,8)
 
         min_ylim = min(y_z)-np.std(y_z)/3
         if min_ylim < 0:
@@ -507,53 +498,53 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
     error_names = ["R2", "RMSE", "MAE"]
     y_labels = ["R2 score", "RMSE (Hours)", "MAE (Hours)"]
 
-    # scores = get_errors(df, alg, 24, "Created_On_Day")
-    # x_vals = [x for x in range(24)]
-    # x_label = "Time of Day Created"
-    # for score, error_name, y_label in zip(scores, error_names, y_labels):
-    #     plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    #
-    # scores = get_errors(df, alg, 24, "ResolvedDate_Day")
-    # x_vals = [x for x in range(24)]
-    # x_label = "Time of Day Resolved"
-    # for score, error_name, y_label in zip(scores, error_names, y_labels):
-    #     plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    #
-    # scores = get_errors(df, alg, 7, "Created_On_Week")
-    # x_vals = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
-    # x_label = "Day of Week Created"
-    # for score, error_name, y_label in zip(scores, error_names, y_labels):
-    #     plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    #
-    # scores = get_errors(df, alg, 7, "ResolvedDate_Week")
-    # x_vals = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
-    # x_label = "Day of Week Resolved"
-    # for score, error_name, y_label in zip(scores, error_names, y_labels):
-    #     plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    #
-    # scores = get_errors(df, alg, 31, "Created_On_Month")
-    # x_vals = [x+1 for x in range(31)]
-    # x_label = "Day of Month Created"
-    # for score, error_name, y_label in zip(scores, error_names, y_labels):
-    #     plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    #
-    # scores = get_errors(df, alg, 31, "ResolvedDate_Month")
-    # x_vals = [x+1 for x in range(31)]
-    # x_label = "Day of Month Resolved"
-    # for score, error_name, y_label in zip(scores, error_names, y_labels):
-    #     plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    #
-    # scores = get_errors(df, alg, 89, "Created_On_Qtr")
-    # x_vals = [(x+1)*5 for x in range(18)]
-    # x_label = "Day of Qtr Created"
-    # for score, error_name, y_label in zip(scores, error_names, y_labels):
-    #     plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    #
-    # scores = get_errors(df, alg, 89, "ResolvedDate_Qtr")
-    # x_vals = [(x+1)*5 for x in range(18)]
-    # x_label = "Day of Qtr Resolved"
-    # for score, error_name, y_label in zip(scores, error_names, y_labels):
-    #     plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+    scores = get_errors(df, alg, 24, "Created_On_Day")
+    x_vals = [x for x in range(24)]
+    x_label = "Time of Day Created"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 24, "ResolvedDate_Day")
+    x_vals = [x for x in range(24)]
+    x_label = "Time of Day Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 7, "Created_On_Week")
+    x_vals = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+    x_label = "Day of Week Created"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 7, "ResolvedDate_Week")
+    x_vals = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+    x_label = "Day of Week Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 31, "Created_On_Month")
+    x_vals = [x+1 for x in range(31)]
+    x_label = "Day of Month Created"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 31, "ResolvedDate_Month")
+    x_vals = [x+1 for x in range(31)]
+    x_label = "Day of Month Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 89, "Created_On_Qtr")
+    x_vals = [(x+1)*5 for x in range(18)]
+    x_label = "Day of Qtr Created"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 89, "ResolvedDate_Qtr")
+    x_vals = [(x+1)*5 for x in range(18)]
+    x_label = "Day of Qtr Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 9, "Created_On_MonthOfYear")
     x_vals = [2,3,4,5,6,7]
@@ -567,19 +558,19 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
-    # scores = get_errors(df, alg, 240, "Created_On_Year")
-    # # todo - change the xticks with the actual end of data date instead of guessing at 240
-    # x_vals = [(x+1)*7 for x in range(34)]
-    # x_label = "Day of Year Created"
-    # for score, error_name, y_label in zip(scores, error_names, y_labels):
-    #     plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
-    #
-    # scores = get_errors(df, alg, 240, "ResolvedDate_Year")
-    # # todo - change the xticks with the actual end of data date instead of guessing at 240
-    # x_vals = [(x+1)*7 for x in range(34)]
-    # x_label = "Day of Year Resolved"
-    # for score, error_name, y_label in zip(scores, error_names, y_labels):
-    #     plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+    scores = get_errors(df, alg, 240, "Created_On_Year")
+    # todo - change the xticks with the actual end of data date instead of guessing at 240
+    x_vals = [(x+1)*7 for x in range(34)]
+    x_label = "Day of Year Created"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
+
+    scores = get_errors(df, alg, 240, "ResolvedDate_Year")
+    # todo - change the xticks with the actual end of data date instead of guessing at 240
+    x_vals = [(x+1)*7 for x in range(34)]
+    x_label = "Day of Year Resolved"
+    for score, error_name, y_label in zip(scores, error_names, y_labels):
+        plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
 
 def get_keepers():
