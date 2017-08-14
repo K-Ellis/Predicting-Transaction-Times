@@ -1,4 +1,4 @@
-Simple Stats - 20170813-194315
+Simple Stats - 20170814-201104
 
 Input file name: min
 
@@ -19,13 +19,13 @@ Simple TimeTaken stats
 	Mean % test predictions error within 96 hour(s) -> Mean: 85.00% of 100/10
 
 	mean_time_test_r2 = 0.0
-	mean_time_test_rmse = 82.14519665763711
+	mean_time_test_rmse = 82.1451966576
 	mean_time_test_meanae = 63.4098141667
 	mean_time_test_evs = 0.0
 	mean_time_test_medianae = 60.8220972222
 
 	median_time_test_r2 = -0.229959203873
-	median_time_test_rmse = 91.10191938294683
+	median_time_test_rmse = 91.1019193829
 	median_time_test_meanae = 58.8587305556
 	median_time_test_evs = -2.22044604925e-16
 	median_time_test_medianae = 27.8797222222

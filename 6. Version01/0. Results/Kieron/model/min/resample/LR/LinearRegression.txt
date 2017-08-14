@@ -1,4 +1,4 @@
-LinearRegression 20170813-194315
+LinearRegression 20170814-201104
 
 Input file name: min 
 
@@ -23,15 +23,15 @@ LinearRegression: Cross Validation (10 Folds)
 	LinearRegression % test predictions error within 72 hour(s) -> Mean: 88.00% (+/- 9.80%) of 100/10
 	LinearRegression % test predictions error within 96 hour(s) -> Mean: 94.00% (+/- 8.00%) of 100/10
 
-Feature Importances:
-	1. "Created_on_Weekend" (-3.314139)
-	2. "Rolling_Std" (-2.176434)
-	3. "Cases_resolved_within_past_8_hours" (-2.105597)
-	4. "Cases_created_within_past_8_hours" (-1.897235)
-	5. "Concurrent_open_cases" (-1.837546)
-	6. "Rolling_Mean" (-1.758315)
-	7. "Seconds_left_Month" (-1.174037)
-	8. "Seconds_left_Qtr" (-1.129500)
-	9. "Rolling_Median" (-1.070489)
-	10. "Seconds_left_Year" (-0.887919)
-	11. "Seconds_left_Day" (-0.879059)
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+	1. "Created_on_Weekend" (-3.314139) [0.181793]
+	2. "Rolling_Std" (-2.176434) [0.119386]
+	3. "Cases_resolved_within_past_8_hours" (-2.105597) [0.115500]
+	4. "Cases_created_within_past_8_hours" (-1.897235) [0.104071]
+	5. "Concurrent_open_cases" (-1.837546) [0.100796]
+	6. "Rolling_Mean" (-1.758315) [0.096450]
+	7. "Seconds_left_Month" (-1.174037) [0.064400]
+	8. "Seconds_left_Qtr" (-1.129500) [0.061957]
+	9. "Rolling_Median" (-1.070489) [0.058720]
+	10. "Seconds_left_Year" (-0.887919) [0.048706]
+	11. "Seconds_left_Day" (-0.879059) [0.048220]
