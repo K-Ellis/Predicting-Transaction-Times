@@ -1,6 +1,6 @@
-Statsmodels_OLS 20170813-170637
+Statsmodels_OLS 20170813-195028
 
-Input file name min:
+Input file name: min
 
 Features used:
 	1 - Cases_created_within_past_8_hours
@@ -15,14 +15,14 @@ Features used:
 	10 - Seconds_left_Qtr
 	11 - Seconds_left_Year
 
- + olsregr.summary():
+ olsregr.summary():
                             OLS Regression Results                            
 ==============================================================================
 Dep. Variable:              TimeTaken   R-squared:                       0.847
 Model:                            OLS   Adj. R-squared:                  0.821
 Method:                 Least Squares   F-statistic:                     32.27
 Date:                Sun, 13 Aug 2017   Prob (F-statistic):           6.13e-22
-Time:                        17:06:38   Log-Likelihood:                -394.24
+Time:                        19:50:28   Log-Likelihood:                -394.24
 No. Observations:                  75   AIC:                             810.5
 Df Residuals:                      64   BIC:                             836.0
 Df Model:                          11                                         

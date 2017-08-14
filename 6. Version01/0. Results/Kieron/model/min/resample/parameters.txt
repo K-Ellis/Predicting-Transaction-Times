@@ -2,7 +2,7 @@ beep: y
 resample: y
 n_samples: 100
 seed: 1234
-specify_subfolder: testing
+specify_subfolder: testing_normalizing_importances
 ########### ################
 PREPARE_DATASET ############
 ########### ################
@@ -45,7 +45,7 @@ crossvalidation: 10
 LinearRegression: y
 ElasticNet: n
 GradientBoostingRegressor: n
-RandomForestRegressor: n
+RandomForestRegressor: y
 n_estimators: 100
 statsmodels_OLS: n
 KernelRidge: n
@@ -61,9 +61,10 @@ prejuly_july: n
 prejune_june: n
 prejune_junejuly: n
 train_test_split: n
+delete_option_cols: n
 log_of_y: n
 histogram: n
-plotting: y
+plotting: n
 output_predictions_csv: y
 ########### ################
 GRID_SEARCH ################

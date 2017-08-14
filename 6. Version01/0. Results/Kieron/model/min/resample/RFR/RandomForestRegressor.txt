@@ -1,37 +1,37 @@
-RandomForestRegressor 20170813-180633
+RandomForestRegressor 20170814-201107
 
 Input file name: min 
 
 RandomForestRegressor: Cross Validation (10 Folds)
-	Train Mean R2: 0.97748 (+/-0.00266)
-	Test Mean R2: 0.15500 (+/-1.86103)
-	Train Mean RMSE: 12.20 (+/-0.62)
-	Test Mean RMSE: 34.52 (+/-17.39)
-	Train Mean MeanAE: 8.84 (+/-0.48)
-	Test Mean MeanAE: 26.41 (+/-12.03)
-	Train Mean EVS: 0.98 (+/-0.00)
-	Test Mean EVS: 0.43 (+/-1.10)
-	Train Mean MedianAE: 5.95 (+/-0.51)
-	Test Mean MedianAE: 19.00 (+/-7.78)
+	Train Mean R2: 0.97476 (+/-0.00229)
+	Test Mean R2: 0.64770 (+/-0.36391)
+	Train Mean RMSE: 13.00 (+/-0.37)
+	Test Mean RMSE: 33.83 (+/-8.20)
+	Train Mean MeanAE: 9.32 (+/-0.35)
+	Test Mean MeanAE: 25.21 (+/-5.24)
+	Train Mean EVS: 0.97 (+/-0.00)
+	Test Mean EVS: 0.68 (+/-0.31)
+	Train Mean MedianAE: 6.27 (+/-0.73)
+	Test Mean MedianAE: 18.24 (+/-6.63)
 
-	RandomForestRegressor % test predictions error within 1 hour(s) -> Mean: 2.00% (+/- 4.00%) of 95/10
-	RandomForestRegressor % test predictions error within 4 hour(s) -> Mean: 10.56% (+/- 6.71%) of 95/10
-	RandomForestRegressor % test predictions error within 8 hour(s) -> Mean: 23.11% (+/- 10.34%) of 95/10
-	RandomForestRegressor % test predictions error within 16 hour(s) -> Mean: 46.22% (+/- 20.30%) of 95/10
-	RandomForestRegressor % test predictions error within 24 hour(s) -> Mean: 59.78% (+/- 23.99%) of 95/10
-	RandomForestRegressor % test predictions error within 48 hour(s) -> Mean: 85.22% (+/- 10.81%) of 95/10
-	RandomForestRegressor % test predictions error within 72 hour(s) -> Mean: 92.67% (+/- 10.39%) of 95/10
-	RandomForestRegressor % test predictions error within 96 hour(s) -> Mean: 98.00% (+/- 6.00%) of 95/10
+	RandomForestRegressor % test predictions error within 1 hour(s) -> Mean: 1.00% (+/- 3.00%) of 100/10
+	RandomForestRegressor % test predictions error within 4 hour(s) -> Mean: 8.00% (+/- 6.00%) of 100/10
+	RandomForestRegressor % test predictions error within 8 hour(s) -> Mean: 25.00% (+/- 12.85%) of 100/10
+	RandomForestRegressor % test predictions error within 16 hour(s) -> Mean: 50.00% (+/- 19.49%) of 100/10
+	RandomForestRegressor % test predictions error within 24 hour(s) -> Mean: 64.00% (+/- 14.28%) of 100/10
+	RandomForestRegressor % test predictions error within 48 hour(s) -> Mean: 86.00% (+/- 6.63%) of 100/10
+	RandomForestRegressor % test predictions error within 72 hour(s) -> Mean: 95.00% (+/- 6.71%) of 100/10
+	RandomForestRegressor % test predictions error within 96 hour(s) -> Mean: 98.00% (+/- 4.00%) of 100/10
 
 Feature Importances:
-	1. "Concurrent_open_cases" (0.878239)
-	2. "Rolling_Median" (0.025313)
-	3. "Cases_resolved_within_past_8_hours" (0.017610)
-	4. "Rolling_Mean" (0.017079)
-	5. "Seconds_left_Day" (0.016486)
-	6. "Seconds_left_Year" (0.014991)
-	7. "Rolling_Std" (0.011164)
-	8. "Seconds_left_Month" (0.006467)
-	9. "Cases_created_within_past_8_hours" (0.006383)
-	10. "Seconds_left_Qtr" (0.005920)
-	11. "Created_on_Weekend" (0.000348)
+	1. "Concurrent_open_cases" (0.869246)
+	2. "Rolling_Median" (0.028955)
+	3. "Rolling_Mean" (0.020244)
+	4. "Seconds_left_Year" (0.017398)
+	5. "Cases_resolved_within_past_8_hours" (0.014948)
+	6. "Rolling_Std" (0.014213)
+	7. "Seconds_left_Day" (0.010690)
+	8. "Seconds_left_Qtr" (0.008756)
+	9. "Seconds_left_Month" (0.008003)
+	10. "Cases_created_within_past_8_hours" (0.007279)
+	11. "Created_on_Weekend" (0.000269)

@@ -1,7 +1,7 @@
 """****************************************************************************
 UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
 *******************************************************************************
-Version 00
+Version 01
 Data modelling program
 *******************************************************************************
 Eoin Carroll
@@ -21,7 +21,6 @@ import math
 from sklearn.model_selection import KFold, train_test_split # cross_val_predict#, cross_val_score,
 from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.kernel_ridge import KernelRidge
-from math import sqrt
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.neural_network import MLPRegressor
 from shutil import copyfile  # Used to copy parameters file to directory
@@ -30,9 +29,6 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error, e
 import seaborn as sns
 import datetime
 from sklearn.preprocessing import StandardScaler
-
-parameters = "../../../Data/parameters.txt"  # Parameters file
-sample_parameters = "../Sample Parameter File/parameters.txt"
 
 
 def plot_percent_correct(y_vals, newpath, alg_initials, input_file, std=None):
@@ -96,7 +92,6 @@ def tree_importances(regr, X, algpath, d, out_file, alg_initials):
 
 def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
     scalerX = StandardScaler().fit(X)
-    # scalery = StandardScaler().fit(y.values.reshape(-1,1)) # Have to reshape to avoid warnings
     normed_coefs = scalerX.transform(regr.coef_.reshape(1, -1))
     normed_coefs_list = normed_coefs.tolist()[0]
     dfimportances = pd.DataFrame()
@@ -104,16 +99,20 @@ def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
     dfimportances["Importances"] = normed_coefs_list
     dfimportances["Absolute_Importances"] = abs(dfimportances["Importances"])
     dfimportances = dfimportances.sort_values("Absolute_Importances", ascending=False)
+
+    total_importances = dfimportances["Absolute_Importances"].sum()
+    dfimportances["Percentage_Importance"] = dfimportances["Absolute_Importances"] / total_importances
+
     if d["export_importances_csv"] == "y":
         dfimportances.to_csv(algpath + "importances.csv", index=False)
     # print(dfimportances)
 
-    print("Feature Importances:")
-    out_file.write("\n\nFeature Importances:\n")
-    for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
-        "Importances"].values.tolist())):
-        out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
-        print("\t%d. \"%s\" (%f)" % (i + 1, col, importance))
+    print("Feature Importances: \"column\" (magnitude of importance) [percentage of importance]")
+    out_file.write("\n\nFeature Importances: \"column\" (magnitude of importance) [percentage of importance]\n")
+    for i, (col, importance, pct) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
+        "Importances"].values.tolist(), dfimportances["Percentage_Importance"].values.tolist())):
+        out_file.write("\t%d. \"%s\" (%f) [%f]\n" % (i + 1, col, importance, pct))
+        print("\t%d. \"%s\" (%f) [%f]" % (i + 1, col, importance, pct))
 
     if d["export_top_k_csv"] == "y":
         df_top = return_new_top_k_df(df, dfimportances, int(d["top_k_features"]))
@@ -192,27 +191,31 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.savefig(newpath + "PDFs/" + column + "_log_100000.pdf")
     plt.close()
 
-
+    
 def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     sns.reset_orig() # plt.rcParams.update(plt.rcParamsDefault)
 
     # Plot all
     plt.figure()
     plt.plot(x, y, 'ro', alpha=0.1, markersize=4)
-    # sns.plot(x, y, 'ro', alpha=0.1, plot_kws={"s": 3}) #scatter_kws={"s": 100}
-    # sns.lmplot(x, y, data = in_data, scatter_kws={"s": 4, 'alpha':0.3, 'color': 'red'}, line_kws={"linewidth": 1,'color': 'blue'}, fit_reg=False)
+    
+    def f(x, a, b):
+        return a*x + b
+        
+    coeffs = np.polyfit(x,y,1)
+    x = np.array([0, 700])
+    plt.plot(x, f(x, *coeffs), "b", linewidth=0.5)
+    
     plt.xlabel("Actual - Time Taken (Hours)")
     plt.ylabel("Prediction - Time Taken (Hours)")
     if alg == "Simple":
         plt.title(alg_initials)
-    # elif alg == "Statsmodels_OLS":
-    #
+
     else:
         plt.title(alg + data)
-        # plt.title(alg)
-    # plt.axis('equal')
     plt.ylim([0, 700])
     plt.xlim([0, 700])
+    plt.grid()
     plt.gca().set_aspect('equal', adjustable='box')
     ticks = [0, 100, 200, 300, 400, 500, 600, 700]
     tick_names = [0, 100, 200, 300, 400, 500, 600, 700]
@@ -221,13 +224,10 @@ def plot(x, y, alg, data, newpath, alg_initials,  input_file):
     plt.tight_layout()  # Force everything to fit on figure
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-    # if alg == "Statsmodels_OLS":
     plt.savefig(newpath + alg_initials + "_" + input_file + data + "_allhrs.png")
     plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + data + "_allhrs.pdf")
-    # else:
-        # plt.savefig(newpath + alg_initials + "_" + input_file + "_allhrs.png")
-        # plt.savefig(newpath + "PDFs/" + alg_initials + "_" + input_file + "_allhrs.pdf")
     plt.close()
+    
     #
     # # Plot up to 2500000s only (600hrs)
     # plt.figure()
@@ -459,11 +459,6 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         plt.figure()
 
         x_num = [i for i in range(len(x_ticks))]
-
-        print(x_num)
-        print(x_ticks)
-        print(len(y))
-        print(y)
 
         y_np = np.array(y)
         reverse = False
@@ -766,6 +761,8 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         simple_percent_close = []
         simple_number_close = [0 for _ in range(96)]
 
+        print("\n..calculating correct predictions within hours..\n")
+
         for i in range(len(df["Mean_TimeTaken"])):
             for j in range(len(simple_number_close)):
                 if abs(df["Mean_TimeTaken"].iloc[i] - y.iloc[i]) <= j + 1:  # Within 1 hour
@@ -783,13 +780,13 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
                   "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour+1))
 
         mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
-        mean_time_test_rmse = sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
+        mean_time_test_rmse = np.sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
         mean_time_test_meanae = mean_absolute_error(y, df["Mean_TimeTaken"])
         mean_time_test_evs = explained_variance_score(y, df["Mean_TimeTaken"])
         mean_time_test_medianae = median_absolute_error(y, df["Mean_TimeTaken"])
 
         median_time_test_r2 = r2_score(y, df["Median_TimeTaken"])
-        median_time_test_rmse = sqrt(mean_squared_error(y, df["Median_TimeTaken"]))
+        median_time_test_rmse = np.sqrt(mean_squared_error(y, df["Median_TimeTaken"]))
         median_time_test_meanae = mean_absolute_error(y, df["Median_TimeTaken"])
         median_time_test_evs = explained_variance_score(y, df["Median_TimeTaken"])
         median_time_test_medianae = median_absolute_error(y, df["Median_TimeTaken"])
@@ -818,11 +815,13 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         print("\tmedian_time_test_evs = %s" % median_time_test_evs)
         print("\tmedian_time_test_medianae = %s" % median_time_test_medianae)
 
-        print("\n..plotting..")
 
-        plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "", simplepath, "Mean", d["input_file"])
-        plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "", simplepath, "Median",  d["input_file"])
-        plot_percent_correct(simple_percent_close, simplepath, "Mean", d["input_file"])
+        if d["plotting"] == "y":
+            print("\n..plotting..")
+
+            plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "", simplepath, "Mean", d["input_file"])
+            plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "", simplepath, "Median",  d["input_file"])
+            plot_percent_correct(simple_percent_close, simplepath, "Mean", d["input_file"])
 
         simple_out_file.close()
     ####################################################################################################################
@@ -866,15 +865,22 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         number_close = [0 for _ in range(96)]
 
         for i in range(len(y_train_pred)):  # Convert high or low predictions to 0 or 3 std
-            # if y_train_pred[i] < 0:  # Convert all negative predictions to 0
-            #     y_train_pred[i] = 0
+            if y_train_pred[i] < 0:  # Convert all negative predictions to 0
+                y_train_pred[i] = 0
+
+            if y_train_pred[i] >= 700: 
+                y_train_pred[i] = 700
 
             if math.isnan(y_train_pred[i]):  # If NaN set to 0
                 y_train_pred[i] = 0
+                
         for i in range(len(y_test_pred)): # Convert high or low predictions to 0 or 3 std
-            # if y_test_pred[i] < 0:  # Convert all negative predictions to 0
-            #     y_test_pred[i] = 0
-
+            if y_test_pred[i] < 0:  # Convert all negative predictions to 0
+                y_test_pred[i] = 0
+                
+            if y_test_pred[i] >= 700:  
+                y_test_pred[i] = 700
+                
             if math.isnan(y_test_pred[i]):  # If NaN set to 0
                 y_test_pred[i] = 0
 
@@ -888,8 +894,8 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         for j in range(len(number_close)):
             percent_close[j].append(number_close[j] / len(y_test_pred))
 
-        train_rmse.append(sqrt(mean_squared_error(trainData_y, y_train_pred)))
-        test_rmse.append(sqrt(mean_squared_error(testData_y, y_test_pred)))
+        train_rmse.append(np.sqrt(mean_squared_error(trainData_y, y_train_pred)))
+        test_rmse.append(np.sqrt(mean_squared_error(testData_y, y_test_pred)))
         train_r_sq.append(r2_score(trainData_y, y_train_pred))
         test_r_sq.append(r2_score(testData_y, y_test_pred))
         train_mae.append(mean_absolute_error(trainData_y, y_train_pred))
@@ -971,16 +977,20 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     ####################################################################################################################
     if d["plotting"] == "y":
         print("\n..plotting..")
-
+        
+        print("..plotting errors against time..")
         # plot errors against time
         plot_errors_main(df, alg, "Test", algpath, alg_initials)
 
+        print("..plotting train actual versus predicted..")
         # plot the training error for the last fold ONLY
         plot(trainData_y, y_train_pred, alg, "_Train", algpath, alg_initials, d["input_file"])
 
+        print("..plotting test actual versus predicted..")
         # plot the testing error for every fold
         plot(df["TimeTaken"],df["TimeTaken_%s"%alg], alg, "_Test", algpath, alg_initials, d["input_file"])
-
+        
+        print("..plotting % correct against time..")
         # plot % correct against time
         plot_percent_correct(average_close, algpath, alg_initials, d["input_file"], std_close)
     ####################################################################################################################
@@ -1088,13 +1098,13 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
 
             mean_time_test_r2 = r2_score(y, df_test["Mean_TimeTaken"])
-            mean_time_test_rmse = sqrt(mean_squared_error(y, df_test["Mean_TimeTaken"]))
+            mean_time_test_rmse = np.sqrt(mean_squared_error(y, df_test["Mean_TimeTaken"]))
             mean_time_test_meanae = mean_absolute_error(y, df_test["Mean_TimeTaken"])
             mean_time_test_evs = explained_variance_score(y, df_test["Mean_TimeTaken"])
             mean_time_test_medianae = median_absolute_error(y, df_test["Mean_TimeTaken"])
 
             median_time_test_r2 = r2_score(y, df_test["Median_TimeTaken"])
-            median_time_test_rmse = sqrt(mean_squared_error(y, df_test["Median_TimeTaken"]))
+            median_time_test_rmse = np.sqrt(mean_squared_error(y, df_test["Median_TimeTaken"]))
             median_time_test_meanae = mean_absolute_error(y, df_test["Median_TimeTaken"])
             median_time_test_evs = explained_variance_score(y, df_test["Median_TimeTaken"])
             median_time_test_medianae = median_absolute_error(y, df_test["Median_TimeTaken"])
@@ -1128,15 +1138,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
             plot(df_test["TimeTaken"], df_test["Median_TimeTaken"], "Simple", "All", simplepath, "Median",
                      d["input_file"])
 
-        # number_close_1 = 0  # Use to track number of close estimations within 1 hour
-        # number_close_4 = 0  # Use to track number of close estimations within 4 hour
-        # number_close_8 = 0  # Use to track number of close estimations within 8 hour
-        # number_close_16 = 0  # Use to track number of close estimations within 16 hour
-        # number_close_24 = 0  # Use to track number of close estimations within 24 hours
-        # number_close_48 = 0  # Use to track number of close estimations within 24 hours
-        # number_close_72 = 0  # Use to track number of close estimations within 24 hours
-        # number_close_96 = 0  # Use to track number of close estimations within 24 hours
-
         percent_close = []
         number_close = [0 for _ in range(96)]
 
@@ -1145,22 +1146,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
                 y_pred[i] = 0
             if math.isnan(y_pred[i]):  # If NaN set to 0
                 y_pred[i] = 0
-            # if abs(y_pred[i] - y.iloc[i]) <= 1:  # Within 1 hour
-            #     number_close_1 += 1
-            # if abs(y_pred[i] - y.iloc[i]) <= 4:  # Within 4 hours
-            #     number_close_4 += 1
-            # if abs(y_pred[i] - y.iloc[i]) <= 8:  # Within 8 hours
-            #     number_close_8 += 1
-            # if abs(y_pred[i] - y.iloc[i]) <= 16:  # Within 16 hours
-            #     number_close_16 += 1
-            # if abs(y_pred[i] - y.iloc[i]) <= 24:  # Within 24 hours
-            #     number_close_24 += 1
-            # if abs(y_pred[i] - y.iloc[i]) <= 48:  # Within 48 hours
-            #     number_close_48 += 1
-            # if abs(y_pred[i] - y.iloc[i]) <= 72:  # Within 72 hours
-            #     number_close_72 += 1
-            # if abs(y_pred[i] - y.iloc[i]) <= 96:  # Within 96 hours
-            #     number_close_96 += 1
 
             for j in range(len(number_close)):
                 if abs(y_pred[i] - y.iloc[i]) <= j+1:  # Within 1 hour
@@ -1169,20 +1154,11 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         #  append the predictions for this fold to df_test
         df_test["TimeTaken_%s" % alg] = y_pred
 
-        test_rmse = (sqrt(mean_squared_error(y, y_pred)))
+        test_rmse = (np.sqrt(mean_squared_error(y, y_pred)))
         test_r_sq = (r2_score(y, y_pred))
         test_mae = (mean_absolute_error(y, y_pred))
         test_evs = (explained_variance_score(y, y_pred))
         test_median_ae = (median_absolute_error(y, y_pred))
-
-        # pct_close_1 = number_close_1/len(y) *100
-        # pct_close_4 = number_close_4/len(y) *100
-        # pct_close_8 = number_close_8/len(y) *100
-        # pct_close_16 = number_close_16/len(y) *100
-        # pct_close_24 = number_close_24/len(y) *100
-        # pct_close_48 = number_close_48/len(y) *100
-        # pct_close_72 = number_close_72/len(y) *100
-        # pct_close_96 = number_close_96/len(y) *100
 
         for j in number_close:
             percent_close.append(j / len(y) * 100)
@@ -1198,24 +1174,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         out_file.write("\tTest EVS: {0:.2f} \n".format(test_evs))
         out_file.write("\tTest MedianAE: {0:.2f} \n".format(test_median_ae))
 
-        # out_file.write("\n\t{2:s} % test predictions error within 1 hour -> {0:.2f}% of {3:d}".format(
-        #     pct_close_1, pct_std_std_1hour, alg, len(y)))
-        # out_file.write("\n\t{2:s} % test predictions error within 4 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_4, pct_std_std_4hour, alg, len(y)))
-        # out_file.write("\n\t{2:s} % test predictions error within 8 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_8, pct_std_std_8hour, alg, len(y)))
-        # out_file.write("\n\t{2:s} % test predictions error within 16 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_16, pct_std_std_16hour, alg, len(y)))
-        # out_file.write("\n\t{2:s} % test predictions error within 24 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_24, pct_std_std_24hour,alg, len(y)))
-        # out_file.write("\n\t{2:s} % test predictions error within 48 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_48, pct_std_std_48hour,alg, len(y)))
-        # out_file.write("\n\t{2:s} % test predictions error within 72 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_72, pct_std_std_72hour,alg, len(y)))
-        # out_file.write("\n\t{2:s} % test predictions error within 96 hours -> {0:.2f}% of {3:d}\n".format(
-        #     pct_close_96, pct_std_std_96hour,alg, len(y)))
-        # out_file.write("\n")
-
         print("\n%s - df Test Results" % alg)
         print("\tTest R2: {0:.5f} ".format(test_r_sq))
         print("\tTest RMSE: {0:.2f}".format(test_rmse))
@@ -1227,28 +1185,10 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         for hour in interesting_hours:
             hour -= 1
             out_file.write(
-                "\n\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
-                "2:d}/10".format(percent_close[hour], alg, len(y), hour + 1))
-            print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
-                  "2:d}/10".format(percent_close[hour], alg, len(y), hour + 1))
-
-
-        # print("\t{2:s} % test predictions error within 1 hour -> {0:.2f}% of {3:d}".format(
-        #     pct_close_1, pct_std_std_1hour, alg, len(y)))
-        # print("\t{2:s} % test predictions error within 4 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_4, pct_std_std_4hour, alg, len(y)))
-        # print("\t{2:s} % test predictions error within 8 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_8, pct_std_std_8hour, alg, len(y)))
-        # print("\t{2:s} % test predictions error within 16 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_16, pct_std_std_16hour, alg, len(y)))
-        # print("\t{2:s} % test predictions error within 24 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_24, pct_std_std_24hour,alg, len(y)))
-        # print("\t{2:s} % test predictions error within 48 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_48, pct_std_std_48hour,alg, len(y)))
-        # print("\t{2:s} % test predictions error within 72 hours -> {0:.2f}% of {3:d}".format(
-        #     pct_close_72, pct_std_std_72hour,alg, len(y)))
-        # print("\t{2:s} % test predictions error within 96 hours -> {0:.2f}% of {3:d}\n".format(
-        #     pct_close_96, pct_std_std_96hour,alg, len(y)))
+                "\n\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(
+                    percent_close[hour], alg, len(y), hour + 1))
+            print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(
+                percent_close[hour], alg, len(y), hour + 1))
 
         ####################################################################################################################
         # Plotting
@@ -1291,7 +1231,11 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
     print("\n..finished with alg: %s..\n" % alg)
 
+
 if __name__ == "__main__":  # Run program
+    parameters = "../../../Data/parameters.txt"  # Parameters file
+    sample_parameters = "../Sample Parameter File/parameters.txt"
+
     print("Modeling dataset", time.strftime("%Y.%m.%d"), time.strftime("%H.%M.%S"))
     d = {}
     with open(parameters, "r") as f:
@@ -1312,7 +1256,9 @@ if __name__ == "__main__":  # Run program
             print("\"%s\" not in parameters.txt - please update parameters file with this key" % key)
             print("Default key and value => \"%s: %s\"" % (key, sample_d[key]))
             exit()
-
+    for key in d.keys():
+        if key not in sample_d.keys():
+            print("\"%s\" not in sample parameters" % key)
 
     # if resample is selected then all results are put in a resample folder
     if d["resample"] == "y":
@@ -1333,16 +1279,19 @@ if __name__ == "__main__":  # Run program
     df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
     df["TimeTaken"] = df["TimeTaken"].apply(lambda x: x/3600)
 
-    option_cols = ["Concurrent_open_cases", "Cases_created_within_past_8_hours",
-                   "Cases_resolved_within_past_8_hours", "Seconds_left_Day", "Seconds_left_Month",
-                   "Seconds_left_Qtr", "Seconds_left_Year", "Created_on_Weekend", "Rolling_Mean", "Rolling_Median",
-                   "Rolling_Std"]
-    for col in option_cols:
-        if d[col] == "n" and col in df.columns:
-            print("deleting col %s" % col)
-            del df[col]
+    print("\nDF Shape:", df.shape, "\n")
 
-    print("DF Shape:", df.shape, "\n")
+    if d["extra_testing"] == "y":
+        if d["delete_option_cols"] == "y":
+            option_cols = ["Concurrent_open_cases", "Cases_created_within_past_8_hours",
+                           "Cases_resolved_within_past_8_hours", "Seconds_left_Day", "Seconds_left_Month",
+                           "Seconds_left_Qtr", "Seconds_left_Year", "Created_on_Weekend", "Rolling_Mean", "Rolling_Median",
+                           "Rolling_Std"]
+            for col in option_cols:
+                if d[col] == "n" and col in df.columns:
+                    print("deleting col %s" % col)
+                    del df[col]
+        print("DF Shape:", df.shape, "\n")
 
     if d["resample"] == "y":
         from sklearn.utils import resample
@@ -1374,11 +1323,6 @@ if __name__ == "__main__":  # Run program
             df_test = df_test.reset_index(drop=True)
     else:
         print("DF Shape:", df.shape, "\n")
-
-    # del_cols = ["Seconds_left_Year", "Rolling_Mean", "Rolling_Median", "Rolling_Std"]
-    # for col in del_cols:
-    #     if col in df.columns:
-    #         del df[col]
 
     print("Input file name: %s" % d["input_file"])
 

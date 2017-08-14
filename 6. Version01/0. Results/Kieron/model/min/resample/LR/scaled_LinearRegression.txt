@@ -1,0 +1,37 @@
+LinearRegression 20170813-194945
+
+Input file name: min 
+
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean R2: 0.77225 (+/-0.01205)
+	Test Mean R2: 0.33458 (+/-0.87919)
+	Train Mean RMSE: 39.12 (+/-1.40)
+	Test Mean RMSE: 47.04 (+/-13.57)
+	Train Mean MeanAE: 30.52 (+/-1.40)
+	Test Mean MeanAE: 37.02 (+/-8.85)
+	Train Mean EVS: 0.77 (+/-0.01)
+	Test Mean EVS: 0.49 (+/-0.57)
+	Train Mean MedianAE: 24.88 (+/-1.32)
+	Test Mean MedianAE: 29.82 (+/-8.42)
+
+	LinearRegression % test predictions error within 1 hour(s) -> Mean: 1.00% (+/- 3.00%) of 100/10
+	LinearRegression % test predictions error within 4 hour(s) -> Mean: 7.00% (+/- 7.81%) of 100/10
+	LinearRegression % test predictions error within 8 hour(s) -> Mean: 14.00% (+/- 11.14%) of 100/10
+	LinearRegression % test predictions error within 16 hour(s) -> Mean: 29.00% (+/- 11.36%) of 100/10
+	LinearRegression % test predictions error within 24 hour(s) -> Mean: 43.00% (+/- 11.87%) of 100/10
+	LinearRegression % test predictions error within 48 hour(s) -> Mean: 73.00% (+/- 14.18%) of 100/10
+	LinearRegression % test predictions error within 72 hour(s) -> Mean: 88.00% (+/- 9.80%) of 100/10
+	LinearRegression % test predictions error within 96 hour(s) -> Mean: 94.00% (+/- 8.00%) of 100/10
+
+Feature Importances:
+	1. "Created_on_Weekend" (-3.314139)
+	2. "Rolling_Std" (-2.176434)
+	3. "Cases_resolved_within_past_8_hours" (-2.105597)
+	4. "Cases_created_within_past_8_hours" (-1.897235)
+	5. "Concurrent_open_cases" (-1.837546)
+	6. "Rolling_Mean" (-1.758315)
+	7. "Seconds_left_Month" (-1.174037)
+	8. "Seconds_left_Qtr" (-1.129500)
+	9. "Rolling_Median" (-1.070489)
+	10. "Seconds_left_Year" (-0.887919)
+	11. "Seconds_left_Day" (-0.879059)
