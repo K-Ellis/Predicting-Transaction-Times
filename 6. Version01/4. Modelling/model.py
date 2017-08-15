@@ -75,6 +75,7 @@ def tree_importances(regr, X, algpath, d, out_file, alg_initials):
 
     print("Feature Importances:")
     out_file.write("\n\nFeature Importances:\n")
+    outfile.write("\nThe importances for each variable used by Random Forest Regression were as follows:")
     for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist())):
         out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
@@ -109,6 +110,10 @@ def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
 
     print("Feature Importances: \"column\" (magnitude of importance) [percentage of importance]")
     out_file.write("\n\nFeature Importances: \"column\" (magnitude of importance) [percentage of importance]\n")
+    
+    outfile.write("\nThe importances for each variable used by Linear Regression were as follows:")
+    outfile.write("\n\"Variable Name\" (Standardised Regression Coefficient) [Percentage of Importance]")
+    
     for i, (col, importance, pct) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist(), dfimportances["Percentage_Importance"].values.tolist())):
         out_file.write("\t%d. \"%s\" (%f) [%f]\n" % (i + 1, col, importance, pct))
@@ -749,7 +754,10 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         simple_out_file.write("\n\tmean_time = %s" % mean_time)
         simple_out_file.write("\n\tstd_time = %s" % std_time)
         simple_out_file.write("\n\tmedian_time = %s\n" % median_time)
-
+        
+        simple_out_file.write("\n\n\tThe mean time taken to resolve cases was %.2f hours, median was %.2f hours and the standard deviation was %.2f hours." % (mean_time, median_time, std_time))
+        
+        
         print("\nSimple TimeTaken stats")
         print("\tmean_time = %s" % mean_time)
         print("\tstd_time = %s" % std_time)
@@ -776,8 +784,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
             hour -= 1
             print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
                   "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour+1))
-            simple_out_file.write("\n\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
-                  "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour+1))
+            simple_out_file.write("\n\tPredictions correct within %s hour(s): %.2f" % (hour+1, simple_percent_close[hour]))
 
         mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
         mean_time_test_rmse = np.sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
@@ -791,11 +798,12 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         median_time_test_evs = explained_variance_score(y, df["Median_TimeTaken"])
         median_time_test_medianae = median_absolute_error(y, df["Median_TimeTaken"])
 
-        simple_out_file.write("\n\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
-        simple_out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)
-        simple_out_file.write("\n\tmean_time_test_meanae = %s" % mean_time_test_meanae)
-        simple_out_file.write("\n\tmean_time_test_evs = %s" % mean_time_test_evs)
-        simple_out_file.write("\n\tmean_time_test_medianae = %s\n" % mean_time_test_medianae)
+        simple_out_file.write("\n\nMean:")
+        simple_out_file.write("\n\tTest R2 = %s" % mean_time_test_r2)
+        simple_out_file.write("\n\tTest RMSE = %s" % mean_time_test_rmse)
+        simple_out_file.write("\n\tTest MeanAE = %s" % mean_time_test_meanae)
+        simple_out_file.write("\n\tTest MedianAE = %s\n" % mean_time_test_medianae)
+        simple_out_file.write("\n\tTest EVS = %s" % mean_time_test_evs)
 
         simple_out_file.write("\n\tmedian_time_test_r2 = %s" % median_time_test_r2)
         simple_out_file.write("\n\tmedian_time_test_rmse = %s" % median_time_test_rmse)
@@ -941,16 +949,17 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     # output results
     ########################################################################################################################
     out_file.write("\n" + alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)\n")
-    out_file.write("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})\n".format(train_r2_ave, train_r2_std))
-    out_file.write("\tTest Mean R2: {0:.5f} (+/-{1:.5f})\n".format(test_r2_ave, test_r2_std))
+    out_file.write("\tTrain Mean R2: {0:.4f} (+/-{1:.4f})\n".format(train_r2_ave, train_r2_std))
     out_file.write("\tTrain Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(train_rmse_ave, train_rmse_std))
-    out_file.write("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(test_rmse_ave, test_rmse_std))
     out_file.write("\tTrain Mean MeanAE: {0:.2f} (+/-{1:.2f})\n".format(train_mae_ave, train_mae_std))
-    out_file.write("\tTest Mean MeanAE: {0:.2f} (+/-{1:.2f})\n".format(test_mae_ave, test_mae_std))
-    out_file.write("\tTrain Mean EVS: {0:.2f} (+/-{1:.2f})\n".format(train_evs_ave, train_evs_std))
-    out_file.write("\tTest Mean EVS: {0:.2f} (+/-{1:.2f})\n".format(test_evs_ave, test_evs_std))
     out_file.write("\tTrain Mean MedianAE: {0:.2f} (+/-{1:.2f})\n".format(train_median_ae_ave, train_median_ae_std))
+    out_file.write("\tTrain Mean EVS: {0:.2f} (+/-{1:.2f})\n".format(train_evs_ave, train_evs_std))
+    
+    out_file.write("\tTest Mean R2: {0:.4f} (+/-{1:.4f})\n".format(test_r2_ave, test_r2_std))
+    out_file.write("\tTest Mean RMSE: {0:.2f} (+/-{1:.2f})\n".format(test_rmse_ave, test_rmse_std))
+    out_file.write("\tTest Mean MeanAE: {0:.2f} (+/-{1:.2f})\n".format(test_mae_ave, test_mae_std))
     out_file.write("\tTest Mean MedianAE: {0:.2f} (+/-{1:.2f})\n".format(test_median_ae_ave, test_median_ae_std))
+    out_file.write("\tTest Mean EVS: {0:.2f} (+/-{1:.2f})\n".format(test_evs_ave, test_evs_std))
 
     print("\n" + alg + ": Cross Validation (" + d["crossvalidation"] + " Folds)")
     print("\tTrain Mean R2: {0:.5f} (+/-{1:.5f})".format(train_r2_ave, train_r2_std))
@@ -967,8 +976,10 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
     interesting_hours = [1, 4, 8, 16, 24, 48, 72, 96]
     for hour in interesting_hours:
         hour -= 1
-        out_file.write("\n\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
-                       "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour+1))
+        # out_file.write("\n\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
+                       # "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour+1))
+        out_file.write("\n\tPredictions correct within %s hour(s): %.2f" % (hour+1, average_close[hour]))
+            
         print("\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
                        "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour+1))
 
@@ -1073,6 +1084,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
             print("\tstd_time = %s" % std_time)
             print("\tmedian_time = %s\n" % median_time)
 
+            
+            simple_out_file.write("\n\n\tThe mean time taken to resolve cases was %.2f hours, median was %.2f hours and the standard deviation was %.2f hours." % (mean_time, median_time, std_time))
+            
             df_test["Mean_TimeTaken"] = mean_time
             df_test["Median_TimeTaken"] = median_time
 
@@ -1093,8 +1107,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
                 hour -= 1
                 print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
                       "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour + 1))
-                simple_out_file.write("\n\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
-                                      "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour + 1))
+                # simple_out_file.write("\n\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
+                                      # "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour + 1))
+                simple_out_file.write("\n\tPredictions correct within %s hour(s): %.2f" % (hour+1, simple_percent_close[hour]))
 
 
             mean_time_test_r2 = r2_score(y, df_test["Mean_TimeTaken"])
@@ -1109,17 +1124,31 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
             median_time_test_evs = explained_variance_score(y, df_test["Median_TimeTaken"])
             median_time_test_medianae = median_absolute_error(y, df_test["Median_TimeTaken"])
 
-            simple_out_file.write("\n\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
-            simple_out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)
-            simple_out_file.write("\n\tmean_time_test_meanae = %s" % mean_time_test_meanae)
-            simple_out_file.write("\n\tmean_time_test_evs = %s" % mean_time_test_evs)
-            simple_out_file.write("\n\tmean_time_test_medianae = %s\n" % mean_time_test_medianae)
+            # simple_out_file.write("\n\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
+            # simple_out_file.write("\n\tmean_time_test_rmse = %s" % mean_time_test_rmse)
+            # simple_out_file.write("\n\tmean_time_test_meanae = %s" % mean_time_test_meanae)
+            # simple_out_file.write("\n\tmean_time_test_evs = %s" % mean_time_test_evs)
+            # simple_out_file.write("\n\tmean_time_test_medianae = %s\n" % mean_time_test_medianae)
+
+            # simple_out_file.write("\n\tmedian_time_test_r2 = %s" % median_time_test_r2)
+            # simple_out_file.write("\n\tmedian_time_test_rmse = %s" % median_time_test_rmse)
+            # simple_out_file.write("\n\tmedian_time_test_meanae = %s" % median_time_test_meanae)
+            # simple_out_file.write("\n\tmedian_time_test_evs = %s" % median_time_test_evs)
+            # simple_out_file.write("\n\tmedian_time_test_medianae = %s\n\n" % median_time_test_medianae)
+            
+            
+            simple_out_file.write("\n\nMean:")
+            simple_out_file.write("\n\tTest R2 = %s" % mean_time_test_r2)
+            simple_out_file.write("\n\tTest RMSE = %s" % mean_time_test_rmse)
+            simple_out_file.write("\n\tTest MeanAE = %s" % mean_time_test_meanae)
+            simple_out_file.write("\n\tTest MedianAE = %s\n" % mean_time_test_medianae)
+            simple_out_file.write("\n\tTest EVS = %s" % mean_time_test_evs)
 
             simple_out_file.write("\n\tmedian_time_test_r2 = %s" % median_time_test_r2)
             simple_out_file.write("\n\tmedian_time_test_rmse = %s" % median_time_test_rmse)
             simple_out_file.write("\n\tmedian_time_test_meanae = %s" % median_time_test_meanae)
             simple_out_file.write("\n\tmedian_time_test_evs = %s" % median_time_test_evs)
-            simple_out_file.write("\n\tmedian_time_test_medianae = %s\n\n" % median_time_test_medianae)
+            simple_out_file.write("\n\tmedian_time_test_medianae = %s\n" % median_time_test_medianae)
 
             print("\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
             print("\tmean_time_test_rmse = %s" % mean_time_test_rmse)
@@ -1168,11 +1197,11 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         # output results
         ########################################################################################################################
         out_file.write("\n%s - df Test Results\n" % alg)
-        out_file.write("\tTest R2: {0:.5f}\n".format(test_r_sq))
+        out_file.write("\tTest R2: {0:.4f}\n".format(test_r_sq))
         out_file.write("\tTest RMSE: {0:.2f}\n".format(test_rmse))
         out_file.write("\tTest MeanAE: {0:.2f}\n".format(test_mae))
-        out_file.write("\tTest EVS: {0:.2f} \n".format(test_evs))
         out_file.write("\tTest MedianAE: {0:.2f} \n".format(test_median_ae))
+        out_file.write("\tTest EVS: {0:.2f} \n".format(test_evs))
 
         print("\n%s - df Test Results" % alg)
         print("\tTest R2: {0:.5f} ".format(test_r_sq))
@@ -1184,11 +1213,15 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         interesting_hours = [1, 4, 8, 16, 24, 48, 72, 96]
         for hour in interesting_hours:
             hour -= 1
-            out_file.write(
-                "\n\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(
-                    percent_close[hour], alg, len(y), hour + 1))
+            # out_file.write(
+                # "\n\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(
+                    # percent_close[hour], alg, len(y), hour + 1))
+            out_file.write("\n\tPredictions correct within %s hour(s): %.2f" % (hour+1, percent_close[hour]))
+            
             print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(
                 percent_close[hour], alg, len(y), hour + 1))
+                
+             
 
         ####################################################################################################################
         # Plotting
