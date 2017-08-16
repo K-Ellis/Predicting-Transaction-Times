@@ -1,0 +1,84 @@
+Columns,Importances
+AmountinUSD,0.16470946341786355
+SubReason_Basic Enterprise Commitment,0.06805790495058363
+SubReason_True Up,0.057182150019803604
+Queue_Broken,0.04679437980324808
+Revenutype_Future Billing,0.037318296610907624
+Source_Web,0.033237971113003965
+Priority,0.03285014214454124
+StatusReason_Completed,0.03274308638627869
+SubReason_Future Pricing Only CPS,0.03258521564295349
+SubReason_Zero Usage Order,0.031117225030007214
+Source_Soft Copy,0.03020785054911763
+Source_Manual,0.02986062432852451
+StageName,0.02635209179989263
+Revenutype_Revenue Unknown,0.02550785132136735
+Revenutype_Current Revenue,0.02483755849327351
+Source_Hard Copy,0.02390294553226868
+IsSignature,0.023635946611948806
+SubReason_Tax Exemption Order,0.02338194695897926
+StatusReason_Problem Solved,0.023106807883068164
+CountryProcessed_northamerica,0.020272070276327946
+CountrySource_southamerica,0.01745491730752083
+CountrySource_asia,0.01522882349487645
+Revenutype_Credit / Rebill,0.015027611397235852
+Queue_E&E,0.013563352729692002
+CountryProcessed_southamerica,0.010377628563841074
+IsGovernment,0.010029510530396071
+ROCName_EOC,0.009915308750047694
+Queue_APOC,0.00986633493641415
+StatusReason_Ready for Audit,0.009786372523332197
+SubReason_Electronic Order Pend / Reject,0.00938663950436656
+ROCName_APOC,0.008517827252380183
+CountryProcessed_europe,0.007755377537340627
+SubReason_Meteaop,0.007513735192372051
+Revenutype_Future OTRRR without OLS,0.00675505214102209
+SalesLocation_northamerica,0.0060290746171224475
+SubReason_Manual Order Entry,0.005869569664825108
+Queue_NAOC,0.005847030426930537
+CountryProcessed_australia,0.00500657874063458
+SalesLocation_australia,0.004900094305576154
+StatusReason_Customer Hold,0.004878197545064766
+CountrySource_australia,0.004017684958622748
+sourcesystem_CLT,0.00375889948008508
+Revenutype_Revenue Impacting Case / Pending Revenue,0.003497092024008226
+sourcesystem_NMEC,0.0028328240564626473
+SalesLocation_other,0.0024451196344667187
+Queue_EOC,0.0021239441864840287
+IsMagnumCase,0.0019851480346481216
+Complexity,0.0019050066293971562
+CountryProcessed_other,0.0015868408698213516
+SalesLocation_southamerica,0.0015581258058383213
+CountrySource_other,0.0011438898472418716
+IsSOXCase,0.0010978735965675238
+Revenutype_New Work Sold,0.0006513200026714572
+Revenutype_Non-revenue,1.3207885246047948e-05
+SalesLocation_europe,6.288860615444978e-06
+SalesLocation_asia,6.168092872311104e-06
+Source_Fax,0.0
+CountrySource_northamerica,0.0
+sourcesystem_clt,0.0
+sourcesystem_`,0.0
+sourcesystem_Web,0.0
+AssignedToGroup_CRMT,0.0
+sourcesystem_NEMEC,0.0
+sourcesystem_Moritz Jürgensen,0.0
+sourcesystem_Current Revenue,0.0
+AuditDuration,0.0
+sourcesystem_Aplquest,0.0
+CountryProcessed_asia,0.0
+CountrySource_europe,0.0
+HoldDuration,0.0
+SubReason_P&H Electronic Order,0.0
+Source_eAgreement (Ele),0.0
+HoldTypeName_3rd Party,0.0
+HoldTypeName_Customer,0.0
+HoldTypeName_Internal,0.0
+Queue_LOC,0.0
+Revenutype_Disputed Revenue,0.0
+StatusReason_Ready for Archiving,0.0
+Revenutype_Future OTRRR with OLS,0.0
+StatusReason_Information Provided,0.0
+AssignedToGroup_BPO,0.0
+Source_eAgreement (Phy),0.0
+sourcesystem_web,0.0

@@ -1,0 +1,33 @@
+ElasticNet 20170816-202137
+
+Input file name: Incident_cleaned_B1 
+
+ElasticNet: Cross Validation (10 Folds)
+	Train Mean R2: 0.0012 (+/-0.0002)
+	Train Mean RMSE: 129.77 (+/-0.40)
+	Train Mean MeanAE: 90.91 (+/-0.31)
+	Train Mean MedianAE: 76.55 (+/-0.25)
+	Train Mean EVS: 0.00 (+/-0.00)
+	Test Mean R2: 0.0006 (+/-0.0014)
+	Test Mean RMSE: 129.74 (+/-3.60)
+	Test Mean MeanAE: 90.93 (+/-2.00)
+	Test Mean MedianAE: 76.56 (+/-0.86)
+	Test Mean EVS: 0.00 (+/-0.00)
+
+	Predictions correct within 1 hour(s): 0.88
+	Predictions correct within 4 hour(s): 3.31
+	Predictions correct within 8 hour(s): 5.58
+	Predictions correct within 16 hour(s): 8.14
+	Predictions correct within 24 hour(s): 14.13
+	Predictions correct within 48 hour(s): 27.80
+	Predictions correct within 72 hour(s): 43.55
+	Predictions correct within 96 hour(s): 75.30
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Linear Regression were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]	1. "IsMagnumCase" (-1.416246) [0.375731]
+	2. "IsSOXCase" (-1.415229) [0.375461]
+	3. "IsSignature" (-0.409884) [0.108743]
+	4. "IsGovernment" (-0.404323) [0.107267]
+	5. "AmountinUSD" (-0.123624) [0.032797]
