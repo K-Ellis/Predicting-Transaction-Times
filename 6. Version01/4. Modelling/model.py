@@ -75,7 +75,7 @@ def tree_importances(regr, X, algpath, d, out_file, alg_initials):
 
     print("Feature Importances:")
     out_file.write("\n\nFeature Importances:\n")
-    outfile.write("\nThe importances for each variable used by Random Forest Regression were as follows:")
+    out_file.write("\nThe importances for each variable used by Random Forest Regression were as follows:")
     for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist())):
         out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
@@ -111,8 +111,8 @@ def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
     print("Feature Importances: \"column\" (magnitude of importance) [percentage of importance]")
     out_file.write("\n\nFeature Importances: \"column\" (magnitude of importance) [percentage of importance]\n")
     
-    outfile.write("\nThe importances for each variable used by Linear Regression were as follows:")
-    outfile.write("\n\"Variable Name\" (Standardised Regression Coefficient) [Percentage of Importance]")
+    out_file.write("\nThe importances for each variable used by Linear Regression were as follows:")
+    out_file.write("\n\"Variable Name\" (Standardised Regression Coefficient) [Percentage of Importance]")
     
     for i, (col, importance, pct) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist(), dfimportances["Percentage_Importance"].values.tolist())):
@@ -1338,7 +1338,7 @@ if __name__ == "__main__":  # Run program
         if d["prejuly_july"] == "y":
             print("prejuly_july")
             df_train = df[df["Created_On"] < pd.datetime(2017, 7, 1, 8)].copy()
-            df_test = df[(df["Created_On"] >= pd.datetime(2017, 7, 1, 8))].copy()
+            df_test = df[(df["Created_On"] >= pd.datetime(2017, 7, 1, 8)) & (df["Created_On"] < pd.datetime(2017, 8, 1, 8))].copy()
         elif d["prejune_june"] == "y":
             print("prejune_june")
             df_train = df[df["Created_On"] < pd.datetime(2017, 6, 1, 8)].copy()
