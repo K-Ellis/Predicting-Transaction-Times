@@ -2,7 +2,7 @@
 UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
 ************************************************************************************************************************
 Data pre-processing program
-Version 00 - Program for experiments after last iteration
+Version 01 - Program for experiments after last iteration
 ************************************************************************************************************************
 Eoin Carroll
 Kieron Ellis

@@ -1,0 +1,32 @@
+RandomForestRegressor 20170816-202544
+
+Input file name: Incident_cleaned_B1 
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.4639 (+/-0.0041)
+	Train Mean RMSE: 95.06 (+/-0.59)
+	Train Mean MeanAE: 62.80 (+/-0.37)
+	Train Mean MedianAE: 44.49 (+/-0.27)
+	Train Mean EVS: 0.46 (+/-0.00)
+	Test Mean R2: -0.0130 (+/-0.0174)
+	Test Mean RMSE: 130.61 (+/-3.90)
+	Test Mean MeanAE: 86.42 (+/-2.17)
+	Test Mean MedianAE: 53.81 (+/-1.58)
+	Test Mean EVS: -0.01 (+/-0.02)
+
+	Predictions correct within 1 hour(s): 0.77
+	Predictions correct within 4 hour(s): 3.15
+	Predictions correct within 8 hour(s): 6.24
+	Predictions correct within 16 hour(s): 11.80
+	Predictions correct within 24 hour(s): 18.44
+	Predictions correct within 48 hour(s): 46.12
+	Predictions correct within 72 hour(s): 60.86
+	Predictions correct within 96 hour(s): 73.60
+
+Feature Importances:
+
+The importances for each variable used by Random Forest Regression were as follows:	1. "AmountinUSD" (0.822220)
+	2. "IsSignature" (0.104706)
+	3. "IsMagnumCase" (0.038324)
+	4. "IsGovernment" (0.026712)
+	5. "IsSOXCase" (0.008038)
