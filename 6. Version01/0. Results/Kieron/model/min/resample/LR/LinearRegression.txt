@@ -1,37 +1,30 @@
-LinearRegression 20170814-201104
+LinearRegression 20170816-215600
 
 Input file name: min 
 
-LinearRegression: Cross Validation (10 Folds)
-	Train Mean R2: 0.77225 (+/-0.01205)
-	Test Mean R2: 0.33458 (+/-0.87919)
-	Train Mean RMSE: 39.12 (+/-1.40)
-	Test Mean RMSE: 47.04 (+/-13.57)
-	Train Mean MeanAE: 30.52 (+/-1.40)
-	Test Mean MeanAE: 37.02 (+/-8.85)
-	Train Mean EVS: 0.77 (+/-0.01)
-	Test Mean EVS: 0.49 (+/-0.57)
-	Train Mean MedianAE: 24.88 (+/-1.32)
-	Test Mean MedianAE: 29.82 (+/-8.42)
+LinearRegression - df Train Results
+	Train R2: 0.6858
+	Train RMSE: 76.53
+	Train MeanAE: 46.30
+	Train MedianAE: 24.24 
+	Train EVS: 0.69 
 
-	LinearRegression % test predictions error within 1 hour(s) -> Mean: 1.00% (+/- 3.00%) of 100/10
-	LinearRegression % test predictions error within 4 hour(s) -> Mean: 7.00% (+/- 7.81%) of 100/10
-	LinearRegression % test predictions error within 8 hour(s) -> Mean: 14.00% (+/- 11.14%) of 100/10
-	LinearRegression % test predictions error within 16 hour(s) -> Mean: 29.00% (+/- 11.36%) of 100/10
-	LinearRegression % test predictions error within 24 hour(s) -> Mean: 43.00% (+/- 11.87%) of 100/10
-	LinearRegression % test predictions error within 48 hour(s) -> Mean: 73.00% (+/- 14.18%) of 100/10
-	LinearRegression % test predictions error within 72 hour(s) -> Mean: 88.00% (+/- 9.80%) of 100/10
-	LinearRegression % test predictions error within 96 hour(s) -> Mean: 94.00% (+/- 8.00%) of 100/10
+	Predictions correct within 1 hour(s): 11.36 %
+	Predictions correct within 4 hour(s): 15.91 %
+	Predictions correct within 8 hour(s): 35.23 %
+	Predictions correct within 16 hour(s): 44.32 %
+	Predictions correct within 24 hour(s): 50.00 %
+	Predictions correct within 48 hour(s): 64.77 %
+	Predictions correct within 72 hour(s): 76.14 %
+	Predictions correct within 96 hour(s): 87.50 %
 
 Feature Importances: "column" (magnitude of importance) [percentage of importance]
-	1. "Created_on_Weekend" (-3.314139) [0.181793]
-	2. "Rolling_Std" (-2.176434) [0.119386]
-	3. "Cases_resolved_within_past_8_hours" (-2.105597) [0.115500]
-	4. "Cases_created_within_past_8_hours" (-1.897235) [0.104071]
-	5. "Concurrent_open_cases" (-1.837546) [0.100796]
-	6. "Rolling_Mean" (-1.758315) [0.096450]
-	7. "Seconds_left_Month" (-1.174037) [0.064400]
-	8. "Seconds_left_Qtr" (-1.129500) [0.061957]
-	9. "Rolling_Median" (-1.070489) [0.058720]
-	10. "Seconds_left_Year" (-0.887919) [0.048706]
-	11. "Seconds_left_Day" (-0.879059) [0.048220]
+
+The importances for each variable used by Linear Regression were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "Created_on_Weekend" (-62.017256) [0.899484]
+	2. "Concurrent_open_cases" (-1.807867) [0.026221]
+	3. "Cases_created_within_past_8_hours" (-1.625864) [0.023581]
+	4. "Seconds_left_Month" (-1.349714) [0.019576]
+	5. "Seconds_left_Qtr" (-1.328876) [0.019274]
+	6. "Seconds_left_Day" (-0.818033) [0.011865]

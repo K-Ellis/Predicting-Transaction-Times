@@ -75,7 +75,7 @@ def tree_importances(regr, X, algpath, d, out_file, alg_initials):
 
     print("Feature Importances:")
     out_file.write("\n\nFeature Importances:\n")
-    out_file.write("\nThe importances for each variable used by Random Forest Regression were as follows:")
+    out_file.write("\nThe importances for each variable used by Random Forest Regression were as follows:\n")
     for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist())):
         out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
@@ -112,7 +112,7 @@ def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
     out_file.write("\n\nFeature Importances: \"column\" (magnitude of importance) [percentage of importance]\n")
     
     out_file.write("\nThe importances for each variable used by Linear Regression were as follows:")
-    out_file.write("\n\"Variable Name\" (Standardised Regression Coefficient) [Percentage of Importance]")
+    out_file.write("\n\"Variable Name\" (Standardised Regression Coefficient) [Percentage of Importance]\n")
     
     for i, (col, importance, pct) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist(), dfimportances["Percentage_Importance"].values.tolist())):
@@ -782,9 +782,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         interesting_hours = [1, 4, 8, 16, 24, 48, 72, 96]
         for hour in interesting_hours:
             hour -= 1
-            print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
-                  "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour+1))
-            simple_out_file.write("\n\tPredictions correct within %s hour(s): %.2f" % (hour+1, simple_percent_close[hour]))
+            print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour+1))
+            simple_out_file.write("\n\tPredictions correct within %s hour(s): %.2f%%" % (hour+1,
+                                                                                          simple_percent_close[hour]))
 
         mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
         mean_time_test_rmse = np.sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
@@ -978,10 +978,9 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         hour -= 1
         # out_file.write("\n\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
                        # "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour+1))
-        out_file.write("\n\tPredictions correct within %s hour(s): %.2f" % (hour+1, average_close[hour]))
+        out_file.write("\n\tPredictions correct within %s hour(s): %.2f%%" % (hour+1, average_close[hour]))
             
-        print("\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {"
-                       "3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour+1))
+        print("\t{2:s} % test predictions error within {4:d} hour(s) -> Mean: {0:.2f}% (+/- {1:.2f}%) of {3:d}/10".format(average_close[hour], std_close[hour], alg, len(y), hour+1))
 
     ####################################################################################################################
     # Plotting
@@ -1105,11 +1104,11 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
             interesting_hours = [1, 4, 8, 16, 24, 48, 72, 96]
             for hour in interesting_hours:
                 hour -= 1
-                print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
-                      "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour + 1))
+                print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour + 1))
                 # simple_out_file.write("\n\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {"
                                       # "2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour + 1))
-                simple_out_file.write("\n\tPredictions correct within %s hour(s): %.2f" % (hour+1, simple_percent_close[hour]))
+                simple_out_file.write("\n\tPredictions correct within %s hour(s): %.2f%%" % (hour+1,
+                                                                                              simple_percent_close[hour]))
 
 
             mean_time_test_r2 = r2_score(y, df_test["Mean_TimeTaken"])
@@ -1216,7 +1215,7 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
             # out_file.write(
                 # "\n\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(
                     # percent_close[hour], alg, len(y), hour + 1))
-            out_file.write("\n\tPredictions correct within %s hour(s): %.2f" % (hour+1, percent_close[hour]))
+            out_file.write("\n\tPredictions correct within %s hour(s): %.2f%%" % (hour+1, percent_close[hour]))
             
             print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(
                 percent_close[hour], alg, len(y), hour + 1))
