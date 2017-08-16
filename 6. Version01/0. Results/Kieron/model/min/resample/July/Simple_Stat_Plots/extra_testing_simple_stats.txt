@@ -1,33 +1,35 @@
-Simple Stats - 20170813-180615
+Simple Stats - 20170816-215646
 
 Input file name: min
 
-df_test Shape: (5, 14)
+df_test Shape: (7, 9)
 
 
 Simple df_test TimeTaken stats
-	mean_time = 66.80672222222222
-	std_time = 86.35978914330757
-	median_time = 20.1894444444
+	mean_time = 62.890436507936506
+	std_time = 37.150977172464586
+	median_time = 71.41
 
-	Mean % test predictions error within 1 hour(s) -> Mean: 0.00% of 5/10
-	Mean % test predictions error within 4 hour(s) -> Mean: 0.00% of 5/10
-	Mean % test predictions error within 8 hour(s) -> Mean: 0.00% of 5/10
-	Mean % test predictions error within 16 hour(s) -> Mean: 20.00% of 5/10
-	Mean % test predictions error within 24 hour(s) -> Mean: 20.00% of 5/10
-	Mean % test predictions error within 48 hour(s) -> Mean: 40.00% of 5/10
-	Mean % test predictions error within 72 hour(s) -> Mean: 80.00% of 5/10
-	Mean % test predictions error within 96 hour(s) -> Mean: 80.00% of 5/10
 
-	mean_time_test_r2 = 0.0
-	mean_time_test_rmse = 86.35978914330757
-	mean_time_test_meanae = 69.6641777778
-	mean_time_test_evs = 0.0
-	mean_time_test_medianae = 62.9122777778
+	The mean time taken to resolve cases was 62.89 hours, median was 71.41 hours and the standard deviation was 37.15 hours.
+	Predictions correct within 1 hour(s): 0.00 %
+	Predictions correct within 4 hour(s): 0.00 %
+	Predictions correct within 8 hour(s): 14.29 %
+	Predictions correct within 16 hour(s): 57.14 %
+	Predictions correct within 24 hour(s): 57.14 %
+	Predictions correct within 48 hour(s): 71.43 %
+	Predictions correct within 72 hour(s): 100.00 %
+	Predictions correct within 96 hour(s): 100.00 %
 
-	median_time_test_r2 = -0.2913873353
-	median_time_test_rmse = 98.13859469284772
-	median_time_test_meanae = 60.3407222222
+Mean:
+	Test R2 = 0.0
+	Test RMSE = 37.1509771725
+	Test MeanAE = 28.5358049887
+	Test MedianAE = 10.9545634921
+
+	Test EVS = 0.0
+	median_time_test_r2 = -0.0525889143058
+	median_time_test_rmse = 38.1153258803
+	median_time_test_meanae = 25.7829761905
 	median_time_test_evs = 0.0
-	median_time_test_medianae = 18.0136111111
-
+	median_time_test_medianae = 3.14444444444
