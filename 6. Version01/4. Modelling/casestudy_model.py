@@ -31,6 +31,20 @@ import datetime
 from sklearn.preprocessing import StandardScaler
 
 
+def get_parameters(parameters):
+    d = {}
+    with open(parameters, "r") as f:
+        for line in f:
+            line = line.replace(":", "")
+            line = line.replace(",", "")
+            line = line.split()
+            key = line.pop(0)
+            if len(line) > 1:
+                d[key] = line
+            else:
+                d[key] = line[0]
+    return d
+
 def plot_percent_correct(y_vals, newpath, alg_initials, input_file, std=None):
     y_vals = [0] + y_vals
     x = range(len(y_vals))
@@ -1210,17 +1224,21 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         if d["output_predictions_csv"] == "y":
             if d["specify_subfolder"] == "n":
                 if d["prejuly_july"] == "y":
-                    df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_July_predictions.csv" % alg_initials,
+                    df_test.to_csv(d["file_location"] + d["input_file"] + "_July_predictions.csv",
                                    index=False)
+                    df.to_csv(d["file_location"] + d["input_file"] + "_Pre-July_predictions.csv",
+                              index=False)
+
                 elif d["prejune_june"] == "y":
-                    df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_June_predictions.csv" % alg_initials,
+                    df_test.to_csv(d["file_location"] + d["input_file"] + "_June_predictions.csv",
                                    index=False)
+                    df.to_csv(d["file_location"] + d["input_file"] + "_Pre-June_predictions.csv",
+                              index=False)
+
                 elif d["prejune_junejuly"] == "y":
                     df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_JuneJuly_predictions.csv" % alg_initials,
                                    index=False)
-                elif d["train_test_split"] == "y":
-                    df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_TrainTestSplit_predictions.csv" % alg_initials,
-                                   index=False)
+
             else:
                 df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_%s_predictions.csv" % (d["specify_subfolder"],
                                                                                                 alg_initials), index=False)
@@ -1234,19 +1252,8 @@ if __name__ == "__main__":  # Run program
     sample_parameters = "../Sample Parameter File/parameters.txt"
 
     print("Modeling dataset", time.strftime("%Y.%m.%d"), time.strftime("%H.%M.%S"))
-    d = {}
-    with open(parameters, "r") as f:
-        for line in f:
-            line = line.replace(":", "")
-            (key, val) = line.split()
-            d[key] = val
-
-    sample_d = {}
-    with open(sample_parameters, "r") as f:
-        for line in f:
-            line = line.replace(":", "")
-            (key, val) = line.split()
-            sample_d[key] = val
+    d = get_parameters(parameters)
+    sample_d = get_parameters(sample_parameters)
 
     for key in sample_d.keys():
         if key not in d.keys():

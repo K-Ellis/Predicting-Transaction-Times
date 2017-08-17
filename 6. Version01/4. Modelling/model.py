@@ -31,6 +31,20 @@ import datetime
 from sklearn.preprocessing import StandardScaler
 
 
+def get_parameters(parameters):
+    d = {}
+    with open(parameters, "r") as f:
+        for line in f:
+            line = line.replace(":", "")
+            line = line.replace(",", "")
+            line = line.split()
+            key = line.pop(0)
+            if len(line) > 1:
+                d[key] = line
+            else:
+                d[key] = line[0]
+    return d
+
 def plot_percent_correct(y_vals, newpath, alg_initials, input_file, std=None):
     y_vals = [0] + y_vals
     x = range(len(y_vals))
@@ -1280,19 +1294,8 @@ if __name__ == "__main__":  # Run program
     sample_parameters = "../Sample Parameter File/parameters.txt"
 
     print("Modeling dataset", time.strftime("%Y.%m.%d"), time.strftime("%H.%M.%S"))
-    d = {}
-    with open(parameters, "r") as f:
-        for line in f:
-            line = line.replace(":", "")
-            (key, val) = line.split()
-            d[key] = val
-
-    sample_d = {}
-    with open(sample_parameters, "r") as f:
-        for line in f:
-            line = line.replace(":", "")
-            (key, val) = line.split()
-            sample_d[key] = val
+    d = get_parameters(parameters)
+    sample_d = get_parameters(sample_parameters)
 
     for key in sample_d.keys():
         if key not in d.keys():
