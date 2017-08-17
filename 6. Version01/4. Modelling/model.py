@@ -75,7 +75,13 @@ def tree_importances(regr, X, algpath, d, out_file, alg_initials):
 
     print("Feature Importances:")
     out_file.write("\n\nFeature Importances:\n")
-    out_file.write("\nThe importances for each variable used by Random Forest Regression were as follows:\n")
+    
+    if alg_initials == "RFR":
+        alg_name = "Random Forest Regression"
+    else:
+        alg_name = "Gradient Boosting Regression"
+    
+    out_file.write("\nThe importances for each variable used by %s were as follows:\n" % alg_name)
     for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist())):
         out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
@@ -111,7 +117,12 @@ def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
     print("Feature Importances: \"column\" (magnitude of importance) [percentage of importance]")
     out_file.write("\n\nFeature Importances: \"column\" (magnitude of importance) [percentage of importance]\n")
     
-    out_file.write("\nThe importances for each variable used by Linear Regression were as follows:")
+    if alg_initials == "LR":
+        alg_name = "Linear Regression"
+    else:
+        alg_name = "Èlastic Net"
+    
+    out_file.write("\nThe importances for each variable used by %s were as follows:" %s alg_name)
     out_file.write("\n\"Variable Name\" (Standardised Regression Coefficient) [Percentage of Importance]\n")
     
     for i, (col, importance, pct) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
