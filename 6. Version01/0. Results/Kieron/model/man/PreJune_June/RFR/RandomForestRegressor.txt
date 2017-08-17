@@ -1,0 +1,55 @@
+RandomForestRegressor 20170817-112457
+
+Input file name: man 
+
+RandomForestRegressor - df Train Results
+	Train R2: 0.9981
+	Train RMSE: 6.17
+	Train MeanAE: 1.87
+	Train MedianAE: 0.52 
+	Train EVS: 1.00 
+
+	Predictions correct within 1 hour(s): 66.82%
+	Predictions correct within 4 hour(s): 90.11%
+	Predictions correct within 8 hour(s): 95.75%
+	Predictions correct within 16 hour(s): 98.36%
+	Predictions correct within 24 hour(s): 99.12%
+	Predictions correct within 48 hour(s): 99.70%
+	Predictions correct within 72 hour(s): 99.80%
+	Predictions correct within 96 hour(s): 99.90%
+
+Feature Importances:
+
+The importances for each variable used by Random Forest Regression were as follows:
+	1. "Concurrent_open_cases" (0.906824)
+	2. "Seconds_left_Qtr" (0.055608)
+	3. "Seconds_left_Month" (0.027619)
+	4. "Cases_created_within_past_8_hours" (0.003542)
+	5. "Seconds_left_Day" (0.003506)
+	6. "Created_on_Weekend" (0.001546)
+	7. "Queue_NAOC" (0.000179)
+	8. "CountryProcessed_northamerica" (0.000169)
+	9. "ROCName_APOC" (0.000087)
+	10. "SalesLocation_northamerica" (0.000069)
+	11. "CountrySource_northamerica" (0.000069)
+	12. "ROCName_EOC" (0.000068)
+	13. "Queue_APOC" (0.000068)
+	14. "SalesLocation_australia" (0.000064)
+	15. "Queue_EOC" (0.000063)
+	16. "CountrySource_southamerica" (0.000060)
+	17. "CountrySource_australia" (0.000056)
+	18. "SalesLocation_europe" (0.000051)
+	19. "CountryProcessed_asia" (0.000050)
+	20. "CountrySource_europe" (0.000045)
+	21. "CountryProcessed_europe" (0.000040)
+	22. "CountrySource_asia" (0.000037)
+	23. "SalesLocation_southamerica" (0.000037)
+	24. "SalesLocation_asia" (0.000035)
+	25. "Queue_LOC" (0.000032)
+	26. "Queue_Broken" (0.000031)
+	27. "CountryProcessed_southamerica" (0.000026)
+	28. "Queue_E&E" (0.000016)
+	29. "CountrySource_other" (0.000002)
+	30. "CountryProcessed_australia" (0.000001)
+	31. "CountryProcessed_other" (0.000000)
+	32. "SalesLocation_other" (0.000000)

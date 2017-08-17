@@ -1,0 +1,55 @@
+GradientBoostingRegressor 20170817-112332
+
+Input file name: man 
+
+GradientBoostingRegressor - df Train Results
+	Train R2: 0.9773
+	Train RMSE: 21.35
+	Train MeanAE: 14.39
+	Train MedianAE: 9.58 
+	Train EVS: 0.98 
+
+	Predictions correct within 1 hour(s): 6.21%
+	Predictions correct within 4 hour(s): 25.11%
+	Predictions correct within 8 hour(s): 43.93%
+	Predictions correct within 16 hour(s): 69.93%
+	Predictions correct within 24 hour(s): 82.27%
+	Predictions correct within 48 hour(s): 95.51%
+	Predictions correct within 72 hour(s): 98.68%
+	Predictions correct within 96 hour(s): 99.59%
+
+Feature Importances:
+
+The importances for each variable used by Gradient Boosting Regression were as follows:
+	1. "Concurrent_open_cases" (0.482355)
+	2. "Seconds_left_Qtr" (0.269870)
+	3. "Seconds_left_Month" (0.172267)
+	4. "Seconds_left_Day" (0.022357)
+	5. "Created_on_Weekend" (0.019564)
+	6. "Cases_created_within_past_8_hours" (0.015212)
+	7. "Queue_NAOC" (0.005366)
+	8. "SalesLocation_northamerica" (0.004305)
+	9. "Queue_APOC" (0.003105)
+	10. "SalesLocation_southamerica" (0.003087)
+	11. "CountrySource_southamerica" (0.001077)
+	12. "CountryProcessed_northamerica" (0.000690)
+	13. "ROCName_APOC" (0.000661)
+	14. "CountrySource_australia" (0.000084)
+	15. "CountryProcessed_other" (0.000000)
+	16. "ROCName_EOC" (0.000000)
+	17. "CountryProcessed_asia" (0.000000)
+	18. "CountryProcessed_australia" (0.000000)
+	19. "SalesLocation_other" (0.000000)
+	20. "SalesLocation_europe" (0.000000)
+	21. "SalesLocation_australia" (0.000000)
+	22. "SalesLocation_asia" (0.000000)
+	23. "Queue_LOC" (0.000000)
+	24. "CountryProcessed_southamerica" (0.000000)
+	25. "Queue_EOC" (0.000000)
+	26. "Queue_E&E" (0.000000)
+	27. "CountryProcessed_europe" (0.000000)
+	28. "CountrySource_other" (0.000000)
+	29. "CountrySource_northamerica" (0.000000)
+	30. "CountrySource_europe" (0.000000)
+	31. "CountrySource_asia" (0.000000)
+	32. "Queue_Broken" (0.000000)

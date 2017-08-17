@@ -1,4 +1,4 @@
-LinearRegression 20170816-130543
+LinearRegression 20170817-111231
 
 Input file name: min 
 
@@ -14,19 +14,20 @@ LinearRegression: Cross Validation (10 Folds)
 	Test Mean MedianAE: 33.97 (+/-0.76)
 	Test Mean EVS: 0.54 (+/-0.01)
 
-	Predictions correct within 1 hour(s): 2.43
-	Predictions correct within 4 hour(s): 10.06
-	Predictions correct within 8 hour(s): 19.16
-	Predictions correct within 16 hour(s): 30.76
-	Predictions correct within 24 hour(s): 40.74
-	Predictions correct within 48 hour(s): 60.39
-	Predictions correct within 72 hour(s): 75.24
-	Predictions correct within 96 hour(s): 85.98
+	Predictions correct within 1 hour(s): 2.43%
+	Predictions correct within 4 hour(s): 10.06%
+	Predictions correct within 8 hour(s): 19.16%
+	Predictions correct within 16 hour(s): 30.76%
+	Predictions correct within 24 hour(s): 40.74%
+	Predictions correct within 48 hour(s): 60.39%
+	Predictions correct within 72 hour(s): 75.24%
+	Predictions correct within 96 hour(s): 85.98%
 
 Feature Importances: "column" (magnitude of importance) [percentage of importance]
 
 The importances for each variable used by Linear Regression were as follows:
-"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]	1. "Created_on_Weekend" (-34.746482) [0.834444]
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "Created_on_Weekend" (-34.746482) [0.834444]
 	2. "Cases_created_within_past_8_hours" (-1.667285) [0.040040]
 	3. "Concurrent_open_cases" (-1.652811) [0.039693]
 	4. "Seconds_left_Month" (-1.373236) [0.032979]

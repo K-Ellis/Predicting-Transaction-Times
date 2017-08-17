@@ -605,7 +605,7 @@ def clean_data(d):
         if d["Seconds_left_Day"] == "y": minimum.append("Seconds_left_Day")
         if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
         if d["Seconds_left_Qtr"] == "y": minimum.append("Seconds_left_Qtr")
-        # if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
+        if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
                     
         if d["Created_on_Weekend"] == "y": minimum.append("Created_on_Weekend")                
                    
@@ -637,7 +637,7 @@ def clean_data(d):
         if d["Seconds_left_Day"] == "y": minimum.append("Seconds_left_Day")
         if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
         if d["Seconds_left_Qtr"] == "y": minimum.append("Seconds_left_Qtr")
-        # if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
+        if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
                     
         if d["Created_on_Weekend"] == "y": minimum.append("Created_on_Weekend")                
                    

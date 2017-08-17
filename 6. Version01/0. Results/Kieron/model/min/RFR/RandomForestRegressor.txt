@@ -1,4 +1,4 @@
-RandomForestRegressor 20170816-131014
+RandomForestRegressor 20170817-111753
 
 Input file name: min 
 
@@ -14,18 +14,19 @@ RandomForestRegressor: Cross Validation (10 Folds)
 	Test Mean MedianAE: 1.87 (+/-0.04)
 	Test Mean EVS: 0.97 (+/-0.01)
 
-	Predictions correct within 1 hour(s): 35.06
-	Predictions correct within 4 hour(s): 66.88
-	Predictions correct within 8 hour(s): 79.63
-	Predictions correct within 16 hour(s): 88.70
-	Predictions correct within 24 hour(s): 92.45
-	Predictions correct within 48 hour(s): 96.72
-	Predictions correct within 72 hour(s): 98.21
-	Predictions correct within 96 hour(s): 98.93
+	Predictions correct within 1 hour(s): 35.06%
+	Predictions correct within 4 hour(s): 66.88%
+	Predictions correct within 8 hour(s): 79.63%
+	Predictions correct within 16 hour(s): 88.70%
+	Predictions correct within 24 hour(s): 92.45%
+	Predictions correct within 48 hour(s): 96.72%
+	Predictions correct within 72 hour(s): 98.21%
+	Predictions correct within 96 hour(s): 98.93%
 
 Feature Importances:
 
-The importances for each variable used by Random Forest Regression were as follows:	1. "Concurrent_open_cases" (0.782290)
+The importances for each variable used by Random Forest Regression were as follows:
+	1. "Concurrent_open_cases" (0.782290)
 	2. "Seconds_left_Qtr" (0.108894)
 	3. "Seconds_left_Month" (0.054333)
 	4. "Cases_created_within_past_8_hours" (0.034690)
