@@ -448,11 +448,11 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
 
         if x_label == "Day of Year Resolved" or x_label == "Day of Year Created":
             plt.xticks(x_ticks, x_ticks, rotation = "vertical")
-            plt.xlim(56, 210)
+            plt.xlim(56, 227)
             # todo - change the xticks with the actual end of data date instead of guessing at 240
         elif x_label == "Month Of Year Created" or x_label == "Month Of Year Resolved":
-            plt.xticks([_+1 for _ in range(6)], x_ticks)
-            plt.xlim(0, 7)
+            plt.xticks([_+1 for _ in range(7)], x_ticks)
+            plt.xlim(0, 8)
         else:
             plt.xticks(x_ticks, x_ticks)
 
@@ -558,25 +558,25 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 9, "Created_On_MonthOfYear")
-    x_vals = [2,3,4,5,6,7]
+    x_vals = [2,3,4,5,6,7,8]
     x_label = "Month Of Year Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 9, "ResolvedDate_MonthOfYear")
-    x_vals = [2,3,4,5,6,7]
+    x_vals = [2,3,4,5,6,7,8]
     x_label = "Month Of Year Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
-    scores = get_errors(df, alg, 240, "Created_On_Year")
+    scores = get_errors(df, alg, 227, "Created_On_Year")
     # todo - change the xticks with the actual end of data date instead of guessing at 240
     x_vals = [(x+1)*7 for x in range(34)]
     x_label = "Day of Year Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
-    scores = get_errors(df, alg, 240, "ResolvedDate_Year")
+    scores = get_errors(df, alg, 227, "ResolvedDate_Year")
     # todo - change the xticks with the actual end of data date instead of guessing at 240
     x_vals = [(x+1)*7 for x in range(34)]
     x_label = "Day of Year Resolved"
