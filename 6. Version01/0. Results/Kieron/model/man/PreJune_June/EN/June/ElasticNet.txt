@@ -1,0 +1,56 @@
+ElasticNet 20170817-112255
+
+Input file name: man
+
+ElasticNet - df Test Results
+	Test R2: 0.7069
+	Test RMSE: 59.91
+	Test MeanAE: 36.93
+	Test MedianAE: 21.42 
+	Test EVS: 0.71 
+
+	Predictions correct within 1 hour(s): 3.30%
+	Predictions correct within 4 hour(s): 14.46%
+	Predictions correct within 8 hour(s): 27.25%
+	Predictions correct within 16 hour(s): 42.95%
+	Predictions correct within 24 hour(s): 53.21%
+	Predictions correct within 48 hour(s): 70.85%
+	Predictions correct within 72 hour(s): 83.72%
+	Predictions correct within 96 hour(s): 93.75%
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Èlastic Net were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "Cases_created_within_past_8_hours" (-2.219765) [0.119547]
+	2. "Concurrent_open_cases" (-1.838907) [0.099036]
+	3. "Seconds_left_Qtr" (-1.376916) [0.074155]
+	4. "Seconds_left_Month" (-1.376916) [0.074155]
+	5. "CountryProcessed_northamerica" (-0.873535) [0.047045]
+	6. "Seconds_left_Day" (-0.864092) [0.046536]
+	7. "SalesLocation_northamerica" (-0.819456) [0.044132]
+	8. "CountrySource_northamerica" (-0.817834) [0.044045]
+	9. "ROCName_EOC" (-0.754586) [0.040639]
+	10. "Queue_EOC" (-0.753809) [0.040597]
+	11. "Queue_NAOC" (-0.696088) [0.037488]
+	12. "CountryProcessed_europe" (-0.665191) [0.035824]
+	13. "SalesLocation_europe" (-0.646444) [0.034815]
+	14. "CountrySource_europe" (-0.644964) [0.034735]
+	15. "CountryProcessed_asia" (-0.531965) [0.028649]
+	16. "SalesLocation_asia" (-0.481100) [0.025910]
+	17. "CountrySource_asia" (-0.478472) [0.025768]
+	18. "Queue_APOC" (-0.476968) [0.025688]
+	19. "ROCName_APOC" (-0.476968) [0.025688]
+	20. "Created_on_Weekend" (-0.428454) [0.023075]
+	21. "CountrySource_southamerica" (-0.231692) [0.012478]
+	22. "SalesLocation_southamerica" (-0.229401) [0.012355]
+	23. "CountrySource_australia" (-0.215854) [0.011625]
+	24. "SalesLocation_australia" (-0.215249) [0.011592]
+	25. "Queue_LOC" (-0.147970) [0.007969]
+	26. "CountryProcessed_southamerica" (-0.138001) [0.007432]
+	27. "CountryProcessed_australia" (-0.053526) [0.002883]
+	28. "CountrySource_other" (-0.046338) [0.002496]
+	29. "CountryProcessed_other" (-0.037821) [0.002037]
+	30. "SalesLocation_other" (-0.018900) [0.001018]
+	31. "Queue_E&E" (-0.010911) [0.000588]
+	32. "Queue_Broken" (0.000000) [0.000000]

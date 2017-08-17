@@ -1,0 +1,60 @@
+RandomForestRegressor 20170817-111250
+
+Input file name: man 
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.9946 (+/-0.0001)
+	Train Mean RMSE: 9.58 (+/-0.11)
+	Train Mean MeanAE: 3.21 (+/-0.03)
+	Train Mean MedianAE: 0.74 (+/-0.01)
+	Train Mean EVS: 0.99 (+/-0.00)
+	Test Mean R2: 0.9700 (+/-0.0055)
+	Test Mean RMSE: 22.36 (+/-2.10)
+	Test Mean MeanAE: 8.15 (+/-0.30)
+	Test Mean MedianAE: 2.01 (+/-0.05)
+	Test Mean EVS: 0.97 (+/-0.01)
+
+	Predictions correct within 1 hour(s): 33.85%
+	Predictions correct within 4 hour(s): 65.70%
+	Predictions correct within 8 hour(s): 78.51%
+	Predictions correct within 16 hour(s): 88.17%
+	Predictions correct within 24 hour(s): 92.18%
+	Predictions correct within 48 hour(s): 96.58%
+	Predictions correct within 72 hour(s): 98.12%
+	Predictions correct within 96 hour(s): 98.91%
+
+Feature Importances:
+
+The importances for each variable used by Random Forest Regression were as follows:
+	1. "Concurrent_open_cases" (0.781442)
+	2. "Seconds_left_Qtr" (0.105663)
+	3. "Seconds_left_Month" (0.051792)
+	4. "Cases_created_within_past_8_hours" (0.033010)
+	5. "Seconds_left_Day" (0.011344)
+	6. "Created_on_Weekend" (0.003474)
+	7. "CountryProcessed_asia" (0.001964)
+	8. "Queue_NAOC" (0.001597)
+	9. "CountryProcessed_northamerica" (0.001263)
+	10. "CountrySource_asia" (0.001118)
+	11. "Queue_APOC" (0.001116)
+	12. "ROCName_APOC" (0.000901)
+	13. "SalesLocation_asia" (0.000856)
+	14. "CountryProcessed_southamerica" (0.000762)
+	15. "Queue_EOC" (0.000536)
+	16. "CountrySource_northamerica" (0.000487)
+	17. "ROCName_EOC" (0.000391)
+	18. "SalesLocation_europe" (0.000381)
+	19. "SalesLocation_northamerica" (0.000351)
+	20. "CountryProcessed_europe" (0.000322)
+	21. "CountrySource_europe" (0.000321)
+	22. "CountrySource_australia" (0.000297)
+	23. "SalesLocation_australia" (0.000222)
+	24. "CountrySource_southamerica" (0.000135)
+	25. "SalesLocation_southamerica" (0.000097)
+	26. "Queue_LOC" (0.000081)
+	27. "Queue_Broken" (0.000040)
+	28. "CountryProcessed_australia" (0.000013)
+	29. "CountrySource_other" (0.000010)
+	30. "Queue_E&E" (0.000008)
+	31. "CountryProcessed_other" (0.000005)
+	32. "SalesLocation_other" (0.000001)
