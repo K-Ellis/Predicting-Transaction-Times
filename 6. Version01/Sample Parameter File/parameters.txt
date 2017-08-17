@@ -63,10 +63,8 @@ output_predictions_csv: y
 ########### ################
 MULTI_PLOT #################
 ########### ################
-input1: man_predictions
-input2: min_predictions
-df1_name: Mandatory_Vars
-df2_name: Minimum_Vars
+input_files: B4, man
+input_file_names: Main, Mandatory
 ########### ################
 GRID_SEARCH ################
 ########### ################

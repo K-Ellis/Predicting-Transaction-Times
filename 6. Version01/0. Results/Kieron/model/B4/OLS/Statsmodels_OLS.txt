@@ -1,0 +1,349 @@
+Statsmodels_OLS 20170817-174245
+
+Input file name: B4
+
+Features used:
+	1 - AmountinUSD
+	2 - AssignedToGroup_BPO
+	3 - AssignedToGroup_CRMT
+	4 - AuditDuration
+	5 - Cases_created_within_past_8_hours
+	6 - Cases_resolved_within_past_8_hours
+	7 - Complexity
+	8 - Concurrent_open_cases
+	9 - CountryProcessed_asia
+	10 - CountryProcessed_australia
+	11 - CountryProcessed_europe
+	12 - CountryProcessed_northamerica
+	13 - CountryProcessed_other
+	14 - CountryProcessed_southamerica
+	15 - CountrySource_asia
+	16 - CountrySource_australia
+	17 - CountrySource_europe
+	18 - CountrySource_northamerica
+	19 - CountrySource_other
+	20 - CountrySource_southamerica
+	21 - Created_on_Weekend
+	22 - HoldDuration
+	23 - HoldTypeName_3rd Party
+	24 - HoldTypeName_Customer
+	25 - HoldTypeName_Internal
+	26 - IsGovernment
+	27 - IsMagnumCase
+	28 - IsSOXCase
+	29 - IsSignature
+	30 - Priority
+	31 - Queue_APOC
+	32 - Queue_Broken
+	33 - Queue_E&E
+	34 - Queue_EOC
+	35 - Queue_LOC
+	36 - Queue_NAOC
+	37 - ROCName_APOC
+	38 - ROCName_EOC
+	39 - Revenutype_Credit / Rebill
+	40 - Revenutype_Current Revenue
+	41 - Revenutype_Disputed Revenue
+	42 - Revenutype_Future Billing
+	43 - Revenutype_Future OTRRR with OLS
+	44 - Revenutype_Future OTRRR without OLS
+	45 - Revenutype_New Work Sold
+	46 - Revenutype_Non-revenue
+	47 - Revenutype_Revenue Impacting Case / Pending Revenue
+	48 - Revenutype_Revenue Unknown
+	49 - Rolling_Mean
+	50 - Rolling_Median
+	51 - Rolling_Std
+	52 - SalesLocation_asia
+	53 - SalesLocation_australia
+	54 - SalesLocation_europe
+	55 - SalesLocation_northamerica
+	56 - SalesLocation_other
+	57 - SalesLocation_southamerica
+	58 - Seconds_left_Day
+	59 - Seconds_left_Month
+	60 - Seconds_left_Qtr
+	61 - Source_Fax
+	62 - Source_Hard Copy
+	63 - Source_Manual
+	64 - Source_Soft Copy
+	65 - Source_Web
+	66 - Source_eAgreement (Ele)
+	67 - Source_eAgreement (Phy)
+	68 - StageName
+	69 - StatusReason_Completed
+	70 - StatusReason_Customer Hold
+	71 - StatusReason_Information Provided
+	72 - StatusReason_Problem Solved
+	73 - StatusReason_Ready for Archiving
+	74 - StatusReason_Ready for Audit
+	75 - SubReason_Basic Enterprise Commitment
+	76 - SubReason_Electronic Order Pend / Reject
+	77 - SubReason_Future Pricing Only CPS
+	78 - SubReason_Manual Order Entry
+	79 - SubReason_Meteaop
+	80 - SubReason_P&H Electronic Order
+	81 - SubReason_Tax Exemption Order
+	82 - SubReason_True Up
+	83 - SubReason_Zero Usage Order
+	84 - sourcesystem_Aplquest
+	85 - sourcesystem_CLT
+	86 - sourcesystem_Current Revenue
+	87 - sourcesystem_Moritz Jürgensen
+	88 - sourcesystem_NEMEC
+	89 - sourcesystem_NMEC
+	90 - sourcesystem_Web
+	91 - sourcesystem_`
+	92 - sourcesystem_clt
+	93 - sourcesystem_web
+
+ olsregr.summary():
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:              TimeTaken   R-squared:                       0.778
+Model:                            OLS   Adj. R-squared:                  0.777
+Method:                 Least Squares   F-statistic:                     870.1
+Date:                Thu, 17 Aug 2017   Prob (F-statistic):               0.00
+Time:                        17:42:45   Log-Likelihood:            -1.2187e+05
+No. Observations:               21152   AIC:                         2.439e+05
+Df Residuals:                   21067   BIC:                         2.446e+05
+Df Model:                          85                                         
+Covariance Type:            nonrobust                                         
+=======================================================================================================================
+                                                          coef    std err          t      P>|t|      [0.025      0.975]
+-----------------------------------------------------------------------------------------------------------------------
+AmountinUSD                                         -1.918e-07   4.79e-07     -0.400      0.689   -1.13e-06    7.47e-07
+AssignedToGroup_BPO                                  1.304e-06   1.91e-06      0.682      0.495   -2.44e-06    5.05e-06
+AssignedToGroup_CRMT                                  1.23e-07   2.09e-07      0.587      0.557   -2.87e-07    5.33e-07
+AuditDuration                                        6.715e-06   4.09e-06      1.642      0.101    -1.3e-06    1.47e-05
+Cases_created_within_past_8_hours                       0.1554      0.014     11.242      0.000       0.128       0.182
+Cases_resolved_within_past_8_hours                      0.0892      0.015      6.055      0.000       0.060       0.118
+Complexity                                              7.2119      2.426      2.973      0.003       2.457      11.967
+Concurrent_open_cases                                  -0.2888      0.002   -122.304      0.000      -0.293      -0.284
+CountryProcessed_asia                                  -7.0915     13.566     -0.523      0.601     -33.682      19.499
+CountryProcessed_australia                             -2.1914     16.511     -0.133      0.894     -34.555      30.172
+CountryProcessed_europe                               -32.5807     10.316     -3.158      0.002     -52.801     -12.360
+CountryProcessed_northamerica                          29.7708     49.489      0.602      0.547     -67.232     126.773
+CountryProcessed_other                                 15.2198     30.134      0.505      0.614     -43.845      74.285
+CountryProcessed_southamerica                          36.8165     49.665      0.741      0.459     -60.530     134.163
+CountrySource_asia                                     21.9876     18.256      1.204      0.228     -13.795      57.770
+CountrySource_australia                                95.9520     36.228      2.649      0.008      24.943     166.961
+CountrySource_europe                                   26.3008     28.620      0.919      0.358     -29.797      82.399
+CountrySource_northamerica                             90.1750     43.550      2.071      0.038       4.814     175.536
+CountrySource_other                                    19.1756     27.719      0.692      0.489     -35.156      73.507
+CountrySource_southamerica                             82.6769     41.010      2.016      0.044       2.294     163.060
+Created_on_Weekend                                     -1.7902      1.477     -1.212      0.225      -4.685       1.104
+HoldDuration                                        -8.906e-13   7.82e-13     -1.139      0.255   -2.42e-12    6.42e-13
+HoldTypeName_3rd Party                              -2.069e-12   1.31e-12     -1.575      0.115   -4.64e-12    5.06e-13
+HoldTypeName_Customer                               -2.109e-12   1.41e-12     -1.497      0.134   -4.87e-12    6.52e-13
+HoldTypeName_Internal                               -6.135e-14   1.02e-12     -0.060      0.952   -2.07e-12    1.94e-12
+IsGovernment                                           -4.4076      1.579     -2.792      0.005      -7.502      -1.313
+IsMagnumCase                                           39.6284     19.751      2.006      0.045       0.914      78.343
+IsSOXCase                                             -37.3284     19.628     -1.902      0.057     -75.801       1.144
+IsSignature                                            -0.1023      1.993     -0.051      0.959      -4.009       3.805
+Priority                                               15.3929      2.803      5.492      0.000       9.899      20.887
+Queue_APOC                                             94.9020     60.862      1.559      0.119     -24.393     214.197
+Queue_Broken                                          297.2277     15.998     18.579      0.000     265.871     328.585
+Queue_E&E                                             -22.2951     31.411     -0.710      0.478     -83.863      39.273
+Queue_EOC                                              13.8341     22.122      0.625      0.532     -29.527      57.195
+Queue_LOC                                             -24.1009      5.443     -4.428      0.000     -34.770     -13.432
+Queue_NAOC                                            -18.8991      2.942     -6.424      0.000     -24.666     -13.132
+ROCName_APOC                                          -82.3877     77.806     -1.059      0.290    -234.894      70.119
+ROCName_EOC                                             9.2465     54.976      0.168      0.866     -98.511     117.004
+Revenutype_Credit / Rebill                            111.9234     57.585      1.944      0.052      -0.947     224.794
+Revenutype_Current Revenue                             91.2921     57.501      1.588      0.112     -21.413     203.997
+Revenutype_Disputed Revenue                            98.3363     65.560      1.500      0.134     -30.166     226.838
+Revenutype_Future Billing                              90.7399     57.540      1.577      0.115     -22.044     203.524
+Revenutype_Future OTRRR with OLS                       80.6492     61.351      1.315      0.189     -39.603     200.901
+Revenutype_Future OTRRR without OLS                   118.7411     65.599      1.810      0.070      -9.837     247.320
+Revenutype_New Work Sold                              125.0783     96.376      1.298      0.194     -63.827     313.983
+Revenutype_Non-revenue                                 86.6194     57.522      1.506      0.132     -26.128     199.367
+Revenutype_Revenue Impacting Case / Pending Revenue    83.8910     60.172      1.394      0.163     -34.051     201.833
+Revenutype_Revenue Unknown                            108.6917     57.683      1.884      0.060      -4.371     221.754
+Rolling_Mean                                            0.0002   8.79e-06     24.705      0.000       0.000       0.000
+Rolling_Median                                      -4.422e-05   6.67e-06     -6.625      0.000   -5.73e-05   -3.11e-05
+Rolling_Std                                          2.414e-05   4.95e-06      4.879      0.000    1.44e-05    3.38e-05
+SalesLocation_asia                                     -1.4153     14.196     -0.100      0.921     -29.240      26.410
+SalesLocation_australia                               -67.0842     34.696     -1.934      0.053    -135.090       0.922
+SalesLocation_europe                                    7.0796     27.744      0.255      0.799     -47.301      61.461
+SalesLocation_northamerica                            -90.3326     42.434     -2.129      0.033    -173.506      -7.160
+SalesLocation_other                                    41.7472     46.535      0.897      0.370     -49.465     132.960
+SalesLocation_southamerica                            -72.9226     43.860     -1.663      0.096    -158.892      13.046
+Seconds_left_Day                                     7.478e-05   8.29e-06      9.019      0.000    5.85e-05     9.1e-05
+Seconds_left_Month                                   4.203e-06   8.49e-07      4.951      0.000    2.54e-06    5.87e-06
+Seconds_left_Qtr                                    -3.385e-06    2.8e-07    -12.104      0.000   -3.93e-06   -2.84e-06
+Source_Fax                                             21.0885     54.829      0.385      0.701     -86.380     128.557
+Source_Hard Copy                                       10.2103      7.234      1.411      0.158      -3.969      24.389
+Source_Manual                                          28.3837      6.904      4.111      0.000      14.852      41.915
+Source_Soft Copy                                        6.5412      5.819      1.124      0.261      -4.864      17.947
+Source_Web                                              5.8046      5.453      1.064      0.287      -4.884      16.494
+Source_eAgreement (Ele)                                34.5895     22.952      1.507      0.132     -10.398      79.577
+Source_eAgreement (Phy)                                 3.5704      6.002      0.595      0.552      -8.194      15.335
+StageName                                              -0.9839      0.521     -1.887      0.059      -2.006       0.038
+StatusReason_Completed                                -35.6762     21.283     -1.676      0.094     -77.393       6.041
+StatusReason_Customer Hold                           -195.4505     41.044     -4.762      0.000    -275.900    -115.001
+StatusReason_Information Provided                     -18.7313     32.475     -0.577      0.564     -82.385      44.922
+StatusReason_Problem Solved                           -28.5993     21.304     -1.342      0.179     -70.357      13.158
+StatusReason_Ready for Archiving                      -31.5284     58.544     -0.539      0.590    -146.279      83.222
+StatusReason_Ready for Audit                        -1.782e-13    6.6e-14     -2.698      0.007   -3.08e-13   -4.87e-14
+SubReason_Basic Enterprise Commitment                   4.6744      3.872      1.207      0.227      -2.915      12.264
+SubReason_Electronic Order Pend / Reject               -0.9285      5.939     -0.156      0.876     -12.568      10.711
+SubReason_Future Pricing Only CPS                      20.8336      5.321      3.916      0.000      10.405      31.262
+SubReason_Manual Order Entry                           -4.4746      4.165     -1.074      0.283     -12.639       3.690
+SubReason_Meteaop                                      -1.5387      3.509     -0.438      0.661      -8.417       5.340
+SubReason_P&H Electronic Order                        -36.8323     16.045     -2.296      0.022     -68.282      -5.382
+SubReason_Tax Exemption Order                          22.2405     11.101      2.004      0.045       0.482      43.999
+SubReason_True Up                                       2.8066      4.033      0.696      0.487      -5.099      10.712
+SubReason_Zero Usage Order                              9.5206      4.193      2.270      0.023       1.302      17.740
+sourcesystem_Aplquest                                  -9.0724     55.416     -0.164      0.870    -117.692      99.547
+sourcesystem_CLT                                       26.8566     48.252      0.557      0.578     -67.720     121.434
+sourcesystem_Current Revenue                           39.8512     91.115      0.437      0.662    -138.742     218.444
+sourcesystem_Moritz Jürgensen                          35.7502     91.073      0.393      0.695    -142.759     214.260
+sourcesystem_NEMEC                                    -25.8974     91.000     -0.285      0.776    -204.264     152.469
+sourcesystem_NMEC                                     -19.1490     50.077     -0.382      0.702    -117.303      79.005
+sourcesystem_Web                                       18.8350     90.974      0.207      0.836    -159.481     197.151
+sourcesystem_`                                        125.9760     91.048      1.384      0.166     -52.485     304.437
+sourcesystem_clt                                        0.6346     65.681      0.010      0.992    -128.106     129.375
+sourcesystem_web                                      222.4338     72.820      3.055      0.002      79.702     365.166
+==============================================================================
+Omnibus:                     8272.858   Durbin-Watson:                   2.007
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):            52179.397
+Skew:                           1.756   Prob(JB):                         0.00
+Kurtosis:                       9.846   Cond. No.                     1.02e+16
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The smallest eigenvalue is 3.6e-15. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.
+
+
+train R2: 0.647229623826
+test R2: 0.625500441201
+train RMSE: 76.9214525028
+test RMSE: 79.1426777457
+y_train Predicted values: 1556     133.759777
+8853     227.581537
+23532    175.418911
+2151      44.814545
+20668    -32.856415
+25151    171.568950
+11667    197.226635
+15804    -19.860751
+26435     97.562492
+19714     89.738683
+17648     65.279787
+15571     92.820381
+15783    195.873897
+3752     248.398631
+24820    199.325454
+14537     31.757659
+8981      90.737215
+14668     26.664039
+2559     139.962420
+19162    170.130188
+23621    -47.913671
+6094      58.434834
+21663     24.510125
+2305      55.048672
+17022    234.906260
+15659    107.068299
+18833    -50.041851
+14339     13.533827
+2136     163.366521
+19165    133.382735
+            ...    
+5682     118.621863
+3503     165.122560
+2558     151.505198
+16630    153.622646
+18815     72.809198
+9161     179.902479
+27984    147.522060
+27973    131.513488
+7644     -39.025066
+14192     38.785304
+26744    122.708175
+27066     48.119666
+13686    167.047682
+7962      38.254539
+8060     -17.113694
+7916      61.376231
+1182     -10.108497
+8222     221.315498
+23706     50.905628
+9449      68.735385
+8471      73.276293
+23217    -53.397395
+22521    -72.650576
+17048    218.229793
+23924    -46.197414
+27852     96.183880
+23605    -79.246005
+1318      19.976111
+25299    110.396946
+27439    182.609377
+Length: 21152, dtype: float64
+
+y_test Predicted values: 5418      77.324784
+733      136.286385
+3753     282.947943
+24160    205.516677
+9535      -4.499965
+7305     120.833696
+11117    143.387341
+26723    113.340188
+12983    103.904310
+15088    100.041042
+19070    137.553932
+8675     127.785472
+26280     35.542966
+3012      69.414131
+21270    160.717149
+26840    120.970355
+14298     66.950878
+21910    128.571153
+289      318.694617
+22744    -72.638361
+26112     52.749112
+2114      26.811360
+3293      42.073909
+558       87.266460
+6944     112.184284
+23154    259.761913
+17554     33.018958
+5291     108.465781
+18522    -90.515221
+21637    209.210585
+            ...    
+5733     333.607558
+9351     150.637167
+14277     83.480683
+21301     -8.996870
+20720    184.454286
+7708     101.651703
+12588     62.532440
+2644      44.348314
+5660     -54.838895
+14940    262.816866
+27061     48.406202
+21400    241.155083
+23350    222.241284
+26724     87.348207
+2606     187.160628
+24072    140.484483
+20815    -25.179987
+12836    115.177086
+8169     168.819894
+1292     -84.680276
+23034     -5.049610
+5724      66.522813
+795      148.686116
+5057      68.313532
+15044     62.274318
+24111    179.401693
+2428      60.058406
+24306     66.389156
+21127     52.942059
+3297     176.303484
+Length: 7051, dtype: float64
