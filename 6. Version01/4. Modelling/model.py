@@ -122,7 +122,7 @@ def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
     else:
         alg_name = "Èlastic Net"
     
-    out_file.write("\nThe importances for each variable used by %s were as follows:" %s alg_name)
+    out_file.write("\nThe importances for each variable used by %s were as follows:" % alg_name)
     out_file.write("\n\"Variable Name\" (Standardised Regression Coefficient) [Percentage of Importance]\n")
     
     for i, (col, importance, pct) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
