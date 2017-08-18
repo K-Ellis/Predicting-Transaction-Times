@@ -142,7 +142,7 @@ def multi_plot_pct_correct(ys, newpath, d, title):
 
     plt.close()
 
-def multi_plot_RMSEs_bar(ys, newpath, d, title):
+def multi_plot_RMSEs_bar(ys, newpath, d, title, actual_title):
     x = range(len(ys[0]))
     x = np.array(x)
     ys = np.array(ys)
@@ -159,7 +159,7 @@ def multi_plot_RMSEs_bar(ys, newpath, d, title):
         plt.bar(x+newwidth, y, width, color=colour, label=exp, alpha=1, align="center")
         newwidth += width
 
-    plt.title("RMSE as number of variables decreases")
+    plt.title(actual_title)
 
     plt.legend(loc=5, bbox_to_anchor=(1.2, 0.5))
 
@@ -167,7 +167,6 @@ def multi_plot_RMSEs_bar(ys, newpath, d, title):
 
     plt.xlabel("Algorithms")
     plt.ylabel("RMSE (hours)")
-
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
 
@@ -226,6 +225,64 @@ def multi_plot_within96(ys, newpath, d, title):
 
     plt.savefig("%s%s_within96.png" % (newpath, title), bbox_inches='tight')
     plt.savefig("%sPDFs/%s_within96.pdf" % (newpath, title), bbox_inches='tight')
+
+    plt.close()
+
+import math
+
+def multi_plot_within96_bar(ys, newpath, d, title, actual_title):
+    x = range(len(ys[0]))
+    x = np.array(x)
+    ys = np.array(ys)
+
+    alg_initial_list = ["B", "LR", "EN", "GBR", "RFR"]
+    colours = ["#F1948A", "#85C1E9"]
+    if len(ys) == 3:
+        colours += ["#F7DC6F"] #b30000 AF000E
+
+    width = len(x)/(len(x) * (len(title)+1))
+    newwidth = width
+    minsofar = 100
+    maxsofar = 0
+    for y, colour, exp in zip(ys, colours, title):
+        if min(y) < minsofar:
+            minsofar = min(y)
+        if max(y) > maxsofar:
+            maxsofar = max(y)
+        plt.bar(x+newwidth, y, width, color=colour, label=exp, alpha=1, align="center")
+        newwidth += width
+
+    plt.title(actual_title)
+
+    plt.legend(loc=5, bbox_to_anchor=(1.2, 0.5))
+    plt.xticks(x+(width*(len(title)+1) /2), alg_initial_list)
+
+    plt.xlabel("Algorithms")
+    plt.ylabel("Correct Predictions Within 96 hours")
+
+    yticks_i = [i * 5 for i in range(21)]
+    # yticks = ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]
+    yticks = ["0%","5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%", "55%",
+              "60%", "65%", "70%", "75%", "80%", "85%", "90%", "95%", "100%"]
+    plt.yticks(yticks_i, yticks)
+
+    if minsofar < 10:
+        low = 0
+    else:
+        low = math.ceil(minsofar-5)
+
+    if maxsofar > 90:
+        high = 100
+    else:
+        high = math.ceil(maxsofar+5)
+
+    plt.ylim(low, high)
+
+    if not os.path.exists(newpath + "PDFs/"):
+        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+
+    plt.savefig("%s%s_within96_bar.png" % (newpath, title), bbox_inches='tight')
+    plt.savefig("%sPDFs/%s_within96_bar.pdf" % (newpath, title), bbox_inches='tight')
 
     plt.close()
 
@@ -292,11 +349,17 @@ if __name__ == "__main__":  # Run program
         df_pct_closes.append(percent_close) # for 1 df
 
     print("\n..plotting pct correct..\n")
-    for pct_close, RMSE, title in zip(df_pct_closes, RMSEs, input_file_names):
+    for pct_close, title in zip(df_pct_closes, input_file_names):
         multi_plot_pct_correct(pct_close, newpath, d, title)
 
     print("\n..plotting RMSE bar..\n")
-    multi_plot_RMSEs_bar(dfs_RMSEs, newpath, d, input_file_names)
+
+    if "July" in input_file_names or "June" in input_file_names:
+        actual_title = "RMSE for Training and Testing Stages"
+    else:
+        actual_title = "RMSE as number of variables decreases"
+
+    multi_plot_RMSEs_bar(dfs_RMSEs, newpath, d, input_file_names, actual_title)
 
     print("\n..plotting RMSE line..\n")
     dfs_RMSEs_T = np.transpose(dfs_RMSEs)
@@ -306,28 +369,5 @@ if __name__ == "__main__":  # Run program
     dfs_pct_close96_T = np.transpose(dfs_pct_close96)
     multi_plot_within96(dfs_pct_close96_T, newpath, d, input_file_names)
 
-
-
-
-
-
-
-
-    # want to compare % correct within 96 hours across experiments
-        # x = df experiment name
-        # y = % correct within 96 hours
-        # Baseline, EN, GBR, LR, RFR
-    # want to compare RMSE across experiments
-        # x = df experiment name
-        # y = % correct within 96 hours
-        # Baseline, EN, GBR, LR, RFR
-    # want to compare % correct against time for one experiment
-        # x = Time (hours)
-        # y = % correct within hours
-        # Baseline, EN, GBR, LR, RFR
-
-    # B4, man, min
-
-    # B4, June, July
-
-    # June, July
+    actual_title = "Correct Predictions Within 96 Hours"
+    multi_plot_within96_bar(dfs_pct_close96, newpath, d, input_file_names, actual_title=actual_title)

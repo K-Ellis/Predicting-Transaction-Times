@@ -21,8 +21,19 @@ import matplotlib.pyplot as plt
 import os  # Used to create folders
 from shutil import copyfile  # Used to copy parameters file to directory
 
-parameters = "../../../Data/parameters.txt"  # Parameters file
-
+def get_parameters(parameters):
+    d = {}
+    with open(parameters, "r") as f:
+        for line in f:
+            line = line.replace(":", "")
+            line = line.replace(",", "")
+            line = line.split()
+            key = line.pop(0)
+            if len(line) > 1:
+                d[key] = line
+            else:
+                d[key] = line[0]
+    return d
 
 def day_in_quarter(date):
     # Function found on stack overflow
@@ -43,25 +54,24 @@ def day_in_quarter(date):
 
 
 if __name__ == "__main__":  # Run program
-    d = {}
-    with open(parameters, "r") as f:
-        for line in f:
-            line = line.replace(":", "")
-            (key, val) = line.split()
-            d[key] = val
+    parameters = "../../../Data/parameters.txt"  # Parameters file
+    sample_parameters = "../Sample Parameter File/parameters.txt"
+    d = get_parameters(parameters)
+    sample_d = get_parameters(sample_parameters)
+    for key in sample_d.keys():
+        if key not in d.keys():
+            print("\"%s\" not in parameters.txt - please update parameters file with this key" % key)
+            print("Default key and value => \"%s: %s\"" % (key, sample_d[key]))
+            exit()
+    for key in d.keys():
+        if key not in sample_d.keys():
+            print("\"%s\" not in sample parameters" % key)
 
-    if d["user"] == "Kieron":
-            newpath = r"../0. Results/" + d["user"] + "/data_understanding/seasonality_study/" + time.strftime("%Y.%m.%d/")
-    else:
-        newpath = r"../0. Results/" + d["user"] + "/prepare_dataset/" + time.strftime("%Y.%m.%d/")  # Log file location
+    newpath = r"../0. Results/" + d["user"] + "/data_understanding/seasonality_study/"
     if not os.path.exists(newpath):
         os.makedirs(newpath)  # Make folder for storing results if it does not exist
 
-    if d["user"] == "Kieron":
-        df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
-    else:
-        df = pd.read_csv(d["file_location"] + "vw_Incident" + d["input_file"] + ".csv", encoding='latin-1',
-                     low_memory=False)
+    df = pd.read_csv(d["file_location"] + d["input_file"] + ".csv", encoding='latin-1', low_memory=False)
 
     col = "Program"
     if col in df.columns:
@@ -82,7 +92,7 @@ if __name__ == "__main__":  # Run program
     df = df[["Created_On", "ResolvedDate"]]  # Delete all columns apart from . .
     df["Created_On"] = pd.to_datetime(df["Created_On"])
     df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
-    df["TimeTaken"] = (df["ResolvedDate"] - df["Created_On"]).astype('timedelta64[s]')
+    df["TimeTaken"] = (df["ResolvedDate"] - df["Created_On"]).astype('timedelta64[h]')
 
     df["Created_On_Day"] = df["Created_On"].apply(lambda x: x.strftime("%H"))  # Time of the day
     df["ResolvedDate_Day"] = df["ResolvedDate"].apply(lambda x: x.strftime("%H"))  # Time of the day
@@ -99,13 +109,19 @@ if __name__ == "__main__":  # Run program
     list = ["Created_On_Day", "ResolvedDate_Day", "Created_On_Week", "ResolvedDate_Week", "Created_On_Month",
             "ResolvedDate_Month", "Created_On_Qtr", "ResolvedDate_Qtr", "Created_On_Year", "ResolvedDate_Year"]
 
+    meanpointprops = dict(marker='D', markeredgecolor='black', markerfacecolor='firebrick')
+    meanlineprops = dict(linestyle='-', linewidth=3, color='blue')
+    medianlineprops = dict(linestyle='-', linewidth=3, color='red')
+
     for column in list:
         plt.figure()
         data_to_plot = []
         for i in df[column].unique():
             df_temp = df[df[column] == i]
             data_to_plot.append(df_temp["TimeTaken"])
-        plt.boxplot(data_to_plot, showfliers=False)
+
+
+        plt.boxplot(data_to_plot, showfliers=False, showmeans=True, meanprops=meanlineprops , meanline=True, medianprops=medianlineprops)
         if column == "Created_On_Day" or column == "ResolvedDate_Day":
             plt.xticks([x+1 for x in range(24)])
             plt.xlabel(column + " - Time of Day (24 hours)")
@@ -124,26 +140,19 @@ if __name__ == "__main__":  # Run program
             every_x_days = [(x + 1) * 30 for x in range(4)]
             every_x_days.append(140)
             plt.xticks(every_x_days, every_x_days, rotation="vertical")
-            plt.ylim(0, 2500000)
+            plt.ylim(0, 2500000/3600)
             plt.xlabel(column + " - Day Number")
         plt.ylabel("TimeTaken")
         plt.title(column)
         plt.tight_layout()  # Force everything to fit on figure
 
-        if d["user"] == "Kieron":
-            plt.savefig(newpath + column + ".png")
-            if not os.path.exists(newpath + "PDFs/"):
-                os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
-            plt.savefig(newpath + "PDFs/" + column + ".pdf")
-        else:
-            plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + column + ".png")
-            plt.savefig(newpath + time.strftime("%H.%M.%S") + "_" + column + ".pdf")
+
+        plt.savefig(newpath + column + ".png")
+        if not os.path.exists(newpath + "PDFs/"):
+            os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+        plt.savefig(newpath + "PDFs/" + column + ".pdf")
+
         print(column, "plot created")
 
-    if d["user"] == "Kieron":
-        df.to_csv(d["file_location"] + "seasonality_study.csv", index=False)  # export file
-        copyfile(parameters, newpath + "parameters.txt")  # Save params
-    else:
-        df.to_csv(d["file_location"] + "vw_Incident_cleaned" + d["output_file"] + ".csv", index=False)  # export
-        # file
-        copyfile(parameters, newpath + "/" + time.strftime("%H.%M.%S") + "_parameters.txt")  # Save params
+    df.to_csv(d["file_location"] + "seasonality_study.csv", index=False)  # export file
+    copyfile(parameters, newpath + "parameters.txt")  # Save params
