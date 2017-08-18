@@ -5,6 +5,7 @@ import numpy as np
 import os  # Used to create folders
 from shutil import copyfile  # Used to copy parameters file to directory
 from sklearn.metrics import mean_squared_error
+import math
 
 def get_parameters(parameters):
     d = {}
@@ -228,7 +229,6 @@ def multi_plot_within96(ys, newpath, d, title):
 
     plt.close()
 
-import math
 
 def multi_plot_within96_bar(ys, newpath, d, title, actual_title):
     x = range(len(ys[0]))
