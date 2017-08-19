@@ -1,0 +1,30 @@
+LinearRegression 20170816-221000
+
+Input file name: min 
+
+LinearRegression - df Train Results
+	Train R2: 0.6858
+	Train RMSE: 76.53
+	Train MeanAE: 46.30
+	Train MedianAE: 24.24 
+	Train EVS: 0.69 
+
+	Predictions correct within 1 hour(s): 11.36%
+	Predictions correct within 4 hour(s): 15.91%
+	Predictions correct within 8 hour(s): 35.23%
+	Predictions correct within 16 hour(s): 44.32%
+	Predictions correct within 24 hour(s): 50.00%
+	Predictions correct within 48 hour(s): 64.77%
+	Predictions correct within 72 hour(s): 76.14%
+	Predictions correct within 96 hour(s): 87.50%
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Linear Regression were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "Created_on_Weekend" (-62.017256) [0.899484]
+	2. "Concurrent_open_cases" (-1.807867) [0.026221]
+	3. "Cases_created_within_past_8_hours" (-1.625864) [0.023581]
+	4. "Seconds_left_Month" (-1.349714) [0.019576]
+	5. "Seconds_left_Qtr" (-1.328876) [0.019274]
+	6. "Seconds_left_Day" (-0.818033) [0.011865]

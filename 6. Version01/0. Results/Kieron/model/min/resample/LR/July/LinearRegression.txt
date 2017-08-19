@@ -1,0 +1,30 @@
+LinearRegression 20170816-221039
+
+Input file name: min
+
+LinearRegression - df Test Results
+	Test R2: -14.6205
+	Test RMSE: 146.83
+	Test MeanAE: 145.11
+	Test MedianAE: 155.55 
+	Test EVS: 0.64 
+
+	Predictions correct within 1 hour(s): 0.00%
+	Predictions correct within 4 hour(s): 0.00%
+	Predictions correct within 8 hour(s): 0.00%
+	Predictions correct within 16 hour(s): 0.00%
+	Predictions correct within 24 hour(s): 0.00%
+	Predictions correct within 48 hour(s): 0.00%
+	Predictions correct within 72 hour(s): 0.00%
+	Predictions correct within 96 hour(s): 0.00%
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Linear Regression were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "Created_on_Weekend" (-49.951242) [0.738539]
+	2. "Seconds_left_Qtr" (-9.575780) [0.141580]
+	3. "Cases_created_within_past_8_hours" (-3.718485) [0.054979]
+	4. "Concurrent_open_cases" (-2.326871) [0.034403]
+	5. "Seconds_left_Day" (-1.104263) [0.016327]
+	6. "Seconds_left_Month" (-0.958597) [0.014173]
