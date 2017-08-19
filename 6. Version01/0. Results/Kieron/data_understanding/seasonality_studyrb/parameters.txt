@@ -2,7 +2,7 @@ beep: y
 resample: n
 n_samples: 1000
 seed: 1234
-specify_subfolder: n
+specify_subfolder: B42
 ########### ################
 PREPARE_DATASET ############
 ########### ################
@@ -73,7 +73,6 @@ prev******: man_Pre-June_predictions, man_June_predictions
 prev******: Pre-June, June
 input_files: man_Pre-June_predictions, man_June_predictions
 input_file_names: Pre-June, June
-plotting_input_file: B4
 ########### ################
 GRID_SEARCH ################
 ########### ################

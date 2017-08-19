@@ -142,7 +142,7 @@ if __name__ == "__main__":  # Run program
             plt.xticks(every_x_days, every_x_days, rotation="vertical")
             plt.ylim(0, 2500000/3600)
             plt.xlabel(column + " - Day Number")
-        plt.ylabel("TimeTaken")
+        plt.ylabel("TimeTaken (hours)")
         plt.title(column)
         plt.tight_layout()  # Force everything to fit on figure
 
