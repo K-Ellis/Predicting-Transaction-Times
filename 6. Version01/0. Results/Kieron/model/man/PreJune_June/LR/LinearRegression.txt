@@ -1,0 +1,56 @@
+LinearRegression 20170817-111942
+
+Input file name: man 
+
+LinearRegression - df Train Results
+	Train R2: 0.6949
+	Train RMSE: 78.22
+	Train MeanAE: 50.93
+	Train MedianAE: 36.36 
+	Train EVS: 0.70 
+
+	Predictions correct within 1 hour(s): 2.35%
+	Predictions correct within 4 hour(s): 9.59%
+	Predictions correct within 8 hour(s): 19.28%
+	Predictions correct within 16 hour(s): 29.80%
+	Predictions correct within 24 hour(s): 39.60%
+	Predictions correct within 48 hour(s): 58.44%
+	Predictions correct within 72 hour(s): 77.42%
+	Predictions correct within 96 hour(s): 88.36%
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Linear Regression were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "SalesLocation_other" (57305.490795) [0.782468]
+	2. "Queue_Broken" (6975.285031) [0.095243]
+	3. "Queue_E&E" (2090.335764) [0.028542]
+	4. "CountrySource_other" (-1387.325124) [0.018943]
+	5. "CountryProcessed_other" (1354.263903) [0.018492]
+	6. "CountryProcessed_australia" (1228.842215) [0.016779]
+	7. "SalesLocation_australia" (-404.424065) [0.005522]
+	8. "CountryProcessed_southamerica" (397.721296) [0.005431]
+	9. "CountrySource_europe" (231.769529) [0.003165]
+	10. "CountrySource_australia" (209.557342) [0.002861]
+	11. "CountrySource_southamerica" (205.106281) [0.002801]
+	12. "Queue_LOC" (-194.859034) [0.002661]
+	13. "SalesLocation_europe" (-192.292850) [0.002626]
+	14. "CountrySource_northamerica" (143.502759) [0.001959]
+	15. "CountryProcessed_northamerica" (108.047627) [0.001475]
+	16. "ROCName_EOC" (106.506763) [0.001454]
+	17. "SalesLocation_southamerica" (-100.156067) [0.001368]
+	18. "SalesLocation_northamerica" (-98.098086) [0.001339]
+	19. "CountryProcessed_asia" (83.846155) [0.001145]
+	20. "Queue_APOC" (76.436979) [0.001044]
+	21. "SalesLocation_asia" (-72.064481) [0.000984]
+	22. "Created_on_Weekend" (-60.552545) [0.000827]
+	23. "CountryProcessed_europe" (-57.647319) [0.000787]
+	24. "Queue_NAOC" (-54.900365) [0.000750]
+	25. "ROCName_APOC" (50.655505) [0.000692]
+	26. "CountrySource_asia" (-21.104657) [0.000288]
+	27. "Queue_EOC" (18.792496) [0.000257]
+	28. "Concurrent_open_cases" (-1.760281) [0.000024]
+	29. "Cases_created_within_past_8_hours" (-1.745131) [0.000024]
+	30. "Seconds_left_Qtr" (-1.569654) [0.000021]
+	31. "Seconds_left_Month" (-1.296596) [0.000018]
+	32. "Seconds_left_Day" (-0.881919) [0.000012]

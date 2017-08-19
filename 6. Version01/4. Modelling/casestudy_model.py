@@ -31,6 +31,20 @@ import datetime
 from sklearn.preprocessing import StandardScaler
 
 
+def get_parameters(parameters):
+    d = {}
+    with open(parameters, "r") as f:
+        for line in f:
+            line = line.replace(":", "")
+            line = line.replace(",", "")
+            line = line.split()
+            key = line.pop(0)
+            if len(line) > 1:
+                d[key] = line
+            else:
+                d[key] = line[0]
+    return d
+
 def plot_percent_correct(y_vals, newpath, alg_initials, input_file, std=None):
     y_vals = [0] + y_vals
     x = range(len(y_vals))
@@ -75,7 +89,12 @@ def tree_importances(regr, X, algpath, d, out_file, alg_initials):
 
     print("Feature Importances:")
     out_file.write("\n\nFeature Importances:\n")
-    out_file.write("\nThe importances for each variable used by Random Forest Regression were as follows:\n")
+    if alg_initials == "RFR":
+        alg_name = "Random Forest Regression"
+    else:
+        alg_name = "Gradient Boosting Regression"
+
+    out_file.write("\nThe importances for each variable used by %s were as follows:\n" % alg_name)
     for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist())):
         out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
@@ -110,8 +129,12 @@ def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
 
     print("Feature Importances: \"column\" (magnitude of importance) [percentage of importance]")
     out_file.write("\n\nFeature Importances: \"column\" (magnitude of importance) [percentage of importance]\n")
-    
-    out_file.write("\nThe importances for each variable used by Linear Regression were as follows:")
+    if alg_initials == "LR":
+        alg_name = "Linear Regression"
+    else:
+        alg_name = "Èlastic Net"
+
+    out_file.write("\nThe importances for each variable used by %s were as follows:" % alg_name)
     out_file.write("\n\"Variable Name\" (Standardised Regression Coefficient) [Percentage of Importance]\n")
     
     for i, (col, importance, pct) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
@@ -437,11 +460,11 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
 
         if x_label == "Day of Year Resolved" or x_label == "Day of Year Created":
             plt.xticks(x_ticks, x_ticks, rotation = "vertical")
-            plt.xlim(56, 210)
+            plt.xlim(56, 227)
             # todo - change the xticks with the actual end of data date instead of guessing at 240
         elif x_label == "Month Of Year Created" or x_label == "Month Of Year Resolved":
-            plt.xticks([_+1 for _ in range(6)], x_ticks)
-            plt.xlim(0, 7)
+            plt.xticks([_+1 for _ in range(7)], x_ticks)
+            plt.xlim(0, 8)
         else:
             plt.xticks(x_ticks, x_ticks)
 
@@ -547,25 +570,25 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 9, "Created_On_MonthOfYear")
-    x_vals = [2,3,4,5,6,7]
+    x_vals = [2,3,4,5,6,7,8]
     x_label = "Month Of Year Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 9, "ResolvedDate_MonthOfYear")
-    x_vals = [2,3,4,5,6,7]
+    x_vals = [2,3,4,5,6,7,8]
     x_label = "Month Of Year Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
-    scores = get_errors(df, alg, 240, "Created_On_Year")
+    scores = get_errors(df, alg, 227, "Created_On_Year")
     # todo - change the xticks with the actual end of data date instead of guessing at 240
     x_vals = [(x+1)*7 for x in range(34)]
     x_label = "Day of Year Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
-    scores = get_errors(df, alg, 240, "ResolvedDate_Year")
+    scores = get_errors(df, alg, 227, "ResolvedDate_Year")
     # todo - change the xticks with the actual end of data date instead of guessing at 240
     x_vals = [(x+1)*7 for x in range(34)]
     x_label = "Day of Year Resolved"
@@ -1201,17 +1224,21 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         if d["output_predictions_csv"] == "y":
             if d["specify_subfolder"] == "n":
                 if d["prejuly_july"] == "y":
-                    df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_July_predictions.csv" % alg_initials,
+                    df_test.to_csv(d["file_location"] + d["input_file"] + "_July_predictions.csv",
                                    index=False)
+                    df.to_csv(d["file_location"] + d["input_file"] + "_Pre-July_predictions.csv",
+                              index=False)
+
                 elif d["prejune_june"] == "y":
-                    df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_June_predictions.csv" % alg_initials,
+                    df_test.to_csv(d["file_location"] + d["input_file"] + "_June_predictions.csv",
                                    index=False)
+                    df.to_csv(d["file_location"] + d["input_file"] + "_Pre-June_predictions.csv",
+                              index=False)
+
                 elif d["prejune_junejuly"] == "y":
                     df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_JuneJuly_predictions.csv" % alg_initials,
                                    index=False)
-                elif d["train_test_split"] == "y":
-                    df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_TrainTestSplit_predictions.csv" % alg_initials,
-                                   index=False)
+
             else:
                 df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_%s_predictions.csv" % (d["specify_subfolder"],
                                                                                                 alg_initials), index=False)
@@ -1225,19 +1252,8 @@ if __name__ == "__main__":  # Run program
     sample_parameters = "../Sample Parameter File/parameters.txt"
 
     print("Modeling dataset", time.strftime("%Y.%m.%d"), time.strftime("%H.%M.%S"))
-    d = {}
-    with open(parameters, "r") as f:
-        for line in f:
-            line = line.replace(":", "")
-            (key, val) = line.split()
-            d[key] = val
-
-    sample_d = {}
-    with open(sample_parameters, "r") as f:
-        for line in f:
-            line = line.replace(":", "")
-            (key, val) = line.split()
-            sample_d[key] = val
+    d = get_parameters(parameters)
+    sample_d = get_parameters(sample_parameters)
 
     for key in sample_d.keys():
         if key not in d.keys():

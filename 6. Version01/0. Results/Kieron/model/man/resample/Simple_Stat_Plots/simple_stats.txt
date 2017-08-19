@@ -1,31 +1,34 @@
-Simple Stats - 20170814-224941
+Simple Stats - 20170818-124225
 
 Input file name: man
 
-DF Shape: (100, 40)
+DF Shape: (1000, 35)
 
 Simple TimeTaken stats
-	mean_time = 70.73348611111112
-	std_time = 82.14519665763713
-	median_time = 31.3415277778
+	mean_time = 100.51734749999991
+	std_time = 126.94407371405305
+	median_time = 52.9608333333
 
-	Mean % test predictions error within 1 hour(s) -> Mean: 1.00% of 100/10
-	Mean % test predictions error within 4 hour(s) -> Mean: 1.00% of 100/10
-	Mean % test predictions error within 8 hour(s) -> Mean: 11.00% of 100/10
-	Mean % test predictions error within 16 hour(s) -> Mean: 12.00% of 100/10
-	Mean % test predictions error within 24 hour(s) -> Mean: 21.00% of 100/10
-	Mean % test predictions error within 48 hour(s) -> Mean: 38.00% of 100/10
-	Mean % test predictions error within 72 hour(s) -> Mean: 82.00% of 100/10
-	Mean % test predictions error within 96 hour(s) -> Mean: 85.00% of 100/10
 
-	mean_time_test_r2 = 0.0
-	mean_time_test_rmse = 82.1451966576
-	mean_time_test_meanae = 63.4098141667
-	mean_time_test_evs = 0.0
-	mean_time_test_medianae = 60.8220972222
+	The mean time taken to resolve cases was 100.52 hours, median was 52.96 hours and the standard deviation was 126.94 hours.
+	Predictions correct within 1 hour(s): 0.80%
+	Predictions correct within 4 hour(s): 2.80%
+	Predictions correct within 8 hour(s): 5.20%
+	Predictions correct within 16 hour(s): 7.90%
+	Predictions correct within 24 hour(s): 14.30%
+	Predictions correct within 48 hour(s): 28.30%
+	Predictions correct within 72 hour(s): 44.60%
+	Predictions correct within 96 hour(s): 73.80%
 
-	median_time_test_r2 = -0.229959203873
-	median_time_test_rmse = 91.1019193829
-	median_time_test_meanae = 58.8587305556
-	median_time_test_evs = -2.22044604925e-16
-	median_time_test_medianae = 27.8797222222
+Mean:
+	Test R2 = 1.11022302463e-16
+	Test RMSE = 126.944073714
+	Test MeanAE = 90.23374748
+	Test MedianAE = 76.4470697222
+
+	Test EVS = 0.0
+	median_time_test_r2 = -0.140344425079
+	median_time_test_rmse = 135.559654362
+	median_time_test_meanae = 82.8958913889
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 46.9470833333

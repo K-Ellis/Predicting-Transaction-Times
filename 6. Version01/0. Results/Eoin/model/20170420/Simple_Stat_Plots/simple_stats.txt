@@ -1,0 +1,34 @@
+Simple Stats - 20170817-150704
+
+Input file name: 20170420
+
+DF Shape: (4582, 78)
+
+Simple TimeTaken stats
+	mean_time = 122.4532136621566
+	std_time = 129.62080302503114
+	median_time = 75.1136111111
+
+
+	The mean time taken to resolve cases was 122.45 hours, median was 75.11 hours and the standard deviation was 129.62 hours.
+	Predictions correct within 1 hour(s): 0.92
+	Predictions correct within 4 hour(s): 2.95
+	Predictions correct within 8 hour(s): 4.71
+	Predictions correct within 16 hour(s): 6.48
+	Predictions correct within 24 hour(s): 11.22
+	Predictions correct within 48 hour(s): 21.91
+	Predictions correct within 72 hour(s): 34.57
+	Predictions correct within 96 hour(s): 47.82
+
+Mean:
+	Test R2 = -2.22044604925e-16
+	Test RMSE = 129.620803025
+	Test MeanAE = 103.878415461
+	Test MedianAE = 97.738352551
+
+	Test EVS = 0.0
+	median_time_test_r2 = -0.133382790634
+	median_time_test_rmse = 137.99489319
+	median_time_test_meanae = 98.2885549736
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 67.5498611111

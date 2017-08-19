@@ -31,6 +31,21 @@ import datetime
 from sklearn.preprocessing import StandardScaler
 
 
+def get_parameters(parameters):
+    d = {}
+    with open(parameters, "r") as f:
+        for line in f:
+            line = line.replace(":", "")
+            line = line.replace(",", "")
+            line = line.split()
+            key = line.pop(0)
+            if len(line) > 1:
+                d[key] = line
+            else:
+                d[key] = line[0]
+    return d
+
+
 def plot_percent_correct(y_vals, newpath, alg_initials, input_file, std=None):
     y_vals = [0] + y_vals
     x = range(len(y_vals))
@@ -75,7 +90,13 @@ def tree_importances(regr, X, algpath, d, out_file, alg_initials):
 
     print("Feature Importances:")
     out_file.write("\n\nFeature Importances:\n")
-    out_file.write("\nThe importances for each variable used by Random Forest Regression were as follows:\n")
+    
+    if alg_initials == "RFR":
+        alg_name = "Random Forest Regression"
+    else:
+        alg_name = "Gradient Boosting Regression"
+    
+    out_file.write("\nThe importances for each variable used by %s were as follows:\n" % alg_name)
     for i, (col, importance) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
         "Importances"].values.tolist())):
         out_file.write("\t%d. \"%s\" (%f)\n" % (i + 1, col, importance))
@@ -111,7 +132,12 @@ def regression_coef_importances(regr, X, algpath, d, out_file, alg_initials):
     print("Feature Importances: \"column\" (magnitude of importance) [percentage of importance]")
     out_file.write("\n\nFeature Importances: \"column\" (magnitude of importance) [percentage of importance]\n")
     
-    out_file.write("\nThe importances for each variable used by Linear Regression were as follows:")
+    if alg_initials == "LR":
+        alg_name = "Linear Regression"
+    else:
+        alg_name = "Èlastic Net"
+    
+    out_file.write("\nThe importances for each variable used by %s were as follows:" % alg_name)
     out_file.write("\n\"Variable Name\" (Standardised Regression Coefficient) [Percentage of Importance]\n")
     
     for i, (col, importance, pct) in enumerate(zip(dfimportances["Columns"].values.tolist(), dfimportances[
@@ -142,7 +168,7 @@ def return_new_top_k_df(in_df, dfimportances, k):
 def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.figure()  # Plot all data
     plt.hist(df[column], bins='auto')
-    plt.xlabel('TimeTaken (Seconds)')
+    plt.xlabel('TimeTaken (hours)')
     plt.ylabel('Frequency')
     plt.title(column + " all data")
     if not os.path.exists(newpath + "PDFs/"):
@@ -152,26 +178,62 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.close()
 
     plt.figure()  # Plot times under 500,000 seconds
-    plt.hist(df[df.TimeTaken < 500000][column], bins='auto')
-    plt.xlabel('TimeTaken (Seconds)')
+    n, bins, patches = plt.hist(df[df.TimeTaken < 120][column], bins=60)
+
+
+    bar_value_to_label_list = [x*24 for x in range(10)]
+    bar_value_to_label_list += [4, 26, 50, 74, 98, 122]
+    bar_value_to_label_list += [4, 28, 52, 76, 100, 124]
+    bar_value_to_label_list += [4, 22, 46, 70, 94, 118]
+    for bar_value_to_label in bar_value_to_label_list:
+        min_distance = float("inf")  # initialize min_distance with infinity
+        index_of_bar_to_label = 0
+        for i, rectangle in enumerate(patches):  # iterate over every bar
+            tmp = abs(  # tmp = distance from middle of the bar to bar_value_to_label
+                (rectangle.get_x() +
+                 (rectangle.get_width() * (1 / 2))) - bar_value_to_label)
+            if tmp < min_distance:  # we are searching for the bar with x cordinate
+                # closest to bar_value_to_label
+                min_distance = tmp
+                index_of_bar_to_label = i
+        patches[index_of_bar_to_label].set_color('#d85252')
+    plt.tick_params('both', length=4, width=1, which='major')
+    xticks = [x*8 for x in range(int(16))]
+    plt.xticks(xticks, xticks)
+
+    # bar_value_to_label_list = [x*24 for x in range(10)]
+    # for bar_value_to_label in bar_value_to_label_list:
+    #     min_distance = float("inf")  # initialize min_distance with infinity
+    #     index_of_bar_to_label = 0
+    #     for i, rectangle in enumerate(patches):  # iterate over every bar
+    #         tmp = abs(  # tmp = distance from middle of the bar to bar_value_to_label
+    #             (rectangle.get_x() +
+    #              (rectangle.get_width() * (1 / 2))) - bar_value_to_label)
+    #         if tmp < min_distance:  # we are searching for the bar with x cordinate
+    #             # closest to bar_value_to_label
+    #             min_distance = tmp
+    #             index_of_bar_to_label = i
+    #     patches[index_of_bar_to_label].set_color('#07ba07')
+
+    plt.xlabel('TimeTaken (Hours)')
     plt.ylabel('Frequency')
-    plt.title(column + " < 500000s data")
+    plt.title(column + " < 120 Hours data")
     plt.savefig(newpath + column + "_500000.png")
     plt.savefig(newpath + "PDFs/" + column + "_500000.pdf")
     plt.close()
 
     plt.figure()  # Plot times under 100,000 seconds
-    plt.hist(df[df.TimeTaken < 100000][column], bins='auto')
-    plt.xlabel('TimeTaken (Seconds)')
+    plt.hist(df[df.TimeTaken < 50][column], bins='auto')
+    plt.xlabel('TimeTaken (Hours)')
     plt.ylabel('Frequency')
-    plt.title(column + " < 100000s data")
+    plt.title(column + " < 50 Hours data")
     plt.savefig(newpath + column + "_100000.png")
     plt.savefig(newpath + "PDFs/" + column + "_100000.pdf")
     plt.close()
 
     plt.figure()  # Plot all data
     plt.hist(np.log(df[column]), bins='auto')
-    plt.xlabel('Log of TimeTaken (Seconds)')
+    plt.xlabel('Log of TimeTaken (Hours)')
     plt.ylabel('Frequency')
     plt.title(column + " Log of all data")
     plt.savefig(newpath + column + "_log_all.png")
@@ -179,19 +241,19 @@ def histogram(df, column, newpath):  # Create histogram of preprocessed data
     plt.close()
 
     plt.figure()  # Plot times under 500,000 seconds
-    plt.hist(np.log(df[df.TimeTaken < 500000][column]), bins='auto')
-    plt.xlabel('Log of TimeTaken (Seconds)')
+    plt.hist(np.log(df[df.TimeTaken < 120][column]), bins='auto')
+    plt.xlabel('Log of TimeTaken (Hours)')
     plt.ylabel('Frequency')
-    plt.title(column + " Log of < 500000s data")
+    plt.title(column + " Log of < 120 hours data")
     plt.savefig(newpath + column + "_log_500000.png")
     plt.savefig(newpath + "PDFs/" + column + "_log_500000.pdf")
     plt.close()
 
     plt.figure()  # Plot times under 100,000 seconds
-    plt.hist(np.log(df[df.TimeTaken < 100000][column]), bins='auto')
-    plt.xlabel('Log of TimeTaken (Seconds)')
+    plt.hist(np.log(df[df.TimeTaken < 50][column]), bins='auto')
+    plt.xlabel('Log of TimeTaken (Hours)')
     plt.ylabel('Frequency')
-    plt.title(column + " Log of < 100000s data")
+    plt.title(column + " Log of < 50 hours data")
     plt.savefig(newpath + column + "_log_100000.png")
     plt.savefig(newpath + "PDFs/" + column + "_log_100000.pdf")
     plt.close()
@@ -355,10 +417,10 @@ def day_in_quarter(date):
 def get_extra_cols(df, alg, d):
     df["Created_On"] = pd.to_datetime(df["Created_On"])
     df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
-    df["TimeTaken_hours"] = df["TimeTaken"]/60/60
-
-
-    df["TimeTaken_hours_%s"%alg] = df["TimeTaken_%s"%alg]/60/60
+    # df["TimeTaken_hours"] = df["TimeTaken"]/60/60
+    #
+    #
+    # df["TimeTaken_hours_%s"%alg] = df["TimeTaken_%s"%alg]/60/60
 
     df["Created_On_Day"] = df["Created_On"].apply(lambda x: int(x.strftime("%H")))  # Time of the day
     df["ResolvedDate_Day"] = df["ResolvedDate"].apply(lambda x: int(x.strftime("%H")))  # Time of the day
@@ -391,8 +453,8 @@ def get_errors(df, alg, time_range, col):
     rmse_scores = []
     mae_scores = []
     for i in range(time_range):
-        actual = df.loc[df[col] == i, "TimeTaken_hours"]
-        predicted = df.loc[df[col] == i, "TimeTaken_hours_%s"%alg]
+        actual = df.loc[df[col] == i, "TimeTaken"]
+        predicted = df.loc[df[col] == i, "TimeTaken_%s"%alg]
 
         if len(df[col][df[col] == i]) == 0:
             r2_scores.append(0)
@@ -437,17 +499,22 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
 
         if x_label == "Day of Year Resolved" or x_label == "Day of Year Created":
             plt.xticks(x_ticks, x_ticks, rotation = "vertical")
-            plt.xlim(56, 210)
+            plt.xlim(56, 224)
             # todo - change the xticks with the actual end of data date instead of guessing at 240
         elif x_label == "Month Of Year Created" or x_label == "Month Of Year Resolved":
-            plt.xticks([_+1 for _ in range(6)], x_ticks)
-            plt.xlim(0, 7)
+            plt.xticks([_+1 for _ in range(7)], x_ticks)
+            plt.xlim(0, 8)
         else:
             plt.xticks(x_ticks, x_ticks)
 
         min_ylim = min(y_z)-np.std(y_z)/3
         if min_ylim < 0:
             min_ylim = 0
+
+        # if x_label == "Day of Year Created" or x_label == "Day of Year Resolved":
+        #     plt.ylim(0, 100)
+        #
+        # else:
         plt.ylim(min_ylim, max(y_z)+np.std(y_z)/3)
 
         if not os.path.exists(newpath + "PDFs/"):
@@ -473,7 +540,11 @@ def plot_errors(x_ticks, y, error_name, alg, y_label, x_label, data, alg_initial
         pal = sns.cubehelix_palette(len(y), start=1, rot=0,hue=1.5, gamma=1,dark=.3, light=0.9, reverse=reverse)
         rank = y_np.argsort().argsort()
         sns.barplot(x_num, y, palette=np.array(pal[::-1])[rank])
-        plt.xticks(x_num, x_ticks, rotation="vertical")
+
+        if x_label == "Day of Week Created" or x_label == "Day of Week Resolved":
+            plt.xticks(x_num, x_ticks, rotation=0)
+        else:
+            plt.xticks(x_num, x_ticks, rotation="vertical")
         plt.title("%s - %s to %s" % (alg, error_name, x_label))
         plt.ylabel(y_label)
         plt.xlabel(x_label)
@@ -547,25 +618,25 @@ def plot_errors_main(df, alg, data, newpath, alg_initials):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 9, "Created_On_MonthOfYear")
-    x_vals = [2,3,4,5,6,7]
+    x_vals = [2,3,4,5,6,7,8]
     x_label = "Month Of Year Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
     scores = get_errors(df, alg, 9, "ResolvedDate_MonthOfYear")
-    x_vals = [2,3,4,5,6,7]
+    x_vals = [2,3,4,5,6,7,8]
     x_label = "Month Of Year Resolved"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
-    scores = get_errors(df, alg, 240, "Created_On_Year")
+    scores = get_errors(df, alg, 227, "Created_On_Year")
     # todo - change the xticks with the actual end of data date instead of guessing at 240
     x_vals = [(x+1)*7 for x in range(34)]
     x_label = "Day of Year Created"
     for score, error_name, y_label in zip(scores, error_names, y_labels):
         plot_errors(x_vals, score, error_name, alg, y_label, x_label, data, alg_initials, newpath)
 
-    scores = get_errors(df, alg, 240, "ResolvedDate_Year")
+    scores = get_errors(df, alg, 227, "ResolvedDate_Year")
     # todo - change the xticks with the actual end of data date instead of guessing at 240
     x_vals = [(x+1)*7 for x in range(34)]
     x_label = "Day of Year Resolved"
@@ -1269,19 +1340,8 @@ if __name__ == "__main__":  # Run program
     sample_parameters = "../Sample Parameter File/parameters.txt"
 
     print("Modeling dataset", time.strftime("%Y.%m.%d"), time.strftime("%H.%M.%S"))
-    d = {}
-    with open(parameters, "r") as f:
-        for line in f:
-            line = line.replace(":", "")
-            (key, val) = line.split()
-            d[key] = val
-
-    sample_d = {}
-    with open(sample_parameters, "r") as f:
-        for line in f:
-            line = line.replace(":", "")
-            (key, val) = line.split()
-            sample_d[key] = val
+    d = get_parameters(parameters)
+    sample_d = get_parameters(sample_parameters)
 
     for key in sample_d.keys():
         if key not in d.keys():

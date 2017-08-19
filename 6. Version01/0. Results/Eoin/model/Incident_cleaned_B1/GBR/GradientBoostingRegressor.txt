@@ -1,0 +1,32 @@
+GradientBoostingRegressor 20170816-202340
+
+Input file name: Incident_cleaned_B1 
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.1310 (+/-0.0021)
+	Train Mean RMSE: 121.04 (+/-0.43)
+	Train Mean MeanAE: 81.58 (+/-0.31)
+	Train Mean MedianAE: 61.03 (+/-0.26)
+	Train Mean EVS: 0.13 (+/-0.00)
+	Test Mean R2: 0.1078 (+/-0.0140)
+	Test Mean RMSE: 122.59 (+/-3.85)
+	Test Mean MeanAE: 82.45 (+/-1.94)
+	Test Mean MedianAE: 61.34 (+/-2.19)
+	Test Mean EVS: 0.11 (+/-0.01)
+
+	Predictions correct within 1 hour(s): 0.85
+	Predictions correct within 4 hour(s): 3.17
+	Predictions correct within 8 hour(s): 5.93
+	Predictions correct within 16 hour(s): 10.53
+	Predictions correct within 24 hour(s): 16.98
+	Predictions correct within 48 hour(s): 39.68
+	Predictions correct within 72 hour(s): 57.52
+	Predictions correct within 96 hour(s): 78.04
+
+Feature Importances:
+
+The importances for each variable used by Random Forest Regression were as follows:	1. "AmountinUSD" (0.791348)
+	2. "IsSignature" (0.127304)
+	3. "IsMagnumCase" (0.046351)
+	4. "IsGovernment" (0.020691)
+	5. "IsSOXCase" (0.014306)

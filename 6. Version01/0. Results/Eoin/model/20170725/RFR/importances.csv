@@ -1,0 +1,98 @@
+Columns,Importances
+Concurrent_open_cases,0.817227738792963
+Rolling_Std,0.05262225070174984
+Seconds_left_Qtr,0.04364380766461366
+Rolling_Mean,0.031236773005214328
+Seconds_left_Month,0.021720363478902757
+Rolling_Median,0.013255826510453407
+Cases_resolved_within_past_8_hours,0.005031001372905231
+Seconds_left_Day,0.003989696958753535
+Cases_created_within_past_8_hours,0.0033155052488226377
+Created_on_Weekend,0.0014356812754934964
+AmountinUSD,0.0010460544617187577
+SubReason_Basic Enterprise Commitment,0.000457575738984266
+Source_Soft Copy,0.00042360216123442894
+StageName,0.0002951359857127304
+CountryProcessed_northamerica,0.00027182388625576255
+SubReason_Meteaop,0.00016431741390802732
+SubReason_Zero Usage Order,0.00016081621825697037
+Queue_NAOC,0.0001547107276977205
+Source_Web,0.0001497025280941834
+ROCName_APOC,0.00014421491774909708
+Source_eAgreement (Phy),0.00013964527354408025
+IsSignature,0.00013848864050373285
+SalesLocation_northamerica,0.00012595364703619396
+Source_Hard Copy,0.00012116937457568673
+Queue_APOC,0.0001201144403037955
+CountrySource_northamerica,0.00011856678092027893
+IsGovernment,0.00011658864474378252
+Revenutype_Current Revenue,0.0001152487298730879
+StatusReason_Completed,0.00011323194870171185
+StatusReason_Problem Solved,0.00010751466500863662
+SubReason_Manual Order Entry,0.00010096174953283045
+SubReason_Future Pricing Only CPS,0.00010092598344088579
+Queue_EOC,0.00010063340814666457
+Revenutype_Credit / Rebill,0.00010015313045879514
+SalesLocation_australia,9.93232687753407e-05
+CountryProcessed_asia,9.897095442590685e-05
+Revenutype_Non-revenue,9.78920793337978e-05
+ROCName_EOC,8.988851038176019e-05
+SubReason_True Up,8.791636864101412e-05
+CountrySource_australia,8.490152468707175e-05
+Revenutype_Future Billing,8.047127936988325e-05
+IsMagnumCase,8.021717639811529e-05
+CountryProcessed_southamerica,7.406324249984219e-05
+SalesLocation_asia,7.065028835297771e-05
+IsSOXCase,6.65708034093916e-05
+CountrySource_europe,6.569790625013391e-05
+CountryProcessed_europe,6.415409440592421e-05
+Queue_LOC,5.9606957620708904e-05
+SalesLocation_europe,5.720397621953712e-05
+Source_Manual,5.67223148150427e-05
+SubReason_Electronic Order Pend / Reject,5.452020688852576e-05
+Complexity,5.26912963145977e-05
+SalesLocation_southamerica,4.9011647247757996e-05
+CountrySource_southamerica,4.6894129201120765e-05
+CountrySource_asia,4.605825235662489e-05
+Priority,3.8675769365833024e-05
+SubReason_Tax Exemption Order,3.6422870992053524e-05
+Revenutype_Revenue Unknown,3.1818831106083754e-05
+sourcesystem_CLT,1.0203582499040006e-05
+StatusReason_Customer Hold,7.25524249968108e-06
+SubReason_P&H Electronic Order,3.826195480790385e-06
+sourcesystem_NMEC,3.5201570397599477e-06
+StatusReason_Information Provided,3.0097623641046397e-06
+Revenutype_Future OTRRR without OLS,2.779250850846149e-06
+Queue_E&E,2.130800082791704e-06
+Revenutype_Future OTRRR with OLS,1.9863896052317055e-06
+CountryProcessed_australia,1.6594714847924648e-06
+Revenutype_Revenue Impacting Case / Pending Revenue,1.6434970295147486e-06
+CountrySource_other,1.527736925826514e-06
+Queue_Broken,1.166918248531055e-06
+CountryProcessed_other,1.1641353114352636e-06
+Revenutype_Disputed Revenue,1.0501506450024756e-06
+Source_eAgreement (Ele),4.3734035532658127e-07
+sourcesystem_Aplquest,2.8287094634425995e-07
+sourcesystem_`,1.0485900802877702e-07
+StatusReason_New Mail,6.452359586812897e-08
+Source_Fax,1.7692031884816986e-08
+sourcesystem_clt,1.3057296380250162e-08
+SalesLocation_other,8.598784540207346e-09
+StatusReason_Ready for Archiving,4.717178535544804e-09
+sourcesystem_web,2.0451572758163644e-09
+StatusReason_Ready for Audit,7.408839327249259e-10
+Revenutype_New Work Sold,4.5477819074868133e-10
+sourcesystem_Moritz Jürgensen,2.8099527145974365e-10
+sourcesystem_NEMEC,1.121229813606295e-10
+StatusReason_Reactivated,1.0134500616524385e-10
+StatusReason_Final Routing,9.511087006784139e-11
+StatusReason_New,5.008609957508172e-12
+HoldTypeName_Internal,0.0
+AssignedToGroup_CRMT,0.0
+AuditDuration,0.0
+AssignedToGroup_BPO,0.0
+sourcesystem_Current Revenue,0.0
+sourcesystem_Web,0.0
+HoldDuration,0.0
+HoldTypeName_3rd Party,0.0
+HoldTypeName_Customer,0.0

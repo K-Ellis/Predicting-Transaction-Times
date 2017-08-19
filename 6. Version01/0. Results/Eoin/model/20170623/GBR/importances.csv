@@ -1,0 +1,89 @@
+Columns,Importances
+Concurrent_open_cases,0.4273683071670032
+Seconds_left_Qtr,0.220808618337674
+Seconds_left_Month,0.07842262443739484
+Rolling_Std,0.07108902915700725
+Rolling_Mean,0.05206498276605287
+Cases_resolved_within_past_8_hours,0.041959705873935056
+Rolling_Median,0.03441701327641316
+Created_on_Weekend,0.025416192960355993
+Seconds_left_Day,0.01988646236801718
+StatusReason_Problem Solved,0.0052302667372741965
+SubReason_Future Pricing Only CPS,0.0038169562122115563
+Source_Soft Copy,0.003475174631088814
+ROCName_EOC,0.003089991399963138
+SubReason_Zero Usage Order,0.0028741338010351536
+Cases_created_within_past_8_hours,0.0028663178280597078
+SubReason_Basic Enterprise Commitment,0.002476812883806147
+AmountinUSD,0.002298372287265708
+Queue_APOC,0.0011227197158216453
+Queue_NAOC,0.0010100812808677597
+Source_eAgreement (Phy),0.0002804627069851322
+IsMagnumCase,2.577417176764193e-05
+sourcesystem_Moritz Jürgensen,0.0
+sourcesystem_NEMEC,0.0
+sourcesystem_NMEC,0.0
+sourcesystem_Web,0.0
+SubReason_Meteaop,0.0
+Source_Fax,0.0
+SalesLocation_other,0.0
+SalesLocation_northamerica,0.0
+SalesLocation_europe,0.0
+SalesLocation_australia,0.0
+SalesLocation_asia,0.0
+sourcesystem_clt,0.0
+SalesLocation_southamerica,0.0
+Source_Manual,0.0
+Source_Hard Copy,0.0
+SubReason_Manual Order Entry,0.0
+sourcesystem_Current Revenue,0.0
+Source_Web,0.0
+Source_eAgreement (Ele),0.0
+StageName,0.0
+sourcesystem_CLT,0.0
+sourcesystem_Aplquest,0.0
+SubReason_True Up,0.0
+SubReason_Electronic Order Pend / Reject,0.0
+SubReason_Tax Exemption Order,0.0
+SubReason_P&H Electronic Order,0.0
+StatusReason_Information Provided,0.0
+Revenutype_New Work Sold,0.0
+Revenutype_Revenue Unknown,0.0
+CountryProcessed_southamerica,0.0
+HoldDuration,0.0
+CountrySource_southamerica,0.0
+CountrySource_other,0.0
+CountrySource_northamerica,0.0
+CountrySource_europe,0.0
+CountrySource_australia,0.0
+CountrySource_asia,0.0
+CountryProcessed_other,0.0
+HoldTypeName_Customer,0.0
+CountryProcessed_northamerica,0.0
+CountryProcessed_europe,0.0
+CountryProcessed_australia,0.0
+CountryProcessed_asia,0.0
+Complexity,0.0
+AuditDuration,0.0
+AssignedToGroup_CRMT,0.0
+HoldTypeName_3rd Party,0.0
+HoldTypeName_Internal,0.0
+Revenutype_Revenue Impacting Case / Pending Revenue,0.0
+Revenutype_Credit / Rebill,0.0
+Revenutype_Non-revenue,0.0
+AssignedToGroup_BPO,0.0
+Revenutype_Future OTRRR without OLS,0.0
+Revenutype_Future OTRRR with OLS,0.0
+Revenutype_Future Billing,0.0
+Revenutype_Disputed Revenue,0.0
+Revenutype_Current Revenue,0.0
+ROCName_APOC,0.0
+IsGovernment,0.0
+Queue_LOC,0.0
+Queue_EOC,0.0
+Queue_E&E,0.0
+Queue_Broken,0.0
+Priority,0.0
+IsSignature,0.0
+IsSOXCase,0.0
+sourcesystem_web,0.0

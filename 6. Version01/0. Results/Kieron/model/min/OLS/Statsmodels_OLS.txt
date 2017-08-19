@@ -1,4 +1,4 @@
-Statsmodels_OLS 20170816-131152
+Statsmodels_OLS 20170817-111940
 
 Input file name: min
 
@@ -16,8 +16,8 @@ Features used:
 Dep. Variable:              TimeTaken   R-squared:                       0.594
 Model:                            OLS   Adj. R-squared:                  0.593
 Method:                 Least Squares   F-statistic:                     5148.
-Date:                Wed, 16 Aug 2017   Prob (F-statistic):               0.00
-Time:                        13:11:52   Log-Likelihood:            -1.2845e+05
+Date:                Thu, 17 Aug 2017   Prob (F-statistic):               0.00
+Time:                        11:19:40   Log-Likelihood:            -1.2845e+05
 No. Observations:               21159   AIC:                         2.569e+05
 Df Residuals:                   21153   BIC:                         2.570e+05
 Df Model:                           6                                         

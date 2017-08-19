@@ -7,7 +7,7 @@ specify_subfolder: n
 PREPARE_DATASET ############
 ########### ################
 prepare_input_file: vw_Incident
-prepare_output_file: min
+prepare_output_file: man
 ########### ################
 append_HoldDuration: n
 append_AuditDuration: n
@@ -17,13 +17,13 @@ Cases_resolved_within_past_8_hours: n
 Seconds_left_Day: y
 Seconds_left_Month: y
 Seconds_left_Qtr: y
-Seconds_left_Year: y
+Seconds_left_Year: n
 Created_on_Weekend: y
 Rolling_Mean: n
 Rolling_Median: n
 Rolling_Std: n
-mandatory_data: n
-minimum_data: y
+mandatory_data: y
+minimum_data: n
 ########### ################
 ordinal_mapping: y
 onehot_encoding: y
@@ -33,12 +33,7 @@ last_4_BDays: n
 ########### ################
 MODEL ######################
 ########### ################
-prev******: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW
-prev******: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R
-prev******: all_Incident
-prev******: all_yes
-prev******: min
-prev******: man_no_rollingorSLY
+prev******: man
 input_file: min
 ########### ################
 crossvalidation: 10
@@ -60,7 +55,6 @@ extra_testing: n
 prejuly_july: n
 prejune_june: n
 prejune_junejuly: n
-train_test_split: n
 delete_option_cols: n
 log_of_y: n
 histogram: y

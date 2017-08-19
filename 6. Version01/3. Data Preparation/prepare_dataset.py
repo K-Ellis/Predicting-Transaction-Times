@@ -2,7 +2,7 @@
 UCD MSc Business Analytics Capstone Project - Predicting Transactions Times
 ************************************************************************************************************************
 Data pre-processing program
-Version 00 - Program for experiments after last iteration
+Version 01 - Program for experiments after last iteration
 ************************************************************************************************************************
 Eoin Carroll
 Kieron Ellis
@@ -18,6 +18,20 @@ from sklearn import preprocessing
 from shutil import copyfile  # Used to copy parameters file to directory
 from pandas.tseries.offsets import BDay
 
+
+def get_parameters(parameters):
+    d = {}
+    with open(parameters, "r") as f:
+        for line in f:
+            line = line.replace(":", "")
+            line = line.replace(",", "")
+            line = line.split()
+            key = line.pop(0)
+            if len(line) > 1:
+                d[key] = line
+            else:
+                d[key] = line[0]
+    return d
 
 def fill_nulls_dfcs(df, dfcs, fill_value): # Fill in Nulls given a set of dataframe columns
     for dfc in dfcs:
@@ -605,7 +619,7 @@ def clean_data(d):
         if d["Seconds_left_Day"] == "y": minimum.append("Seconds_left_Day")
         if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
         if d["Seconds_left_Qtr"] == "y": minimum.append("Seconds_left_Qtr")
-        # if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
+        if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
                     
         if d["Created_on_Weekend"] == "y": minimum.append("Created_on_Weekend")                
                    
@@ -637,7 +651,7 @@ def clean_data(d):
         if d["Seconds_left_Day"] == "y": minimum.append("Seconds_left_Day")
         if d["Seconds_left_Month"] == "y": minimum.append("Seconds_left_Month")
         if d["Seconds_left_Qtr"] == "y": minimum.append("Seconds_left_Qtr")
-        # if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
+        if d["Seconds_left_Year"] == "y": minimum.append("Seconds_left_Year")
                     
         if d["Created_on_Weekend"] == "y": minimum.append("Created_on_Weekend")                
                    
@@ -686,12 +700,7 @@ def clean_data(d):
 if __name__ == "__main__":  # Run program
     print("Cleaning dataset", time.strftime("%Y.%m.%d"), time.strftime("%H.%M.%S"))
     parameters = "../../../Data/parameters.txt"  # Parameters file
-    d = {}  # Read in parameters from file
-    with open(parameters, "r") as f:
-        for line in f:
-            line = line.replace(":", "")
-            (key, val) = line.split()
-            d[key] = val
+    d = get_parameters(parameters)
     clean_data(d)  # Carry out pre-processing
     if d["save_parameters"] == "y":
         copyfile(parameters, "../../../Data/Parameters/" + time.strftime("%Y.%m.%d.%H.%M.%S") + "_parameters.txt")

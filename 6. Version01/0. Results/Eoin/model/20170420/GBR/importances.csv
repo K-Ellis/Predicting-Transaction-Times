@@ -1,0 +1,74 @@
+Columns,Importances
+Concurrent_open_cases,0.4715543736506392
+Seconds_left_Qtr,0.18444218650743013
+Seconds_left_Month,0.14383534855743874
+Rolling_Std,0.03597364573826701
+Rolling_Mean,0.03242790198384862
+Created_on_Weekend,0.03132741776198269
+Seconds_left_Day,0.01703554980718971
+Cases_created_within_past_8_hours,0.014449278843137254
+Cases_resolved_within_past_8_hours,0.013549631824005539
+Rolling_Median,0.011902988581392129
+IsMagnumCase,0.010399745276928227
+AmountinUSD,0.008707889542668453
+Queue_NAOC,0.005977664939658547
+Source_Soft Copy,0.0030281928023547515
+IsSignature,0.002868467837390295
+Source_Web,0.0027900990212645286
+SubReason_Zero Usage Order,0.0017914508708597233
+Source_eAgreement (Phy),0.001699378835578043
+Revenutype_Non-revenue,0.0015014386750624687
+SalesLocation_asia,0.001489821736576834
+ROCName_APOC,0.0008959912855544662
+SubReason_Basic Enterprise Commitment,0.0007761030765538241
+SalesLocation_southamerica,0.0005116127605470075
+Queue_APOC,0.0004731470509736506
+IsSOXCase,0.00032255238989683784
+SalesLocation_australia,0.00014456765850530558
+CountryProcessed_asia,0.00012355298429584513
+SalesLocation_northamerica,0.0
+SalesLocation_europe,0.0
+sourcesystem_NMEC,0.0
+sourcesystem_Web,0.0
+SubReason_Meteaop,0.0
+sourcesystem_CLT,0.0
+Source_Hard Copy,0.0
+SubReason_Manual Order Entry,0.0
+SubReason_True Up,0.0
+StageName,0.0
+StatusReason_Information Provided,0.0
+SubReason_Tax Exemption Order,0.0
+StatusReason_Problem Solved,0.0
+SubReason_Electronic Order Pend / Reject,0.0
+SubReason_Future Pricing Only CPS,0.0
+Source_Manual,0.0
+Revenutype_Current Revenue,0.0
+Revenutype_Revenue Unknown,0.0
+HoldDuration,0.0
+AssignedToGroup_CRMT,0.0
+AuditDuration,0.0
+Complexity,0.0
+CountryProcessed_australia,0.0
+CountryProcessed_europe,0.0
+CountryProcessed_northamerica,0.0
+CountryProcessed_southamerica,0.0
+CountrySource_asia,0.0
+CountrySource_australia,0.0
+CountrySource_europe,0.0
+CountrySource_northamerica,0.0
+CountrySource_southamerica,0.0
+HoldTypeName_3rd Party,0.0
+Revenutype_Revenue Impacting Case / Pending Revenue,0.0
+HoldTypeName_Customer,0.0
+HoldTypeName_Internal,0.0
+IsGovernment,0.0
+Priority,0.0
+Queue_E&E,0.0
+Queue_EOC,0.0
+Queue_LOC,0.0
+ROCName_EOC,0.0
+Revenutype_Credit / Rebill,0.0
+AssignedToGroup_BPO,0.0
+Revenutype_Disputed Revenue,0.0
+Revenutype_Future Billing,0.0
+sourcesystem_clt,0.0

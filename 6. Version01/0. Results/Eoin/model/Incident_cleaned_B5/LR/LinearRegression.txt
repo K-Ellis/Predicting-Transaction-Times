@@ -1,0 +1,122 @@
+LinearRegression 20170816-225940
+
+Input file name: Incident_cleaned_B5 
+
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean R2: 0.7061 (+/-0.0017)
+	Train Mean RMSE: 70.19 (+/-0.25)
+	Train Mean MeanAE: 43.84 (+/-0.18)
+	Train Mean MedianAE: 27.89 (+/-0.17)
+	Train Mean EVS: 0.71 (+/-0.00)
+	Test Mean R2: 0.7029 (+/-0.0123)
+	Test Mean RMSE: 70.53 (+/-2.13)
+	Test Mean MeanAE: 44.02 (+/-0.92)
+	Test Mean MedianAE: 27.97 (+/-0.67)
+	Test Mean EVS: 0.71 (+/-0.01)
+
+	Predictions correct within 1 hour(s): 2.72
+	Predictions correct within 4 hour(s): 11.09
+	Predictions correct within 8 hour(s): 21.46
+	Predictions correct within 16 hour(s): 34.79
+	Predictions correct within 24 hour(s): 45.25
+	Predictions correct within 48 hour(s): 67.82
+	Predictions correct within 72 hour(s): 82.06
+	Predictions correct within 96 hour(s): 90.39
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Linear Regression were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]	1. "AssignedToGroup_BPO" (38959872.434538) [0.799352]
+	2. "AuditDuration" (-5584347.776992) [0.114576]
+	3. "AssignedToGroup_CRMT" (-4100564.162045) [0.084133]
+	4. "StatusReason_Ready for Audit" (24065.014166) [0.000494]
+	5. "sourcesystem_`" (14537.271038) [0.000298]
+	6. "StatusReason_Customer Hold" (-10910.013471) [0.000224]
+	7. "sourcesystem_NEMEC" (-8730.816548) [0.000179]
+	8. "Queue_Broken" (8138.870480) [0.000167]
+	9. "sourcesystem_web" (6142.188384) [0.000126]
+	10. "sourcesystem_Moritz Jürgensen" (-2581.002779) [0.000053]
+	11. "Revenutype_New Work Sold" (-2186.730567) [0.000045]
+	12. "StatusReason_Ready for Archiving" (1937.694043) [0.000040]
+	13. "sourcesystem_Web" (1433.120694) [0.000029]
+	14. "sourcesystem_Aplquest" (-1397.466436) [0.000029]
+	15. "Revenutype_Future OTRRR without OLS" (1227.028801) [0.000025]
+	16. "sourcesystem_NMEC" (-1114.595766) [0.000023]
+	17. "StatusReason_Information Provided" (-1074.321170) [0.000022]
+	18. "sourcesystem_clt" (1027.836986) [0.000021]
+	19. "SalesLocation_other" (679.524946) [0.000014]
+	20. "Revenutype_Future OTRRR with OLS" (-678.354278) [0.000014]
+	21. "Source_Fax" (-598.005796) [0.000012]
+	22. "SubReason_Tax Exemption Order" (552.817607) [0.000011]
+	23. "CountrySource_other" (454.407817) [0.000009]
+	24. "Revenutype_Disputed Revenue" (-421.044909) [0.000009]
+	25. "Queue_E&E" (398.128922) [0.000008]
+	26. "SubReason_P&H Electronic Order" (-348.126500) [0.000007]
+	27. "CountrySource_australia" (268.841352) [0.000006]
+	28. "CountrySource_southamerica" (257.929650) [0.000005]
+	29. "ROCName_APOC" (-250.812116) [0.000005]
+	30. "Queue_APOC" (247.848897) [0.000005]
+	31. "SalesLocation_southamerica" (-211.050123) [0.000004]
+	32. "CountrySource_northamerica" (196.042450) [0.000004]
+	33. "Source_Manual" (183.227496) [0.000004]
+	34. "SalesLocation_northamerica" (-179.742915) [0.000004]
+	35. "Revenutype_Revenue Impacting Case / Pending Revenue" (-150.183436) [0.000003]
+	36. "SalesLocation_australia" (-149.552449) [0.000003]
+	37. "Queue_LOC" (-119.653657) [0.000002]
+	38. "CountryProcessed_australia" (-119.424962) [0.000002]
+	39. "Source_eAgreement (Ele)" (117.035213) [0.000002]
+	40. "SubReason_Future Pricing Only CPS" (114.585602) [0.000002]
+	41. "CountryProcessed_southamerica" (94.224217) [0.000002]
+	42. "CountrySource_asia" (78.448720) [0.000002]
+	43. "IsSOXCase" (-77.005388) [0.000002]
+	44. "IsMagnumCase" (76.680149) [0.000002]
+	45. "StatusReason_Completed" (-72.857780) [0.000001]
+	46. "Revenutype_Credit / Rebill" (69.332096) [0.000001]
+	47. "Revenutype_Future Billing" (-65.278247) [0.000001]
+	48. "Priority" (62.480919) [0.000001]
+	49. "Source_Hard Copy" (61.877150) [0.000001]
+	50. "StatusReason_Problem Solved" (-59.323809) [0.000001]
+	51. "Revenutype_Revenue Unknown" (-54.965672) [0.000001]
+	52. "Source_eAgreement (Phy)" (54.901957) [0.000001]
+	53. "CountrySource_europe" (47.853705) [0.000001]
+	54. "sourcesystem_CLT" (38.693190) [0.000001]
+	55. "CountryProcessed_europe" (-36.578856) [0.000001]
+	56. "CountryProcessed_asia" (-34.756303) [0.000001]
+	57. "CountryProcessed_other" (32.978486) [0.000001]
+	58. "Queue_NAOC" (-29.202018) [0.000001]
+	59. "Revenutype_Non-revenue" (-26.637261) [0.000001]
+	60. "SubReason_True Up" (24.937027) [0.000001]
+	61. "SalesLocation_asia" (-24.533452) [0.000001]
+	62. "Created_on_Weekend" (-22.258431) [0.000000]
+	63. "Revenutype_Current Revenue" (-20.208100) [0.000000]
+	64. "SubReason_Zero Usage Order" (18.049041) [0.000000]
+	65. "SubReason_Electronic Order Pend / Reject" (-16.528830) [0.000000]
+	66. "Source_Web" (14.977468) [0.000000]
+	67. "ROCName_EOC" (14.214711) [0.000000]
+	68. "IsGovernment" (-13.166761) [0.000000]
+	69. "Complexity" (11.020392) [0.000000]
+	70. "IsSignature" (10.181174) [0.000000]
+	71. "SalesLocation_europe" (-9.760081) [0.000000]
+	72. "CountryProcessed_northamerica" (7.996196) [0.000000]
+	73. "Source_Soft Copy" (5.876948) [0.000000]
+	74. "Queue_EOC" (3.224276) [0.000000]
+	75. "SubReason_Manual Order Entry" (-2.309980) [0.000000]
+	76. "Cases_resolved_within_past_8_hours" (-1.758408) [0.000000]
+	77. "StageName" (-1.714016) [0.000000]
+	78. "Cases_created_within_past_8_hours" (-1.671387) [0.000000]
+	79. "Concurrent_open_cases" (-1.653745) [0.000000]
+	80. "Rolling_Std" (-1.629884) [0.000000]
+	81. "Rolling_Mean" (-1.538409) [0.000000]
+	82. "Seconds_left_Month" (-1.373364) [0.000000]
+	83. "Seconds_left_Qtr" (-1.320948) [0.000000]
+	84. "Rolling_Median" (-1.048521) [0.000000]
+	85. "Seconds_left_Day" (-0.879329) [0.000000]
+	86. "Seconds_left_Year" (-0.857486) [0.000000]
+	87. "HoldDuration" (-0.329692) [0.000000]
+	88. "HoldTypeName_3rd Party" (-0.191704) [0.000000]
+	89. "SubReason_Basic Enterprise Commitment" (-0.141231) [0.000000]
+	90. "SubReason_Meteaop" (0.139300) [0.000000]
+	91. "AmountinUSD" (-0.123624) [0.000000]
+	92. "HoldTypeName_Internal" (0.106848) [0.000000]
+	93. "HoldTypeName_Customer" (-0.010220) [0.000000]
+	94. "sourcesystem_Current Revenue" (-0.005955) [0.000000]

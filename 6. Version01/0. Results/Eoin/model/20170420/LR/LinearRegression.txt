@@ -1,0 +1,101 @@
+LinearRegression 20170817-150704
+
+Input file name: 20170420 
+
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean R2: 0.8194 (+/-0.0385)
+	Train Mean RMSE: 54.84 (+/-5.23)
+	Train Mean MeanAE: 36.80 (+/-3.63)
+	Train Mean MedianAE: 25.10 (+/-1.81)
+	Train Mean EVS: 0.82 (+/-0.04)
+	Test Mean R2: 0.8129 (+/-0.0377)
+	Test Mean RMSE: 55.70 (+/-5.70)
+	Test Mean MeanAE: 37.43 (+/-3.65)
+	Test Mean MedianAE: 25.50 (+/-2.33)
+	Test Mean EVS: 0.82 (+/-0.04)
+
+	Predictions correct within 1 hour(s): 1.90
+	Predictions correct within 4 hour(s): 10.63
+	Predictions correct within 8 hour(s): 23.40
+	Predictions correct within 16 hour(s): 37.17
+	Predictions correct within 24 hour(s): 48.28
+	Predictions correct within 48 hour(s): 72.98
+	Predictions correct within 72 hour(s): 86.84
+	Predictions correct within 96 hour(s): 92.78
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Linear Regression were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]	1. "Revenutype_Revenue Impacting Case / Pending Revenue" (5311.316806) [0.248071]
+	2. "sourcesystem_NMEC" (3699.103414) [0.172771]
+	3. "Revenutype_Disputed Revenue" (-2458.624966) [0.114833]
+	4. "Queue_E&E" (2107.184745) [0.098419]
+	5. "StatusReason_Information Provided" (1189.340639) [0.055550]
+	6. "sourcesystem_Web" (-1125.884983) [0.052586]
+	7. "CountryProcessed_australia" (791.660462) [0.036975]
+	8. "SubReason_Tax Exemption Order" (790.652579) [0.036928]
+	9. "Queue_APOC" (326.596131) [0.015254]
+	10. "sourcesystem_clt" (289.898878) [0.013540]
+	11. "CountrySource_southamerica" (274.645486) [0.012828]
+	12. "Source_Manual" (267.463798) [0.012492]
+	13. "Queue_EOC" (228.617368) [0.010678]
+	14. "SalesLocation_europe" (-223.480340) [0.010438]
+	15. "CountryProcessed_southamerica" (206.007370) [0.009622]
+	16. "SubReason_Future Pricing Only CPS" (186.431939) [0.008708]
+	17. "SalesLocation_asia" (-140.114338) [0.006544]
+	18. "CountrySource_europe" (123.663062) [0.005776]
+	19. "Queue_LOC" (-123.189094) [0.005754]
+	20. "IsMagnumCase" (101.171771) [0.004725]
+	21. "sourcesystem_CLT" (-98.124735) [0.004583]
+	22. "IsSOXCase" (-94.843367) [0.004430]
+	23. "CountryProcessed_northamerica" (93.912797) [0.004386]
+	24. "CountrySource_asia" (90.217939) [0.004214]
+	25. "CountryProcessed_europe" (86.063181) [0.004020]
+	26. "SubReason_True Up" (83.772530) [0.003913]
+	27. "ROCName_APOC" (-77.536819) [0.003621]
+	28. "SalesLocation_southamerica" (71.521861) [0.003341]
+	29. "SubReason_Zero Usage Order" (67.317720) [0.003144]
+	30. "Created_on_Weekend" (-62.411781) [0.002915]
+	31. "Revenutype_Credit / Rebill" (-53.914803) [0.002518]
+	32. "SalesLocation_australia" (-51.724982) [0.002416]
+	33. "CountrySource_australia" (-51.724982) [0.002416]
+	34. "Revenutype_Revenue Unknown" (-49.558296) [0.002315]
+	35. "CountrySource_northamerica" (47.867785) [0.002236]
+	36. "SalesLocation_northamerica" (47.863804) [0.002236]
+	37. "SubReason_Basic Enterprise Commitment" (40.296068) [0.001882]
+	38. "CountryProcessed_asia" (28.614180) [0.001336]
+	39. "Source_Web" (26.817707) [0.001253]
+	40. "SubReason_Electronic Order Pend / Reject" (25.296058) [0.001181]
+	41. "Revenutype_Non-revenue" (-25.094346) [0.001172]
+	42. "SubReason_Manual Order Entry" (24.556013) [0.001147]
+	43. "Source_eAgreement (Phy)" (24.176195) [0.001129]
+	44. "ROCName_EOC" (-17.684468) [0.000826]
+	45. "Revenutype_Current Revenue" (-17.350584) [0.000810]
+	46. "SubReason_Meteaop" (15.909590) [0.000743]
+	47. "Source_Soft Copy" (15.686231) [0.000733]
+	48. "IsSignature" (9.391485) [0.000439]
+	49. "StatusReason_Problem Solved" (-6.211956) [0.000290]
+	50. "Priority" (-6.159149) [0.000288]
+	51. "Queue_NAOC" (5.428331) [0.000254]
+	52. "IsGovernment" (5.413267) [0.000253]
+	53. "Complexity" (-5.037756) [0.000235]
+	54. "Rolling_Std" (-2.173369) [0.000102]
+	55. "Cases_created_within_past_8_hours" (-1.832171) [0.000086]
+	56. "Source_Hard Copy" (1.696565) [0.000079]
+	57. "StageName" (-1.686507) [0.000079]
+	58. "Cases_resolved_within_past_8_hours" (-1.538482) [0.000072]
+	59. "Concurrent_open_cases" (-1.498133) [0.000070]
+	60. "Rolling_Mean" (-1.478407) [0.000069]
+	61. "Revenutype_Future Billing" (-1.389694) [0.000065]
+	62. "Seconds_left_Month" (-1.265374) [0.000059]
+	63. "Seconds_left_Qtr" (-1.239807) [0.000058]
+	64. "Rolling_Median" (-1.028795) [0.000048]
+	65. "Seconds_left_Day" (-0.894970) [0.000042]
+	66. "AmountinUSD" (-0.177930) [0.000008]
+	67. "AssignedToGroup_BPO" (0.000003) [0.000000]
+	68. "AuditDuration" (0.000001) [0.000000]
+	69. "AssignedToGroup_CRMT" (0.000001) [0.000000]
+	70. "HoldTypeName_Internal" (-0.000000) [0.000000]
+	71. "HoldTypeName_Customer" (-0.000000) [0.000000]
+	72. "HoldTypeName_3rd Party" (0.000000) [0.000000]
+	73. "HoldDuration" (-0.000000) [0.000000]
