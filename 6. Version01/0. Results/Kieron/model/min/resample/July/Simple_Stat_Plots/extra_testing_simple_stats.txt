@@ -1,4 +1,4 @@
-Simple Stats - 20170816-215646
+Simple Stats - 20170816-221039
 
 Input file name: min
 
@@ -12,14 +12,14 @@ Simple df_test TimeTaken stats
 
 
 	The mean time taken to resolve cases was 62.89 hours, median was 71.41 hours and the standard deviation was 37.15 hours.
-	Predictions correct within 1 hour(s): 0.00 %
-	Predictions correct within 4 hour(s): 0.00 %
-	Predictions correct within 8 hour(s): 14.29 %
-	Predictions correct within 16 hour(s): 57.14 %
-	Predictions correct within 24 hour(s): 57.14 %
-	Predictions correct within 48 hour(s): 71.43 %
-	Predictions correct within 72 hour(s): 100.00 %
-	Predictions correct within 96 hour(s): 100.00 %
+	Predictions correct within 1 hour(s): 0.00%
+	Predictions correct within 4 hour(s): 0.00%
+	Predictions correct within 8 hour(s): 14.29%
+	Predictions correct within 16 hour(s): 57.14%
+	Predictions correct within 24 hour(s): 57.14%
+	Predictions correct within 48 hour(s): 71.43%
+	Predictions correct within 72 hour(s): 100.00%
+	Predictions correct within 96 hour(s): 100.00%
 
 Mean:
 	Test R2 = 0.0

@@ -1,4 +1,4 @@
-LinearRegression 20170816-215646
+LinearRegression 20170816-221039
 
 Input file name: min
 
@@ -9,14 +9,14 @@ LinearRegression - df Test Results
 	Test MedianAE: 155.55 
 	Test EVS: 0.64 
 
-	Predictions correct within 1 hour(s): 0.00 %
-	Predictions correct within 4 hour(s): 0.00 %
-	Predictions correct within 8 hour(s): 0.00 %
-	Predictions correct within 16 hour(s): 0.00 %
-	Predictions correct within 24 hour(s): 0.00 %
-	Predictions correct within 48 hour(s): 0.00 %
-	Predictions correct within 72 hour(s): 0.00 %
-	Predictions correct within 96 hour(s): 0.00 %
+	Predictions correct within 1 hour(s): 0.00%
+	Predictions correct within 4 hour(s): 0.00%
+	Predictions correct within 8 hour(s): 0.00%
+	Predictions correct within 16 hour(s): 0.00%
+	Predictions correct within 24 hour(s): 0.00%
+	Predictions correct within 48 hour(s): 0.00%
+	Predictions correct within 72 hour(s): 0.00%
+	Predictions correct within 96 hour(s): 0.00%
 
 Feature Importances: "column" (magnitude of importance) [percentage of importance]
 
