@@ -1,0 +1,61 @@
+ElasticNet 20170820-194241
+
+Input file name: B4 
+
+ElasticNet: Cross Validation (10 Folds)
+	Train Mean R2: 0.5343 (+/-0.0012)
+	Train Mean RMSE: 88.35 (+/-0.24)
+	Train Mean MeanAE: 54.87 (+/-0.12)
+	Train Mean MedianAE: 33.03 (+/-0.15)
+	Train Mean EVS: 0.54 (+/-0.00)
+	Test Mean R2: 0.5342 (+/-0.0103)
+	Test Mean RMSE: 88.33 (+/-2.33)
+	Test Mean MeanAE: 54.87 (+/-1.00)
+	Test Mean MedianAE: 33.07 (+/-1.15)
+	Test Mean EVS: 0.54 (+/-0.01)
+
+	Predictions correct within 1 hour(s): 2.64%
+	Predictions correct within 4 hour(s): 10.10%
+	Predictions correct within 8 hour(s): 19.28%
+	Predictions correct within 16 hour(s): 31.09%
+	Predictions correct within 24 hour(s): 41.13%
+	Predictions correct within 48 hour(s): 60.62%
+	Predictions correct within 72 hour(s): 74.87%
+	Predictions correct within 96 hour(s): 85.74%
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Èlastic Net were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "Cases_created_within_past_8_hours" (-1.668506) [0.093727]
+	2. "Concurrent_open_cases" (-1.653783) [0.092900]
+	3. "Seconds_left_Month" (-1.373364) [0.077148]
+	4. "Seconds_left_Qtr" (-1.320948) [0.074203]
+	5. "CountryProcessed_northamerica" (-0.940664) [0.052841]
+	6. "SalesLocation_northamerica" (-0.887342) [0.049846]
+	7. "CountrySource_northamerica" (-0.886257) [0.049785]
+	8. "Seconds_left_Day" (-0.879329) [0.049396]
+	9. "Queue_NAOC" (-0.778403) [0.043726]
+	10. "ROCName_EOC" (-0.702767) [0.039477]
+	11. "Queue_EOC" (-0.702205) [0.039446]
+	12. "CountryProcessed_europe" (-0.611347) [0.034342]
+	13. "SalesLocation_europe" (-0.601558) [0.033792]
+	14. "CountrySource_europe" (-0.600519) [0.033734]
+	15. "CountryProcessed_asia" (-0.520555) [0.029242]
+	16. "SalesLocation_asia" (-0.468829) [0.026336]
+	17. "CountrySource_asia" (-0.466689) [0.026216]
+	18. "ROCName_APOC" (-0.465844) [0.026168]
+	19. "Queue_APOC" (-0.465731) [0.026162]
+	20. "Created_on_Weekend" (-0.460932) [0.025893]
+	21. "CountrySource_southamerica" (-0.231960) [0.013030]
+	22. "SalesLocation_southamerica" (-0.230514) [0.012949]
+	23. "CountrySource_australia" (-0.207203) [0.011640]
+	24. "SalesLocation_australia" (-0.207017) [0.011629]
+	25. "CountryProcessed_southamerica" (-0.148310) [0.008331]
+	26. "Queue_LOC" (-0.138525) [0.007782]
+	27. "CountryProcessed_australia" (-0.056264) [0.003161]
+	28. "CountrySource_other" (-0.034742) [0.001952]
+	29. "Queue_Broken" (-0.031524) [0.001771]
+	30. "CountryProcessed_other" (-0.027940) [0.001570]
+	31. "Queue_E&E" (-0.018833) [0.001058]
+	32. "SalesLocation_other" (-0.013316) [0.000748]

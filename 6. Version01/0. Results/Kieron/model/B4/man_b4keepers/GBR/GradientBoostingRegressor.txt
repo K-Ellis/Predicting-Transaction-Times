@@ -1,0 +1,60 @@
+GradientBoostingRegressor 20170820-194435
+
+Input file name: B4 
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.9092 (+/-0.0008)
+	Train Mean RMSE: 39.01 (+/-0.19)
+	Train Mean MeanAE: 25.72 (+/-0.12)
+	Train Mean MedianAE: 16.60 (+/-0.21)
+	Train Mean EVS: 0.91 (+/-0.00)
+	Test Mean R2: 0.9029 (+/-0.0064)
+	Test Mean RMSE: 40.29 (+/-1.06)
+	Test Mean MeanAE: 26.32 (+/-0.63)
+	Test Mean MedianAE: 16.81 (+/-0.51)
+	Test Mean EVS: 0.90 (+/-0.01)
+
+	Predictions correct within 1 hour(s): 3.94%
+	Predictions correct within 4 hour(s): 15.15%
+	Predictions correct within 8 hour(s): 27.68%
+	Predictions correct within 16 hour(s): 48.41%
+	Predictions correct within 24 hour(s): 62.00%
+	Predictions correct within 48 hour(s): 84.92%
+	Predictions correct within 72 hour(s): 93.14%
+	Predictions correct within 96 hour(s): 96.67%
+
+Feature Importances:
+
+The importances for each variable used by Gradient Boosting Regression were as follows:
+	1. "Concurrent_open_cases" (0.381622)
+	2. "Seconds_left_Qtr" (0.304125)
+	3. "Seconds_left_Month" (0.175916)
+	4. "Cases_created_within_past_8_hours" (0.093899)
+	5. "Seconds_left_Day" (0.016979)
+	6. "CountryProcessed_northamerica" (0.011929)
+	7. "CountryProcessed_asia" (0.004694)
+	8. "Created_on_Weekend" (0.003275)
+	9. "CountrySource_asia" (0.003049)
+	10. "CountryProcessed_southamerica" (0.002474)
+	11. "Queue_NAOC" (0.002039)
+	12. "SalesLocation_asia" (0.000000)
+	13. "CountryProcessed_europe" (0.000000)
+	14. "SalesLocation_southamerica" (0.000000)
+	15. "SalesLocation_other" (0.000000)
+	16. "SalesLocation_northamerica" (0.000000)
+	17. "SalesLocation_europe" (0.000000)
+	18. "SalesLocation_australia" (0.000000)
+	19. "ROCName_EOC" (0.000000)
+	20. "ROCName_APOC" (0.000000)
+	21. "Queue_EOC" (0.000000)
+	22. "Queue_LOC" (0.000000)
+	23. "Queue_E&E" (0.000000)
+	24. "CountryProcessed_australia" (0.000000)
+	25. "Queue_APOC" (0.000000)
+	26. "CountrySource_southamerica" (0.000000)
+	27. "CountrySource_other" (0.000000)
+	28. "CountrySource_northamerica" (0.000000)
+	29. "CountrySource_europe" (0.000000)
+	30. "CountrySource_australia" (0.000000)
+	31. "CountryProcessed_other" (0.000000)
+	32. "Queue_Broken" (0.000000)

@@ -136,14 +136,24 @@ if __name__ == "__main__":  # Run program
             every_x_days = [(x+1)*5 for x in range(18)]
             plt.xticks(every_x_days, every_x_days, rotation="vertical")
             plt.xlabel(column + " - Day Number")
-        else:
-            every_x_days = [(x + 1) * 30 for x in range(4)]
-            every_x_days.append(140)
-            plt.xticks(every_x_days, every_x_days, rotation="vertical")
+        elif column == "Created_On_Year":
+            months_days = [7, 7+31, 7+31+30, 7+31+30+31, 7+31+30+31+30, 7+31+30+31+30+31]
+            month_names = ["Mar", "Apr", "May", "Jun", "Jul", "Aug"]
+            plt.xticks(months_days, month_names)
+
+            # every_x_days = [(x + 1) * 30 for x in range(5)]
+            # plt.xticks(every_x_days, every_x_days)
             plt.ylim(0, 2500000/3600)
             plt.xlabel(column + " - Day Number")
+
+        else:
+            every_x_days = [(x + 1) * 30 for x in range(5)]
+            plt.xticks(every_x_days, every_x_days)
+            plt.ylim(0, 2500000/3600)
+            plt.xlabel("Days")
         plt.ylabel("TimeTaken (hours)")
-        plt.title(column)
+        plt.title("TimeTaken for " + column)
+
         plt.tight_layout()  # Force everything to fit on figure
 
 

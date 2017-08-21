@@ -1,8 +1,8 @@
-Simple Stats - 20170817-173439
+Simple Stats - 20170820-200202
 
 Input file name: B4
 
-DF Shape: (28203, 97)
+DF Shape: (28203, 9)
 
 Simple TimeTaken stats
 	mean_time = 99.71403893202927

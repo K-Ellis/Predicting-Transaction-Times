@@ -768,19 +768,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
     print("DF Shape:", df.shape, "\n")
 
-    if d["extra_testing"] == "y":
-        if d["train_test_split"] == "y":
-            print("train_test_split")
-            train_split, test_split = train_test_split(df, random_state=int(d["seed"]))
-            print("\nX train Shape:", train_split.shape)
-            print("X test Shape:", test_split.shape, "\n")
-            df = train_split.copy()
-            df.reset_index(drop=True, inplace=True)
-            df_test = test_split.copy()
-            df_test.reset_index(drop=True, inplace=True)
-            print("\nX train Shape:", train_split.shape)
-            print("X test Shape:", test_split.shape, "\n")
-
     X = df.drop("TimeTaken", axis=1)
     keepers = get_keepers()
     for col in X.columns:
@@ -800,109 +787,110 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
 
     y = df["TimeTaken"]
 
-    ####################################################################################################################
-    # Simple Statistics
-    ####################################################################################################################
-    if alg_counter == 1:
-        simplepath = newpath + "Simple_Stat_Plots/"
-        if not os.path.exists(simplepath):
-            os.makedirs(simplepath)  # Make folder for storing results if it does not exist
+    if d["simple_stats"] == "y":
+        ####################################################################################################################
+        # Simple Statistics
+        ####################################################################################################################
+        if alg_counter == 1:
+            simplepath = newpath + "Simple_Stat_Plots/"
+            if not os.path.exists(simplepath):
+                os.makedirs(simplepath)  # Make folder for storing results if it does not exist
 
-        simple_out_file_name = simplepath + "simple_stats.txt"  # Log file name
+            simple_out_file_name = simplepath + "simple_stats.txt"  # Log file name
 
-        simple_out_file = open(simple_out_file_name, "w")  # Open log file
-        simple_out_file.write("Simple Stats - " + time.strftime("%Y%m%d-%H%M%S") + "\n")
-        simple_out_file.write("\nInput file name: %s\n" % d["input_file"])
+            simple_out_file = open(simple_out_file_name, "w")  # Open log file
+            simple_out_file.write("Simple Stats - " + time.strftime("%Y%m%d-%H%M%S") + "\n")
+            simple_out_file.write("\nInput file name: %s\n" % d["input_file"])
 
-        print("\nDF Shape:", df.shape)
-        simple_out_file.write("\nDF Shape: " + str(df.shape) + "\n")
+            print("\nDF Shape:", df.shape)
+            simple_out_file.write("\nDF Shape: " + str(df.shape) + "\n")
 
-        mean_time = np.mean(y)  # Calculate mean of predictions
-        std_time = np.std(y)  # Calculate standard deviation of predictions
-        median_time = np.median(y)  # Calculate standard deviation of predictions
+            mean_time = np.mean(y)  # Calculate mean of predictions
+            std_time = np.std(y)  # Calculate standard deviation of predictions
+            median_time = np.median(y)  # Calculate standard deviation of predictions
 
-        simple_out_file.write("\nSimple TimeTaken stats")
-        simple_out_file.write("\n\tmean_time = %s" % mean_time)
-        simple_out_file.write("\n\tstd_time = %s" % std_time)
-        simple_out_file.write("\n\tmedian_time = %s\n" % median_time)
-        
-        simple_out_file.write("\n\n\tThe mean time taken to resolve cases was %.2f hours, median was %.2f hours and the standard deviation was %.2f hours." % (mean_time, median_time, std_time))
-        
-        
-        print("\nSimple TimeTaken stats")
-        print("\tmean_time = %s" % mean_time)
-        print("\tstd_time = %s" % std_time)
-        print("\tmedian_time = %s\n" % median_time)
+            simple_out_file.write("\nSimple TimeTaken stats")
+            simple_out_file.write("\n\tmean_time = %s" % mean_time)
+            simple_out_file.write("\n\tstd_time = %s" % std_time)
+            simple_out_file.write("\n\tmedian_time = %s\n" % median_time)
 
-        df["Mean_TimeTaken"] = mean_time
-        df["Median_TimeTaken"] = median_time
-
-        simple_percent_close = []
-        simple_number_close = [0 for _ in range(96)]
-
-        print("\n..calculating correct predictions within hours..\n")
-
-        for i in range(len(df["Mean_TimeTaken"])):
-            for j in range(len(simple_number_close)):
-                if abs(df["Mean_TimeTaken"].iloc[i] - y.iloc[i]) <= j + 1:  # Within 1 hour
-                    simple_number_close[j] += 1
-
-        for j in simple_number_close:
-            simple_percent_close.append(j / len(y) * 100)
-
-        interesting_hours = [1, 4, 8, 16, 24, 48, 72, 96]
-        for hour in interesting_hours:
-            hour -= 1
-            print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour+1))
-            simple_out_file.write("\n\tPredictions correct within %s hour(s): %.2f%%" % (hour+1,
-                                                                                          simple_percent_close[hour]))
-
-        mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
-        mean_time_test_rmse = np.sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
-        mean_time_test_meanae = mean_absolute_error(y, df["Mean_TimeTaken"])
-        mean_time_test_evs = explained_variance_score(y, df["Mean_TimeTaken"])
-        mean_time_test_medianae = median_absolute_error(y, df["Mean_TimeTaken"])
-
-        median_time_test_r2 = r2_score(y, df["Median_TimeTaken"])
-        median_time_test_rmse = np.sqrt(mean_squared_error(y, df["Median_TimeTaken"]))
-        median_time_test_meanae = mean_absolute_error(y, df["Median_TimeTaken"])
-        median_time_test_evs = explained_variance_score(y, df["Median_TimeTaken"])
-        median_time_test_medianae = median_absolute_error(y, df["Median_TimeTaken"])
-
-        simple_out_file.write("\n\nMean:")
-        simple_out_file.write("\n\tTest R2 = %s" % mean_time_test_r2)
-        simple_out_file.write("\n\tTest RMSE = %s" % mean_time_test_rmse)
-        simple_out_file.write("\n\tTest MeanAE = %s" % mean_time_test_meanae)
-        simple_out_file.write("\n\tTest MedianAE = %s\n" % mean_time_test_medianae)
-        simple_out_file.write("\n\tTest EVS = %s" % mean_time_test_evs)
-
-        simple_out_file.write("\n\tmedian_time_test_r2 = %s" % median_time_test_r2)
-        simple_out_file.write("\n\tmedian_time_test_rmse = %s" % median_time_test_rmse)
-        simple_out_file.write("\n\tmedian_time_test_meanae = %s" % median_time_test_meanae)
-        simple_out_file.write("\n\tmedian_time_test_evs = %s" % median_time_test_evs)
-        simple_out_file.write("\n\tmedian_time_test_medianae = %s\n" % median_time_test_medianae)
-
-        print("\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
-        print("\tmean_time_test_rmse = %s" % mean_time_test_rmse)
-        print("\tmean_time_test_meanae = %s " % mean_time_test_meanae)
-        print("\tmean_time_test_evs = %s" % mean_time_test_evs)
-        print("\tmean_time_test_medianae = %s\n " % mean_time_test_medianae)
-
-        print("\tmedian_time_test_r2 = %s" % median_time_test_r2)
-        print("\tmedian_time_test_rmse = %s" % median_time_test_rmse)
-        print("\tmedian_time_test_meanae = %s" % median_time_test_meanae)
-        print("\tmedian_time_test_evs = %s" % median_time_test_evs)
-        print("\tmedian_time_test_medianae = %s" % median_time_test_medianae)
+            simple_out_file.write("\n\n\tThe mean time taken to resolve cases was %.2f hours, median was %.2f hours and the standard deviation was %.2f hours." % (mean_time, median_time, std_time))
 
 
-        if d["plotting"] == "y":
-            print("\n..plotting..")
+            print("\nSimple TimeTaken stats")
+            print("\tmean_time = %s" % mean_time)
+            print("\tstd_time = %s" % std_time)
+            print("\tmedian_time = %s\n" % median_time)
 
-            plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "", simplepath, "Mean", d["input_file"])
-            plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "", simplepath, "Median",  d["input_file"])
-            plot_percent_correct(simple_percent_close, simplepath, "Mean", d["input_file"])
+            df["Mean_TimeTaken"] = mean_time
+            df["Median_TimeTaken"] = median_time
 
-        simple_out_file.close()
+            simple_percent_close = []
+            simple_number_close = [0 for _ in range(96)]
+
+            print("\n..calculating correct predictions within hours..\n")
+
+            for i in range(len(df["Mean_TimeTaken"])):
+                for j in range(len(simple_number_close)):
+                    if abs(df["Mean_TimeTaken"].iloc[i] - y.iloc[i]) <= j + 1:  # Within 1 hour
+                        simple_number_close[j] += 1
+
+            for j in simple_number_close:
+                simple_percent_close.append(j / len(y) * 100)
+
+            interesting_hours = [1, 4, 8, 16, 24, 48, 72, 96]
+            for hour in interesting_hours:
+                hour -= 1
+                print("\t{1:s} % test predictions error within {3:d} hour(s) -> Mean: {0:.2f}% of {2:d}/10".format(simple_percent_close[hour], "Mean", len(y), hour+1))
+                simple_out_file.write("\n\tPredictions correct within %s hour(s): %.2f%%" % (hour+1,
+                                                                                              simple_percent_close[hour]))
+
+            mean_time_test_r2 = r2_score(y, df["Mean_TimeTaken"])
+            mean_time_test_rmse = np.sqrt(mean_squared_error(y, df["Mean_TimeTaken"]))
+            mean_time_test_meanae = mean_absolute_error(y, df["Mean_TimeTaken"])
+            mean_time_test_evs = explained_variance_score(y, df["Mean_TimeTaken"])
+            mean_time_test_medianae = median_absolute_error(y, df["Mean_TimeTaken"])
+
+            median_time_test_r2 = r2_score(y, df["Median_TimeTaken"])
+            median_time_test_rmse = np.sqrt(mean_squared_error(y, df["Median_TimeTaken"]))
+            median_time_test_meanae = mean_absolute_error(y, df["Median_TimeTaken"])
+            median_time_test_evs = explained_variance_score(y, df["Median_TimeTaken"])
+            median_time_test_medianae = median_absolute_error(y, df["Median_TimeTaken"])
+
+            simple_out_file.write("\n\nMean:")
+            simple_out_file.write("\n\tTest R2 = %s" % mean_time_test_r2)
+            simple_out_file.write("\n\tTest RMSE = %s" % mean_time_test_rmse)
+            simple_out_file.write("\n\tTest MeanAE = %s" % mean_time_test_meanae)
+            simple_out_file.write("\n\tTest MedianAE = %s\n" % mean_time_test_medianae)
+            simple_out_file.write("\n\tTest EVS = %s" % mean_time_test_evs)
+
+            simple_out_file.write("\n\tmedian_time_test_r2 = %s" % median_time_test_r2)
+            simple_out_file.write("\n\tmedian_time_test_rmse = %s" % median_time_test_rmse)
+            simple_out_file.write("\n\tmedian_time_test_meanae = %s" % median_time_test_meanae)
+            simple_out_file.write("\n\tmedian_time_test_evs = %s" % median_time_test_evs)
+            simple_out_file.write("\n\tmedian_time_test_medianae = %s\n" % median_time_test_medianae)
+
+            print("\n\tmean_time_test_r2 = %s" % mean_time_test_r2)
+            print("\tmean_time_test_rmse = %s" % mean_time_test_rmse)
+            print("\tmean_time_test_meanae = %s " % mean_time_test_meanae)
+            print("\tmean_time_test_evs = %s" % mean_time_test_evs)
+            print("\tmean_time_test_medianae = %s\n " % mean_time_test_medianae)
+
+            print("\tmedian_time_test_r2 = %s" % median_time_test_r2)
+            print("\tmedian_time_test_rmse = %s" % median_time_test_rmse)
+            print("\tmedian_time_test_meanae = %s" % median_time_test_meanae)
+            print("\tmedian_time_test_evs = %s" % median_time_test_evs)
+            print("\tmedian_time_test_medianae = %s" % median_time_test_medianae)
+
+
+            if d["plotting"] == "y":
+                print("\n..plotting..")
+
+                plot(df["TimeTaken"],df["Mean_TimeTaken"], "Simple", "", simplepath, "Mean", d["input_file"])
+                plot(df["TimeTaken"],df["Median_TimeTaken"], "Simple", "", simplepath, "Median",  d["input_file"])
+                plot_percent_correct(simple_percent_close, simplepath, "Mean", d["input_file"])
+
+            simple_out_file.close()
     ####################################################################################################################
     # Machine Learning
     ####################################################################################################################
@@ -983,6 +971,16 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
         test_evs.append(explained_variance_score(testData_y, y_test_pred))
         train_median_ae.append(median_absolute_error(trainData_y, y_train_pred))
         test_median_ae.append(median_absolute_error(testData_y, y_test_pred))
+
+    if alg_initials == "RFR":
+        from sklearn import tree
+        i_tree = 0
+        for tree_in_forest in regr.estimators_:
+            with open(algpath + 'tree_' + str(i_tree) + '.dot', 'w') as my_file:
+                my_file = tree.export_graphviz(tree_in_forest, out_file=my_file, feature_names = X.columns,
+                 filled=True, rounded=True)
+            i_tree = i_tree + 1
+
 
     ########################################################################################################################
     # Get averages and standard deviations of results
@@ -1099,9 +1097,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
             algpath = newpath + alg_initials + extra_testing_path
         elif d["prejune_junejuly"] == "y":
             extra_testing_path = "/JuneJuly/"
-            algpath = newpath + alg_initials + extra_testing_path
-        elif d["train_test_split"] == "y":
-            extra_testing_path = "/test_train_split/"
             algpath = newpath + alg_initials + extra_testing_path
         if not os.path.exists(algpath):
             os.makedirs(algpath)  # Make folder for storing results if it does not exist
@@ -1325,9 +1320,6 @@ def results(df, alg, in_regressor, newpath, d, alg_counter, alg_initials, df_tes
             elif d["prejune_junejuly"] == "y":
                 df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_JuneJuly_predictions.csv" % alg_initials,
                                index=False)
-            elif d["train_test_split"] == "y":
-                df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_TrainTestSplit_predictions.csv" % alg_initials,
-                               index=False)
         else:
             df_test.to_csv(d["file_location"] + d["input_file"] + "_%s_%s_predictions.csv" % (d["specify_subfolder"],
                                                                                             alg_initials), index=False)
@@ -1373,17 +1365,68 @@ if __name__ == "__main__":  # Run program
 
     print("\nDF Shape:", df.shape, "\n")
 
-    if d["extra_testing"] == "y":
-        if d["delete_option_cols"] == "y":
-            option_cols = ["Concurrent_open_cases", "Cases_created_within_past_8_hours",
-                           "Cases_resolved_within_past_8_hours", "Seconds_left_Day", "Seconds_left_Month",
-                           "Seconds_left_Qtr", "Seconds_left_Year", "Created_on_Weekend", "Rolling_Mean", "Rolling_Median",
-                           "Rolling_Std"]
-            for col in option_cols:
-                if d[col] == "n" and col in df.columns:
-                    print("deleting col %s" % col)
-                    del df[col]
+    if d["delete_option_cols"] == "y":
+        option_cols = ["Concurrent_open_cases", "Cases_created_within_past_8_hours",
+                       "Cases_resolved_within_past_8_hours", "Seconds_left_Day", "Seconds_left_Month",
+                       "Seconds_left_Qtr", "Seconds_left_Year", "Created_on_Weekend", "Rolling_Mean", "Rolling_Median",
+                       "Rolling_Std"]
+        for col in option_cols:
+            if d[col] == "n" and col in df.columns:
+                print("deleting col %s" % col)
+                del df[col]
         print("DF Shape:", df.shape, "\n")
+
+    if d["mandatory_data"] == "y":
+        keepers = ["Cases_created_within_past_8_hours",
+                   "Concurrent_open_cases",
+                   "CountryProcessed_asia",
+                   "CountryProcessed_australia",
+                   "CountryProcessed_europe",
+                   "CountryProcessed_northamerica",
+                   "CountryProcessed_other",
+                   "CountryProcessed_southamerica",
+                   "CountrySource_asia",
+                   "CountrySource_australia",
+                   "CountrySource_europe",
+                   "CountrySource_northamerica",
+                   "CountrySource_other",
+                   "CountrySource_southamerica",
+                   "Created_on_Weekend",
+                   "Queue_APOC",
+                   "Queue_Broken",
+                   "Queue_E&E",
+                   "Queue_EOC",
+                   "Queue_LOC",
+                   "Queue_NAOC",
+                   "ROCName_APOC",
+                   "ROCName_EOC",
+                   "SalesLocation_asia",
+                   "SalesLocation_australia",
+                   "SalesLocation_europe",
+                   "SalesLocation_northamerica",
+                   "SalesLocation_other",
+                   "SalesLocation_southamerica",
+                   "Seconds_left_Day",
+                   "Seconds_left_Month",
+                   "Seconds_left_Qtr",
+                   "TimeTaken", "Created_On", "ResolvedDate"
+                   ]
+        for col in df.columns:
+            if col not in keepers:
+                del df[col]
+
+    if d["minimum_data"] == "y":
+        keepers = ["Cases_created_within_past_8_hours",
+                   "Concurrent_open_cases",
+                   "Created_on_Weekend",
+                   "Seconds_left_Day",
+                   "Seconds_left_Month",
+                   "Seconds_left_Qtr",
+                   "TimeTaken", "Created_On", "ResolvedDate"
+                   ]
+        for col in df.columns:
+            if col not in keepers:
+                del df[col]
 
     if d["resample"] == "y":
         from sklearn.utils import resample
@@ -1480,7 +1523,7 @@ if __name__ == "__main__":  # Run program
     if d["RandomForestRegressor"] == "y":
         alg_counter+=1
         regressor = RandomForestRegressor(n_estimators=int(d["n_estimators"]), random_state=int(d["seed"]),
-                                          max_depth=25, n_jobs=-1)
+                                          max_depth=3, n_jobs=-1, max_leaf_nodes=9)
         if d["prejuly_july"] == "y" or d["prejune_june"] == "y" or d["prejune_junejuly"] == "y":
             results(df_train, "RandomForestRegressor", regressor, newpath, d, alg_counter, "RFR", df_test)
         else:
@@ -1494,8 +1537,6 @@ if __name__ == "__main__":  # Run program
                 df.to_csv(d["file_location"] + d["input_file"] + "_prejune_predictions.csv", index=False)  # export file
             elif d["prejune_junejuly"] == "y":
                 df.to_csv(d["file_location"] + d["input_file"] + "_prejune_predictions.csv", index=False)  # export file
-            elif d["train_test_split"] == "y":
-                df.to_csv(d["file_location"] + d["input_file"] + "_traintestsplit_predictions.csv", index=False)  # export file
         elif d["specify_subfolder"] != "n":
             df.to_csv(d["file_location"] + d["input_file"] + "_" + d["specify_subfolder"] + "_predictions.csv", \
                                                            index=False)  # export file

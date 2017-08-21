@@ -1,0 +1,35 @@
+GradientBoostingRegressor 20170820-193034
+
+Input file name: B4 
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.9060 (+/-0.0009)
+	Train Mean RMSE: 39.70 (+/-0.20)
+	Train Mean MeanAE: 25.80 (+/-0.16)
+	Train Mean MedianAE: 16.13 (+/-0.31)
+	Train Mean EVS: 0.91 (+/-0.00)
+
+	Test Mean R2: 0.8997 (+/-0.0063)
+	Test Mean RMSE: 40.95 (+/-0.91)
+	Test Mean MeanAE: 26.40 (+/-0.61)
+	Test Mean MedianAE: 16.38 (+/-0.57)
+	Test Mean EVS: 0.90 (+/-0.01)
+
+	Predictions correct within 1 hour(s): 3.87%
+	Predictions correct within 4 hour(s): 15.41%
+	Predictions correct within 8 hour(s): 28.71%
+	Predictions correct within 16 hour(s): 49.09%
+	Predictions correct within 24 hour(s): 62.27%
+	Predictions correct within 48 hour(s): 84.92%
+	Predictions correct within 72 hour(s): 92.94%
+	Predictions correct within 96 hour(s): 96.61%
+
+Feature Importances:
+
+The importances for each variable used by Gradient Boosting Regression were as follows:
+	1. "Concurrent_open_cases" (0.381623)
+	2. "Seconds_left_Qtr" (0.310758)
+	3. "Seconds_left_Month" (0.188527)
+	4. "Cases_created_within_past_8_hours" (0.078737)
+	5. "Seconds_left_Day" (0.032580)
+	6. "Created_on_Weekend" (0.007774)

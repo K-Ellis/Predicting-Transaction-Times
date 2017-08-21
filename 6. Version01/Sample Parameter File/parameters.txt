@@ -65,6 +65,7 @@ MULTI_PLOT #################
 ########### ################
 input_files: B4, man
 input_file_names: Main, Mandatory
+plotting_input_file: B5
 ########### ################
 GRID_SEARCH ################
 ########### ################

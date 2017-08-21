@@ -41,6 +41,62 @@ if not os.path.exists(newpath):
 
 df = pd.read_csv(d["file_location"] + d["plotting_input_file"] + ".csv", encoding='latin-1', low_memory=False)
 
+
+def get_day_of_week(date):
+    day_of_week = date.timetuple().tm_wday
+    return day_of_week
+df["ResolvedDate"] = pd.to_datetime(df["ResolvedDate"])
+df["ResolvedDate_Day_of_week"] = df["ResolvedDate"].apply(lambda x: int(get_day_of_week(x)))
+df["Created_On"] = pd.to_datetime(df["Created_On"])
+df["Created_on_Day_of_week"] = df["Created_On"].apply(lambda x: int(get_day_of_week(x)))
+
+days_of_week = [6,0,1,2,3,4,5] # sunday = first
+VolumePerDay = []
+ResolvedVolumePerDay = []
+for day in days_of_week:
+    VolumePerDay.append(
+        len(df["Created_on_Day_of_week"][df["Created_on_Day_of_week"] == day]))
+
+    ResolvedVolumePerDay.append(len(df["ResolvedDate_Day_of_week"][(df["ResolvedDate_Day_of_week"] == day)]))
+
+plt.bar([x for x in range(len(days_of_week))], VolumePerDay)
+
+# plt.xlim(1.5, 8.5)
+plt.ylabel("Volume of Cases")
+plt.xlabel("Day of the Week")
+plt.xticks([x for x in range(len(days_of_week))], ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"])
+plt.title("Volume of Cases Created each Day of the Week")
+
+if not os.path.exists(newpath + "PDFs/"):
+    os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+
+plt.savefig("%scase_volume_created_day.png" % newpath)
+plt.savefig("%s%scase_volume_created_day.pdf" % (newpath, "PDFs/"))
+
+plt.close()
+
+
+plt.bar([x for x in range(len(days_of_week))], ResolvedVolumePerDay)
+
+# plt.xlim(1.5, 8.5)
+plt.ylabel("Volume of Cases")
+plt.xlabel("Day of the Week")
+plt.xticks([x for x in range(len(days_of_week))], ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"])
+plt.title("Volume of Cases Resolved each Day of the Week")
+
+if not os.path.exists(newpath + "PDFs/"):
+    os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+
+plt.savefig("%scase_volume_resolved_day.png" % newpath)
+plt.savefig("%s%scase_volume_resolved_day.pdf" % (newpath, "PDFs/"))
+
+plt.close()
+
+
+
+
+
+
 def get_day_into_year(date):
     day_into_year = date.timetuple().tm_yday
     return day_into_year
@@ -70,7 +126,7 @@ plt.bar(month_list, VolumePerMonth)
 plt.xlim(1.5, 8.5)
 plt.ylabel("Volume of Cases")
 plt.xlabel("Month of the Year")
-plt.title("Volume of Cases Created in Each Month")
+plt.title("Volume of Cases Created in each Month")
 
 if not os.path.exists(newpath + "PDFs/"):
     os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
@@ -86,7 +142,7 @@ plt.bar(month_list, ResolvedVolumePerMonth)
 plt.xlim(1.5, 8.5)
 plt.ylabel("Volume of Cases")
 plt.xlabel("Month of the Year")
-plt.title("Volume of Cases Resolved in Each Month")
+plt.title("Volume of Cases Resolved in each Month")
 
 if not os.path.exists(newpath + "PDFs/"):
     os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
