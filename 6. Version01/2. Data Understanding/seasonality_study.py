@@ -145,6 +145,7 @@ if __name__ == "__main__":  # Run program
             # plt.xticks(every_x_days, every_x_days)
             plt.ylim(0, 2500000/3600)
             plt.xlabel(column + " - Day Number")
+
         else:
             every_x_days = [(x + 1) * 30 for x in range(5)]
             plt.xticks(every_x_days, every_x_days)
@@ -152,6 +153,7 @@ if __name__ == "__main__":  # Run program
             plt.xlabel("Days")
         plt.ylabel("TimeTaken (hours)")
         plt.title("TimeTaken for " + column)
+
         plt.tight_layout()  # Force everything to fit on figure
 
 
