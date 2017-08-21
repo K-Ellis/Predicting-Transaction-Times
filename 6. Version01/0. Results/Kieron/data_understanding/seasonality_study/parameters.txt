@@ -1,50 +1,53 @@
 beep: y
 resample: n
-n_samples: 1000
+n_samples: 100
 seed: 1234
-specify_subfolder: B42
+specify_subfolder: n
 ########### ################
 PREPARE_DATASET ############
 ########### ################
 prepare_input_file: vw_Incident
-prepare_output_file: B4
+prepare_output_file: min2
 ########### ################
-append_HoldDuration: y
-append_AuditDuration: y
+append_HoldDuration: n
+append_AuditDuration: n
 Concurrent_open_cases: y
 Cases_created_within_past_8_hours: y
-Cases_resolved_within_past_8_hours: y
+Cases_resolved_within_past_8_hours: n
 Seconds_left_Day: y
 Seconds_left_Month: y
 Seconds_left_Qtr: y
 Seconds_left_Year: n
 Created_on_Weekend: y
-Rolling_Mean: y
-Rolling_Median: y
-Rolling_Std: y
+Rolling_Mean: n
+Rolling_Median: n
+Rolling_Std: n
 mandatory_data: n
-minimum_data: n
+minimum_data: y
 ########### ################
-ordinal_mapping: y
-onehot_encoding: y
+ordinal_mapping: n
+onehot_encoding: n
 keep_created_resolved: y
 remove_outliers: y
 last_4_BDays: n
 ########### ################
 MODEL ######################
 ########### ################
-prev******: man
+prev******: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW
+prev******: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R
+prev******: all_Incident
+prev******: all_yes
 prev******: min
-prev******: man_SLY
+prev******: man_no_rollingorSLY
 input_file: B4
 ########### ################
 crossvalidation: 10
-LinearRegression: n
-ElasticNet: n
-GradientBoostingRegressor: n
-RandomForestRegressor: n
+LinearRegression: y
+ElasticNet: y
+GradientBoostingRegressor: y
+RandomForestRegressor: y
 n_estimators: 100
-statsmodels_OLS: n
+statsmodels_OLS: y
 KernelRidge: n
 xgboost: n
 MLPRegressor: n
@@ -59,20 +62,15 @@ prejune_june: n
 prejune_junejuly: n
 delete_option_cols: n
 log_of_y: n
-histogram: y
+histogram: n
 plotting: n
-output_predictions_csv: n
+output_predictions_csv: y
 ########### ################
 MULTI_PLOT #################
 ########### ################
-prev******: B4_predictions, man_predictions, min_predictions
-prev******: Main, Man, Min
-prev******: man_Pre-July_predictions, man_July_predictions
-prev******: Pre-July, July
-prev******: man_Pre-June_predictions, man_June_predictions
-prev******: Pre-June, June
-input_files: man_Pre-June_predictions, man_June_predictions
-input_file_names: Pre-June, June
+input_files: man_predictions, min_predictions, COC_predictions
+input_file_names: Man, Min, COC
+plotting_input_file: B4
 ########### ################
 GRID_SEARCH ################
 ########### ################

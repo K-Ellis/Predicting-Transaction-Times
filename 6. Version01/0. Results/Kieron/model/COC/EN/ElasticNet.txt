@@ -1,0 +1,30 @@
+ElasticNet 20170819-145934
+
+Input file name: COC 
+
+ElasticNet: Cross Validation (10 Folds)
+	Train Mean R2: 0.5084 (+/-0.0007)
+	Train Mean RMSE: 91.04 (+/-0.26)
+	Train Mean MeanAE: 56.05 (+/-0.16)
+	Train Mean MedianAE: 32.74 (+/-0.10)
+	Train Mean EVS: 0.51 (+/-0.00)
+	Test Mean R2: 0.5082 (+/-0.0052)
+	Test Mean RMSE: 91.01 (+/-2.54)
+	Test Mean MeanAE: 56.05 (+/-1.03)
+	Test Mean MedianAE: 32.76 (+/-0.60)
+	Test Mean EVS: 0.51 (+/-0.01)
+
+	Predictions correct within 1 hour(s): 2.34%
+	Predictions correct within 4 hour(s): 9.91%
+	Predictions correct within 8 hour(s): 19.15%
+	Predictions correct within 16 hour(s): 31.38%
+	Predictions correct within 24 hour(s): 40.88%
+	Predictions correct within 48 hour(s): 63.11%
+	Predictions correct within 72 hour(s): 75.40%
+	Predictions correct within 96 hour(s): 81.81%
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Èlastic Net were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "Concurrent_open_cases" (-1.652761) [1.000000]

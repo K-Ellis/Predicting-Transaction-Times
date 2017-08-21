@@ -1,0 +1,36 @@
+dot: graph is too large for cairo-renderer bitmaps. scaling by 0.0234232 to fit
+
+RandomForestRegressor 20170821-123259
+
+Input file name: B4 
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.9709 (+/-0.0026)
+	Train Mean RMSE: 22.06 (+/-0.97)
+	Train Mean MeanAE: 4.34 (+/-0.19)
+	Train Mean MedianAE: 0.00 (+/-0.00)
+	Train Mean EVS: 0.97 (+/-0.00)
+	Test Mean R2: 0.9247 (+/-0.0134)
+	Test Mean RMSE: 35.35 (+/-3.30)
+	Test Mean MeanAE: 11.12 (+/-0.73)
+	Test Mean MedianAE: 1.87 (+/-0.08)
+	Test Mean EVS: 0.92 (+/-0.01)
+
+	Predictions correct within 1 hour(s): 35.99%
+	Predictions correct within 4 hour(s): 66.42%
+	Predictions correct within 8 hour(s): 77.77%
+	Predictions correct within 16 hour(s): 85.63%
+	Predictions correct within 24 hour(s): 90.11%
+	Predictions correct within 48 hour(s): 94.33%
+	Predictions correct within 72 hour(s): 96.48%
+	Predictions correct within 96 hour(s): 97.56%
+
+Feature Importances:
+
+The importances for each variable used by Random Forest Regression were as follows:
+	1. "Concurrent_open_cases" (0.782877)
+	2. "Seconds_left_Qtr" (0.113601)
+	3. "Seconds_left_Month" (0.052250)
+	4. "Cases_created_within_past_8_hours" (0.035872)
+	5. "Seconds_left_Day" (0.012112)
+	6. "Created_on_Weekend" (0.003288)

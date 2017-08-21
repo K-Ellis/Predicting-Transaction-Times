@@ -1,0 +1,81 @@
+RandomForestRegressor 20170819-143202
+
+Input file name: B5 
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.8546 (+/-0.0108)
+	Train Mean RMSE: 38.86 (+/-1.92)
+	Train Mean MeanAE: 26.41 (+/-0.99)
+	Train Mean MedianAE: 15.86 (+/-1.96)
+	Train Mean EVS: 0.86 (+/-0.01)
+	Test Mean R2: -0.6340 (+/-1.5438)
+	Test Mean RMSE: 93.52 (+/-38.33)
+	Test Mean MeanAE: 68.60 (+/-22.31)
+	Test Mean MedianAE: 47.31 (+/-17.74)
+	Test Mean EVS: -0.20 (+/-0.57)
+
+	Predictions correct within 1 hour(s): 0.00%
+	Predictions correct within 4 hour(s): 2.22%
+	Predictions correct within 8 hour(s): 5.69%
+	Predictions correct within 16 hour(s): 18.06%
+	Predictions correct within 24 hour(s): 29.31%
+	Predictions correct within 48 hour(s): 50.83%
+	Predictions correct within 72 hour(s): 67.64%
+	Predictions correct within 96 hour(s): 78.89%
+
+Feature Importances:
+
+The importances for each variable used by Random Forest Regression were as follows:
+	1. "AmountinUSD" (0.377141)
+	2. "SubReason_Basic Enterprise Commitment" (0.110571)
+	3. "IsSignature" (0.102380)
+	4. "Source_Soft Copy" (0.076745)
+	5. "Concurrent_open_cases" (0.075693)
+	6. "StageName" (0.071557)
+	7. "IsGovernment" (0.026492)
+	8. "StatusReason_Problem Solved" (0.019728)
+	9. "SubReason_Meteaop" (0.014834)
+	10. "Complexity" (0.013141)
+	11. "Source_Web" (0.009649)
+	12. "IsSOXCase" (0.009126)
+	13. "CountrySource_northamerica" (0.009023)
+	14. "SubReason_True Up" (0.007327)
+	15. "CountryProcessed_europe" (0.006512)
+	16. "Revenutype_Current Revenue" (0.005705)
+	17. "IsMagnumCase" (0.005521)
+	18. "CountrySource_asia" (0.004729)
+	19. "Revenutype_Non-revenue" (0.004236)
+	20. "CountryProcessed_northamerica" (0.004226)
+	21. "SubReason_Zero Usage Order" (0.003954)
+	22. "CountryProcessed_asia" (0.003860)
+	23. "ROCName_APOC" (0.003828)
+	24. "Queue_NAOC" (0.003488)
+	25. "CountrySource_europe" (0.002990)
+	26. "Queue_APOC" (0.002914)
+	27. "SubReason_Manual Order Entry" (0.002840)
+	28. "Source_eAgreement (Phy)" (0.002583)
+	29. "SalesLocation_northamerica" (0.002531)
+	30. "ROCName_EOC" (0.002331)
+	31. "SalesLocation_asia" (0.002291)
+	32. "Revenutype_Future Billing" (0.001545)
+	33. "Queue_EOC" (0.001515)
+	34. "CountryProcessed_southamerica" (0.001438)
+	35. "CountrySource_australia" (0.001388)
+	36. "Source_Hard Copy" (0.001266)
+	37. "SalesLocation_australia" (0.001126)
+	38. "SalesLocation_europe" (0.000981)
+	39. "SalesLocation_southamerica" (0.000752)
+	40. "CountrySource_southamerica" (0.000718)
+	41. "SubReason_Future Pricing Only CPS" (0.000434)
+	42. "CountryProcessed_australia" (0.000423)
+	43. "SubReason_Electronic Order Pend / Reject" (0.000272)
+	44. "Queue_LOC" (0.000136)
+	45. "Source_Manual" (0.000061)
+	46. "AssignedToGroup_CRMT" (0.000000)
+	47. "AuditDuration" (0.000000)
+	48. "HoldTypeName_3rd Party" (0.000000)
+	49. "AssignedToGroup_BPO" (0.000000)
+	50. "Priority" (0.000000)
+	51. "HoldDuration" (0.000000)
+	52. "HoldTypeName_Customer" (0.000000)
+	53. "HoldTypeName_Internal" (0.000000)

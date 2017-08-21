@@ -1,0 +1,231 @@
+Statsmodels_OLS 20170819-143252
+
+Input file name: B5
+
+Features used:
+	1 - AmountinUSD
+	2 - AssignedToGroup_BPO
+	3 - AssignedToGroup_CRMT
+	4 - AuditDuration
+	5 - Complexity
+	6 - Concurrent_open_cases
+	7 - CountryProcessed_asia
+	8 - CountryProcessed_australia
+	9 - CountryProcessed_europe
+	10 - CountryProcessed_northamerica
+	11 - CountryProcessed_southamerica
+	12 - CountrySource_asia
+	13 - CountrySource_australia
+	14 - CountrySource_europe
+	15 - CountrySource_northamerica
+	16 - CountrySource_southamerica
+	17 - HoldDuration
+	18 - HoldTypeName_3rd Party
+	19 - HoldTypeName_Customer
+	20 - HoldTypeName_Internal
+	21 - IsGovernment
+	22 - IsMagnumCase
+	23 - IsSOXCase
+	24 - IsSignature
+	25 - Priority
+	26 - Queue_APOC
+	27 - Queue_EOC
+	28 - Queue_LOC
+	29 - Queue_NAOC
+	30 - ROCName_APOC
+	31 - ROCName_EOC
+	32 - Revenutype_Current Revenue
+	33 - Revenutype_Future Billing
+	34 - Revenutype_Non-revenue
+	35 - SalesLocation_asia
+	36 - SalesLocation_australia
+	37 - SalesLocation_europe
+	38 - SalesLocation_northamerica
+	39 - SalesLocation_southamerica
+	40 - Source_Hard Copy
+	41 - Source_Manual
+	42 - Source_Soft Copy
+	43 - Source_Web
+	44 - Source_eAgreement (Phy)
+	45 - StageName
+	46 - StatusReason_Problem Solved
+	47 - SubReason_Basic Enterprise Commitment
+	48 - SubReason_Electronic Order Pend / Reject
+	49 - SubReason_Future Pricing Only CPS
+	50 - SubReason_Manual Order Entry
+	51 - SubReason_Meteaop
+	52 - SubReason_True Up
+	53 - SubReason_Zero Usage Order
+
+ olsregr.summary():
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:              TimeTaken   R-squared:                       0.512
+Model:                            OLS   Adj. R-squared:                  0.038
+Method:                 Least Squares   F-statistic:                     1.081
+Date:                Sat, 19 Aug 2017   Prob (F-statistic):              0.412
+Time:                        14:32:52   Log-Likelihood:                -376.30
+No. Observations:                  66   AIC:                             818.6
+Df Residuals:                      33   BIC:                             890.8
+Df Model:                          32                                         
+Covariance Type:            nonrobust                                         
+============================================================================================================
+                                               coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------------
+AmountinUSD                               4.794e-05   9.07e-05      0.528      0.601      -0.000       0.000
+AssignedToGroup_BPO                       1.167e-12   9.11e-12      0.128      0.899   -1.74e-11    1.97e-11
+AssignedToGroup_CRMT                     -4.075e-13    1.7e-12     -0.240      0.812   -3.86e-12    3.05e-12
+AuditDuration                             1.793e-13   1.46e-12      0.123      0.903   -2.79e-12    3.15e-12
+Complexity                                 -47.2559     94.221     -0.502      0.619    -238.950     144.438
+Concurrent_open_cases                      -32.1875     14.005     -2.298      0.028     -60.680      -3.695
+CountryProcessed_asia                       21.9471     73.738      0.298      0.768    -128.074     171.968
+CountryProcessed_australia                -106.7577    149.085     -0.716      0.479    -410.074     196.558
+CountryProcessed_europe                     44.7216    115.266      0.388      0.701    -189.788     279.232
+CountryProcessed_northamerica               49.3831     51.968      0.950      0.349     -56.347     155.114
+CountryProcessed_southamerica               17.8369     73.308      0.243      0.809    -131.310     166.984
+CountrySource_asia                         -24.5772     64.165     -0.383      0.704    -155.121     105.967
+CountrySource_australia                     -1.4129     60.180     -0.023      0.981    -123.850     121.024
+CountrySource_europe                       -14.0990     60.176     -0.234      0.816    -136.529     108.331
+CountrySource_northamerica                  49.9669     49.554      1.008      0.321     -50.851     150.785
+CountrySource_southamerica                  17.2531     40.189      0.429      0.670     -64.511      99.017
+HoldDuration                             -1.771e-14   1.52e-13     -0.117      0.908   -3.27e-13    2.91e-13
+HoldTypeName_3rd Party                   -1.588e-13   2.22e-13     -0.715      0.480    -6.1e-13    2.93e-13
+HoldTypeName_Customer                    -7.115e-14   6.79e-14     -1.048      0.302   -2.09e-13     6.7e-14
+HoldTypeName_Internal                     2.615e-13   2.53e-13      1.033      0.309   -2.53e-13    7.76e-13
+IsGovernment                               105.7549     84.414      1.253      0.219     -65.988     277.497
+IsMagnumCase                                32.6161     50.980      0.640      0.527     -71.104     136.336
+IsSOXCase                                   32.6161     50.980      0.640      0.527     -71.104     136.336
+IsSignature                                 44.0429     88.515      0.498      0.622    -136.042     224.128
+Priority                                   163.7826    142.268      1.151      0.258    -125.664     453.229
+Queue_APOC                                  48.4295     52.497      0.923      0.363     -58.376     155.235
+Queue_EOC                                   16.3838    155.484      0.105      0.917    -299.951     332.718
+Queue_LOC                                   -0.5838     64.111     -0.009      0.993    -131.019     129.852
+Queue_NAOC                                 -59.9392     89.897     -0.667      0.510    -242.836     122.958
+ROCName_APOC                                48.4295     52.497      0.923      0.363     -58.376     155.235
+ROCName_EOC                                 48.1331    140.728      0.342      0.734    -238.181     334.447
+Revenutype_Current Revenue                 -79.9852    124.682     -0.642      0.526    -333.652     173.681
+Revenutype_Future Billing                 -106.2206    143.718     -0.739      0.465    -398.616     186.175
+Revenutype_Non-revenue                      -2.8610    118.207     -0.024      0.981    -243.354     237.632
+SalesLocation_asia                         -24.5772     64.165     -0.383      0.704    -155.121     105.967
+SalesLocation_australia                     -1.4129     60.180     -0.023      0.981    -123.850     121.024
+SalesLocation_europe                       -14.0990     60.176     -0.234      0.816    -136.529     108.331
+SalesLocation_northamerica                  49.9669     49.554      1.008      0.321     -50.851     150.785
+SalesLocation_southamerica                  17.2531     40.189      0.429      0.670     -64.511      99.017
+Source_Hard Copy                                  0          0        nan        nan           0           0
+Source_Manual                              -34.9125    206.681     -0.169      0.867    -455.408     385.583
+Source_Soft Copy                          -165.8191    161.221     -1.029      0.311    -493.826     162.187
+Source_Web                                -138.6617    118.232     -1.173      0.249    -379.207     101.883
+Source_eAgreement (Phy)                    -62.3579    142.818     -0.437      0.665    -352.923     228.207
+StageName                                   20.4379     22.303      0.916      0.366     -24.937      65.813
+StatusReason_Problem Solved                 16.2623     51.926      0.313      0.756     -89.382     121.906
+SubReason_Basic Enterprise Commitment       47.0244    130.830      0.359      0.722    -219.151     313.200
+SubReason_Electronic Order Pend / Reject          0          0        nan        nan           0           0
+SubReason_Future Pricing Only CPS         -108.3179    161.604     -0.670      0.507    -437.105     220.469
+SubReason_Manual Order Entry               -19.2456    104.064     -0.185      0.854    -230.965     192.474
+SubReason_Meteaop                            1.7773     78.347      0.023      0.982    -157.620     161.175
+SubReason_True Up                          -46.5717     85.709     -0.543      0.591    -220.949     127.806
+SubReason_Zero Usage Order                 -75.6649    125.729     -0.602      0.551    -331.463     180.133
+==============================================================================
+Omnibus:                       38.725   Durbin-Watson:                   2.053
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              134.103
+Skew:                           1.687   Prob(JB):                     7.58e-30
+Kurtosis:                       9.114   Cond. No.                     1.00e+16
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The smallest eigenvalue is 2.92e-20. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.
+
+
+train R2: 0.511820057242
+test R2: -0.473556225901
+train RMSE: 72.4215010885
+test RMSE: 119.166160079
+y_train Predicted values: 35     23.671389
+71    168.028333
+54     62.968340
+63     29.369234
+55     73.851998
+21      4.725938
+18     26.956549
+48    183.981907
+82    -30.814877
+62      2.295647
+75     70.468086
+22    251.881017
+6       9.484675
+8      83.395116
+16     41.872479
+20    297.938176
+25     79.155535
+52    185.535031
+70     35.477385
+31    163.228580
+5     301.610457
+61    104.826089
+32    109.023804
+13    131.799454
+80     24.204353
+56    -21.740149
+28     98.663861
+46    144.035518
+57    113.563272
+42     76.360120
+         ...    
+66    -15.952943
+1      70.528648
+12    144.634867
+19     53.001444
+2     170.980914
+3      29.369234
+0     136.071259
+11    132.953491
+67     66.158942
+86     17.842763
+34    106.130145
+37    115.191244
+50    139.550278
+88    125.474271
+69     35.477385
+58     79.660577
+79      9.113611
+78    131.460145
+43     67.367164
+30     82.185833
+26     67.865281
+23    -17.394722
+49    105.131892
+15    191.834062
+24    -41.067055
+76    185.096822
+53      2.397222
+38     29.369234
+83     72.665744
+47    -36.017823
+Length: 66, dtype: float64
+
+y_test Predicted values: 36     48.868954
+59    190.019441
+65    147.605440
+45    146.321772
+60     20.377657
+87    113.402398
+72    301.661506
+68    305.649719
+9      56.891198
+73    117.258313
+29    134.328464
+81    136.051698
+44    281.474632
+10    -47.180617
+33    163.647615
+41     86.731377
+84     20.034280
+40    322.953899
+27     79.933042
+39    338.800857
+64     16.330530
+4      97.598798
+85    107.885410
+dtype: float64

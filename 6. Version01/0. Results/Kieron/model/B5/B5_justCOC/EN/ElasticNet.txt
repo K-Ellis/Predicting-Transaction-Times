@@ -1,0 +1,82 @@
+ElasticNet 20170819-143049
+
+Input file name: B5 
+
+ElasticNet: Cross Validation (10 Folds)
+	Train Mean R2: 0.0004 (+/-0.0004)
+	Train Mean RMSE: 102.08 (+/-5.56)
+	Train Mean MeanAE: 70.18 (+/-3.34)
+	Train Mean MedianAE: 63.32 (+/-2.91)
+	Train Mean EVS: 0.00 (+/-0.00)
+	Test Mean R2: -0.3722 (+/-0.8343)
+	Test Mean RMSE: 94.51 (+/-41.96)
+	Test Mean MeanAE: 71.17 (+/-19.88)
+	Test Mean MedianAE: 62.58 (+/-8.92)
+	Test Mean EVS: -0.02 (+/-0.04)
+
+	Predictions correct within 1 hour(s): 1.11%
+	Predictions correct within 4 hour(s): 1.11%
+	Predictions correct within 8 hour(s): 3.33%
+	Predictions correct within 16 hour(s): 15.56%
+	Predictions correct within 24 hour(s): 18.89%
+	Predictions correct within 48 hour(s): 36.81%
+	Predictions correct within 72 hour(s): 59.44%
+	Predictions correct within 96 hour(s): 89.86%
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Èlastic Net were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "Complexity" (-3.719319) [0.123092]
+	2. "StageName" (-1.988013) [0.065794]
+	3. "Source_Web" (-1.645701) [0.054465]
+	4. "IsSOXCase" (-1.515354) [0.050151]
+	5. "IsMagnumCase" (-1.515354) [0.050151]
+	6. "Revenutype_Current Revenue" (-1.185498) [0.039234]
+	7. "Priority" (-1.000000) [0.033095]
+	8. "CountryProcessed_northamerica" (-0.945313) [0.031285]
+	9. "CountrySource_northamerica" (-0.903508) [0.029902]
+	10. "SalesLocation_northamerica" (-0.903508) [0.029902]
+	11. "StatusReason_Problem Solved" (-0.863191) [0.028568]
+	12. "Concurrent_open_cases" (-0.854113) [0.028267]
+	13. "Queue_NAOC" (-0.805076) [0.026644]
+	14. "SubReason_Meteaop" (-0.659912) [0.021840]
+	15. "ROCName_EOC" (-0.642416) [0.021261]
+	16. "Queue_EOC" (-0.625000) [0.020685]
+	17. "Revenutype_Non-revenue" (-0.590326) [0.019537]
+	18. "CountryProcessed_asia" (-0.573025) [0.018964]
+	19. "CountrySource_europe" (-0.555719) [0.018392]
+	20. "SalesLocation_europe" (-0.555719) [0.018392]
+	21. "CountryProcessed_europe" (-0.538382) [0.017818]
+	22. "Queue_APOC" (-0.520988) [0.017242]
+	23. "ROCName_APOC" (-0.520988) [0.017242]
+	24. "SubReason_Basic Enterprise Commitment" (-0.485913) [0.016081]
+	25. "SalesLocation_asia" (-0.468165) [0.015494]
+	26. "CountrySource_asia" (-0.468165) [0.015494]
+	27. "SubReason_Manual Order Entry" (-0.432049) [0.014299]
+	28. "SubReason_Zero Usage Order" (-0.432049) [0.014299]
+	29. "AmountinUSD" (-0.405546) [0.013422]
+	30. "IsSignature" (-0.394771) [0.013065]
+	31. "Source_Soft Copy" (-0.375534) [0.012428]
+	32. "SubReason_True Up" (-0.355784) [0.011775]
+	33. "Source_eAgreement (Phy)" (-0.335410) [0.011100]
+	34. "Revenutype_Future Billing" (-0.314270) [0.010401]
+	35. "IsGovernment" (-0.268866) [0.008898]
+	36. "SalesLocation_australia" (-0.268866) [0.008898]
+	37. "CountrySource_australia" (-0.268866) [0.008898]
+	38. "SalesLocation_southamerica" (-0.216930) [0.007179]
+	39. "CountrySource_southamerica" (-0.216930) [0.007179]
+	40. "SubReason_Future Pricing Only CPS" (-0.151620) [0.005018]
+	41. "CountryProcessed_southamerica" (-0.151620) [0.005018]
+	42. "Source_Manual" (-0.151620) [0.005018]
+	43. "Source_Hard Copy" (-0.106600) [0.003528]
+	44. "Queue_LOC" (-0.106600) [0.003528]
+	45. "CountryProcessed_australia" (-0.106600) [0.003528]
+	46. "SubReason_Electronic Order Pend / Reject" (-0.106600) [0.003528]
+	47. "AssignedToGroup_BPO" (0.000000) [0.000000]
+	48. "HoldDuration" (0.000000) [0.000000]
+	49. "HoldTypeName_3rd Party" (0.000000) [0.000000]
+	50. "HoldTypeName_Customer" (0.000000) [0.000000]
+	51. "AuditDuration" (0.000000) [0.000000]
+	52. "AssignedToGroup_CRMT" (0.000000) [0.000000]
+	53. "HoldTypeName_Internal" (0.000000) [0.000000]

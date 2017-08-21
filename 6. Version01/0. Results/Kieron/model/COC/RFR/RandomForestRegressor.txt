@@ -1,0 +1,29 @@
+RandomForestRegressor 20170819-150337
+
+Input file name: COC 
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.7743 (+/-0.0016)
+	Train Mean RMSE: 61.69 (+/-0.18)
+	Train Mean MeanAE: 38.20 (+/-0.09)
+	Train Mean MedianAE: 21.60 (+/-0.12)
+	Train Mean EVS: 0.77 (+/-0.00)
+	Test Mean R2: 0.7568 (+/-0.0153)
+	Test Mean RMSE: 63.94 (+/-1.56)
+	Test Mean MeanAE: 39.67 (+/-0.73)
+	Test Mean MedianAE: 22.45 (+/-0.49)
+	Test Mean EVS: 0.76 (+/-0.02)
+
+	Predictions correct within 1 hour(s): 3.38%
+	Predictions correct within 4 hour(s): 13.21%
+	Predictions correct within 8 hour(s): 24.76%
+	Predictions correct within 16 hour(s): 40.55%
+	Predictions correct within 24 hour(s): 51.92%
+	Predictions correct within 48 hour(s): 72.55%
+	Predictions correct within 72 hour(s): 84.16%
+	Predictions correct within 96 hour(s): 90.36%
+
+Feature Importances:
+
+The importances for each variable used by Random Forest Regression were as follows:
+	1. "Concurrent_open_cases" (1.000000)

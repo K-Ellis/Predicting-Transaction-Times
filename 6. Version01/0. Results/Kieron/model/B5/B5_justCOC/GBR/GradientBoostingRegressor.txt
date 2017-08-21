@@ -1,0 +1,81 @@
+GradientBoostingRegressor 20170819-143124
+
+Input file name: B5 
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.9602 (+/-0.0052)
+	Train Mean RMSE: 20.32 (+/-1.58)
+	Train Mean MeanAE: 15.48 (+/-1.32)
+	Train Mean MedianAE: 11.85 (+/-1.26)
+	Train Mean EVS: 0.96 (+/-0.01)
+	Test Mean R2: -1.0812 (+/-2.1712)
+	Test Mean RMSE: 103.10 (+/-37.54)
+	Test Mean MeanAE: 74.64 (+/-21.79)
+	Test Mean MedianAE: 53.51 (+/-17.02)
+	Test Mean EVS: -0.49 (+/-0.71)
+
+	Predictions correct within 1 hour(s): 2.22%
+	Predictions correct within 4 hour(s): 7.92%
+	Predictions correct within 8 hour(s): 10.14%
+	Predictions correct within 16 hour(s): 18.06%
+	Predictions correct within 24 hour(s): 29.31%
+	Predictions correct within 48 hour(s): 46.25%
+	Predictions correct within 72 hour(s): 63.06%
+	Predictions correct within 96 hour(s): 74.17%
+
+Feature Importances:
+
+The importances for each variable used by Gradient Boosting Regression were as follows:
+	1. "AmountinUSD" (0.545317)
+	2. "Concurrent_open_cases" (0.094344)
+	3. "IsGovernment" (0.049581)
+	4. "StageName" (0.039291)
+	5. "SubReason_Basic Enterprise Commitment" (0.026622)
+	6. "Source_Soft Copy" (0.024078)
+	7. "SubReason_True Up" (0.020391)
+	8. "CountryProcessed_southamerica" (0.020087)
+	9. "Revenutype_Non-revenue" (0.017699)
+	10. "SalesLocation_asia" (0.017665)
+	11. "IsSignature" (0.015147)
+	12. "SubReason_Zero Usage Order" (0.014386)
+	13. "SubReason_Meteaop" (0.013737)
+	14. "Source_Web" (0.013727)
+	15. "Complexity" (0.011346)
+	16. "IsMagnumCase" (0.009779)
+	17. "CountrySource_northamerica" (0.009062)
+	18. "CountrySource_asia" (0.007650)
+	19. "CountryProcessed_northamerica" (0.006183)
+	20. "Queue_APOC" (0.005173)
+	21. "ROCName_EOC" (0.005053)
+	22. "SalesLocation_northamerica" (0.004390)
+	23. "SubReason_Manual Order Entry" (0.004222)
+	24. "Queue_EOC" (0.004163)
+	25. "CountrySource_europe" (0.004011)
+	26. "CountryProcessed_europe" (0.003170)
+	27. "CountryProcessed_australia" (0.002058)
+	28. "StatusReason_Problem Solved" (0.001926)
+	29. "IsSOXCase" (0.001730)
+	30. "Source_eAgreement (Phy)" (0.001279)
+	31. "SalesLocation_europe" (0.001134)
+	32. "SalesLocation_australia" (0.001131)
+	33. "Revenutype_Future Billing" (0.000973)
+	34. "CountrySource_southamerica" (0.000907)
+	35. "CountryProcessed_asia" (0.000793)
+	36. "ROCName_APOC" (0.000681)
+	37. "Queue_NAOC" (0.000643)
+	38. "SalesLocation_southamerica" (0.000420)
+	39. "Revenutype_Current Revenue" (0.000048)
+	40. "HoldTypeName_3rd Party" (0.000000)
+	41. "AssignedToGroup_CRMT" (0.000000)
+	42. "HoldDuration" (0.000000)
+	43. "SubReason_Future Pricing Only CPS" (0.000000)
+	44. "SubReason_Electronic Order Pend / Reject" (0.000000)
+	45. "AuditDuration" (0.000000)
+	46. "HoldTypeName_Internal" (0.000000)
+	47. "HoldTypeName_Customer" (0.000000)
+	48. "Priority" (0.000000)
+	49. "Source_Manual" (0.000000)
+	50. "Source_Hard Copy" (0.000000)
+	51. "AssignedToGroup_BPO" (0.000000)
+	52. "Queue_LOC" (0.000000)
+	53. "CountrySource_australia" (0.000000)

@@ -1,0 +1,82 @@
+LinearRegression 20170819-143013
+
+Input file name: B5 
+
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean R2: 0.4560 (+/-0.0190)
+	Train Mean RMSE: 75.28 (+/-4.18)
+	Train Mean MeanAE: 45.95 (+/-2.43)
+	Train Mean MedianAE: 27.95 (+/-2.22)
+	Train Mean EVS: 0.46 (+/-0.02)
+	Test Mean R2: -1.2361 (+/-1.8362)
+	Test Mean RMSE: 105.27 (+/-24.29)
+	Test Mean MeanAE: 73.56 (+/-11.84)
+	Test Mean MedianAE: 54.07 (+/-22.71)
+	Test Mean EVS: -0.76 (+/-1.17)
+
+	Predictions correct within 1 hour(s): 2.22%
+	Predictions correct within 4 hour(s): 4.44%
+	Predictions correct within 8 hour(s): 15.69%
+	Predictions correct within 16 hour(s): 25.97%
+	Predictions correct within 24 hour(s): 30.42%
+	Predictions correct within 48 hour(s): 47.36%
+	Predictions correct within 72 hour(s): 61.81%
+	Predictions correct within 96 hour(s): 73.19%
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Linear Regression were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "Source_Hard Copy" (-1846.114463) [0.222944]
+	2. "SubReason_Future Pricing Only CPS" (-1124.650132) [0.135817]
+	3. "CountryProcessed_australia" (-943.488617) [0.113939]
+	4. "Source_Manual" (-459.269312) [0.055463]
+	5. "Source_eAgreement (Phy)" (-453.298930) [0.054742]
+	6. "Source_Web" (-344.306309) [0.041580]
+	7. "Source_Soft Copy" (-313.627099) [0.037875]
+	8. "SubReason_True Up" (-284.878802) [0.034403]
+	9. "Complexity" (-272.100050) [0.032860]
+	10. "SubReason_Electronic Order Pend / Reject" (-244.693825) [0.029550]
+	11. "SubReason_Zero Usage Order" (-203.455470) [0.024570]
+	12. "Queue_LOC" (144.662924) [0.017470]
+	13. "CountryProcessed_europe" (142.225889) [0.017176]
+	14. "SubReason_Manual Order Entry" (-135.566318) [0.016372]
+	15. "Revenutype_Future Billing" (-127.841580) [0.015439]
+	16. "Queue_NAOC" (-123.773614) [0.014947]
+	17. "Revenutype_Non-revenue" (113.956272) [0.013762]
+	18. "SubReason_Meteaop" (-111.220153) [0.013431]
+	19. "IsSignature" (83.521366) [0.010086]
+	20. "Revenutype_Current Revenue" (-55.751617) [0.006733]
+	21. "IsGovernment" (54.348390) [0.006563]
+	22. "IsSOXCase" (48.544273) [0.005862]
+	23. "IsMagnumCase" (48.544273) [0.005862]
+	24. "SalesLocation_northamerica" (47.860768) [0.005780]
+	25. "CountrySource_northamerica" (47.860768) [0.005780]
+	26. "CountryProcessed_southamerica" (44.942563) [0.005427]
+	27. "Queue_EOC" (-43.003092) [0.005193]
+	28. "ROCName_EOC" (-42.526058) [0.005136]
+	29. "CountryProcessed_asia" (40.212799) [0.004856]
+	30. "SubReason_Basic Enterprise Commitment" (-37.405859) [0.004517]
+	31. "SalesLocation_europe" (-34.362216) [0.004150]
+	32. "CountrySource_europe" (-34.362216) [0.004150]
+	33. "CountrySource_asia" (-34.089019) [0.004117]
+	34. "SalesLocation_asia" (-34.089019) [0.004117]
+	35. "CountryProcessed_northamerica" (26.570357) [0.003209]
+	36. "Concurrent_open_cases" (-25.201983) [0.003043]
+	37. "CountrySource_australia" (19.724244) [0.002382]
+	38. "SalesLocation_australia" (19.724244) [0.002382]
+	39. "CountrySource_southamerica" (-18.739533) [0.002263]
+	40. "SalesLocation_southamerica" (-18.739533) [0.002263]
+	41. "StatusReason_Problem Solved" (11.663857) [0.001409]
+	42. "StageName" (10.550143) [0.001274]
+	43. "ROCName_APOC" (-3.872393) [0.000468]
+	44. "Queue_APOC" (-3.872393) [0.000468]
+	45. "Priority" (-1.000000) [0.000121]
+	46. "AmountinUSD" (-0.405546) [0.000049]
+	47. "AssignedToGroup_CRMT" (0.000000) [0.000000]
+	48. "AssignedToGroup_BPO" (-0.000000) [0.000000]
+	49. "AuditDuration" (-0.000000) [0.000000]
+	50. "HoldTypeName_3rd Party" (-0.000000) [0.000000]
+	51. "HoldDuration" (0.000000) [0.000000]
+	52. "HoldTypeName_Customer" (-0.000000) [0.000000]
+	53. "HoldTypeName_Internal" (-0.000000) [0.000000]
