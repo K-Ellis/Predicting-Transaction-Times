@@ -1,61 +1,65 @@
 beep: y
 resample: n
-n_samples: 100
+n_samples: 1000
 seed: 1234
-specify_subfolder: PreJune_June
+specify_subfolder: finalprejuly
 ########### ################
 PREPARE_DATASET ############
 ########### ################
 prepare_input_file: vw_Incident
-prepare_output_file: B4
+prepare_output_file: SL
 ########### ################
-append_HoldDuration: y
-append_AuditDuration: y
-Concurrent_open_cases: y
-Cases_created_within_past_8_hours: y
-Cases_resolved_within_past_8_hours: y
+append_HoldDuration: n
+append_AuditDuration: n
+Concurrent_open_cases: n
+Cases_created_within_past_8_hours: n
+Cases_resolved_within_past_8_hours: n
 Seconds_left_Day: y
 Seconds_left_Month: y
 Seconds_left_Qtr: y
-Seconds_left_Year: n
-Created_on_Weekend: y
-Rolling_Mean: y
-Rolling_Median: y
-Rolling_Std: y
+Seconds_left_Year: y
+Created_on_Weekend: n
+Rolling_Mean: n
+Rolling_Median: n
+Rolling_Std: n
 mandatory_data: n
-minimum_data: n
+minimum_data: y
 ########### ################
-ordinal_mapping: y
-onehot_encoding: y
+ordinal_mapping: n
+onehot_encoding: n
 keep_created_resolved: y
 remove_outliers: y
 last_4_BDays: n
 ########### ################
 MODEL ######################
 ########### ################
-prev******: man
+prev******: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW
+prev******: min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R
+prev******: all_Incident
+prev******: all_yes
 prev******: min
-prev******: man_SLY
-input_file: man
+prev******: man_no_rollingorSLY
+input_file: B4
 ########### ################
+simple_stats: n
 crossvalidation: 10
 LinearRegression: y
 ElasticNet: y
 GradientBoostingRegressor: y
 RandomForestRegressor: y
 n_estimators: 100
-statsmodels_OLS: y
+statsmodels_OLS: n
 KernelRidge: n
 xgboost: n
 MLPRegressor: n
 ########### ################
 top_k_features: 10
-export_importances_csv: n
+export_importances_csv: y
 export_top_k_csv: n
 ########### ################
-extra_testing: y
+extra_testing: n
 prejuly_july: n
-prejune_june: y
+prejune_june: n
 prejune_junejuly: n
 delete_option_cols: n
 log_of_y: n
@@ -65,14 +69,9 @@ output_predictions_csv: y
 ########### ################
 MULTI_PLOT #################
 ########### ################
-prev******: B4_predictions, man_predictions, min_predictions
-prev******: B4, Man, Min
-prev******: man_Pre-July_predictions, man_July_predictions
-prev******: Pre-July, July
-prev******: man_Pre-June_predictions, man_June_predictions
-prev******: Pre-June, June
-input_files: man_Pre-June_predictions, man_June_predictions
-input_file_names: Pre-June, June
+input_files: minB4_b4keepers_predictions
+input_file_names: Min
+plotting_input_file: COC
 ########### ################
 GRID_SEARCH ################
 ########### ################
