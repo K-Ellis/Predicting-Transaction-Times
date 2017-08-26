@@ -6,6 +6,7 @@ import os  # Used to create folders
 from shutil import copyfile  # Used to copy parameters file to directory
 from sklearn.metrics import mean_squared_error
 import math
+from matplotlib.ticker import FuncFormatter
 
 def get_parameters(parameters):
     d = {}
@@ -106,7 +107,7 @@ def get_stats(df):
     return percent_close, percent_close96, RMSEs
     
 def multi_plot_pct_correct(ys, newpath, d, title):
-    fig, ax = plt.subplots(dpi=100) # figsize=(3.841, 7.195), 
+    fig, ax = plt.subplots(dpi=300) # figsize=(3.841, 7.195),
     ys_plot = ys.copy()
     for i in range(len(ys_plot)):
         ys_plot[i] = [0] + ys[i]
@@ -120,12 +121,12 @@ def multi_plot_pct_correct(ys, newpath, d, title):
     for y, alg_initial, colour in zip(ys_plot, alg_initial_list, colours):
         plt.plot(x, y, colour, label=alg_initial, alpha=0.8)
 
-    plt.title("% Correct Predictions +/- Given Time") # (%s)" % (title))
+    plt.title("%% Correct Predictions +/- Given Time (%s)" % (title))
 
     plt.xlim(0, 48)
     plt.ylim(0, 100)
     
-#     plt.legend(loc=5, bbox_to_anchor=(1.2, 0.5))
+    # plt.legend(loc=5, bbox_to_anchor=(1.2, 0.5))
     handles, labels = ax.get_legend_handles_labels()
     ax.legend(handles[::-1], labels[::-1], title='Algorithms', loc=5, bbox_to_anchor=(1.21, 0.5))
 
@@ -144,21 +145,17 @@ def multi_plot_pct_correct(ys, newpath, d, title):
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
 
-    plt.savefig("%s%s_pct_correct.png" % (newpath, title), bbox_inches='tight')
+    plt.savefig("%s%s_pct_correct.png" % (newpath, title), bbox_inches='tight', dpi=300)
     plt.savefig("%sPDFs/%s_pct_correct.pdf" % (newpath, title), bbox_inches='tight')
 
     try:
         get_ipython
-        print("trying")
         plt.show()
     except:
         print("excepting")
         plt.close()
-        
-        fig, ax = plt.subplots()
 
-#     for i in range(len(ys)):
-#         ys[i] = [0] + ys[i]
+    fig, ax = plt.subplots(dpi=300)
 
     x = [x*2 for x in range(len(ys_plot[0]))]
     # todo - change to reflect how many datapoints there are with np.where
@@ -175,8 +172,7 @@ def multi_plot_pct_correct(ys, newpath, d, title):
     plt.xlim(0, 48)
     plt.ylim(0, 100)
     
-#     plt.legend(loc=5, bbox_to_anchor=(1.2, 0.5))
-    
+    # plt.legend(bbox_to_anchor=(1.2, 0.5), loc="center", fontsize=12)
     handles, labels = ax.get_legend_handles_labels()
     ax.legend(handles[::-1], labels[::-1], loc="center", fontsize=12)#, loc=5, bbox_to_anchor=(1.21, 0.5))
 
@@ -195,7 +191,7 @@ def multi_plot_pct_correct(ys, newpath, d, title):
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
 
-    plt.savefig("%s%s_pct_correct_B_RF.png" % (newpath, title), bbox_inches='tight')
+    plt.savefig("%s%s_pct_correct_B_RF.png" % (newpath, title), bbox_inches='tight', dpi=300)
     plt.savefig("%sPDFs/%s_pct_correct_B_RF.pdf" % (newpath, title), bbox_inches='tight')
 
     try:
@@ -205,6 +201,7 @@ def multi_plot_pct_correct(ys, newpath, d, title):
         plt.close()
 
 def multi_plot_RMSEs_bar(ys, newpath, d, title, actual_title):
+    fig, ax = plt.subplots(dpi=300)
     x = range(len(ys[0]))
     x = np.array(x)
     ys = np.array(ys)
@@ -232,7 +229,7 @@ def multi_plot_RMSEs_bar(ys, newpath, d, title, actual_title):
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
 
-    plt.savefig("%s%s_RMSEs_bar.png" % (newpath, title), bbox_inches='tight')
+    plt.savefig("%s%s_RMSEs_bar.png" % (newpath, title), bbox_inches='tight', dpi=300)
     plt.savefig("%sPDFs/%s_RMSEs_bar.pdf" % (newpath, title), bbox_inches='tight')
 
     try:
@@ -242,6 +239,7 @@ def multi_plot_RMSEs_bar(ys, newpath, d, title, actual_title):
         plt.close()
 
 def multi_plot_RMSEs_line(ys, newpath, d, title):
+    fig, ax = plt.subplots(dpi=300)
     x = range(len(title))
     x = np.array(x)
     ys = np.array(ys)
@@ -264,7 +262,7 @@ def multi_plot_RMSEs_line(ys, newpath, d, title):
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
 
-    plt.savefig("%s%s_RMSEs_line.png" % (newpath, title), bbox_inches='tight')
+    plt.savefig("%s%s_RMSEs_line.png" % (newpath, title), bbox_inches='tight', dpi=300)
     plt.savefig("%sPDFs/%s_RMSEs_line.pdf" % (newpath, title), bbox_inches='tight')
 
     try:
@@ -274,6 +272,7 @@ def multi_plot_RMSEs_line(ys, newpath, d, title):
         plt.close()
 
 def multi_plot_within96(ys, newpath, d, title):
+    fig, ax = plt.subplots(dpi=300)
     x = range(len(title))
 
     alg_initial_list = ["B", "LR", "EN", "GBR", "RFR"]
@@ -293,7 +292,7 @@ def multi_plot_within96(ys, newpath, d, title):
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
 
-    plt.savefig("%s%s_within96.png" % (newpath, title), bbox_inches='tight')
+    plt.savefig("%s%s_within96.png" % (newpath, title), bbox_inches='tight', dpi=300)
     plt.savefig("%sPDFs/%s_within96.pdf" % (newpath, title), bbox_inches='tight')
 
     try:
@@ -303,6 +302,7 @@ def multi_plot_within96(ys, newpath, d, title):
         plt.close()
 
 def multi_plot_within96_bar(ys, newpath, d, title, actual_title):
+    fig, ax = plt.subplots(dpi=300)
     x = range(len(ys[0]))
     x = np.array(x)
     ys = np.array(ys)
@@ -332,28 +332,29 @@ def multi_plot_within96_bar(ys, newpath, d, title, actual_title):
     plt.xlabel("Algorithms")
     plt.ylabel("Correct Predictions Within 96 hours")
 
-    yticks_i = [i * 5 for i in range(21)]
-    # yticks = ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]
-    yticks = ["0%","5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%", "55%",
-              "60%", "65%", "70%", "75%", "80%", "85%", "90%", "95%", "100%"]
-    plt.yticks(yticks_i, yticks)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.0%}'.format(y/100)))
+    # yticks_i = [i * 5 for i in range(21)]
+    # # yticks = ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]
+    # yticks = ["0%","5%", "10%", "15%", "20%", "25%", "30%", "35%", "40%", "45%", "50%", "55%",
+    #           "60%", "65%", "70%", "75%", "80%", "85%", "90%", "95%", "100%"]
+    # plt.yticks(yticks_i, yticks)
 
-    if minsofar < 10:
-        low = 0
-    else:
-        low = math.ceil(minsofar-5)
-
-    if maxsofar > 90:
-        high = 100
-    else:
-        high = math.ceil(maxsofar+5)
-
-    plt.ylim(low, high)
+    # if minsofar < 10:
+    #     low = 0
+    # else:
+    #     low = math.ceil(minsofar-5)
+    #
+    # if maxsofar > 90:
+    #     high = 100
+    # else:
+    #     high = math.ceil(maxsofar+5)
+    #
+    # plt.ylim(low, high)
 
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
 
-    plt.savefig("%s%s_within96_bar.png" % (newpath, title), bbox_inches='tight')
+    plt.savefig("%s%s_within96_bar.png" % (newpath, title), bbox_inches='tight', dpi=300)
     plt.savefig("%sPDFs/%s_within96_bar.pdf" % (newpath, title), bbox_inches='tight')
 
     try:
