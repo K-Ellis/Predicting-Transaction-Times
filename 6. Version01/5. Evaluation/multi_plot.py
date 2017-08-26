@@ -176,13 +176,15 @@ def multi_plot_pct_correct(ys, newpath, d, title):
     handles, labels = ax.get_legend_handles_labels()
     ax.legend(handles[::-1], labels[::-1], loc="center", fontsize=12)#, loc=5, bbox_to_anchor=(1.21, 0.5))
 
-    xticks = [(x + 1) * 4 for x in range(12)]
+    xticks = [(x + 1) * 8 for x in range(6)]
+    # xticks = [(x + 1) * 4 for x in range(12)]
 
     plt.xticks(xticks, xticks)
 
-    yticks_i = [i * 10 for i in range(11)]
-    yticks = ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]
-    plt.yticks(yticks_i, yticks)
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:.0%}'.format(y / 100)))
+    # yticks_i = [i * 10 for i in range(11)]
+    # yticks = ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]
+    # plt.yticks(yticks_i, yticks)
 
     # plt.grid()
     plt.xlabel("Time Buckets (hours)")
