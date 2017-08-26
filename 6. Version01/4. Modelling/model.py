@@ -1427,6 +1427,8 @@ if __name__ == "__main__":  # Run program
         for col in df.columns:
             if col not in keepers:
                 del df[col]
+                
+    
 
     if d["resample"] == "y":
         from sklearn.utils import resample

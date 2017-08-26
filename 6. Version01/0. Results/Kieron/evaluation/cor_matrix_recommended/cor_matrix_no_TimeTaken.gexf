@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf version="1.1" xmlns="http://www.gexf.net/1.1draft" xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance">
+  <graph defaultedgetype="undirected" mode="static">
+    <nodes>
+      <node id="Seconds_left_Day" label="Seconds_left_Day" />
+      <node id="Seconds_left_Month" label="Seconds_left_Month" />
+      <node id="Seconds_left_Qtr" label="Seconds_left_Qtr" />
+      <node id="TimeTaken" label="TimeTaken" />
+      <node id="Concurrent_open_cases" label="Concurrent_open_cases" />
+      <node id="Cases_created_within_past_8_hours" label="Cases_created_within_past_8_hours" />
+      <node id="Created_on_Weekend" label="Created_on_Weekend" />
+    </nodes>
+    <edges>
+      <edge id="0" source="Seconds_left_Day" target="Seconds_left_Month" weight="0.112470875086" />
+      <edge id="1" source="Seconds_left_Day" target="Seconds_left_Qtr" weight="0.0497436680945" />
+      <edge id="2" source="Seconds_left_Day" target="TimeTaken" weight="0.0696680079367" />
+      <edge id="3" source="Seconds_left_Day" target="Concurrent_open_cases" weight="0.0437661385602" />
+      <edge id="4" source="Seconds_left_Day" target="Cases_created_within_past_8_hours" weight="0.199366550098" />
+      <edge id="5" source="Seconds_left_Day" target="Created_on_Weekend" weight="0.104574029471" />
+      <edge id="6" source="Seconds_left_Month" target="Seconds_left_Qtr" weight="0.404056057116" />
+      <edge id="7" source="Seconds_left_Month" target="TimeTaken" weight="0.0668356395362" />
+      <edge id="8" source="Seconds_left_Month" target="Concurrent_open_cases" weight="0.133863614394" />
+      <edge id="9" source="Seconds_left_Month" target="Cases_created_within_past_8_hours" weight="0.54024442424" />
+      <edge id="10" source="Seconds_left_Month" target="Created_on_Weekend" weight="0.0725511188308" />
+      <edge id="11" source="Seconds_left_Qtr" target="TimeTaken" weight="0.0199904408342" />
+      <edge id="12" source="Seconds_left_Qtr" target="Concurrent_open_cases" weight="0.174751204231" />
+      <edge id="13" source="Seconds_left_Qtr" target="Cases_created_within_past_8_hours" weight="0.507527302747" />
+      <edge id="14" source="Seconds_left_Qtr" target="Created_on_Weekend" weight="0.0565520884446" />
+      <edge id="15" source="TimeTaken" target="Concurrent_open_cases" weight="0.692474891598" />
+      <edge id="16" source="TimeTaken" target="Cases_created_within_past_8_hours" weight="0.00722299844842" />
+      <edge id="17" source="TimeTaken" target="Created_on_Weekend" weight="0.0386049791102" />
+      <edge id="18" source="Concurrent_open_cases" target="Cases_created_within_past_8_hours" weight="0.17625747777" />
+      <edge id="19" source="Concurrent_open_cases" target="Created_on_Weekend" weight="0.0422263443099" />
+      <edge id="20" source="Cases_created_within_past_8_hours" target="Created_on_Weekend" weight="0.207341571937" />
+    </edges>
+  </graph>
+</gexf>

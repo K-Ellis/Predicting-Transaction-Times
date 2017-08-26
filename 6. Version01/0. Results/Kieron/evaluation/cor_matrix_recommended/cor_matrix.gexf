@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf version="1.1" xmlns="http://www.gexf.net/1.1draft" xmlns:viz="http://www.gexf.net/1.1draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance">
+  <graph defaultedgetype="undirected" mode="static">
+    <nodes>
+      <node id="TimeTaken" label="TimeTaken" />
+      <node id="Concurrent_open_cases" label="Concurrent_open_cases" />
+      <node id="Revenutype_Credit / Rebill" label="Revenutype_Credit / Rebill" />
+      <node id="CountrySource_northamerica" label="CountrySource_northamerica" />
+      <node id="Source_Web" label="Source_Web" />
+      <node id="Queue_APOC" label="Queue_APOC" />
+      <node id="Created_on_Weekend" label="Created_on_Weekend" />
+      <node id="CountryProcessed_europe" label="CountryProcessed_europe" />
+      <node id="StatusReason_Problem Solved" label="StatusReason_Problem Solved" />
+      <node id="StageName" label="StageName" />
+      <node id="Source_Hard Copy" label="Source_Hard Copy" />
+      <node id="SubReason_Zero Usage Order" label="SubReason_Zero Usage Order" />
+      <node id="Revenutype_Non-revenue" label="Revenutype_Non-revenue" />
+      <node id="sourcesystem_NMEC" label="sourcesystem_NMEC" />
+      <node id="SubReason_Meteaop" label="SubReason_Meteaop" />
+      <node id="sourcesystem_Aplquest" label="sourcesystem_Aplquest" />
+      <node id="SalesLocation_northamerica" label="SalesLocation_northamerica" />
+      <node id="IsSOXCase" label="IsSOXCase" />
+      <node id="ROCName_APOC" label="ROCName_APOC" />
+      <node id="IsMagnumCase" label="IsMagnumCase" />
+      <node id="Source_eAgreement (Phy)" label="Source_eAgreement (Phy)" />
+      <node id="SubReason_Basic Enterprise Commitment" label="SubReason_Basic Enterprise Commitment" />
+      <node id="Queue_EOC" label="Queue_EOC" />
+      <node id="sourcesystem_CLT" label="sourcesystem_CLT" />
+      <node id="Cases_created_within_past_8_hours" label="Cases_created_within_past_8_hours" />
+      <node id="Rolling_Median" label="Rolling_Median" />
+      <node id="Source_Manual" label="Source_Manual" />
+      <node id="CountryProcessed_other" label="CountryProcessed_other" />
+      <node id="CountrySource_other" label="CountrySource_other" />
+      <node id="ROCName_EOC" label="ROCName_EOC" />
+      <node id="CountrySource_asia" label="CountrySource_asia" />
+      <node id="CountrySource_europe" label="CountrySource_europe" />
+      <node id="Rolling_Mean" label="Rolling_Mean" />
+      <node id="Revenutype_Future Billing" label="Revenutype_Future Billing" />
+      <node id="SubReason_Electronic Order Pend / Reject" label="SubReason_Electronic Order Pend / Reject" />
+      <node id="IsSignature" label="IsSignature" />
+      <node id="Revenutype_Current Revenue" label="Revenutype_Current Revenue" />
+      <node id="CountrySource_southamerica" label="CountrySource_southamerica" />
+      <node id="CountryProcessed_northamerica" label="CountryProcessed_northamerica" />
+      <node id="CountryProcessed_australia" label="CountryProcessed_australia" />
+      <node id="CountrySource_australia" label="CountrySource_australia" />
+      <node id="StatusReason_Completed" label="StatusReason_Completed" />
+      <node id="SubReason_Manual Order Entry" label="SubReason_Manual Order Entry" />
+      <node id="CountryProcessed_southamerica" label="CountryProcessed_southamerica" />
+      <node id="SalesLocation_southamerica" label="SalesLocation_southamerica" />
+      <node id="Cases_resolved_within_past_8_hours" label="Cases_resolved_within_past_8_hours" />
+      <node id="SalesLocation_australia" label="SalesLocation_australia" />
+      <node id="Complexity" label="Complexity" />
+      <node id="SalesLocation_europe" label="SalesLocation_europe" />
+      <node id="Seconds_left_Month" label="Seconds_left_Month" />
+      <node id="Queue_NAOC" label="Queue_NAOC" />
+      <node id="sourcesystem_web" label="sourcesystem_web" />
+      <node id="Rolling_Std" label="Rolling_Std" />
+      <node id="CountryProcessed_asia" label="CountryProcessed_asia" />
+      <node id="sourcesystem_clt" label="sourcesystem_clt" />
+      <node id="SalesLocation_asia" label="SalesLocation_asia" />
+      <node id="Queue_LOC" label="Queue_LOC" />
+      <node id="Source_Soft Copy" label="Source_Soft Copy" />
+      <node id="Seconds_left_Qtr" label="Seconds_left_Qtr" />
+    </nodes>
+    <edges>
+      <edge id="0" source="TimeTaken" target="Rolling_Std" weight="0.336434633629" />
+      <edge id="1" source="TimeTaken" target="Concurrent_open_cases" weight="0.692474891598" />
+      <edge id="2" source="TimeTaken" target="SubReason_Basic Enterprise Commitment" weight="0.293766035077" />
+      <edge id="3" source="TimeTaken" target="SubReason_Zero Usage Order" weight="0.231853932029" />
+      <edge id="4" source="TimeTaken" target="Rolling_Median" weight="0.419138585173" />
+      <edge id="5" source="TimeTaken" target="Rolling_Mean" weight="0.494190241933" />
+      <edge id="6" source="TimeTaken" target="IsSignature" weight="0.235133825369" />
+      <edge id="7" source="Concurrent_open_cases" target="Cases_resolved_within_past_8_hours" weight="0.211218975883" />
+      <edge id="8" source="Concurrent_open_cases" target="Rolling_Median" weight="0.236502969758" />
+      <edge id="9" source="Concurrent_open_cases" target="Rolling_Mean" weight="0.22168757476" />
+      <edge id="10" source="Concurrent_open_cases" target="StageName" weight="0.202404624211" />
+      <edge id="11" source="Concurrent_open_cases" target="SubReason_Basic Enterprise Commitment" weight="0.374705989788" />
+      <edge id="12" source="Concurrent_open_cases" target="IsSignature" weight="0.287803403512" />
+      <edge id="13" source="Concurrent_open_cases" target="SubReason_Zero Usage Order" weight="0.306506851226" />
+      <edge id="14" source="Concurrent_open_cases" target="Revenutype_Non-revenue" weight="0.21099106253" />
+      <edge id="15" source="Concurrent_open_cases" target="IsSOXCase" weight="0.247873860702" />
+      <edge id="16" source="Concurrent_open_cases" target="Source_Soft Copy" weight="0.254347840492" />
+      <edge id="17" source="Concurrent_open_cases" target="IsMagnumCase" weight="0.248886988446" />
+      <edge id="18" source="Revenutype_Credit / Rebill" target="Revenutype_Current Revenue" weight="0.280852249219" />
+      <edge id="19" source="Revenutype_Credit / Rebill" target="SubReason_Manual Order Entry" weight="0.536104036887" />
+      <edge id="20" source="Revenutype_Credit / Rebill" target="Source_Web" weight="0.300761675375" />
+      <edge id="21" source="Revenutype_Credit / Rebill" target="Source_Soft Copy" weight="0.407353461954" />
+      <edge id="22" source="CountrySource_northamerica" target="SalesLocation_northamerica" weight="0.998058289786" />
+      <edge id="23" source="CountrySource_northamerica" target="SalesLocation_southamerica" weight="0.204294649371" />
+      <edge id="24" source="CountrySource_northamerica" target="Queue_EOC" weight="0.621878248962" />
+      <edge id="25" source="CountrySource_northamerica" target="Queue_APOC" weight="0.41275755394" />
+      <edge id="26" source="CountrySource_northamerica" target="CountryProcessed_europe" weight="0.541650655078" />
+      <edge id="27" source="CountrySource_northamerica" target="ROCName_EOC" weight="0.622680944772" />
+      <edge id="28" source="CountrySource_northamerica" target="SalesLocation_europe" weight="0.532811463535" />
+      <edge id="29" source="CountrySource_northamerica" target="Queue_NAOC" weight="0.787670310109" />
+      <edge id="30" source="CountrySource_northamerica" target="Cases_created_within_past_8_hours" weight="0.203201171479" />
+      <edge id="31" source="CountrySource_northamerica" target="CountryProcessed_asia" weight="0.460997206967" />
+      <edge id="32" source="CountrySource_northamerica" target="CountrySource_southamerica" weight="0.205576599305" />
+      <edge id="33" source="CountrySource_northamerica" target="CountryProcessed_northamerica" weight="0.941588584895" />
+      <edge id="34" source="CountrySource_northamerica" target="CountrySource_asia" weight="0.413606605624" />
+      <edge id="35" source="CountrySource_northamerica" target="SalesLocation_asia" weight="0.415502701765" />
+      <edge id="36" source="CountrySource_northamerica" target="ROCName_APOC" weight="0.412857468295" />
+      <edge id="37" source="CountrySource_northamerica" target="CountrySource_europe" weight="0.532214530038" />
+      <edge id="38" source="Source_Web" target="Source_eAgreement (Phy)" weight="0.381871512176" />
+      <edge id="39" source="Source_Web" target="Queue_EOC" weight="0.243054900413" />
+      <edge id="40" source="Source_Web" target="CountryProcessed_europe" weight="0.227968041225" />
+      <edge id="41" source="Source_Web" target="CountryProcessed_northamerica" weight="0.217325904654" />
+      <edge id="42" source="Source_Web" target="SalesLocation_europe" weight="0.222161947832" />
+      <edge id="43" source="Source_Web" target="SubReason_Basic Enterprise Commitment" weight="0.25357034092" />
+      <edge id="44" source="Source_Web" target="Source_Hard Copy" weight="0.208907229864" />
+      <edge id="45" source="Source_Web" target="Source_Soft Copy" weight="0.746727059355" />
+      <edge id="46" source="Source_Web" target="Source_Manual" weight="0.257128492312" />
+      <edge id="47" source="Source_Web" target="ROCName_EOC" weight="0.24428365329" />
+      <edge id="48" source="Source_Web" target="SubReason_Meteaop" weight="0.379914769628" />
+      <edge id="49" source="Source_Web" target="SubReason_Manual Order Entry" weight="0.266264806952" />
+      <edge id="50" source="Source_Web" target="CountrySource_europe" weight="0.221198161936" />
+      <edge id="51" source="Queue_APOC" target="SalesLocation_northamerica" weight="0.413262677175" />
+      <edge id="52" source="Queue_APOC" target="StageName" weight="0.250890306183" />
+      <edge id="53" source="Queue_APOC" target="Queue_EOC" weight="0.32703846448" />
+      <edge id="54" source="Queue_APOC" target="SalesLocation_australia" weight="0.444032563649" />
+      <edge id="55" source="Queue_APOC" target="Source_Soft Copy" weight="0.201683647957" />
+      <edge id="56" source="Queue_APOC" target="CountryProcessed_europe" weight="0.284723508052" />
+      <edge id="57" source="Queue_APOC" target="StatusReason_Problem Solved" weight="0.377120078094" />
+      <edge id="58" source="Queue_APOC" target="ROCName_EOC" weight="0.327300629587" />
+      <edge id="59" source="Queue_APOC" target="SalesLocation_europe" weight="0.280164098367" />
+      <edge id="60" source="Queue_APOC" target="CountrySource_europe" weight="0.279680443753" />
+      <edge id="61" source="Queue_APOC" target="Queue_NAOC" weight="0.362526231655" />
+      <edge id="62" source="Queue_APOC" target="Cases_created_within_past_8_hours" weight="0.246680898577" />
+      <edge id="63" source="Queue_APOC" target="CountryProcessed_asia" weight="0.874775255972" />
+      <edge id="64" source="Queue_APOC" target="CountryProcessed_northamerica" weight="0.438096573168" />
+      <edge id="65" source="Queue_APOC" target="CountrySource_asia" weight="0.716786964591" />
+      <edge id="66" source="Queue_APOC" target="SalesLocation_asia" weight="0.71426124135" />
+      <edge id="67" source="Queue_APOC" target="CountrySource_australia" weight="0.444432754141" />
+      <edge id="68" source="Queue_APOC" target="StatusReason_Completed" weight="0.376886001014" />
+      <edge id="69" source="Queue_APOC" target="ROCName_APOC" weight="0.999757993103" />
+      <edge id="70" source="Created_on_Weekend" target="Cases_created_within_past_8_hours" weight="0.207341571937" />
+      <edge id="71" source="Created_on_Weekend" target="Cases_resolved_within_past_8_hours" weight="0.255094084169" />
+      <edge id="72" source="CountryProcessed_europe" target="SalesLocation_northamerica" weight="0.542313734639" />
+      <edge id="73" source="CountryProcessed_europe" target="Queue_EOC" weight="0.86874814498" />
+      <edge id="74" source="CountryProcessed_europe" target="ROCName_EOC" weight="0.869914330477" />
+      <edge id="75" source="CountryProcessed_europe" target="SalesLocation_europe" weight="0.981641631267" />
+      <edge id="76" source="CountryProcessed_europe" target="Source_Soft Copy" weight="0.299568466194" />
+      <edge id="77" source="CountryProcessed_europe" target="Queue_NAOC" weight="0.475710042403" />
+      <edge id="78" source="CountryProcessed_europe" target="CountryProcessed_asia" weight="0.318240226751" />
+      <edge id="79" source="CountryProcessed_europe" target="CountryProcessed_northamerica" weight="0.575072736879" />
+      <edge id="80" source="CountryProcessed_europe" target="CountrySource_asia" weight="0.262647240047" />
+      <edge id="81" source="CountryProcessed_europe" target="SalesLocation_asia" weight="0.263606923657" />
+      <edge id="82" source="CountryProcessed_europe" target="ROCName_APOC" weight="0.284792429785" />
+      <edge id="83" source="CountryProcessed_europe" target="CountrySource_europe" weight="0.981746283422" />
+      <edge id="84" source="StatusReason_Problem Solved" target="Queue_NAOC" weight="0.266848375512" />
+      <edge id="85" source="StatusReason_Problem Solved" target="Queue_EOC" weight="0.200814100612" />
+      <edge id="86" source="StatusReason_Problem Solved" target="CountryProcessed_asia" weight="0.321689284202" />
+      <edge id="87" source="StatusReason_Problem Solved" target="ROCName_EOC" weight="0.200057866593" />
+      <edge id="88" source="StatusReason_Problem Solved" target="CountrySource_asia" weight="0.245815245863" />
+      <edge id="89" source="StatusReason_Problem Solved" target="SalesLocation_asia" weight="0.244417336441" />
+      <edge id="90" source="StatusReason_Problem Solved" target="ROCName_APOC" weight="0.377084461177" />
+      <edge id="91" source="StatusReason_Problem Solved" target="StatusReason_Completed" weight="0.997339755356" />
+      <edge id="92" source="StageName" target="SubReason_Basic Enterprise Commitment" weight="0.341414687087" />
+      <edge id="93" source="StageName" target="Source_eAgreement (Phy)" weight="0.293351084738" />
+      <edge id="94" source="StageName" target="Revenutype_Non-revenue" weight="0.512779595268" />
+      <edge id="95" source="StageName" target="SubReason_Zero Usage Order" weight="0.456461232855" />
+      <edge id="96" source="StageName" target="Revenutype_Current Revenue" weight="0.365198592785" />
+      <edge id="97" source="StageName" target="Source_Manual" weight="0.204677069592" />
+      <edge id="98" source="StageName" target="CountryProcessed_asia" weight="0.229846789183" />
+      <edge id="99" source="StageName" target="ROCName_APOC" weight="0.250814782481" />
+      <edge id="100" source="StageName" target="IsSOXCase" weight="0.678976985833" />
+      <edge id="101" source="StageName" target="Source_Soft Copy" weight="0.268458819604" />
+      <edge id="102" source="StageName" target="IsMagnumCase" weight="0.679723639822" />
+      <edge id="103" source="SubReason_Zero Usage Order" target="SubReason_Basic Enterprise Commitment" weight="0.30221133376" />
+      <edge id="104" source="SubReason_Zero Usage Order" target="SubReason_Meteaop" weight="0.360992154163" />
+      <edge id="105" source="SubReason_Zero Usage Order" target="Source_eAgreement (Phy)" weight="0.415051330521" />
+      <edge id="106" source="SubReason_Zero Usage Order" target="Revenutype_Current Revenue" weight="0.499395118603" />
+      <edge id="107" source="SubReason_Zero Usage Order" target="Revenutype_Non-revenue" weight="0.716192454456" />
+      <edge id="108" source="SubReason_Zero Usage Order" target="IsSOXCase" weight="0.747742915162" />
+      <edge id="109" source="SubReason_Zero Usage Order" target="Source_Soft Copy" weight="0.220021002899" />
+      <edge id="110" source="SubReason_Zero Usage Order" target="IsMagnumCase" weight="0.748827091703" />
+      <edge id="111" source="Revenutype_Non-revenue" target="SubReason_Basic Enterprise Commitment" weight="0.310735985548" />
+      <edge id="112" source="Revenutype_Non-revenue" target="SubReason_Meteaop" weight="0.252573539347" />
+      <edge id="113" source="Revenutype_Non-revenue" target="Source_eAgreement (Phy)" weight="0.297302135659" />
+      <edge id="114" source="Revenutype_Non-revenue" target="Revenutype_Current Revenue" weight="0.723563879831" />
+      <edge id="115" source="Revenutype_Non-revenue" target="IsSOXCase" weight="0.811703667158" />
+      <edge id="116" source="Revenutype_Non-revenue" target="Source_Soft Copy" weight="0.203242869166" />
+      <edge id="117" source="Revenutype_Non-revenue" target="IsMagnumCase" weight="0.812156598888" />
+      <edge id="118" source="sourcesystem_NMEC" target="sourcesystem_CLT" weight="0.781347202365" />
+      <edge id="119" source="SubReason_Meteaop" target="SubReason_Basic Enterprise Commitment" weight="0.388531807684" />
+      <edge id="120" source="SubReason_Meteaop" target="Complexity" weight="0.213101472633" />
+      <edge id="121" source="SubReason_Meteaop" target="SubReason_Manual Order Entry" weight="0.216587864708" />
+      <edge id="122" source="SubReason_Meteaop" target="IsSOXCase" weight="0.284757542961" />
+      <edge id="123" source="SubReason_Meteaop" target="Source_Soft Copy" weight="0.294249907611" />
+      <edge id="124" source="SubReason_Meteaop" target="IsSignature" weight="0.232822871692" />
+      <edge id="125" source="SubReason_Meteaop" target="IsMagnumCase" weight="0.28549665103" />
+      <edge id="126" source="sourcesystem_Aplquest" target="sourcesystem_CLT" weight="0.424473395484" />
+      <edge id="127" source="SalesLocation_northamerica" target="SalesLocation_southamerica" weight="0.204544660481" />
+      <edge id="128" source="SalesLocation_northamerica" target="Queue_EOC" weight="0.622639913558" />
+      <edge id="129" source="SalesLocation_northamerica" target="ROCName_EOC" weight="0.623443175468" />
+      <edge id="130" source="SalesLocation_northamerica" target="SalesLocation_europe" weight="0.533787333022" />
+      <edge id="131" source="SalesLocation_northamerica" target="Queue_NAOC" weight="0.787641470414" />
+      <edge id="132" source="SalesLocation_northamerica" target="Cases_created_within_past_8_hours" weight="0.203758298324" />
+      <edge id="133" source="SalesLocation_northamerica" target="CountryProcessed_asia" weight="0.461561842658" />
+      <edge id="134" source="SalesLocation_northamerica" target="CountryProcessed_northamerica" weight="0.942741663784" />
+      <edge id="135" source="SalesLocation_northamerica" target="CountrySource_asia" weight="0.41411276791" />
+      <edge id="136" source="SalesLocation_northamerica" target="SalesLocation_asia" weight="0.41601118445" />
+      <edge id="137" source="SalesLocation_northamerica" target="ROCName_APOC" weight="0.413362713803" />
+      <edge id="138" source="SalesLocation_northamerica" target="CountrySource_europe" weight="0.532865841984" />
+      <edge id="139" source="IsSOXCase" target="Source_Manual" weight="0.206689611511" />
+      <edge id="140" source="IsSOXCase" target="Source_eAgreement (Phy)" weight="0.311753551565" />
+      <edge id="141" source="IsSOXCase" target="Revenutype_Current Revenue" weight="0.564735455796" />
+      <edge id="142" source="IsSOXCase" target="Source_Soft Copy" weight="0.250554231785" />
+      <edge id="143" source="IsSOXCase" target="SubReason_Basic Enterprise Commitment" weight="0.371695399602" />
+      <edge id="144" source="IsSOXCase" target="IsMagnumCase" weight="0.998164026373" />
+      <edge id="145" source="ROCName_APOC" target="Queue_EOC" weight="0.326920667682" />
+      <edge id="146" source="ROCName_APOC" target="ROCName_EOC" weight="0.327379857771" />
+      <edge id="147" source="ROCName_APOC" target="SalesLocation_europe" weight="0.280022207177" />
+      <edge id="148" source="ROCName_APOC" target="Source_Soft Copy" weight="0.201732771014" />
+      <edge id="149" source="ROCName_APOC" target="Queue_NAOC" weight="0.362613986741" />
+      <edge id="150" source="ROCName_APOC" target="Cases_created_within_past_8_hours" weight="0.246511031663" />
+      <edge id="151" source="ROCName_APOC" target="CountryProcessed_asia" weight="0.874768759932" />
+      <edge id="152" source="ROCName_APOC" target="CountryProcessed_northamerica" weight="0.438202621225" />
+      <edge id="153" source="ROCName_APOC" target="CountrySource_asia" weight="0.716830599961" />
+      <edge id="154" source="ROCName_APOC" target="SalesLocation_asia" weight="0.714063157038" />
+      <edge id="155" source="ROCName_APOC" target="CountrySource_australia" weight="0.444791407716" />
+      <edge id="156" source="ROCName_APOC" target="StatusReason_Completed" weight="0.376849923303" />
+      <edge id="157" source="ROCName_APOC" target="CountrySource_europe" weight="0.279748144734" />
+      <edge id="158" source="ROCName_APOC" target="SalesLocation_australia" weight="0.444391698896" />
+      <edge id="159" source="IsMagnumCase" target="Source_Manual" weight="0.206326611329" />
+      <edge id="160" source="IsMagnumCase" target="Source_eAgreement (Phy)" weight="0.311623738714" />
+      <edge id="161" source="IsMagnumCase" target="Revenutype_Current Revenue" weight="0.56485046829" />
+      <edge id="162" source="IsMagnumCase" target="Source_Soft Copy" weight="0.250731689017" />
+      <edge id="163" source="IsMagnumCase" target="SubReason_Basic Enterprise Commitment" weight="0.371748158478" />
+      <edge id="164" source="Source_eAgreement (Phy)" target="Revenutype_Current Revenue" weight="0.206561802536" />
+      <edge id="165" source="SubReason_Basic Enterprise Commitment" target="IsSignature" weight="0.541584485495" />
+      <edge id="166" source="SubReason_Basic Enterprise Commitment" target="Queue_NAOC" weight="0.371527009271" />
+      <edge id="167" source="SubReason_Basic Enterprise Commitment" target="Revenutype_Current Revenue" weight="0.271650051692" />
+      <edge id="168" source="SubReason_Basic Enterprise Commitment" target="Source_Soft Copy" weight="0.37206416839" />
+      <edge id="169" source="Queue_EOC" target="ROCName_EOC" weight="0.998557957991" />
+      <edge id="170" source="Queue_EOC" target="SalesLocation_europe" weight="0.85462199701" />
+      <edge id="171" source="Queue_EOC" target="Source_Soft Copy" weight="0.318153882026" />
+      <edge id="172" source="Queue_EOC" target="Queue_NAOC" weight="0.54659778655" />
+      <edge id="173" source="Queue_EOC" target="CountryProcessed_northamerica" weight="0.660085530726" />
+      <edge id="174" source="Queue_EOC" target="StatusReason_Completed" weight="0.201237607267" />
+      <edge id="175" source="Queue_EOC" target="CountrySource_europe" weight="0.853483083371" />
+      <edge id="176" source="sourcesystem_CLT" target="sourcesystem_web" weight="0.235417898755" />
+      <edge id="177" source="sourcesystem_CLT" target="sourcesystem_clt" weight="0.203874265939" />
+      <edge id="178" source="Cases_created_within_past_8_hours" target="Cases_resolved_within_past_8_hours" weight="0.584092821459" />
+      <edge id="179" source="Cases_created_within_past_8_hours" target="SalesLocation_asia" weight="0.214049191617" />
+      <edge id="180" source="Cases_created_within_past_8_hours" target="CountryProcessed_asia" weight="0.239821965215" />
+      <edge id="181" source="Cases_created_within_past_8_hours" target="CountryProcessed_northamerica" weight="0.216917644823" />
+      <edge id="182" source="Cases_created_within_past_8_hours" target="CountrySource_asia" weight="0.214608608566" />
+      <edge id="183" source="Cases_created_within_past_8_hours" target="Seconds_left_Month" weight="0.54024442424" />
+      <edge id="184" source="Cases_created_within_past_8_hours" target="Seconds_left_Qtr" weight="0.507527302747" />
+      <edge id="185" source="Rolling_Median" target="Rolling_Std" weight="0.289837493322" />
+      <edge id="186" source="Rolling_Median" target="Rolling_Mean" weight="0.85885683258" />
+      <edge id="187" source="Source_Manual" target="SubReason_Electronic Order Pend / Reject" weight="0.45696290587" />
+      <edge id="188" source="CountryProcessed_other" target="CountrySource_other" weight="0.731028466939" />
+      <edge id="189" source="ROCName_EOC" target="SalesLocation_europe" weight="0.855472083358" />
+      <edge id="190" source="ROCName_EOC" target="Source_Soft Copy" weight="0.317739804702" />
+      <edge id="191" source="ROCName_EOC" target="Queue_NAOC" weight="0.546880459248" />
+      <edge id="192" source="ROCName_EOC" target="CountryProcessed_northamerica" weight="0.661068241701" />
+      <edge id="193" source="ROCName_EOC" target="StatusReason_Completed" weight="0.20048347935" />
+      <edge id="194" source="ROCName_EOC" target="CountrySource_europe" weight="0.854506280987" />
+      <edge id="195" source="CountrySource_asia" target="SalesLocation_europe" weight="0.278436287334" />
+      <edge id="196" source="CountrySource_asia" target="Queue_NAOC" weight="0.363271956367" />
+      <edge id="197" source="CountrySource_asia" target="CountryProcessed_asia" weight="0.867153954691" />
+      <edge id="198" source="CountrySource_asia" target="CountryProcessed_northamerica" weight="0.438997747792" />
+      <edge id="199" source="CountrySource_asia" target="SalesLocation_asia" weight="0.992547881253" />
+      <edge id="200" source="CountrySource_asia" target="StatusReason_Completed" weight="0.245619986695" />
+      <edge id="201" source="CountrySource_asia" target="CountrySource_europe" weight="0.280255752793" />
+      <edge id="202" source="CountrySource_europe" target="SalesLocation_europe" weight="0.998273673836" />
+      <edge id="203" source="CountrySource_europe" target="Queue_NAOC" weight="0.467445661904" />
+      <edge id="204" source="CountrySource_europe" target="CountryProcessed_asia" weight="0.312407360145" />
+      <edge id="205" source="CountrySource_europe" target="CountryProcessed_northamerica" weight="0.564886964695" />
+      <edge id="206" source="CountrySource_europe" target="SalesLocation_asia" weight="0.281540528819" />
+      <edge id="207" source="CountrySource_europe" target="Source_Soft Copy" weight="0.29139213172" />
+      <edge id="208" source="Rolling_Mean" target="Rolling_Std" weight="0.668209756958" />
+      <edge id="209" source="Revenutype_Future Billing" target="Revenutype_Current Revenue" weight="0.329930862542" />
+      <edge id="210" source="IsSignature" target="Queue_NAOC" weight="0.252627366138" />
+      <edge id="211" source="CountrySource_southamerica" target="SalesLocation_southamerica" weight="0.989348520593" />
+      <edge id="212" source="CountrySource_southamerica" target="Queue_LOC" weight="0.574672687939" />
+      <edge id="213" source="CountrySource_southamerica" target="CountryProcessed_southamerica" weight="0.638267600604" />
+      <edge id="214" source="CountryProcessed_northamerica" target="SalesLocation_europe" weight="0.565542141709" />
+      <edge id="215" source="CountryProcessed_northamerica" target="Queue_NAOC" weight="0.776494452938" />
+      <edge id="216" source="CountryProcessed_northamerica" target="CountryProcessed_asia" weight="0.489667866688" />
+      <edge id="217" source="CountryProcessed_northamerica" target="SalesLocation_asia" weight="0.441010244508" />
+      <edge id="218" source="CountryProcessed_australia" target="CountrySource_australia" weight="0.20471947124" />
+      <edge id="219" source="CountryProcessed_australia" target="SalesLocation_australia" weight="0.204908552701" />
+      <edge id="220" source="CountrySource_australia" target="SalesLocation_australia" weight="0.997303261805" />
+      <edge id="221" source="CountrySource_australia" target="CountryProcessed_asia" weight="0.368411910327" />
+      <edge id="222" source="StatusReason_Completed" target="Queue_NAOC" weight="0.268671503425" />
+      <edge id="223" source="StatusReason_Completed" target="CountryProcessed_asia" weight="0.321603794417" />
+      <edge id="224" source="StatusReason_Completed" target="SalesLocation_asia" weight="0.244213603732" />
+      <edge id="225" source="SubReason_Manual Order Entry" target="Queue_NAOC" weight="0.200945557044" />
+      <edge id="226" source="SubReason_Manual Order Entry" target="Source_Soft Copy" weight="0.347490559955" />
+      <edge id="227" source="CountryProcessed_southamerica" target="SalesLocation_southamerica" weight="0.641157169689" />
+      <edge id="228" source="CountryProcessed_southamerica" target="Queue_LOC" weight="0.256296800093" />
+      <edge id="229" source="SalesLocation_southamerica" target="Queue_LOC" weight="0.568758380518" />
+      <edge id="230" source="Cases_resolved_within_past_8_hours" target="Seconds_left_Qtr" weight="0.465946825647" />
+      <edge id="231" source="Cases_resolved_within_past_8_hours" target="Seconds_left_Month" weight="0.399532110636" />
+      <edge id="232" source="SalesLocation_australia" target="CountryProcessed_asia" weight="0.368029753589" />
+      <edge id="233" source="SalesLocation_europe" target="Source_Soft Copy" weight="0.292249511709" />
+      <edge id="234" source="SalesLocation_europe" target="Queue_NAOC" weight="0.467922805546" />
+      <edge id="235" source="SalesLocation_europe" target="CountryProcessed_asia" weight="0.311576175646" />
+      <edge id="236" source="SalesLocation_europe" target="SalesLocation_asia" weight="0.282027400099" />
+      <edge id="237" source="Seconds_left_Month" target="Seconds_left_Qtr" weight="0.404056057116" />
+      <edge id="238" source="Queue_NAOC" target="CountryProcessed_asia" weight="0.404844422749" />
+      <edge id="239" source="Queue_NAOC" target="SalesLocation_asia" weight="0.36493730345" />
+      <edge id="240" source="CountryProcessed_asia" target="SalesLocation_asia" weight="0.862340144006" />
+    </edges>
+  </graph>
+</gexf>
