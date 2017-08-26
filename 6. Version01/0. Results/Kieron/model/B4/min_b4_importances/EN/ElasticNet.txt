@@ -1,0 +1,35 @@
+ElasticNet 20170822-112603
+
+Input file name: B4 
+
+ElasticNet: Cross Validation (10 Folds)
+	Train Mean R2: 0.5343 (+/-0.0012)
+	Train Mean RMSE: 88.35 (+/-0.24)
+	Train Mean MeanAE: 54.87 (+/-0.12)
+	Train Mean MedianAE: 33.03 (+/-0.15)
+	Train Mean EVS: 0.54 (+/-0.00)
+	Test Mean R2: 0.5342 (+/-0.0103)
+	Test Mean RMSE: 88.33 (+/-2.33)
+	Test Mean MeanAE: 54.87 (+/-1.00)
+	Test Mean MedianAE: 33.07 (+/-1.15)
+	Test Mean EVS: 0.54 (+/-0.01)
+
+	Predictions correct within 1 hour(s): 2.64%
+	Predictions correct within 4 hour(s): 10.10%
+	Predictions correct within 8 hour(s): 19.28%
+	Predictions correct within 16 hour(s): 31.09%
+	Predictions correct within 24 hour(s): 41.13%
+	Predictions correct within 48 hour(s): 60.62%
+	Predictions correct within 72 hour(s): 74.87%
+	Predictions correct within 96 hour(s): 85.74%
+
+Feature Importances: "column" (magnitude of importance) [percentage of importance]
+
+The importances for each variable used by Èlastic Net were as follows:
+"Variable Name" (Standardised Regression Coefficient) [Percentage of Importance]
+	1. "Cases_created_within_past_8_hours" (-1.668506) [0.226796]
+	2. "Concurrent_open_cases" (-1.653783) [0.224795]
+	3. "Seconds_left_Month" (-1.373364) [0.186678]
+	4. "Seconds_left_Qtr" (-1.320948) [0.179553]
+	5. "Seconds_left_Day" (-0.879329) [0.119525]
+	6. "Created_on_Weekend" (-0.460932) [0.062653]

@@ -20,7 +20,7 @@ def get_parameters(parameters):
             else:
                 d[key] = line[0]
     return d
-
+    
 def get_dfs(d, i):
     if i is None:
         df1 = pd.read_csv(d["file_location"] + d["input_files"] + ".csv", encoding='latin-1', low_memory=False)
@@ -79,7 +79,7 @@ def get_stats(df):
     number_close = [[0 for _ in range(24)] for _ in range(len(pred_cols))]
     percent_close = [[] for _ in range(len(pred_cols))]
 
-    interesting_hours = [(x+1)*4 for x in range(24)]
+    interesting_hours = [(x+1)*2 for x in range(24)]
     # todo - 96 / this = what the xticks has to be for pct correct plot
 
     number_close96 = [0 for _ in range(len(pred_cols))]
@@ -87,7 +87,7 @@ def get_stats(df):
 
     for i in range(len(df[pred_cols[0]])):
         for k, col in enumerate(pred_cols):
-            if abs(df[col].iloc[i] - df["TimeTaken"].iloc[i]) <= 96:  # Within 1 hour
+            if abs(df[col].iloc[i] - df["TimeTaken"].iloc[i]) <= 48:  # Within 1 hour
                 number_close96[k] += 1
 
         for j, hour in enumerate(interesting_hours):
@@ -106,26 +106,30 @@ def get_stats(df):
     return percent_close, percent_close96, RMSEs
     
 def multi_plot_pct_correct(ys, newpath, d, title):
-    for i in range(len(ys)):
-        ys[i] = [0] + ys[i]
+    fig, ax = plt.subplots(dpi=100) # figsize=(3.841, 7.195), 
+    ys_plot = ys.copy()
+    for i in range(len(ys_plot)):
+        ys_plot[i] = [0] + ys[i]
 
-    x = [x*4 for x in range(len(ys[0]))]
+    x = [x*2 for x in range(len(ys_plot[0]))]
     # todo - change to reflect how many datapoints there are with np.where
 
     alg_initial_list = ["B", "LR", "EN", "GBR", "RFR"]
     colours = [".m--", ".r-", ".g-", ".y-", ".b-"]
 
-    for y, alg_initial, colour in zip(ys, alg_initial_list, colours):
+    for y, alg_initial, colour in zip(ys_plot, alg_initial_list, colours):
         plt.plot(x, y, colour, label=alg_initial, alpha=0.8)
 
-    plt.title("Percentage of Predictions Correct Within Given Time (%s)" % (title))
+    plt.title("% Correct Predictions +/- Given Time") # (%s)" % (title))
 
-    plt.xlim(0, 96)
+    plt.xlim(0, 48)
     plt.ylim(0, 100)
     
-    plt.legend(loc=5, bbox_to_anchor=(1.2, 0.5))
+#     plt.legend(loc=5, bbox_to_anchor=(1.2, 0.5))
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(handles[::-1], labels[::-1], title='Algorithms', loc=5, bbox_to_anchor=(1.21, 0.5))
 
-    xticks = [(x + 1) * 8 for x in range(12)]
+    xticks = [(x + 1) * 4 for x in range(12)]
 
     plt.xticks(xticks, xticks)
 
@@ -134,16 +138,71 @@ def multi_plot_pct_correct(ys, newpath, d, title):
     plt.yticks(yticks_i, yticks)
 
     # plt.grid()
-    plt.xlabel("Time (hours)")
-    plt.ylabel("Percentage of Correct Predictions Within Given Time")
-
+    plt.xlabel("Time Buckets (hours)")
+    plt.ylabel("% Correct Predictions")
+    
     if not os.path.exists(newpath + "PDFs/"):
         os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
 
     plt.savefig("%s%s_pct_correct.png" % (newpath, title), bbox_inches='tight')
     plt.savefig("%sPDFs/%s_pct_correct.pdf" % (newpath, title), bbox_inches='tight')
 
-    plt.close()
+    try:
+        get_ipython
+        print("trying")
+        plt.show()
+    except:
+        print("excepting")
+        plt.close()
+        
+        fig, ax = plt.subplots()
+
+#     for i in range(len(ys)):
+#         ys[i] = [0] + ys[i]
+
+    x = [x*2 for x in range(len(ys_plot[0]))]
+    # todo - change to reflect how many datapoints there are with np.where
+
+    alg_initial_list = ["Baseline (Mean)", "LR", "EN", "GBR", "Random Forest"]
+    colours = [".m--", ".r-", ".g-", ".y-", ".b-"]
+
+    for y, alg_initial, colour in zip(ys_plot, alg_initial_list, colours):
+        if alg_initial != "LR" and alg_initial != "EN" and alg_initial != "GBR" :
+            plt.plot(x, y, colour, label=alg_initial, alpha=0.8)
+
+    plt.title("% Correct Predictions +/- Given Time") # (%s)" % (title))
+
+    plt.xlim(0, 48)
+    plt.ylim(0, 100)
+    
+#     plt.legend(loc=5, bbox_to_anchor=(1.2, 0.5))
+    
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(handles[::-1], labels[::-1], loc="center", fontsize=12)#, loc=5, bbox_to_anchor=(1.21, 0.5))
+
+    xticks = [(x + 1) * 4 for x in range(12)]
+
+    plt.xticks(xticks, xticks)
+
+    yticks_i = [i * 10 for i in range(11)]
+    yticks = ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"]
+    plt.yticks(yticks_i, yticks)
+
+    # plt.grid()
+    plt.xlabel("Time Buckets (hours)")
+    plt.ylabel("% of Correct Predictions")
+    
+    if not os.path.exists(newpath + "PDFs/"):
+        os.makedirs(newpath + "PDFs/")  # Make folder for storing results if it does not exist
+
+    plt.savefig("%s%s_pct_correct_B_RF.png" % (newpath, title), bbox_inches='tight')
+    plt.savefig("%sPDFs/%s_pct_correct_B_RF.pdf" % (newpath, title), bbox_inches='tight')
+
+    try:
+        get_ipython
+        plt.show()
+    except:
+        plt.close()
 
 def multi_plot_RMSEs_bar(ys, newpath, d, title, actual_title):
     x = range(len(ys[0]))
@@ -176,7 +235,11 @@ def multi_plot_RMSEs_bar(ys, newpath, d, title, actual_title):
     plt.savefig("%s%s_RMSEs_bar.png" % (newpath, title), bbox_inches='tight')
     plt.savefig("%sPDFs/%s_RMSEs_bar.pdf" % (newpath, title), bbox_inches='tight')
 
-    plt.close()
+    try:
+        get_ipython
+        plt.show()
+    except:
+        plt.close()
 
 def multi_plot_RMSEs_line(ys, newpath, d, title):
     x = range(len(title))
@@ -204,7 +267,11 @@ def multi_plot_RMSEs_line(ys, newpath, d, title):
     plt.savefig("%s%s_RMSEs_line.png" % (newpath, title), bbox_inches='tight')
     plt.savefig("%sPDFs/%s_RMSEs_line.pdf" % (newpath, title), bbox_inches='tight')
 
-    plt.close()
+    try:
+        get_ipython
+        plt.show()
+    except:
+        plt.close()
 
 def multi_plot_within96(ys, newpath, d, title):
     x = range(len(title))
@@ -229,7 +296,11 @@ def multi_plot_within96(ys, newpath, d, title):
     plt.savefig("%s%s_within96.png" % (newpath, title), bbox_inches='tight')
     plt.savefig("%sPDFs/%s_within96.pdf" % (newpath, title), bbox_inches='tight')
 
-    plt.close()
+    try:
+        get_ipython
+        plt.show()
+    except:
+        plt.close()
 
 def multi_plot_within96_bar(ys, newpath, d, title, actual_title):
     x = range(len(ys[0]))
@@ -285,7 +356,11 @@ def multi_plot_within96_bar(ys, newpath, d, title, actual_title):
     plt.savefig("%s%s_within96_bar.png" % (newpath, title), bbox_inches='tight')
     plt.savefig("%sPDFs/%s_within96_bar.pdf" % (newpath, title), bbox_inches='tight')
 
-    plt.close()
+    try:
+        get_ipython
+        plt.show()
+    except:
+        plt.close()
 
 if __name__ == "__main__":  # Run program
     parameters = "../../../Data/parameters.txt"  # Parameters file

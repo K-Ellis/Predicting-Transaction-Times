@@ -1,0 +1,34 @@
+RandomForestRegressor 20170822-113408
+
+Input file name: B4 
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.7758 (+/-0.0015)
+	Train Mean RMSE: 61.30 (+/-0.20)
+	Train Mean MeanAE: 39.45 (+/-0.08)
+	Train Mean MedianAE: 21.04 (+/-0.53)
+	Train Mean EVS: 0.78 (+/-0.00)
+	Test Mean R2: 0.7718 (+/-0.0148)
+	Test Mean RMSE: 61.78 (+/-1.93)
+	Test Mean MeanAE: 39.66 (+/-0.81)
+	Test Mean MedianAE: 21.10 (+/-1.01)
+	Test Mean EVS: 0.77 (+/-0.01)
+
+	Predictions correct within 1 hour(s): 1.47%
+	Predictions correct within 4 hour(s): 6.53%
+	Predictions correct within 8 hour(s): 15.67%
+	Predictions correct within 16 hour(s): 41.19%
+	Predictions correct within 24 hour(s): 52.17%
+	Predictions correct within 48 hour(s): 72.06%
+	Predictions correct within 72 hour(s): 84.85%
+	Predictions correct within 96 hour(s): 90.78%
+
+Feature Importances:
+
+The importances for each variable used by Random Forest Regression were as follows:
+	1. "Concurrent_open_cases" (0.986629)
+	2. "Seconds_left_Qtr" (0.010437)
+	3. "Cases_created_within_past_8_hours" (0.002412)
+	4. "Seconds_left_Month" (0.000522)
+	5. "Created_on_Weekend" (0.000000)
+	6. "Seconds_left_Day" (0.000000)

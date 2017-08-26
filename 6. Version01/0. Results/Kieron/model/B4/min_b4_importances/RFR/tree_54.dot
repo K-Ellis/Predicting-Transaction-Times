@@ -1,0 +1,37 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname=helvetica] ;
+edge [fontname=helvetica] ;
+0 [label="Concurrent_open_cases <= 125.5\nmse = 17291.493\nsamples = 16116\nvalue = 100.4896", fillcolor="#e581391f"] ;
+1 [label="Concurrent_open_cases <= 11.5\nmse = 33379.2536\nsamples = 2120\nvalue = 341.3119", fillcolor="#e581397a"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+5 [label="Concurrent_open_cases <= 2.5\nmse = 31227.1592\nsamples = 285\nvalue = 593.036", fillcolor="#e58139d9"] ;
+1 -> 5 ;
+15 [label="mse = 19461.918\nsamples = 104\nvalue = 693.3719", fillcolor="#e58139ff"] ;
+5 -> 15 ;
+16 [label="mse = 29038.6965\nsamples = 181\nvalue = 537.0346", fillcolor="#e58139c4"] ;
+5 -> 16 ;
+6 [label="Concurrent_open_cases <= 61.5\nmse = 21935.1714\nsamples = 1835\nvalue = 300.95", fillcolor="#e581396b"] ;
+1 -> 6 ;
+7 [label="Seconds_left_Qtr <= 6497370.5\nmse = 24268.4964\nsamples = 845\nvalue = 372.7063", fillcolor="#e5813986"] ;
+6 -> 7 ;
+13 [label="mse = 23534.4185\nsamples = 736\nvalue = 350.5208", fillcolor="#e581397e"] ;
+7 -> 13 ;
+14 [label="mse = 4962.191\nsamples = 109\nvalue = 517.2117", fillcolor="#e58139bd"] ;
+7 -> 14 ;
+8 [label="mse = 10937.5258\nsamples = 990\nvalue = 235.9719", fillcolor="#e5813952"] ;
+6 -> 8 ;
+2 [label="Concurrent_open_cases <= 369.5\nmse = 4475.0949\nsamples = 13996\nvalue = 63.3188", fillcolor="#e5813911"] ;
+0 -> 2 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+3 [label="Concurrent_open_cases <= 262.5\nmse = 5629.4293\nsamples = 4396\nvalue = 127.1008", fillcolor="#e5813929"] ;
+2 -> 3 ;
+9 [label="mse = 5669.3957\nsamples = 2354\nvalue = 157.6118", fillcolor="#e5813935"] ;
+3 -> 9 ;
+10 [label="mse = 3427.9393\nsamples = 2042\nvalue = 93.467", fillcolor="#e581391d"] ;
+3 -> 10 ;
+4 [label="Concurrent_open_cases <= 606.5\nmse = 1252.6019\nsamples = 9600\nvalue = 34.269", fillcolor="#e5813906"] ;
+2 -> 4 ;
+11 [label="mse = 1543.1794\nsamples = 4170\nvalue = 56.2377", fillcolor="#e581390f"] ;
+4 -> 11 ;
+12 [label="mse = 366.169\nsamples = 5430\nvalue = 17.2819", fillcolor="#e5813900"] ;
+4 -> 12 ;
+}
