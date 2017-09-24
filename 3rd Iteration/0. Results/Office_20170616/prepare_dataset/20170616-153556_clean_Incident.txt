@@ -1,8 +1,0 @@
-Date and time: 20170616-153556
-clean_Incident started
-
-Time Taken column calculated
-Outliers removed > 3 sd from mean of TimeTaken
-
-One hot encoding completed for Queue
-
