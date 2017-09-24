@@ -1,0 +1,82 @@
+Columns,importances
+SubReason_Basic Enterprise Commitment,0.18761703640048058
+Rolling_Std,0.1344650620261532
+Rolling_Mean,0.10558259815196258
+Rolling_Median,0.07464255940899911
+Seconds_left_Qtr,0.06152507384660805
+Seconds_left_Year,0.05628869465466185
+AmountinUSD,0.05380878161209702
+Numberofreactivations,0.05362225120108004
+Seconds_left_Day,0.038533779347148064
+Seconds_left_Month,0.029724632563157955
+SubReason_Future Pricing Only CPS,0.022697742961939243
+Queue_AOC,0.017966260083327818
+Complexity,0.012595343418018035
+Cases_created_within_past_4_hours,0.011489655547152495
+StageName,0.010453320919912266
+Cases_resolved_within_past_4_hours,0.008669819495416516
+StatusReason_Completed,0.008493492679207706
+Concurrent_open_cases,0.00842962980712189
+StatusReason_Problem Solved,0.007527098563012975
+Revenutype_Future Billing,0.007023973166246001
+SubReason_Meteaop,0.0062290579215946084
+Revenutype_Current Revenue,0.005070748815103364
+SubReason_Zero Usage Order,0.005009946831769749
+CountrySource_asia,0.003544013772788858
+Revenutype_Non-revenue,0.0032679419292239798
+SalesLocation_asia,0.003264621231663212
+Source_Web,0.003240119484018101
+Queue_NAOC,0.0030170412935296067
+ROCName_AOC,0.002988233959631889
+ROCName_APOC,0.002878177418547315
+Source_Soft Copy,0.00274216805729649
+Queue_EOC,0.002608167447337279
+Queue_APOC,0.0024734858276476415
+ROCName_EOC,0.002247077664905021
+Revenutype_Credit / Rebill,0.0022176621681418733
+SubReason_Manual Order Entry,0.002212462910581483
+CountryProcessed_asia,0.002082218579276556
+CountryProcessed_northamerica,0.002078529497158203
+IsSOXCase,0.0020130893863651656
+Priority,0.0019270702354290492
+CountryProcessed_europe,0.0018851986438282705
+Queue_LOC,0.0018133495224111856
+CountrySource_europe,0.00180469972758594
+SubReason_Additional Product Order,0.0017904793402199117
+CountrySource_northamerica,0.0017106379413768832
+SalesLocation_australia,0.0016633263500175017
+SalesLocation_northamerica,0.0015958770745063023
+CountrySource_australia,0.0014899445246975044
+SubReason_True Up,0.0014575419992075712
+SalesLocation_europe,0.0014154602485668382
+SubReason_Electronic Order Pend / Reject,0.00110832577695805
+SalesLocation_southamerica,0.0010378359678985987
+Source_eAgreement (Phy),0.0010019864989870436
+Revenutype_New Work Sold,0.0009174186367144183
+Revenutype_Revenue Unknown,0.0007471832263878091
+sourcesystem_NMEC,0.0006846040118112073
+CountrySource_southamerica,0.0006277118531390452
+Created_on_Weekend,0.0005838365818590248
+Source_Manual,0.0005760673608652659
+CountryProcessed_australia,0.000531636915524567
+sourcesystem_CLT,0.0004678032318644423
+CountryProcessed_southamerica,0.0004444051727799721
+Source_E-mail,0.00043127368249056886
+SubReason_Tax Exemption Order,0.00039769168359036713
+CountryProcessed_africa,0.0003397774898961342
+Source_Hard Copy,0.00028100919964120724
+Revenutype_Future OTRRR with OLS,0.0002773969642008984
+SalesLocation_africa,0.00023125651671141524
+Source_eAgreement (Ele),0.00019842183841021555
+CountrySource_africa,0.00018325460596771298
+Revenutype_Disputed Revenue,1.4892861941522274e-05
+Queue_E&E,1.2039846840647727e-05
+sourcesystem_Web,7.030017354113076e-06
+CountrySource_other,1.3530430292841719e-06
+Revenutype_Revenue Impacting Case / Pending Revenue,5.539631607097364e-07
+CountryProcessed_other,7.494543277783723e-08
+sourcesystem_NEMEC,2.4300203093034297e-09
+sourcesystem_web,1.8392051140815863e-11
+sourcesystem_Current Revenue,0.0
+Revenutype_Future OTRRR without OLS,0.0
+sourcesystem_clt,0.0

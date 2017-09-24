@@ -1,0 +1,50 @@
+RandomForestRegressor 20170730-235709
+
+
+Input file name min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_C_R:
+
+Features used:
+	1 - Cases_created_within_past_8_hours
+	2 - Cases_resolved_within_past_8_hours
+	3 - Concurrent_open_cases
+	4 - Created_on_Weekend
+	5 - Seconds_left_Day
+	6 - Seconds_left_Month
+	7 - Seconds_left_Qtr
+	8 - Seconds_left_Year
+
+Simple TimeTaken stats
+	mean_time = 349178.1586618756
+	std_time = 407388.8162615632
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 407388.8162615634
+	mean_time_test_mae = 303121.332656
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.99859 (+/-0.00007)
+	Test Mean R2: 0.99406 (+/-0.00081)
+	Train Mean RMSE: 15299.64 (+/-380.90)
+	Test Mean RMSE: 31316.04 (+/-2162.03)
+	Train Mean MAE: 6371.18 (+/-68.56)
+	Test Mean MAE: 14787.61 (+/-610.29)
+
+
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 40.09% (+/- 1.15%) of 19759/10
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 74.35% (+/- 0.75%) of 19759/10
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 86.36% (+/- 0.68%) of 19759/10
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 94.39% (+/- 0.51%) of 19759/10
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 97.19% (+/- 0.40%) of 19759/10
+	RandomForestRegressor % test predictions error within 48 hours -> Mean: 99.41% (+/- 0.12%) of 19759/10
+	RandomForestRegressor % test predictions error within 72 hours -> Mean: 99.89% (+/- 0.10%) of 19759/10
+	RandomForestRegressor % test predictions error within 96 hours -> Mean: 99.98% (+/- 0.02%) of 19759/10
+
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.793877)
+	2. "Seconds_left_Year" (0.119619)
+	3. "Seconds_left_Qtr" (0.047054)
+	4. "Seconds_left_Month" (0.027048)
+	5. "Seconds_left_Day" (0.005169)
+	6. "Cases_created_within_past_8_hours" (0.002794)
+	7. "Cases_resolved_within_past_8_hours" (0.002325)
+	8. "Created_on_Weekend" (0.002114)

@@ -1,0 +1,229 @@
+Statsmodels_OLS 20170804-123645
+
+Input file name man:
+
+Features used:
+	1 - Cases_created_within_past_8_hours
+	2 - Cases_resolved_within_past_8_hours
+	3 - Concurrent_open_cases
+	4 - CountryProcessed_asia
+	5 - CountryProcessed_australia
+	6 - CountryProcessed_europe
+	7 - CountryProcessed_northamerica
+	8 - CountryProcessed_other
+	9 - CountryProcessed_southamerica
+	10 - CountrySource_asia
+	11 - CountrySource_australia
+	12 - CountrySource_europe
+	13 - CountrySource_northamerica
+	14 - CountrySource_other
+	15 - CountrySource_southamerica
+	16 - Created_on_Weekend
+	17 - Queue_APOC
+	18 - Queue_Broken
+	19 - Queue_E&E
+	20 - Queue_EOC
+	21 - Queue_LOC
+	22 - Queue_NAOC
+	23 - ROCName_APOC
+	24 - ROCName_EOC
+	25 - SalesLocation_asia
+	26 - SalesLocation_australia
+	27 - SalesLocation_europe
+	28 - SalesLocation_northamerica
+	29 - SalesLocation_other
+	30 - SalesLocation_southamerica
+	31 - Seconds_left_Day
+	32 - Seconds_left_Month
+	33 - Seconds_left_Qtr
+
+ + olsregr.summary():
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:              TimeTaken   R-squared:                       0.683
+Model:                            OLS   Adj. R-squared:                  0.682
+Method:                 Least Squares   F-statistic:                     1097.
+Date:                Fri, 04 Aug 2017   Prob (F-statistic):               0.00
+Time:                        12:36:46   Log-Likelihood:            -2.1277e+05
+No. Observations:               15328   AIC:                         4.256e+05
+Df Residuals:                   15297   BIC:                         4.258e+05
+Df Model:                          30                                         
+Covariance Type:            nonrobust                                         
+======================================================================================================
+                                         coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------
+Cases_created_within_past_8_hours    227.3537     55.299      4.111      0.000     118.962     335.746
+Cases_resolved_within_past_8_hours -1220.1239     68.477    -17.818      0.000   -1354.348   -1085.900
+Concurrent_open_cases              -1400.1892      8.928   -156.835      0.000   -1417.689   -1382.690
+CountryProcessed_asia               1.391e+05   1.37e+05      1.018      0.309   -1.29e+05    4.07e+05
+CountryProcessed_australia          1.751e+05   1.43e+05      1.226      0.220   -1.05e+05    4.55e+05
+CountryProcessed_europe            -5.755e+04   1.18e+05     -0.489      0.625   -2.88e+05    1.73e+05
+CountryProcessed_northamerica       1.413e+05   1.35e+05      1.047      0.295   -1.23e+05    4.06e+05
+CountryProcessed_other              1.569e+05   2.04e+05      0.769      0.442   -2.43e+05    5.57e+05
+CountryProcessed_southamerica       1.662e+05   1.34e+05      1.237      0.216    -9.7e+04    4.29e+05
+CountrySource_asia                  -6.41e+04   1.41e+05     -0.453      0.650   -3.41e+05    2.13e+05
+CountrySource_australia             1.455e+05   2.06e+05      0.707      0.479   -2.58e+05    5.49e+05
+CountrySource_europe                2.888e+05   1.68e+05      1.716      0.086   -4.11e+04    6.19e+05
+CountrySource_northamerica          1.823e+05   1.48e+05      1.236      0.217   -1.07e+05    4.71e+05
+CountrySource_other                -1.293e+05   1.97e+05     -0.655      0.512   -5.16e+05    2.57e+05
+CountrySource_southamerica          1.252e+05   1.34e+05      0.933      0.351   -1.38e+05    3.88e+05
+Created_on_Weekend                  -9.07e+04   5722.070    -15.851      0.000   -1.02e+05   -7.95e+04
+Queue_APOC                         -6.019e+04   2.17e+05     -0.278      0.781   -4.85e+05    3.64e+05
+Queue_Broken                        8.957e+05   6.16e+04     14.552      0.000    7.75e+05    1.02e+06
+Queue_E&E                           4.895e+04   1.18e+05      0.416      0.677   -1.82e+05     2.8e+05
+Queue_EOC                          -5.266e+04   1.09e+05     -0.481      0.630   -2.67e+05    1.62e+05
+Queue_LOC                           -1.34e+05   2.11e+04     -6.355      0.000   -1.75e+05   -9.27e+04
+Queue_NAOC                         -1.233e+05   8483.396    -14.533      0.000    -1.4e+05   -1.07e+05
+ROCName_APOC                        1.077e+06   2.17e+05      4.957      0.000    6.51e+05     1.5e+06
+ROCName_EOC                         1.087e+06    1.1e+05      9.845      0.000    8.71e+05     1.3e+06
+SalesLocation_asia                 -8.976e+04    5.8e+04     -1.549      0.121   -2.03e+05    2.38e+04
+SalesLocation_australia            -3.141e+05    1.6e+05     -1.959      0.050   -6.28e+05     197.640
+SalesLocation_europe               -2.555e+05   1.25e+05     -2.039      0.041   -5.01e+05   -9909.187
+SalesLocation_northamerica          7.946e+05    2.8e+05      2.842      0.004    2.47e+05    1.34e+06
+SalesLocation_other                 6.319e-11   2.16e-10      0.293      0.770    -3.6e-10    4.87e-10
+SalesLocation_southamerica          8.668e+05   2.66e+05      3.264      0.001    3.46e+05    1.39e+06
+Seconds_left_Day                       0.5847      0.033     17.903      0.000       0.521       0.649
+Seconds_left_Month                     0.0240      0.004      6.416      0.000       0.017       0.031
+Seconds_left_Qtr                       0.0030      0.001      2.963      0.003       0.001       0.005
+==============================================================================
+Omnibus:                     4649.645   Durbin-Watson:                   1.315
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):            15696.556
+Skew:                           1.529   Prob(JB):                         0.00
+Kurtosis:                       6.902   Cond. No.                     1.33e+16
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The smallest eigenvalue is 1.68e-15. This might indicate that there are
+strong multicollinearity problems or that the design matrix is singular.
+
+
+train R2: 0.68266591791
+test R2: -0.0415029206594
+train RMSE: 258386.752121
+test RMSE: 364382.419103
+y_train Predicted values: 0        9.171815e+05
+1        9.102446e+05
+2        9.084894e+05
+3        9.162712e+05
+4        9.265553e+05
+5        1.030923e+06
+6        1.029298e+06
+7        1.009445e+06
+8        1.003804e+06
+9        1.021359e+06
+10       1.001133e+06
+11       1.020494e+06
+12       1.045720e+06
+13       1.072543e+06
+14       1.066612e+06
+15       1.063152e+06
+16       1.050597e+06
+17       1.062877e+06
+18       1.041471e+06
+19       1.117110e+06
+20       1.237752e+06
+21       1.074878e+06
+22       1.095081e+06
+23       1.102851e+06
+24       1.074916e+06
+25       1.091979e+06
+26       1.070372e+06
+27       1.086380e+06
+28       1.054243e+06
+29       1.050948e+06
+             ...     
+15298    6.128301e+04
+15299    5.144144e+05
+15300   -6.818455e+04
+15301    2.488386e+05
+15302    4.748912e+05
+15303    4.569030e+05
+15304   -4.509586e+04
+15305   -4.043694e+05
+15306   -2.736952e+05
+15307   -2.692770e+05
+15308    2.846492e+05
+15309   -2.669535e+05
+15310   -4.188886e+05
+15311   -4.172635e+05
+15312   -2.040072e+05
+15313    4.198461e+05
+15314    7.463041e+05
+15315    8.539466e+05
+15316   -1.480142e+05
+15317   -1.554428e+05
+15318   -3.322445e+05
+15319    5.657647e+05
+15320    2.530957e+05
+15321   -4.434023e+05
+15322   -8.907898e+04
+15323    2.497014e+05
+15324    1.368976e+04
+15325    7.050972e+05
+15326    5.956780e+05
+15327   -1.508032e+05
+Length: 15328, dtype: float64
+
+y_test Predicted values: 15328    883330.720477
+15329    733549.196355
+15330    102218.861859
+15331   -159447.661379
+15332   -359117.757155
+15333    734459.370265
+15334    312776.783910
+15335   -344003.716830
+15336    566357.072287
+15337    564650.796349
+15338   -116219.016119
+15339   -192063.134381
+15340   -162985.618366
+15341   -110903.336757
+15342    891803.838044
+15343    878932.121069
+15344    611567.783014
+15345   -370373.118988
+15346   -355722.019120
+15347   -242640.059731
+15348     13665.696006
+15349   -207157.253593
+15350   -200250.517612
+15351    897832.461197
+15352    424285.660420
+15353   -120792.837521
+15354   -127851.900357
+15355    360236.655262
+15356     61379.526399
+15357    442370.028612
+             ...      
+25956    806501.151452
+25957    826042.560511
+25958    823361.866921
+25959    796822.286717
+25960    799660.374963
+25961    816525.035202
+25962    816382.067938
+25963    861029.397668
+25964    798096.413567
+25965    873661.391357
+25966    875339.919351
+25967    829771.588823
+25968    836218.687734
+25969    876765.018584
+25970    871395.597632
+25971    858970.472574
+25972    837961.104756
+25973    826928.216124
+25974    842317.843603
+25975    849934.507512
+25976    839769.800743
+25977    860875.806743
+25978    842720.232812
+25979    873641.328777
+25980    775974.840478
+25981    812574.707907
+25982    790247.930490
+25983    791792.886531
+25984    821073.704996
+25985    851831.788890
+Length: 10658, dtype: float64

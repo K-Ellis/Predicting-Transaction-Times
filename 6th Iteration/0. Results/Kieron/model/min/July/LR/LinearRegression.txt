@@ -1,0 +1,56 @@
+LinearRegression 20170803-160744
+
+Input file name min:
+
+
+Simple TimeTaken stats
+	mean_time = 363066.2924536186
+	std_time = 430471.1615939147
+	median_time = 202701.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 430471.16159391496
+	mean_time_test_meanae = 315386.570328
+	mean_time_test_evs = 1.11022302463e-16
+	mean_time_test_medianae = 273342.292454
+
+	median_time_test_mae = -0.13878097319
+	median_time_test_mae = 459371.622570122
+	median_time_test_mae = 291728.375773
+	median_time_test_mae = 0.0
+	median_time_test_mae = 175541.0
+
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean R2: 0.73042 (+/-0.00113)
+	Test Mean R2: 0.72990 (+/-0.01119)
+	Train Mean RMSE: 223503.95 (+/-545.83)
+	Test Mean RMSE: 223584.52 (+/-6776.74)
+	Train Mean MeanAE: 147140.91 (+/-425.09)
+	Test Mean MeanAE: 147242.56 (+/-3778.85)
+	Train Mean EVS: 0.73 (+/-0.73)
+	Test Mean EVS: 0.73 (+/-0.73)
+	Train Mean MedianAE: 100414.11 (+/-100414.11)
+	Test Mean MedianAE: 100573.39 (+/-100573.39)
+
+	LinearRegression % test predictions error within 1 hour -> Mean: 2.70% (+/- 0.43%) of 23932/10
+	LinearRegression % test predictions error within 4 hours -> Mean: 10.84% (+/- 0.71%) of 23932/10
+	LinearRegression % test predictions error within 8 hours -> Mean: 20.50% (+/- 0.83%) of 23932/10
+	LinearRegression % test predictions error within 16 hours -> Mean: 34.44% (+/- 0.79%) of 23932/10
+	LinearRegression % test predictions error within 24 hours -> Mean: 45.19% (+/- 0.91%) of 23932/10
+	LinearRegression % test predictions error within 48 hours -> Mean: 70.22% (+/- 1.00%) of 23932/10
+	LinearRegression % test predictions error within 72 hours -> Mean: 84.92% (+/- 0.69%) of 23932/10
+	LinearRegression % test predictions error within 96 hours -> Mean: 92.00% (+/- 0.35%) of 23932/10
+
+
+Feature Importances:
+	1. "Created_on_Weekend" (-103118.536585)
+	2. "Concurrent_open_cases" (-5.333069)
+	3. "Rolling_Std" (-1.854511)
+	4. "Rolling_Mean" (-1.668139)
+	5. "Seconds_left_Year" (-1.418012)
+	6. "Seconds_left_Month" (-1.334673)
+	7. "Seconds_left_Qtr" (-1.193686)
+	8. "Cases_resolved_within_past_8_hours" (1.164882)
+	9. "Rolling_Median" (-1.121072)
+	10. "Seconds_left_Day" (-0.877030)
+	11. "Cases_created_within_past_8_hours" (0.085872)

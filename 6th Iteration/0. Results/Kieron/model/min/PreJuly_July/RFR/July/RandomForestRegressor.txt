@@ -1,0 +1,52 @@
+RandomForestRegressor 20170803-165833
+
+Input file name min:
+
+
+Simple TimeTaken stats
+	mean_time = 236038.37311935806
+	std_time = 297563.806007236
+	median_time = 84459.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 297563.80600723554
+	mean_time_test_meanae = 236235.54225
+	mean_time_test_evs = -2.22044604925e-16
+	mean_time_test_medianae = 217275.373119
+
+	median_time_test_mae = -0.259487916067
+	median_time_test_mae = 333946.6625400622
+	median_time_test_mae = 212057.920762
+	median_time_test_mae = 0.0
+	median_time_test_mae = 80181.0
+
+
+RandomForestRegressor - July Results
+	Test R2: -3.21686
+	Test RMSE: 611047.43
+	Test MeanAE: 557707.34
+	Test EVS: 0.27 
+	Test MedianAE: 592105.80 
+
+	RandomForestRegressor % test predictions error within 1 hour -> 1.20% of 1994
+	RandomForestRegressor % test predictions error within 4 hours -> 4.01% of 1994
+	RandomForestRegressor % test predictions error within 8 hours -> 5.02% of 1994
+	RandomForestRegressor % test predictions error within 16 hours -> 6.77% of 1994
+	RandomForestRegressor % test predictions error within 24 hours -> 7.62% of 1994
+	RandomForestRegressor % test predictions error within 48 hours -> 8.58% of 1994
+	RandomForestRegressor % test predictions error within 72 hours -> 9.63% of 1994
+	RandomForestRegressor % test predictions error within 96 hours -> 17.60% of 1994
+
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.895883)
+	2. "Seconds_left_Qtr" (0.035311)
+	3. "Seconds_left_Month" (0.027679)
+	4. "Seconds_left_Year" (0.014620)
+	5. "Rolling_Std" (0.008542)
+	6. "Rolling_Median" (0.007683)
+	7. "Seconds_left_Day" (0.003272)
+	8. "Rolling_Mean" (0.002488)
+	9. "Cases_resolved_within_past_8_hours" (0.001753)
+	10. "Created_on_Weekend" (0.001565)
+	11. "Cases_created_within_past_8_hours" (0.001203)

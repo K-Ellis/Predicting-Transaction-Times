@@ -1,0 +1,50 @@
+GradientBoostingRegressor 20170803-121347
+
+Input file name Experiment2:
+
+
+Simple TimeTaken stats
+	mean_time = 353993.99646085786
+	std_time = 424066.8095280701
+	median_time = 194670.0
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 424066.8095280705
+	mean_time_test_meanae = 310767.036818
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 269219.996461
+
+	median_time_test_mae = -0.141154204122
+	median_time_test_mae = 453008.6034410122
+	median_time_test_mae = 287350.055703
+	median_time_test_mae = 0.0
+	median_time_test_mae = 170691.0
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.13835 (+/-0.00133)
+	Test Mean R2: 0.12133 (+/-0.00928)
+	Train Mean RMSE: 393638.63 (+/-1002.36)
+	Test Mean RMSE: 397359.71 (+/-9004.28)
+	Train Mean MeanAE: 276607.25 (+/-783.16)
+	Test Mean MeanAE: 279075.65 (+/-4813.96)
+	Train Mean EVS: 0.14 (+/-0.14)
+	Test Mean EVS: 0.12 (+/-0.12)
+	Train Mean MedianAE: 212453.25 (+/-212453.25)
+	Test Mean MedianAE: 214217.62 (+/-214217.62)
+
+	GradientBoostingRegressor % test predictions error within 1 hour -> Mean: 0.87% (+/- 0.13%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 4 hours -> Mean: 3.33% (+/- 0.26%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 8 hours -> Mean: 6.41% (+/- 0.39%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 16 hours -> Mean: 11.28% (+/- 0.48%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 24 hours -> Mean: 18.32% (+/- 0.64%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 48 hours -> Mean: 42.69% (+/- 0.90%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 72 hours -> Mean: 59.55% (+/- 0.86%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 96 hours -> Mean: 80.34% (+/- 0.84%) of 25995/10
+
+
+Feature Importances:
+	1. "AmountinUSD" (0.740178)
+	2. "IsSignature" (0.124575)
+	3. "IsMagnumCase" (0.076338)
+	4. "IsGovernment" (0.036933)
+	5. "IsSOXCase" (0.021976)

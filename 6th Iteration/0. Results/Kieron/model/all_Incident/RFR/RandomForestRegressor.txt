@@ -1,0 +1,234 @@
+RandomForestRegressor 20170731-022959
+
+Input file name all_Incident:
+
+Features used:
+	1 - AmountinUSD
+	2 - Cases_created_within_past_8_hours
+	3 - Cases_resolved_within_past_8_hours
+	4 - Complexity
+	5 - Concurrent_open_cases
+	6 - CountryProcessed_africa
+	7 - CountryProcessed_asia
+	8 - CountryProcessed_australia
+	9 - CountryProcessed_europe
+	10 - CountryProcessed_northamerica
+	11 - CountryProcessed_other
+	12 - CountryProcessed_southamerica
+	13 - CountrySource_africa
+	14 - CountrySource_asia
+	15 - CountrySource_australia
+	16 - CountrySource_europe
+	17 - CountrySource_northamerica
+	18 - CountrySource_other
+	19 - CountrySource_southamerica
+	20 - Created_on_Weekend
+	21 - IsSOXCase
+	22 - Numberofreactivations
+	23 - Priority
+	24 - Queue_AOC
+	25 - Queue_APOC
+	26 - Queue_Broken
+	27 - Queue_E&E
+	28 - Queue_EOC
+	29 - Queue_LOC
+	30 - Queue_NAOC
+	31 - ROCName_AOC
+	32 - ROCName_APOC
+	33 - ROCName_EOC
+	34 - Revenutype_Advanced Billing
+	35 - Revenutype_Credit / Rebill
+	36 - Revenutype_Current Revenue
+	37 - Revenutype_Disputed Revenue
+	38 - Revenutype_Future Billing
+	39 - Revenutype_Future OTRRR with OLS
+	40 - Revenutype_Future OTRRR without OLS
+	41 - Revenutype_New Work Sold
+	42 - Revenutype_Non-revenue
+	43 - Revenutype_Revenue Impacting Case / Pending Revenue
+	44 - Revenutype_Revenue Unknown
+	45 - Rolling_Mean
+	46 - Rolling_Median
+	47 - Rolling_Std
+	48 - SalesLocation_africa
+	49 - SalesLocation_asia
+	50 - SalesLocation_australia
+	51 - SalesLocation_europe
+	52 - SalesLocation_northamerica
+	53 - SalesLocation_other
+	54 - SalesLocation_southamerica
+	55 - Seconds_left_Day
+	56 - Seconds_left_Month
+	57 - Seconds_left_Qtr
+	58 - Seconds_left_Year
+	59 - Source_E-mail
+	60 - Source_Fax
+	61 - Source_Hard Copy
+	62 - Source_Manual
+	63 - Source_Soft Copy
+	64 - Source_Web
+	65 - Source_eAgreement (Ele)
+	66 - Source_eAgreement (Phy)
+	67 - StageName
+	68 - StatusReason_3rd Party Hold
+	69 - StatusReason_Completed
+	70 - StatusReason_Customer Hold
+	71 - StatusReason_Final Routing
+	72 - StatusReason_Information Provided
+	73 - StatusReason_New
+	74 - StatusReason_New Mail
+	75 - StatusReason_Problem Solved
+	76 - StatusReason_Reactivated
+	77 - StatusReason_Ready for Archiving
+	78 - StatusReason_Ready for Audit
+	79 - SubReason_Additional Product Order
+	80 - SubReason_Basic Enterprise Commitment
+	81 - SubReason_Electronic Order Pend / Reject
+	82 - SubReason_Future Pricing Only CPS
+	83 - SubReason_Manual Order Entry
+	84 - SubReason_Meteaop
+	85 - SubReason_P&H Electronic Order
+	86 - SubReason_Tax Exemption Order
+	87 - SubReason_True Up
+	88 - SubReason_Zero Usage Order
+	89 - sourcesystem_AplQuest
+	90 - sourcesystem_Aplquest
+	91 - sourcesystem_CLT
+	92 - sourcesystem_Current Revenue
+	93 - sourcesystem_Moritz Jürgensen
+	94 - sourcesystem_NEMEC
+	95 - sourcesystem_NMEC
+	96 - sourcesystem_Web
+	97 - sourcesystem_`
+	98 - sourcesystem_clt
+	99 - sourcesystem_web
+
+Simple TimeTaken stats
+	mean_time = 340534.38090623665
+	std_time = 396225.89779484016
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 396225.8977948383
+	mean_time_test_mae = 295716.0126
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.99880 (+/-0.00003)
+	Test Mean R2: 0.99197 (+/-0.00074)
+	Train Mean RMSE: 13727.53 (+/-180.44)
+	Test Mean RMSE: 35433.71 (+/-1894.95)
+	Train Mean MeanAE: 7049.57 (+/-65.64)
+	Test Mean MeanAE: 18248.44 (+/-856.02)
+	Train Mean EVS: 1.00 (+/-1.00)
+	Test Mean EVS: 0.99 (+/-0.99)
+	Train Mean MedianAE: 2767.48 (+/-2767.48)
+	Test Mean MedianAE: 7141.29 (+/-7141.29)
+
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 32.26% (+/- 0.72%) of 25799/10
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 67.74% (+/- 0.67%) of 25799/10
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 82.08% (+/- 1.12%) of 25799/10
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 92.33% (+/- 0.70%) of 25799/10
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 96.08% (+/- 0.63%) of 25799/10
+	RandomForestRegressor % test predictions error within 48 hours -> Mean: 99.37% (+/- 0.15%) of 25799/10
+	RandomForestRegressor % test predictions error within 72 hours -> Mean: 99.85% (+/- 0.07%) of 25799/10
+	RandomForestRegressor % test predictions error within 96 hours -> Mean: 99.98% (+/- 0.02%) of 25799/10
+
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.825646)
+	2. "Seconds_left_Year" (0.062550)
+	3. "Rolling_Std" (0.026468)
+	4. "Seconds_left_Qtr" (0.024300)
+	5. "Seconds_left_Month" (0.020697)
+	6. "Rolling_Mean" (0.019159)
+	7. "Rolling_Median" (0.008438)
+	8. "Seconds_left_Day" (0.003377)
+	9. "Cases_resolved_within_past_8_hours" (0.002243)
+	10. "Cases_created_within_past_8_hours" (0.001379)
+	11. "Created_on_Weekend" (0.001339)
+	12. "Numberofreactivations" (0.001014)
+	13. "AmountinUSD" (0.000581)
+	14. "Queue_AOC" (0.000187)
+	15. "StageName" (0.000154)
+	16. "ROCName_AOC" (0.000131)
+	17. "Complexity" (0.000104)
+	18. "SubReason_Meteaop" (0.000102)
+	19. "IsSOXCase" (0.000095)
+	20. "SubReason_Zero Usage Order" (0.000093)
+	21. "SubReason_Basic Enterprise Commitment" (0.000092)
+	22. "Source_Web" (0.000091)
+	23. "Source_Soft Copy" (0.000089)
+	24. "Revenutype_Current Revenue" (0.000082)
+	25. "Queue_NAOC" (0.000079)
+	26. "CountryProcessed_northamerica" (0.000071)
+	27. "StatusReason_Problem Solved" (0.000068)
+	28. "SalesLocation_northamerica" (0.000068)
+	29. "SubReason_True Up" (0.000066)
+	30. "SubReason_Manual Order Entry" (0.000063)
+	31. "Queue_EOC" (0.000063)
+	32. "StatusReason_Completed" (0.000061)
+	33. "ROCName_EOC" (0.000050)
+	34. "CountryProcessed_asia" (0.000049)
+	35. "Revenutype_Future Billing" (0.000049)
+	36. "Revenutype_Credit / Rebill" (0.000049)
+	37. "Revenutype_Non-revenue" (0.000048)
+	38. "Priority" (0.000046)
+	39. "ROCName_APOC" (0.000046)
+	40. "CountrySource_northamerica" (0.000045)
+	41. "CountrySource_europe" (0.000042)
+	42. "SalesLocation_asia" (0.000040)
+	43. "CountryProcessed_europe" (0.000039)
+	44. "SalesLocation_europe" (0.000039)
+	45. "Queue_APOC" (0.000037)
+	46. "CountryProcessed_southamerica" (0.000036)
+	47. "Queue_LOC" (0.000036)
+	48. "SalesLocation_southamerica" (0.000034)
+	49. "SubReason_Future Pricing Only CPS" (0.000032)
+	50. "Source_eAgreement (Phy)" (0.000032)
+	51. "CountrySource_asia" (0.000030)
+	52. "CountrySource_southamerica" (0.000029)
+	53. "Source_Manual" (0.000029)
+	54. "Source_Hard Copy" (0.000023)
+	55. "Revenutype_Revenue Unknown" (0.000022)
+	56. "SubReason_Additional Product Order" (0.000021)
+	57. "CountrySource_australia" (0.000021)
+	58. "SalesLocation_australia" (0.000019)
+	59. "SubReason_Tax Exemption Order" (0.000014)
+	60. "Source_E-mail" (0.000011)
+	61. "SalesLocation_africa" (0.000011)
+	62. "SubReason_Electronic Order Pend / Reject" (0.000011)
+	63. "CountrySource_africa" (0.000009)
+	64. "CountryProcessed_africa" (0.000008)
+	65. "sourcesystem_NMEC" (0.000007)
+	66. "Queue_Broken" (0.000007)
+	67. "Revenutype_Future OTRRR without OLS" (0.000005)
+	68. "Revenutype_Future OTRRR with OLS" (0.000005)
+	69. "Queue_E&E" (0.000004)
+	70. "CountryProcessed_australia" (0.000002)
+	71. "sourcesystem_CLT" (0.000002)
+	72. "Source_eAgreement (Ele)" (0.000002)
+	73. "StatusReason_Information Provided" (0.000002)
+	74. "SubReason_P&H Electronic Order" (0.000002)
+	75. "Revenutype_Revenue Impacting Case / Pending Revenue" (0.000001)
+	76. "sourcesystem_Web" (0.000001)
+	77. "sourcesystem_Aplquest" (0.000000)
+	78. "sourcesystem_`" (0.000000)
+	79. "CountryProcessed_other" (0.000000)
+	80. "StatusReason_Customer Hold" (0.000000)
+	81. "CountrySource_other" (0.000000)
+	82. "Revenutype_Disputed Revenue" (0.000000)
+	83. "StatusReason_Ready for Archiving" (0.000000)
+	84. "sourcesystem_NEMEC" (0.000000)
+	85. "Source_Fax" (0.000000)
+	86. "sourcesystem_clt" (0.000000)
+	87. "Revenutype_New Work Sold" (0.000000)
+	88. "Revenutype_Advanced Billing" (0.000000)
+	89. "StatusReason_Reactivated" (0.000000)
+	90. "SalesLocation_other" (0.000000)
+	91. "sourcesystem_Moritz Jürgensen" (0.000000)
+	92. "sourcesystem_web" (0.000000)
+	93. "sourcesystem_AplQuest" (0.000000)
+	94. "StatusReason_Final Routing" (0.000000)
+	95. "StatusReason_New Mail" (0.000000)
+	96. "StatusReason_3rd Party Hold" (0.000000)
+	97. "sourcesystem_Current Revenue" (0.000000)
+	98. "StatusReason_Ready for Audit" (0.000000)
+	99. "StatusReason_New" (0.000000)

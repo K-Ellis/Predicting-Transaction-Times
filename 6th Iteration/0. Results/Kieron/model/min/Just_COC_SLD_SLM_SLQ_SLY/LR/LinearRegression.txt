@@ -1,0 +1,50 @@
+LinearRegression 20170804-154257
+
+Input file name min:
+
+
+Simple TimeTaken stats
+	mean_time = 353447.46836758254
+	std_time = 423081.21604296373
+	median_time = 194467.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 423081.216042964
+	mean_time_test_meanae = 310162.254362
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 268815.968368
+
+	median_time_test_r2 = -0.14120085438
+	median_time_test_rmse = 451964.98283666925
+	median_time_test_meanae = 286847.832795
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 170525.0
+
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean R2: 0.61155 (+/-0.00100)
+	Test Mean R2: 0.61096 (+/-0.00878)
+	Train Mean RMSE: 263687.10 (+/-431.24)
+	Test Mean RMSE: 263729.23 (+/-3888.25)
+	Train Mean MeanAE: 188153.12 (+/-435.40)
+	Test Mean MeanAE: 188204.82 (+/-2056.63)
+	Train Mean EVS: 0.61 (+/-0.61)
+	Test Mean EVS: 0.61 (+/-0.61)
+	Train Mean MedianAE: 147680.95 (+/-147680.95)
+	Test Mean MedianAE: 147982.21 (+/-147982.21)
+
+	LinearRegression % test predictions error within 1 hour -> Mean: 1.31% (+/- 0.14%) of 25986/10
+	LinearRegression % test predictions error within 4 hours -> Mean: 4.96% (+/- 0.38%) of 25986/10
+	LinearRegression % test predictions error within 8 hours -> Mean: 10.20% (+/- 0.45%) of 25986/10
+	LinearRegression % test predictions error within 16 hours -> Mean: 20.01% (+/- 0.62%) of 25986/10
+	LinearRegression % test predictions error within 24 hours -> Mean: 30.24% (+/- 0.90%) of 25986/10
+	LinearRegression % test predictions error within 48 hours -> Mean: 57.85% (+/- 0.89%) of 25986/10
+	LinearRegression % test predictions error within 72 hours -> Mean: 77.77% (+/- 0.72%) of 25986/10
+	LinearRegression % test predictions error within 96 hours -> Mean: 89.19% (+/- 0.39%) of 25986/10
+
+
+Feature Importances:
+	1. "Concurrent_open_cases" (-5.590832)
+	2. "Seconds_left_Month" (-1.386322)
+	3. "Seconds_left_Qtr" (-1.228670)
+	4. "Seconds_left_Day" (-0.880347)
+	5. "Seconds_left_Year" (-0.825560)

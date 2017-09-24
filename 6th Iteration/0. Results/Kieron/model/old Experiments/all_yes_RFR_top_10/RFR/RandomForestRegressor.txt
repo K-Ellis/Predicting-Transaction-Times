@@ -1,0 +1,55 @@
+RandomForestRegressor 20170802-182631
+
+Input file name exp_all_yes_RFR_top_10:
+
+
+Simple TimeTaken stats
+	mean_time = 353447.46836758254
+	std_time = 423081.21604296373
+	median_time = 194467.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 423081.216042964
+	mean_time_test_meanae = 310162.254362
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 268815.968368
+
+	median_time_test_mae = -0.14120085438
+	median_time_test_mae = 451964.98283666925
+	median_time_test_mae = 286847.832795
+	median_time_test_mae = 0.0
+	median_time_test_mae = 170525.0
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.99800 (+/-0.00004)
+	Test Mean R2: 0.99287 (+/-0.00068)
+	Train Mean RMSE: 18933.34 (+/-180.30)
+	Test Mean RMSE: 35666.13 (+/-1798.28)
+	Train Mean MeanAE: 7358.01 (+/-73.52)
+	Test Mean MeanAE: 17627.01 (+/-671.72)
+	Train Mean EVS: 1.00 (+/-1.00)
+	Test Mean EVS: 0.99 (+/-0.99)
+	Train Mean MedianAE: 2474.61 (+/-2474.61)
+	Test Mean MedianAE: 6501.59 (+/-6501.59)
+
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 34.78% (+/- 0.52%) of 25986/10
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 69.74% (+/- 0.97%) of 25986/10
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 83.22% (+/- 0.69%) of 25986/10
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 92.59% (+/- 0.57%) of 25986/10
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 96.19% (+/- 0.49%) of 25986/10
+	RandomForestRegressor % test predictions error within 48 hours -> Mean: 99.25% (+/- 0.23%) of 25986/10
+	RandomForestRegressor % test predictions error within 72 hours -> Mean: 99.84% (+/- 0.08%) of 25986/10
+	RandomForestRegressor % test predictions error within 96 hours -> Mean: 99.98% (+/- 0.03%) of 25986/10
+
+
+Feature Importances:
+	1. "Concurrent_open_cases" (0.824806)
+	2. "Seconds_left_Year" (0.061356)
+	3. "Seconds_left_Qtr" (0.033199)
+	4. "Rolling_Std" (0.029142)
+	5. "Seconds_left_Month" (0.024827)
+	6. "Rolling_Mean" (0.010546)
+	7. "Rolling_Median" (0.008824)
+	8. "Seconds_left_Day" (0.003379)
+	9. "Cases_resolved_within_past_8_hours" (0.002522)
+	10. "Created_on_Weekend" (0.001399)

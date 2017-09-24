@@ -1,0 +1,132 @@
+GradientBoostingRegressor 20170803-124515
+
+Input file name Experiment4:
+
+
+Simple TimeTaken stats
+	mean_time = 353993.99646085786
+	std_time = 424066.8095280701
+	median_time = 194670.0
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 424066.8095280705
+	mean_time_test_meanae = 310767.036818
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 269219.996461
+
+	median_time_test_mae = -0.141154204122
+	median_time_test_mae = 453008.6034410122
+	median_time_test_mae = 287350.055703
+	median_time_test_mae = 0.0
+	median_time_test_mae = 170691.0
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.25308 (+/-0.00129)
+	Test Mean R2: 0.23712 (+/-0.00936)
+	Train Mean RMSE: 366496.76 (+/-949.96)
+	Test Mean RMSE: 370229.92 (+/-7431.23)
+	Train Mean MeanAE: 250476.00 (+/-772.95)
+	Test Mean MeanAE: 252660.03 (+/-4553.81)
+	Train Mean EVS: 0.25 (+/-0.25)
+	Test Mean EVS: 0.24 (+/-0.24)
+	Train Mean MedianAE: 185296.22 (+/-185296.22)
+	Test Mean MedianAE: 186160.19 (+/-186160.19)
+
+	GradientBoostingRegressor % test predictions error within 1 hour -> Mean: 1.00% (+/- 0.23%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 4 hours -> Mean: 3.93% (+/- 0.30%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 8 hours -> Mean: 7.68% (+/- 0.45%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 16 hours -> Mean: 15.00% (+/- 0.76%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 24 hours -> Mean: 23.68% (+/- 0.98%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 48 hours -> Mean: 46.35% (+/- 0.95%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 72 hours -> Mean: 68.59% (+/- 1.10%) of 25995/10
+	GradientBoostingRegressor % test predictions error within 96 hours -> Mean: 81.65% (+/- 0.57%) of 25995/10
+
+
+Feature Importances:
+	1. "AmountinUSD" (0.139796)
+	2. "SubReason_Basic Enterprise Commitment" (0.072693)
+	3. "SubReason_True Up" (0.060819)
+	4. "SubReason_Zero Usage Order" (0.044668)
+	5. "StatusReason_Problem Solved" (0.041645)
+	6. "Queue_Broken" (0.040176)
+	7. "IsSignature" (0.036122)
+	8. "StageName" (0.033525)
+	9. "SubReason_Future Pricing Only CPS" (0.032138)
+	10. "Priority" (0.030469)
+	11. "Revenutype_Current Revenue" (0.029309)
+	12. "SubReason_Tax Exemption Order" (0.025616)
+	13. "Source_Hard Copy" (0.022823)
+	14. "Source_Web" (0.021531)
+	15. "Source_Manual" (0.021393)
+	16. "Source_Soft Copy" (0.021373)
+	17. "CountryProcessed_northamerica" (0.019144)
+	18. "SubReason_Meteaop" (0.018132)
+	19. "CountryProcessed_australia" (0.017553)
+	20. "ROCName_APOC" (0.016266)
+	21. "Revenutype_Credit / Rebill" (0.015496)
+	22. "SubReason_Electronic Order Pend / Reject" (0.014891)
+	23. "CountryProcessed_southamerica" (0.014706)
+	24. "ROCName_EOC" (0.013858)
+	25. "SubReason_Manual Order Entry" (0.012832)
+	26. "CountrySource_asia" (0.012746)
+	27. "StatusReason_Ready for Audit" (0.012739)
+	28. "Source_eAgreement (Phy)" (0.011586)
+	29. "CountrySource_northamerica" (0.011328)
+	30. "Queue_APOC" (0.010762)
+	31. "Revenutype_Future Billing" (0.010757)
+	32. "Queue_NAOC" (0.010271)
+	33. "SalesLocation_southamerica" (0.010073)
+	34. "Revenutype_Revenue Impacting Case / Pending Revenue" (0.009181)
+	35. "CountrySource_australia" (0.009097)
+	36. "StatusReason_Completed" (0.008254)
+	37. "Queue_E&E" (0.008110)
+	38. "CountryProcessed_europe" (0.007801)
+	39. "Revenutype_Revenue Unknown" (0.007581)
+	40. "SalesLocation_australia" (0.007465)
+	41. "SalesLocation_northamerica" (0.005087)
+	42. "SalesLocation_other" (0.004947)
+	43. "Complexity" (0.004435)
+	44. "IsGovernment" (0.003718)
+	45. "sourcesystem_NMEC" (0.003561)
+	46. "CountrySource_southamerica" (0.003540)
+	47. "sourcesystem_clt" (0.003236)
+	48. "Queue_EOC" (0.002013)
+	49. "Revenutype_New Work Sold" (0.001454)
+	50. "sourcesystem_web" (0.001172)
+	51. "IsMagnumCase" (0.000710)
+	52. "CountryProcessed_asia" (0.000646)
+	53. "CountrySource_europe" (0.000464)
+	54. "SalesLocation_asia" (0.000293)
+	55. "sourcesystem_Moritz Jürgensen" (0.000000)
+	56. "SubReason_P&H Electronic Order" (0.000000)
+	57. "CountrySource_other" (0.000000)
+	58. "sourcesystem_`" (0.000000)
+	59. "CountryProcessed_other" (0.000000)
+	60. "AuditDuration" (0.000000)
+	61. "sourcesystem_Web" (0.000000)
+	62. "sourcesystem_Current Revenue" (0.000000)
+	63. "AssignedToGroup_CRMT" (0.000000)
+	64. "sourcesystem_Aplquest" (0.000000)
+	65. "HoldDuration" (0.000000)
+	66. "sourcesystem_NEMEC" (0.000000)
+	67. "sourcesystem_CLT" (0.000000)
+	68. "Revenutype_Future OTRRR without OLS" (0.000000)
+	69. "StatusReason_Ready for Archiving" (0.000000)
+	70. "IsSOXCase" (0.000000)
+	71. "Revenutype_Non-revenue" (0.000000)
+	72. "Revenutype_Future OTRRR with OLS" (0.000000)
+	73. "AssignedToGroup_BPO" (0.000000)
+	74. "SalesLocation_europe" (0.000000)
+	75. "Revenutype_Disputed Revenue" (0.000000)
+	76. "Source_Fax" (0.000000)
+	77. "Queue_LOC" (0.000000)
+	78. "Source_eAgreement (Ele)" (0.000000)
+	79. "StatusReason_Reactivated" (0.000000)
+	80. "HoldTypeName_Internal" (0.000000)
+	81. "HoldTypeName_Customer" (0.000000)
+	82. "StatusReason_Customer Hold" (0.000000)
+	83. "StatusReason_Final Routing" (0.000000)
+	84. "StatusReason_Information Provided" (0.000000)
+	85. "StatusReason_New" (0.000000)
+	86. "HoldTypeName_3rd Party" (0.000000)
+	87. "StatusReason_New Mail" (0.000000)
