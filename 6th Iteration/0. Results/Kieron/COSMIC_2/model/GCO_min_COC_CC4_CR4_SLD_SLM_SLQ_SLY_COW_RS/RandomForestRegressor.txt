@@ -1,0 +1,31 @@
+RandomForestRegressor 20170729-153534
+
+Input file name GCO_min_COC_CC4_CR4_SLD_SLM_SLQ_SLY_COW_RS:
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean RMSE: 171678.09 (+/-1319.51)
+	Test Mean RMSE: 430957.12 (+/-13932.04)
+	Train Mean R2: 0.83561 (+/-0.00344)
+	Test Mean R2: -0.03860 (+/-0.04253)
+	Train Mean MAE: 121253.71 (+/-997.43)
+	Test Mean MAE: 301034.91 (+/-11927.98)
+
+
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 0.08% (+/- 0.04%) of 4594
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 0.35% (+/- 0.08%) of 4594
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 0.81% (+/- 0.11%) of 4594
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 1.53% (+/- 0.11%) of 4594
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 2.32% (+/- 0.14%) of 4594
+
+
+Feature Importances:
+0. "Rolling_Mean" (0.312758)
+1. "Rolling_Std" (0.162055)
+2. "Rolling_Median" (0.114914)
+3. "Seconds_left_Day" (0.102632)
+4. "Seconds_left_Qtr" (0.083214)
+5. "Seconds_left_Month" (0.071544)
+6. "Seconds_left_Year" (0.071398)
+7. "Concurrent_open_cases" (0.029926)
+8. "Cases_created_within_past_4_hours" (0.028286)
+9. "Cases_resolved_within_past_4_hours" (0.021059)
+10. "Created_on_Weekend" (0.002215)

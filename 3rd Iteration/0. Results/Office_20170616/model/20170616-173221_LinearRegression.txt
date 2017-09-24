@@ -1,0 +1,7 @@
+LinearRegression 20170616-173221
+
+LinearRegression Train RMSE: 417995.16503016267
+LinearRegression Test RMSE: 442738.8211225759
+
+LinearRegression Train R^2 scoree: 0.220299213679
+LinearRegression Test R^2 score: 0.17348556894

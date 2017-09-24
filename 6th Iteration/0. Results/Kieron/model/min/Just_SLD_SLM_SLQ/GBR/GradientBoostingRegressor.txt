@@ -1,0 +1,48 @@
+GradientBoostingRegressor 20170804-154154
+
+Input file name min:
+
+
+Simple TimeTaken stats
+	mean_time = 353447.46836758254
+	std_time = 423081.21604296373
+	median_time = 194467.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 423081.216042964
+	mean_time_test_meanae = 310162.254362
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 268815.968368
+
+	median_time_test_r2 = -0.14120085438
+	median_time_test_rmse = 451964.98283666925
+	median_time_test_meanae = 286847.832795
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 170525.0
+
+GradientBoostingRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.09495 (+/-0.00200)
+	Test Mean R2: 0.06094 (+/-0.00760)
+	Train Mean RMSE: 402492.85 (+/-766.80)
+	Test Mean RMSE: 409796.62 (+/-6780.24)
+	Train Mean MeanAE: 295558.43 (+/-685.98)
+	Test Mean MeanAE: 300078.28 (+/-5273.81)
+	Train Mean EVS: 0.09 (+/-0.09)
+	Test Mean EVS: 0.06 (+/-0.06)
+	Train Mean MedianAE: 240283.51 (+/-240283.51)
+	Test Mean MedianAE: 242724.39 (+/-242724.39)
+
+	GradientBoostingRegressor % test predictions error within 1 hour -> Mean: 0.66% (+/- 0.12%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 4 hours -> Mean: 2.40% (+/- 0.19%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 8 hours -> Mean: 4.64% (+/- 0.39%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 16 hours -> Mean: 9.98% (+/- 0.60%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 24 hours -> Mean: 15.12% (+/- 0.68%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 48 hours -> Mean: 32.11% (+/- 0.84%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 72 hours -> Mean: 55.09% (+/- 1.18%) of 25986/10
+	GradientBoostingRegressor % test predictions error within 96 hours -> Mean: 74.74% (+/- 0.85%) of 25986/10
+
+
+Feature Importances:
+	1. "Seconds_left_Qtr" (0.391771)
+	2. "Seconds_left_Month" (0.381679)
+	3. "Seconds_left_Day" (0.226550)

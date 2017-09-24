@@ -1,0 +1,9 @@
+Columns,importances
+Concurrent_open_cases,0.7959727505544723
+Seconds_left_Year,0.11938377646912579
+Seconds_left_Qtr,0.0492279520599368
+Seconds_left_Month,0.025437418405064437
+Seconds_left_Day,0.004966893954669391
+Created_on_Weekend,0.0020510025680554934
+Cases_created_within_past_4_hours,0.0016074258328767105
+Cases_resolved_within_past_4_hours,0.0013527801557989706

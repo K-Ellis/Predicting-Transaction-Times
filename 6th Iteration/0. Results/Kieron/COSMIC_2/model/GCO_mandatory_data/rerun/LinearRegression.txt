@@ -1,0 +1,18 @@
+LinearRegression 20170729-152820
+
+Input file name GCO_min_data:
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean RMSE: 363436.91 (+/-8289.17)
+	Test Mean RMSE: 365940.57 (+/-8887.53)
+	Train Mean R2: 0.26307 (+/-0.03318)
+	Test Mean R2: 0.25029 (+/-0.04157)
+	Train Mean MAE: 256553.38 (+/-7019.65)
+	Test Mean MAE: 258278.90 (+/-6992.24)
+
+
+	LinearRegression % test predictions error within 1 hour -> Mean: 0.12% (+/- 0.04%) of 4594
+	LinearRegression % test predictions error within 4 hours -> Mean: 0.41% (+/- 0.08%) of 4594
+	LinearRegression % test predictions error within 8 hours -> Mean: 0.86% (+/- 0.11%) of 4594
+	LinearRegression % test predictions error within 16 hours -> Mean: 1.71% (+/- 0.14%) of 4594
+	LinearRegression % test predictions error within 24 hours -> Mean: 2.50% (+/- 0.17%) of 4594
+

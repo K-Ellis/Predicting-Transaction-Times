@@ -1,0 +1,48 @@
+RandomForestRegressor 20170804-154632
+
+Input file name min:
+
+
+Simple TimeTaken stats
+	mean_time = 353447.46836758254
+	std_time = 423081.21604296373
+	median_time = 194467.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 423081.216042964
+	mean_time_test_meanae = 310162.254362
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 268815.968368
+
+	median_time_test_r2 = -0.14120085438
+	median_time_test_rmse = 451964.98283666925
+	median_time_test_meanae = 286847.832795
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 170525.0
+
+RandomForestRegressor: Cross Validation (10 Folds)
+	Train Mean R2: 0.79061 (+/-0.00316)
+	Test Mean R2: 0.14657 (+/-0.01740)
+	Train Mean RMSE: 193591.59 (+/-1611.50)
+	Test Mean RMSE: 390620.56 (+/-5770.29)
+	Train Mean MeanAE: 142164.84 (+/-1079.15)
+	Test Mean MeanAE: 271094.63 (+/-4370.86)
+	Train Mean EVS: 0.79 (+/-0.79)
+	Test Mean EVS: 0.15 (+/-0.15)
+	Train Mean MedianAE: 106059.12 (+/-106059.12)
+	Test Mean MedianAE: 187715.72 (+/-187715.72)
+
+	RandomForestRegressor % test predictions error within 1 hour -> Mean: 1.20% (+/- 0.24%) of 25986/10
+	RandomForestRegressor % test predictions error within 4 hours -> Mean: 4.44% (+/- 0.48%) of 25986/10
+	RandomForestRegressor % test predictions error within 8 hours -> Mean: 8.80% (+/- 0.52%) of 25986/10
+	RandomForestRegressor % test predictions error within 16 hours -> Mean: 17.02% (+/- 0.37%) of 25986/10
+	RandomForestRegressor % test predictions error within 24 hours -> Mean: 24.91% (+/- 0.62%) of 25986/10
+	RandomForestRegressor % test predictions error within 48 hours -> Mean: 46.71% (+/- 0.71%) of 25986/10
+	RandomForestRegressor % test predictions error within 72 hours -> Mean: 63.19% (+/- 0.88%) of 25986/10
+	RandomForestRegressor % test predictions error within 96 hours -> Mean: 74.57% (+/- 0.85%) of 25986/10
+
+
+Feature Importances:
+	1. "Rolling_Mean" (0.523512)
+	2. "Rolling_Std" (0.265914)
+	3. "Rolling_Median" (0.210574)

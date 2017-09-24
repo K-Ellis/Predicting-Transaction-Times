@@ -1,0 +1,81 @@
+LinearRegression 20170804-130944
+
+Input file name man:
+
+
+Simple TimeTaken stats
+	mean_time = 363205.4600283428
+	std_time = 430435.2493800237
+	median_time = 203069.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 430435.24938002334
+	mean_time_test_meanae = 315490.171273
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 273488.960028
+
+	median_time_test_r2 = -0.138408281513
+	median_time_test_rmse = 459258.129599294
+	median_time_test_meanae = 291861.748708
+	median_time_test_evs = 0.0
+	median_time_test_medianae = 175958.5
+
+LinearRegression: Cross Validation (10 Folds)
+	Train Mean R2: 0.70092 (+/-0.00090)
+	Test Mean R2: 0.69966 (+/-0.00845)
+	Train Mean RMSE: 235396.03 (+/-457.46)
+	Test Mean RMSE: 235791.59 (+/-4150.21)
+	Train Mean MeanAE: 169481.66 (+/-415.08)
+	Test Mean MeanAE: 169800.49 (+/-2722.35)
+	Train Mean EVS: 0.70 (+/-0.70)
+	Test Mean EVS: 0.70 (+/-0.70)
+	Train Mean MedianAE: 131626.16 (+/-131626.16)
+	Test Mean MedianAE: 131998.56 (+/-131998.56)
+
+	LinearRegression % test predictions error within 1 hour -> Mean: 1.34% (+/- 0.15%) of 23992/10
+	LinearRegression % test predictions error within 4 hours -> Mean: 5.83% (+/- 0.41%) of 23992/10
+	LinearRegression % test predictions error within 8 hours -> Mean: 11.51% (+/- 0.51%) of 23992/10
+	LinearRegression % test predictions error within 16 hours -> Mean: 22.45% (+/- 0.72%) of 23992/10
+	LinearRegression % test predictions error within 24 hours -> Mean: 33.64% (+/- 0.75%) of 23992/10
+	LinearRegression % test predictions error within 48 hours -> Mean: 63.06% (+/- 0.61%) of 23992/10
+	LinearRegression % test predictions error within 72 hours -> Mean: 81.51% (+/- 0.78%) of 23992/10
+	LinearRegression % test predictions error within 96 hours -> Mean: 91.04% (+/- 0.57%) of 23992/10
+
+
+Feature Importances:
+	1. "Queue_Broken" (33622887.983811)
+	2. "SalesLocation_other" (-19522313.064837)
+	3. "CountrySource_other" (2571001.368091)
+	4. "CountrySource_australia" (2141616.995148)
+	5. "Queue_E&E" (-1855180.943292)
+	6. "SalesLocation_australia" (-1686689.120802)
+	7. "CountrySource_southamerica" (844499.580188)
+	8. "Queue_LOC" (-738809.235333)
+	9. "CountryProcessed_australia" (-727594.377406)
+	10. "SalesLocation_southamerica" (-724625.299695)
+	11. "ROCName_APOC" (-557455.972672)
+	12. "Queue_APOC" (501966.720082)
+	13. "SalesLocation_northamerica" (-478437.077854)
+	14. "CountrySource_northamerica" (473345.737485)
+	15. "CountryProcessed_other" (403995.027584)
+	16. "CountrySource_asia" (352790.951768)
+	17. "CountryProcessed_southamerica" (321498.375548)
+	18. "CountrySource_europe" (291329.782117)
+	19. "SalesLocation_europe" (-241128.511050)
+	20. "Queue_NAOC" (-180945.744883)
+	21. "SalesLocation_asia" (-167738.491350)
+	22. "Queue_EOC" (-146550.940870)
+	23. "CountryProcessed_asia" (-135014.457923)
+	24. "Created_on_Weekend" (-90814.362167)
+	25. "ROCName_EOC" (83120.224360)
+	26. "CountryProcessed_northamerica" (61011.676067)
+	27. "CountryProcessed_europe" (-53279.198991)
+	28. "Concurrent_open_cases" (-5.203493)
+	29. "Cases_created_within_past_8_hours" (2.906800)
+	30. "Cases_resolved_within_past_8_hours" (2.498003)
+	31. "Rolling_Std" (-1.856833)
+	32. "Rolling_Mean" (-1.670446)
+	33. "Seconds_left_Month" (-1.330231)
+	34. "Seconds_left_Qtr" (-1.190129)
+	35. "Rolling_Median" (-1.122546)
+	36. "Seconds_left_Day" (-0.879310)

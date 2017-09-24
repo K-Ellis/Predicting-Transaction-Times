@@ -1,0 +1,31 @@
+Date and time: 20170630-171322
+clean_Incident1 started
+
+Time Taken column calculated
+Outliers removed > 3 sd from mean of TimeTaken
+
+One hot encoding completed for Queue
+
+min_entries function - min: 3
+Column deletion: SubSubReason -> Entry Count: 0
+
+min_variable_types function - min: 2
+Column deletion: ValidCase -> Variable Type Count: 1
+Column deletion: BusinessFunction -> Variable Type Count: 1
+Column deletion: LineOfBusiness -> Variable Type Count: 1
+Column deletion: Program -> Variable Type Count: 1
+Column deletion: CaseType -> Variable Type Count: 1
+Column deletion: CaseSubTypes -> Variable Type Count: 1
+Column deletion: Reason -> Variable Type Count: 1
+Column deletion: Language -> Variable Type Count: 1
+Column deletion: LanguageName -> Variable Type Count: 1
+Column deletion: Queue_OpsPM -> Variable Type Count: 1
+Column deletion: Queue_Xbox -> Variable Type Count: 1
+
+drop_NULL - max ratio: 0.99
+
+drop_zeros - max ratio: 0.99
+Column deletion: IsAudited -> Ratio: 0.999526346951
+
+drop_ones - max ratio: 0.99
+

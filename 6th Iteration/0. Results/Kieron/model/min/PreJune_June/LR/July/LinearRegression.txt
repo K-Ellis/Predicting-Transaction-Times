@@ -1,0 +1,52 @@
+LinearRegression 20170803-172337
+
+Input file name min:
+
+
+Simple TimeTaken stats
+	mean_time = 252513.96670630202
+	std_time = 304321.5789556882
+	median_time = 114634.5
+
+	mean_time_test_r2 = 0.0
+	mean_time_test_rmse = 304321.5789556889
+	mean_time_test_meanae = 231183.990102
+	mean_time_test_evs = 0.0
+	mean_time_test_medianae = 215086.0
+
+	median_time_test_mae = -0.205273880724
+	median_time_test_mae = 334099.34264721005
+	median_time_test_mae = 213147.021998
+	median_time_test_mae = 0.0
+	median_time_test_mae = 104143.5
+
+
+LinearRegression - July Results
+	Test R2: 0.49405
+	Test RMSE: 216465.36
+	Test MeanAE: 149050.01
+	Test EVS: 0.56 
+	Test MedianAE: 85686.35 
+
+	LinearRegression % test predictions error within 1 hour -> 2.63% of 6728
+	LinearRegression % test predictions error within 4 hours -> 11.64% of 6728
+	LinearRegression % test predictions error within 8 hours -> 22.25% of 6728
+	LinearRegression % test predictions error within 16 hours -> 37.60% of 6728
+	LinearRegression % test predictions error within 24 hours -> 50.22% of 6728
+	LinearRegression % test predictions error within 48 hours -> 69.04% of 6728
+	LinearRegression % test predictions error within 72 hours -> 78.61% of 6728
+	LinearRegression % test predictions error within 96 hours -> 85.42% of 6728
+
+
+Feature Importances:
+	1. "Created_on_Weekend" (-133500.321543)
+	2. "Cases_resolved_within_past_8_hours" (-9.392381)
+	3. "Concurrent_open_cases" (-5.047181)
+	4. "Rolling_Std" (-1.968047)
+	5. "Rolling_Mean" (-1.943616)
+	6. "Rolling_Median" (-1.222595)
+	7. "Seconds_left_Month" (-1.195576)
+	8. "Seconds_left_Day" (-0.878327)
+	9. "Seconds_left_Qtr" (-0.794270)
+	10. "Seconds_left_Year" (-0.681693)
+	11. "Cases_created_within_past_8_hours" (-0.530423)
