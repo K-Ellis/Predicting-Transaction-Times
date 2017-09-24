@@ -160,7 +160,7 @@ def multi_plot_pct_correct(ys, newpath, d, title):
     x = [x*2 for x in range(len(ys_plot[0]))]
     # todo - change to reflect how many datapoints there are with np.where
 
-    alg_initial_list = ["Baseline (Mean)", "LR", "EN", "GBR", "Random Forest"]
+    alg_initial_list = ["Average Case Processing Time", "LR", "EN", "GBR", "Recommended Model"]
     colours = [".m--", ".r-", ".g-", ".y-", ".b-"]
 
     for y, alg_initial, colour in zip(ys_plot, alg_initial_list, colours):
@@ -187,7 +187,7 @@ def multi_plot_pct_correct(ys, newpath, d, title):
     # plt.yticks(yticks_i, yticks)
 
     # plt.grid()
-    plt.xlabel("Time Buckets (hours)")
+    plt.xlabel("Time (hours)")
     plt.ylabel("% of Correct Predictions")
     
     if not os.path.exists(newpath + "PDFs/"):
